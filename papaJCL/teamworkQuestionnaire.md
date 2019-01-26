@@ -1,7 +1,7 @@
 # Teamwork Questionnaire for _yournamehere_
 
 1. __Is it generally easier to reach you by text, electronic mail, voice mail or something else?  What hours?__ 
-   * answer
+   * Email. Any time is fine.
 1. __What are your expectations about what your team will accomplish this semester?__ 
    * answer
 1. __What are your personal goals for improving your teamwork and communication skills this semester?__ 
