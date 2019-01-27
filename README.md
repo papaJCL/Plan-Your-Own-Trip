@@ -4,4 +4,5 @@
 |------|-----|-----------------|-------|
 |Darien Cupit|cupit|dariencupit|dariencupit1@gmail.com|
 |Griffin Gilbert|griffgil|GriffyDaG|griffgil@rams.colostate.edu|
+|Jeremy Lesser|jeremycl|papaJCL|jeremylessermore@gmail.com|
 
