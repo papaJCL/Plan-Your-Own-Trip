@@ -1,6 +1,6 @@
 # T11 - Ultra Super Team Delta 
 
-
+![Image of Yaktocat](https://sd.keepcalm-o-matic.co.uk/i-w600/keep-calm-the-super-team-are-here.jpg)
 
 
 | name | eID | GitHub Username | Email |
