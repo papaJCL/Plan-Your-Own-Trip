@@ -7,6 +7,6 @@
 |------|-----|-----------------|-------|
 |Darien Cupit|cupit|dariencupit|dariencupit1@gmail.com|
 |Griffin Gilbert|griffgil|GriffyDaG|griffgil@rams.colostate.edu|
-|Jeremy Lesser|jeremycl|papaJCL|jeremylessermore@gmail.com|
+|Jeremy Lesser|jeremycl|papaJCL|jeremycl@rams.colostate.edu|
 |Edward Pike|epike919|epike919|epike919@rams.colostate.edu|
 
