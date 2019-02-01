@@ -46,7 +46,7 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    this.distance = 0;
+    this.distance = 0;                    //Write a method here to changed the distance between the two points. Static class. Distance between two points.
     log.trace("buildResponse -> {}", this);
   }
 
