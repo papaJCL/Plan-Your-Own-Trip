@@ -5,7 +5,7 @@
 
 | name | eID | GitHub Username | Email |
 |------|-----|-----------------|-------|
-|Darien Cupit|cupit|dariencupit|dariencupit1@gmail.com|
+|Darien Cupit|cupit|dariencupit|cupit@rams.colostate.edu|
 |Griffin Gilbert|griffgil|GriffyDaG|griffgil@rams.colostate.edu|
 |Jeremy Lesser|jeremycl|papaJCL|jeremycl@rams.colostate.edu|
 |Edward Pike|epike919|epike919|epike919@rams.colostate.edu|
