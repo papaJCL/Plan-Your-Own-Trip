@@ -14,6 +14,7 @@ export default class App extends Component {
       { title: 't11 Ultra Super Team Delta', page: ''},
       { title: 'Calculator', page: 'calc'},
       { title: 'Options', page: 'options'},
+        { title: 'About', page: 'about'},
       { title: '\u2699', page: 'settings' }
     ];
 
