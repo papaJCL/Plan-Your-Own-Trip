@@ -18,11 +18,25 @@ export default class About extends Component{
         return(
             <Container>
                 <Row>
-                    <Col xs="12">
+            <   Col xs={12}>
                     {this.createHeader()}
                     </Col>
                 </Row>
-            
+        <Row>
+        <   Col xs={12} sm={6} md={4} lg={3}>
+            {this.createTeamMember('origin')}
+         </Col>
+         <Col xs={12} sm={6} md={4} lg={3}>
+            {this.createTeamMember('destination')}
+        </Col>
+        <Col xs={12} sm={6} md={4} lg={3}>
+            {this.createTeamMember()}
+        </Col>
+        <Col xs={12} sm={6} md={4} lg={3}>
+            {this.createTeamMember()}
+        </Col>
+        </Row>
+
             </Container>
         )
     }
@@ -36,5 +50,15 @@ export default class About extends Component{
         to making this company a success</div>}/>
     );
     }
+
+
+
+    createTeamMember() {
+        return (
+            <Pane header={'YOUR NAME HERE'}
+        bodyJSX={<div>  YOUR DISCRIPTION HERE  </div>}/>
+    );
+    }
+
 
 }
