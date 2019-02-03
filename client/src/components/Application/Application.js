@@ -93,7 +93,7 @@ export default class Application extends Component {
                          updateSetting={this.updateClientSetting}/>;
 
       case 'about':
-        return <Options options={this.state.planOptions}
+        return <About about={this.state.planOptions}
                         config={this.state.serverConfig}
                         updateOption={this.updatePlanOption}/>;
 
