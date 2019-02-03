@@ -23,19 +23,27 @@ export default class About extends Component{
                     </Col>
                 </Row>
         <Row>
-        <   Col xs={12} sm={6} md={4} lg={3}>
+        <   Col  xs={12} sm={6}>
             {this.createJeremy()}
          </Col>
-         <Col xs={12} sm={6} md={4} lg={3}>
+
+         <Col xs={12} sm={6}>
             {this.createDarian()}
         </Col>
 
-        <Col xs={12} sm={6} md={4} lg={3}>
+        </Row>
+
+        <Row>
+
+        <Col xs={12} sm={6}>
             {this.createEdward()}
         </Col>
-        <Col xs={12} sm={6} md={4} lg={3}>
+
+        <Col  xs={12} sm={6}>
             {this.createGriffin()}
         </Col>
+
+
         </Row>
 
             </Container>
@@ -48,7 +56,7 @@ export default class About extends Component{
             <Pane header={'About us'}
         bodyJSX={<div>We are a familiy friendly small buisiness trying to make a big impact in the world of trip management.
          We hope to change the way you plan trips online and for free! Below are the members of our team, who are dedicated
-        to making this company a success</div>}/>
+        to making this company a success.</div>}/>
     );
     }
 
