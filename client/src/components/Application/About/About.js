@@ -24,16 +24,17 @@ export default class About extends Component{
                 </Row>
         <Row>
         <   Col xs={12} sm={6} md={4} lg={3}>
-            {this.createTeamMember('origin')}
+            {this.createJeremy()}
          </Col>
          <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createTeamMember('destination')}
+            {this.createDarian()}
+        </Col>
+
+        <Col xs={12} sm={6} md={4} lg={3}>
+            {this.createEdward()}
         </Col>
         <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createTeamMember()}
-        </Col>
-        <Col xs={12} sm={6} md={4} lg={3}>
-            {this.createTeamMember()}
+            {this.createGriffin()}
         </Col>
         </Row>
 
@@ -53,10 +54,31 @@ export default class About extends Component{
 
 
 
-    createTeamMember() {
+    createJeremy() {
         return (
-            <Pane header={'YOUR NAME HERE'}
-        bodyJSX={<div>  YOUR DISCRIPTION HERE  </div>}/>
+            <Pane header={'Jeremy Lesser'}
+        bodyJSX={<div>  blurb to come </div>}/>
+    );
+    }
+
+    createEdward() {
+        return (
+            <Pane header={'Edward Pike'}
+        bodyJSX={<div>   blurb to come </div>}/>
+    );
+    }
+
+    createDarian() {
+        return (
+            <Pane header={'Darian Cupit'}
+        bodyJSX={<div>  blurb to come </div>}/>
+    );
+    }
+
+    createGriffin() {
+        return (
+            <Pane header={'Griffin Gilbert'}
+        bodyJSX={<div>  blurb to come  </div>}/>
     );
     }
 
