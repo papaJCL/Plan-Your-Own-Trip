@@ -13,23 +13,27 @@ export default class About extends Component{
         super(props);
     }
 
+
     render() {
         return(
             <Container>
                 <Row>
                     <Col xs="12">
-                        {this.heading()}
+                    {this.createHeader()}
                     </Col>
                 </Row>
+            
             </Container>
         )
     }
 
 
-    heading() {
+    createHeader() {
         return (
-            <Pane header={'About'}
-        bodyJSX={'Select ...'}/>
+            <Pane header={'About us'}
+        bodyJSX={<div>We are a familiy friendly small buisiness trying to make a big impact in the world of trip management.
+         We hope to change the way you plan trips online and for free! Below are the members of our team, who are dedicated
+        to making this company a success</div>}/>
     );
     }
 
