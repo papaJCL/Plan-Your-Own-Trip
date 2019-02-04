@@ -83,12 +83,9 @@ export default class About extends Component{
     createDarien() {
         return (
             <Pane header={'Darien Cupit'}
-        bodyJSX={<div> I am a third-year Computer Science student and AROTC cadet at Colorado State University. Born and raised in Colorado, I have spent the majority of my
-            life visiting the mountains to hike, sight-see, and snowboard. Despite living in Colorado for my entire life, I have still managed to travel many locations both
-            in and outside of the country such as Jamaica, Canada, Mexico, Thailand and the Bahamas. My work experience before college involved network administration at my
+        bodyJSX={<div> I am a third-year Computer Science student and AROTC cadet at Colorado State University. My work experience before college involved network administration at my
             family's business. While this wan't an arduous job, it is what got me interested in working on computers. When it came time to decided on a university, I decided
-            to become a student at CSU due to its amazing Computer Science and ROTC programs, and have since gained many incredibly useful experiences and skills that will no
-            doubt follow me for years to come.
+            to become a student at CSU due to its amazing Computer Science and ROTC programs, and have since gained many incredibly useful experiences and skills.
         </div>}/>
     );
     }
