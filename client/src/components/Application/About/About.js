@@ -66,14 +66,17 @@ export default class About extends Component{
         return (
             <Pane header={'Jeremy Lesser'}
         bodyJSX={<div>  I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
-        skiing, hiking, and videos. </div>}/>
+        skiing, hiking, and video games. </div>}/>
     );
     }
 
     createEdward() {
         return (
             <Pane header={'Edward Pike'}
-        bodyJSX={<div>   blurb to come </div>}/>
+        bodyJSX={<div> I am a computer science major in my last year of school at CSU.  I was born and raised
+        in Chicago, IL and originally attended UIUC as a physics major, and transferred after 2 years.
+        My hobbies consist of playing with my doggo, playing with other doggos, and anything else related
+        to heckin' good bois.</div>}/>
     );
     }
 
