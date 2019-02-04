@@ -1,10 +1,76 @@
 package com.tripco.t11.misc;
 
 import java.lang.Math;
+import java.util.Map;
+import java.util.Vector;
 
 /** Determines the distance between geographic coordinates.
  */
-public class GreatCircleDistance {
+public class GreatCircleDistance{
+    private Map origin;
+    private Map destination;
+    private Float earthRadius;
+    private int distance;
+    private Vector<Double> lats = new Vector<Double>(2);
+    private Vector<Double> longs = new Vector<Double>(2);
 
+    public GreatCircleDistance(Map origin, Map destination, float earthRadius){
+        this.origin = origin;
+        this.destination = destination;
+        this.earthRadius = earthRadius;
+
+    }
+
+    public int calcDistance(){
+
+        String[] tokens = tokenizeEntrySets();
+        extractLatsAndLongs(tokens);
+        convertToRadians();
+        double dPhi = findCentralAngle();
+        return (int)(dPhi * earthRadius);
+
+    }
+
+    private String[] tokenizeEntrySets(){
+
+        String delimit =  origin.entrySet().toString().concat(destination.entrySet().toString());
+        String[] tokens = delimit.split("[=,\\[\\] ]");
+        return tokens;
+
+    }
+
+    private void extractLatsAndLongs(String[] tokens){
+
+        for(int i = 0; i < tokens.length; ++i){
+            if(tokens[i].equals("latitude")){
+                lats.add(Double.parseDouble(tokens[++i]));
+            }
+            else if(tokens[i].equals("longitude")){
+                longs.add(Double.parseDouble(tokens[++i]));
+            }
+        }
+
+    }
+
+    private void convertToRadians(){
+
+        for(int i = 0; i < 2; ++i){
+            lats.set( i, ((lats.get(i)/180) * Math.PI) );
+            longs.set( i, ((longs.get(i)/180) * Math.PI) );
+        }
+
+    }
+
+    private double findCentralAngle(){
+        //Implements Haversine formula for computing central angle
+        double sinSqDeltaLat = Math.pow( ( Math.sin( Math.abs(lats.get(0) - lats.get(1) ) /2 ) ), 2 );
+        double cosLat1cosLat2 = Math.cos( lats.get(0) ) * Math.cos( lats.get(1) );
+        double sinSqDeltaLong = Math.pow( ( Math.sin( Math.abs(longs.get(0) - longs.get(1) ) /2 ) ), 2 );
+
+        double dPhi = 2 * Math.asin( Math.sqrt(sinSqDeltaLat + cosLat1cosLat2 * sinSqDeltaLong) );
+
+        return dPhi;
+
+    }
 
 }
