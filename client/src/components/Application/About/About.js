@@ -65,7 +65,8 @@ export default class About extends Component{
     createJeremy() {
         return (
             <Pane header={'Jeremy Lesser'}
-        bodyJSX={<div>  blurb to come </div>}/>
+        bodyJSX={<div>  I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
+        skiing, hiking, and videos. </div>}/>
     );
     }
 
