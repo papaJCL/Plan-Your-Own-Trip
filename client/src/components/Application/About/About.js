@@ -92,7 +92,10 @@ export default class About extends Component{
     createGriffin() {
         return (
             <Pane header={'Griffin Gilbert'}
-        bodyJSX={<div>  blurb to come  </div>}/>
+        bodyJSX={<div>  I am a third year computer science student at CSU. I am an Army ROTC
+        cadet and a member of our school secruity club, Hashdump. Born in California and raised in Colorado
+          I enjoy skiing, fishing, and playing sports. I am an avid reader and play too many video games for
+            my own good.</div>}/>
     );
     }
 
