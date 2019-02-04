@@ -83,7 +83,7 @@ export default class About extends Component{
             life visiting the mountains to hike, sight-see, and snowboard. Despite living in Colorado for my entire life, I have still managed to travel many locations both
             in and outside of the country such as Jamaica, Canada, Mexico, Thailand and the Bahamas. My work experience before college involved network administration at my
             family's business. While this wan't an arduous job, it is what got me interested in working on computers. When it came time to decided on a university, I decided
-            to become a studentat CSU due to its amazing Computer Science and ROTC programs, and have since gained many incredibly useful experiences and skills that will no
+            to become a student at CSU due to its amazing Computer Science and ROTC programs, and have since gained many incredibly useful experiences and skills that will no
             doubt follow me for years to come.
         </div>}/>
     );
