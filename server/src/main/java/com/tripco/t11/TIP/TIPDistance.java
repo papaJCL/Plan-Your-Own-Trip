@@ -4,7 +4,6 @@ import com.tripco.t11.misc.GreatCircleDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Vector;
 import java.util.Map;
 
 

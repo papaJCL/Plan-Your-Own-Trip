@@ -10,37 +10,32 @@ public class GreatCircleDistance{
     private Map origin;
     private Map destination;
     private Float earthRadius;
-    private int distance;
-    private Vector<Double> lats = new Vector<Double>(2);
-    private Vector<Double> longs = new Vector<Double>(2);
+    private Vector<Double> lats;
+    private Vector<Double> longs;
 
     public GreatCircleDistance(Map origin, Map destination, float earthRadius){
         this.origin = origin;
         this.destination = destination;
         this.earthRadius = earthRadius;
-
+        this.lats = new Vector<Double>(2);
+        this.longs = new Vector<Double>(2);
     }
 
     public int calcDistance(){
-
         String[] tokens = tokenizeEntrySets();
         extractLatsAndLongs(tokens);
         convertToRadians();
         double dPhi = findCentralAngle();
         return (int)(dPhi * earthRadius);
-
     }
 
     private String[] tokenizeEntrySets(){
-
         String delimit =  origin.entrySet().toString().concat(destination.entrySet().toString());
         String[] tokens = delimit.split("[=,\\[\\] ]");
         return tokens;
-
     }
 
     private void extractLatsAndLongs(String[] tokens){
-
         for(int i = 0; i < tokens.length; ++i){
             if(tokens[i].equals("latitude")){
                 lats.add(Double.parseDouble(tokens[++i]));
@@ -49,16 +44,13 @@ public class GreatCircleDistance{
                 longs.add(Double.parseDouble(tokens[++i]));
             }
         }
-
     }
 
     private void convertToRadians(){
-
         for(int i = 0; i < 2; ++i){
             lats.set( i, ((lats.get(i)/180) * Math.PI) );
             longs.set( i, ((longs.get(i)/180) * Math.PI) );
         }
-
     }
 
     private double findCentralAngle(){
@@ -70,7 +62,6 @@ public class GreatCircleDistance{
         double dPhi = 2 * Math.asin( Math.sqrt(sinSqDeltaLat + cosLat1cosLat2 * sinSqDeltaLong) );
 
         return dPhi;
-
     }
 
 }
