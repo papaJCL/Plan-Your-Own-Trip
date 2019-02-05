@@ -52,7 +52,7 @@ public class GreatCircleDistance{
             longs.set( i, ((longs.get(i)/180) * Math.PI) );
         }
     }
-
+    //comment to test commits
     private double findCentralAngle(){
         //Implements Haversine formula for computing central angle
         double sinSqDeltaLat = Math.pow( ( Math.sin( Math.abs(lats.get(0) - lats.get(1) ) /2 ) ), 2 );
