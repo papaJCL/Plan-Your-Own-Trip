@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import jeremy from './jeremy.png'
-import darien from './darien.jpeg'
+import darien from './darien.png'
 
 //import Units from './Options/Units'
 
