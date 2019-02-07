@@ -38,12 +38,29 @@ public class GreatCircleDistance{
     private void extractLatsAndLongs(String[] tokens){
         for(int i = 0; i < tokens.length; ++i){
             if(tokens[i].equals("latitude")){
-                lats.add(Double.parseDouble(tokens[++i]));
+                double coord = checkFormat(tokens[++i]);
+                lats.add(coord);
             }
             else if(tokens[i].equals("longitude")){
-                longs.add(Double.parseDouble(tokens[++i]));
+                double coord = checkFormat(tokens[++i]);
+                longs.add(coord);
             }
         }
+    }
+
+    private double checkFormat(String token){
+        double coord;
+        switch(token.charAt(token.length() - 1)){
+            case 'N': case 'n': case 'E': case 'e':
+                coord = Double.parseDouble(token.substring(0, token.length()-1));
+                return coord;
+            case 'S': case 's': case 'W': case 'w':
+                coord = Double.parseDouble(token.substring(0, token.length()-1)) * -1;
+                return coord;
+            default:
+                return Double.parseDouble(token);
+        }
+
     }
 
     private void convertToRadians(){
