@@ -38,29 +38,12 @@ public class GreatCircleDistance{
     private void extractLatsAndLongs(String[] tokens){
         for(int i = 0; i < tokens.length; ++i){
             if(tokens[i].equals("latitude")){
-                double coord = checkFormat(tokens[++i]);
-                lats.add(coord);
+                lats.add(Double.parseDouble(tokens[++i]));
             }
             else if(tokens[i].equals("longitude")){
-                double coord = checkFormat(tokens[++i]);
-                longs.add(coord);
+                longs.add(Double.parseDouble(tokens[++i]));
             }
         }
-    }
-
-    private double checkFormat(String token){
-        double coord;
-        switch(token.charAt(token.length() - 1)){
-            case 'N': case 'n': case 'E': case 'e':
-                coord = Double.parseDouble(token.substring(0, token.length()-1));
-                return coord;
-            case 'S': case 's': case 'W': case 'w':
-                coord = Double.parseDouble(token.substring(0, token.length()-1)) * -1;
-                return coord;
-            default:
-                return Double.parseDouble(token);
-        }
-
     }
 
     private void convertToRadians(){
@@ -81,6 +64,18 @@ public class GreatCircleDistance{
         return dPhi;
     }
 
-
+    public String toString() {
+        // Displays Map sets and other variables.
+        String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
+                + destination.entrySet().toString() + " earthRadius: " + earthRadius + " Lats: ";
+        // display lats
+        for (int i = 0; i < lats.size() - 1; i++) ret += lats.get(i) + ", ";
+        ret += lats.get(lats.size() - 1) + " "; // tidying up output
+        ret += "longs: ";
+        // display longs
+        for (int i = 0; i < longs.size() - 1; i++) ret += longs.get(i) + ", ";
+        ret += longs.get(longs.size() - 1) + "\n"; // tidying up output
+        return ret;
+    }
 
 }
