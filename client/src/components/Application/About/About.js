@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import jeremy from './jeremy.png'
+import darien from './darien.png'
 import Griffin from './Griffin.png'
 
 //import Units from './Options/Units'
@@ -96,10 +97,22 @@ export default class About extends Component{
     createDarien() {
         return (
             <Pane header={'Darien Cupit'}
-        bodyJSX={<div> I am a third-year Computer Science student and AROTC cadet at Colorado State University. My work experience before college involved network administration at my
-            family's business. While this wan't an arduous job, it is what got me interested in working on computers. When it came time to decided on a university, I decided
-            to become a student at CSU due to its amazing Computer Science and ROTC programs, and have since gained many incredibly useful experiences and skills.
-        </div>}/>
+                bodyJSX={
+                    <div>
+                        <Row>
+                            <Col  xs={12} sm={6}>
+                                <img src={darien}/>
+                            </Col>
+                            <Col xs={12} sm={6}>
+                                I am a third-year Computer Science student and AROTC cadet at Colorado State University.
+                                My work experience before college involved network administration at our family's
+                                business. While this wasn't an arduous job, it is what got me interested in working on
+                                computers. When it came time to decided on a university, I decided to become a student
+                                at CSU due to its amazing Computer Science and ROTC programs, and have since gained many
+                                incredibly useful experiences and skills.
+                            </Col>
+                        </Row>
+                    </div>}/>
     );
     }
 
