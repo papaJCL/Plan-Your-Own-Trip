@@ -4,7 +4,7 @@ import Pane from '../Pane';
 import jeremy from './jeremy.png'
 import darien from './darien.png'
 import Griffin from './Griffin.png'
-import edward from '../edward.png'
+import edward from './edward.png'
 
 //import Units from './Options/Units'
 
@@ -91,10 +91,10 @@ export default class About extends Component{
                 bodyJSX={
                     <div>
                         <Row>
-                            <Col xs={12} sm{6}>
+                            <Col xs={12} sm={6}>
                                 <img src={edward}/>
                             </Col>
-                            <Col xs={12} sm{6}>
+                            <Col xs={12} sm={6}>
                                 I am a computer science major in my last year of school at CSU.  I was born
                                 and raised in Chicago, IL and originally attended UIUC as a physics major,
                                 and transferred after 2 years. My hobbies consist of playing with my doggo,
