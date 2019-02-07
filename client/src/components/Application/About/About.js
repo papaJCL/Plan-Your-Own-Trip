@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
+import jeremy from './jeremy.png'
+
 //import Units from './Options/Units'
 
 /* Options allows the user to change the parameters for planning
@@ -65,9 +67,19 @@ export default class About extends Component{
     createJeremy() {
         return (
             <Pane header={'Jeremy Lesser'}
-        bodyJSX={<div>  I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
-        skiing, hiking, and video games. </div>}/>
-    );
+                bodyJSX={
+                    <div>
+                        <Row>
+                            <Col  xs={12} sm={6}>
+                                <img src={jeremy}/>
+                            </Col>
+                            <Col  xs={12} sm={6}>
+                                I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
+                                skiing, hiking, and video games.
+                            </Col>
+                        </Row>
+                    </div>}/>
+        );
     }
 
     createEdward() {
