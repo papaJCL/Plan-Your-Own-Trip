@@ -23,34 +23,26 @@ export default class About extends Component{
         return(
             <Container>
                 <Row>
-            <   Col xs={12}>
-                    {this.createHeader()}
+                    <Col xs={12}>
+                        {this.createHeader()}
                     </Col>
                 </Row>
-        <Row>
-        <   Col  xs={12} sm={6}>
-            {this.createJeremy()}
-         </Col>
-
-         <Col xs={12} sm={6}>
-            {this.createDarien()}
-        </Col>
-
-        </Row>
-
-        <Row>
-
-        <Col xs={12} sm={6}>
-            {this.createEdward()}
-        </Col>
-
-        <Col  xs={12} sm={6}>
-            {this.createGriffin()}
-        </Col>
-
-
-        </Row>
-
+                <Row>
+                    <Col  xs={12} sm={6}>
+                        {this.createJeremy()}
+                    </Col>
+                    <Col xs={12} sm={6}>
+                        {this.createDarien()}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12} sm={6}>
+                        {this.createEdward()}
+                    </Col>
+                    <Col  xs={12} sm={6}>
+                        {this.createGriffin()}
+                    </Col>
+                </Row>
             </Container>
         )
     }
@@ -59,10 +51,13 @@ export default class About extends Component{
     createHeader() {
         return (
             <Pane header={'About us'}
-        bodyJSX={<div>We are a familiy friendly small buisiness trying to make a big impact in the world of trip management.
-         We hope to change the way you plan trips online and for free! Below are the members of our team, who are dedicated
-        to making this company a success.</div>}/>
-    );
+                bodyJSX={
+                    <div>
+                        We are a familiy friendly small buisiness trying to make a big impact in the world
+                        of trip management. We hope to change the way you plan trips online and for free!
+                        Below are the members of our team, who are dedicated to making this company a success.
+                    </div>}/>
+        );
     }
 
 
@@ -130,21 +125,21 @@ export default class About extends Component{
     createGriffin() {
         return (
             <Pane header={'Griffin Gilbert'}
-        bodyJSX={
-            <div>
-            <Row>
-                <Col  xs={12} sm={6}>
-                    <img src={Griffin}/>
-                </Col>
-                <Col  xs={12} sm={6}>
-                  I am a third year computer science student at CSU. I am an Army ROTC
-                 cadet and a member of our school secruity club, Hashdump. Born in California and raised in Colorado
-                    I enjoy skiing, fishing, and playing sports. I am an avid reader and play too many video games for
-                 my own good.
-                </Col>
-            </Row>
-        </div>}/>
-    );
+                bodyJSX={
+                    <div>
+                        <Row>
+                            <Col  xs={12} sm={6}>
+                                <img src={Griffin}/>
+                            </Col>
+                            <Col  xs={12} sm={6}>
+                                I am a third year computer science student at CSU. I am an Army ROTC cadet
+                                and a member of our school secruity club, Hashdump. Born in California and
+                                raised in Colorado I enjoy skiing, fishing, and playing sports. I am an avid
+                                reader and play too many video games for my own good.
+                            </Col>
+                        </Row>
+                    </div>}/>
+        );
     }
 
 
