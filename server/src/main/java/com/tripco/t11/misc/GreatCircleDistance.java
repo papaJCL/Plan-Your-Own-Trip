@@ -81,6 +81,18 @@ public class GreatCircleDistance{
         return dPhi;
     }
 
-
+    public String toString() {
+        // Displays Map sets and other variables.
+        String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
+                + destination.entrySet().toString() + " earthRadius: " + earthRadius + " Lats: ";
+        // display lats
+        for (int i = 0; i < lats.size() - 1; i++) ret += lats.get(i) + ", ";
+        ret += lats.get(lats.size() - 1) + " "; // tidying up output
+        ret += "longs: ";
+        // display longs
+        for (int i = 0; i < longs.size() - 1; i++) ret += longs.get(i) + ", ";
+        ret += longs.get(longs.size() - 1) + "\n"; // tidying up output
+        return ret;
+    }
 
 }
