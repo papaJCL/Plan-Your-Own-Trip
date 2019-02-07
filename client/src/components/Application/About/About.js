@@ -104,8 +104,8 @@ export default class About extends Component{
                             </Col>
                             <Col xs={12} sm={6}>
                                 I am a third-year Computer Science student and AROTC cadet at Colorado State University.
-                                My work experience before college involved network administration at our family
-        '                       business. While this was not an arduous job, it is what got me interested in working on
+                                My work experience before college involved network administration at our family's
+                                business. While this wasn't an arduous job, it is what got me interested in working on
                                 computers. When it came time to decided on a university, I decided to become a student
                                 at CSU due to its amazing Computer Science and ROTC programs, and have since gained many
                                 incredibly useful experiences and skills.
