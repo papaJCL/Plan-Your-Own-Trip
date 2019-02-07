@@ -49,4 +49,11 @@ public class TIPConfig extends TIPHeader {
     return this.placeAttributes;
   }
 
+  public String toString() {
+    String ret = "Variables - serverName: " + serverName +" placeAttributes: ";
+    for (int i = 0; i < placeAttributes.size() - 1; i++) ret += placeAttributes.get(i) + ", "; // display placeAttributes
+    ret += placeAttributes.get(placeAttributes.size() - 1) + "\n"; // tidying up output
+    return ret;
+  }
+
 }

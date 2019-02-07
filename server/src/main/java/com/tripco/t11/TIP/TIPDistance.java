@@ -55,4 +55,11 @@ public class TIPDistance extends TIPHeader {
 
   }
 
+  public String toString() {
+
+    String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
+            + destination.entrySet().toString() + " earthRadius: " + earthRadius + " distance: " + distance + "\n";
+    return ret;
+  }
+
 }
