@@ -160,76 +160,7 @@
 	<li/>
 <p style="margin-bottom: 0in"><img src="https://avatars3.githubusercontent.com/u/46980184?s=40&v=4" name="Image3" alt="@GriffyDaG" align="bottom" width="20" height="20" border="0"/>
 
-		</p>
-	<p style="margin-bottom: 0in"><a href="/GriffyDaG">Signed in as
-	<strong>GriffyDaG</strong></a></p>
-	<p>Set your status 
-	</p>
-	<ul>
-		<ul>
-			<h3 class="western"><!-- '"` --><!-- </textarea></xmp> -->Edit
-			status</h3>
-		</ul>
-	</ul>
-	<form action="/users/status%3Fcompact=1&amp;link_mentions=0&amp;truncate=1" method="post">
-		<input type="hidden" name="utf8" value="✓">
-		<input type="hidden" name="_method" value="put">
-		<input type="hidden" name="authenticity_token" value="r6pzUq5jAwPzkoLhx4YjFfB/dKyM35BUpk6NCYKbW+7iV01ChKUEk0Z83hrSKWeYCmNHGjFPuiqGg1oJIWzaHA==">
-		<input type="hidden" name="emoji">
-		<input type="hidden" name="organization_id">
-		<p style="margin-bottom: 0in"><input type="text" name="message"  size="20" style="width: 1.73in; height: 0.26in">
-				</p>
-		<p style="margin-bottom: 0in">Could not update your status, please
-		try again.</p>
-		<p>80 remaining 
-		</p>
-		<ul>
-			<ul>
-				<ul>
-					<h4 class="western">Suggestions:</h4>
-				</ul>
-			</ul>
-		</ul>
-		<p style="margin-bottom: 0in">🌴 
-		</p>
-		<p style="margin-bottom: 0in"><span style="display: inline-block; border-top: none; border-bottom: none; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.02in; padding-right: 0in">On
-		vacation </span>
-		</p>
-		<p style="margin-bottom: 0in">🤒 
-		</p>
-		<p style="margin-bottom: 0in"><span style="display: inline-block; border-top: none; border-bottom: none; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.02in; padding-right: 0in">Out
-		sick </span>
-		</p>
-		<p style="margin-bottom: 0in">🏠 
-		</p>
-		<p style="margin-bottom: 0in"><span style="display: inline-block; border-top: none; border-bottom: none; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.02in; padding-right: 0in">Working
-		from home </span>
-		</p>
-		<p style="margin-bottom: 0in">🎯 
-		</p>
-		<p style="margin-bottom: 0in"><span style="display: inline-block; border-top: none; border-bottom: none; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.02in; padding-right: 0in">Focusing
-		</span>
-		</p>
-		<p><a name="limited-availability-truncate-true"></a><input type="checkbox" name="limited_availability" value="1"  style="width: 0.14in; height: 0.14in">
-		Busy 
-		</p>
-	</form>
-	<p><a name="limited-availability-help-text-truncate-true"></a>When
-	others mention you, assign you, or request your review, GitHub will
-	let them know that you have limited availability. 
-	</p>
-	<p>Set status Clear status 
-	</p>
-	<p style="margin-bottom: 0in"><a href="/GriffyDaG">Your profile</a>
-	<a href="/GriffyDaG%3Ftab=repositories">Your repositories</a> <a href="/GriffyDaG%3Ftab=projects">Your
-	projects</a> <a href="/GriffyDaG%3Ftab=stars">Your stars</a> <a href="https://gist.github.com/">Your
-	gists</a> 
-	</p>
-	<p><a href="https://help.github.com/">Help</a> <a href="/settings/profile">Settings</a><!-- '"` --><!-- </textarea></xmp> -->
-		</p>
-	<p>Sign out 
-	</p>
-	<p><!-- '"` --><!-- </textarea></xmp> -->Sign out 
+		
 	</p>
 </ul>
 <div id="start-of-content" dir="ltr">
