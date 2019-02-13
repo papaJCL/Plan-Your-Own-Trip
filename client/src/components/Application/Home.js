@@ -36,18 +36,29 @@ export default class Home extends Component {
 
     renderLeafletMap() {
         return (
-            <Map center={[40.576179, -105.080773]} zoom={10}
-            style={{height: 500, maxwidth: 700}}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                />
-                <Marker position={[40.576179, -105.080773]}
-                    icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
-                </Marker>
-            </Map>
+            <div>
+                {this.renderTest()}
+                <Map center={[40.576179, -105.080773]} zoom={10} setView={true}
+                style={{height: 500, maxwidth: 700}}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    />
+                    <Marker position={[40.576179, -105.080773]}
+                        icon={this.markerIcon()}>
+                        <Popup className="font-weight-extrabold">Colorado State University</Popup>
+                    </Marker>
+                </Map>
+        </div>
         );
+    }
+
+    renderTest(){
+        // return (
+        //     <div>
+        //     //{setView: true, maxZoom: 16}
+        //     </div>
+        // );
     }
 
     renderIntro() {
