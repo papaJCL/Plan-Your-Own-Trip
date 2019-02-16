@@ -12,6 +12,15 @@ export default class CustomUnits extends Component {
             showMenu: false,
         }
 
+        this.showMenu = this.showMenu.bind(this);
+    }
+
+    showMenu(event) {
+        event.preventDefault();
+
+        this.setState({
+            showMenu: true,
+        });
     }
 
     render() {
@@ -30,7 +39,7 @@ export default class CustomUnits extends Component {
     renderDropDownMenu() {
         return (
             <div>
-                <button>
+                <button onClick={this.showMenu}>
                     Show menu
                 </button>
 
