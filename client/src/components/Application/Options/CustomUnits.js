@@ -7,6 +7,11 @@ import { Row, Col, Button, ButtonGroup } from 'reactstrap'
 export default class CustomUnits extends Component {
     constructor() {
         super()
+
+        this.state = {
+            showMenu: false,
+        }
+
     }
 
     render() {
@@ -29,13 +34,20 @@ export default class CustomUnits extends Component {
                     Show menu
                 </button>
 
-                <div className="menu">
-                    <button> Test 1 </button>
-                    <button> Test 2 </button>
-                    <button> Test 3 </button>
-                </div>
+                {
+                    this.state.showMenu
+                        ? (
+                            <div className="menu">
+                                <button> Test 1</button>
+                                <button> Test 2</button>
+                                <button> Test 3</button>
+                            </div>
+                        )
+                        : (
+                            null
+                        )
+                }
             </div>
         );
     }
-
-    }
+}
