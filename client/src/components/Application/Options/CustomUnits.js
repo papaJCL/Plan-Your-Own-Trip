@@ -13,14 +13,27 @@ export default class CustomUnits extends Component {
         }
 
         this.showMenu = this.showMenu.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
     showMenu(event) {
         event.preventDefault();
 
-        this.setState({
-            showMenu: true,
+        this.setState({ showMenu: true}, () => {
+            document.addEventListener('click', this.closeMenu);
         });
+    }
+
+    closeMenu(event) {
+
+        if (!this.dropdownMenu.contains(event.target)) {
+
+
+            this.setState({showMenu: false}, () => {
+                document.removeEventListener('click', this.closeMenu);
+            });
+
+        }
     }
 
     render() {
@@ -39,14 +52,19 @@ export default class CustomUnits extends Component {
     renderDropDownMenu() {
         return (
             <div>
-                <button onClick={this.showMenu}>
+                <button className='btn-csu w-100 text-left' onClick={this.showMenu}>
                     Show menu
                 </button>
 
                 {
                     this.state.showMenu
                         ? (
-                            <div className="menu">
+                            <div
+                                className="menu"
+                                ref={(element) => {
+                                    this.dropdownMenu = element;
+                                }}
+                            >
                                 <button> Test 1</button>
                                 <button> Test 2</button>
                                 <button> Test 3</button>
