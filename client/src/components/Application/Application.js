@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardHeader, Container} from 'reactstrap';
+import {Card, CardBody, CardHeader, Container, Input} from 'reactstrap';
 
 import Home from './Home';
 import Options from './Options/Options';
 import About from './About/About';
 import Calculator from './Calculator/Calculator';
 import Settings from './Settings/Settings';
-import {getOriginalServerPort, sendServerRequest} from '../../api/restfulAPI';
+import {getOriginalServerPort, sendServerRequest, sendServerRequestWithBody} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
 
 
@@ -20,6 +20,9 @@ export default class Application extends Component {
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
+    this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
+    this.calculateDistance = this.calculateDistance.bind(this);
+    this.createInputField = this.createInputField.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -30,6 +33,9 @@ export default class Application extends Component {
       clientSettings: {
         serverPort: getOriginalServerPort()
       },
+      origin: {latitude: '', longitude: ''},
+      destination: {latitude: '', longitude: ''},
+      distance: 0,
       errorMessage: null
     };
 
@@ -40,9 +46,9 @@ export default class Application extends Component {
     let pageToRender = this.state.serverConfig ? this.props.page : 'settings';
 
     return (
-      <div className='application-width'>
-        { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
-      </div>
+        <div className='application-width'>
+          { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
+        </div>
     );
   }
 
@@ -71,9 +77,9 @@ export default class Application extends Component {
 
   createErrorBanner(statusText, statusCode, message) {
     return (
-      <ErrorBanner statusText={statusText}
-                   statusCode={statusCode}
-                   message={message}/>
+        <ErrorBanner statusText={statusText}
+                     statusCode={statusCode}
+                     message={message}/>
     );
   }
 
@@ -82,7 +88,13 @@ export default class Application extends Component {
       case 'calc':
         return <Calculator options={this.state.planOptions}
                            settings={this.state.clientSettings}
-                           createErrorBanner={this.createErrorBanner}/>;
+                           createErrorBanner={this.createErrorBanner}
+                           calculateDistance = {this.calculateDistance}
+                           createInputField = {this.createInputField}
+                           updateLocationOnChange = {this.updateLocationOnChange}
+                           distance = {this.state.distance}
+                           destination = {this.state.destination}
+                           origin = {this.state.origin}/>;
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
@@ -94,8 +106,8 @@ export default class Application extends Component {
 
       case 'about':
         return <About about={this.state.planOptions}
-                        config={this.state.serverConfig}
-                        updateOption={this.updatePlanOption}/>;
+                      config={this.state.serverConfig}
+                      updateOption={this.updatePlanOption}/>;
 
       default:
         return <Home/>;
@@ -114,11 +126,61 @@ export default class Application extends Component {
       this.setState({
         serverConfig: null,
         errorMessage:
-          <Container>
-            {this.createErrorBanner(config.statusText, config.statusCode,
-            `Failed to fetch config from ${ this.state.clientSettings.serverPort}. Please choose a valid server.`)}
-          </Container>
+            <Container>
+              {this.createErrorBanner(config.statusText, config.statusCode,
+                  `Failed to fetch config from ${ this.state.clientSettings.serverPort}. Please choose a valid server.`)}
+            </Container>
       });
     }
+  }
+
+  calculateDistance() {
+    const tipConfigRequest = {
+      'type'        : 'distance',
+      'version'     : 1,
+      'origin'      : this.state.origin,
+      'destination' : this.state.destination,
+      'earthRadius' : this.state.planOptions.units[this.state.planOptions.activeUnit]
+    };
+
+    sendServerRequestWithBody('distance', tipConfigRequest, this.state.clientSettings.serverPort)
+        .then((response) => {
+          if(response.statusCode >= 200 && response.statusCode <= 299) {
+            this.setState({
+              distance: response.body.distance,
+              errorMessage: null
+            });
+          }
+          else {
+            this.setState({
+              errorMessage: this.props.createErrorBanner(
+                  response.statusText,
+                  response.statusCode,
+                  `Request to ${ this.state.clientSettings.serverPort } failed.`
+              )
+            });
+          }
+        });
+  }
+
+  updateLocationOnChange(stateVar, field, value) {
+    let location = Object.assign({}, this.state[stateVar]);
+    location[field] = value;
+    this.setState({[stateVar]: location});
+  }
+
+  createInputField(stateVar, coordinate) {
+    let updateStateVarOnChange = (event) => {
+      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+
+    let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
+    return (
+        <Input name={coordinate} placeholder={capitalizedCoordinate}
+               id={`${stateVar}${capitalizedCoordinate}`}
+               value={this.state[stateVar][coordinate]}
+               onChange={updateStateVarOnChange}
+               style={{width: "100%"}} />
+    );
+
   }
 }
