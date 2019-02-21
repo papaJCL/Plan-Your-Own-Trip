@@ -24,7 +24,7 @@ public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
   private Float earthRadius;
-  private int distance;
+  private Long distance;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
@@ -34,14 +34,13 @@ public class TIPDistance extends TIPHeader {
     this.origin = origin;
     this.destination = destination;
     this.earthRadius = earthRadius;
-    this.distance = 0;
+    this.distance = 0L;
   }
 
   private TIPDistance() { this.requestType = "distance"; }
 
   @Override
   public void buildResponse() {
-
     GreatCircleDistance circle = new GreatCircleDistance(origin, destination, earthRadius);
     this.distance = circle.calcDistance();        //Write a method here to changed the distance between the two points. Static class. Distance between two points.
     log.trace("buildResponse -> {}", this);
@@ -49,14 +48,11 @@ public class TIPDistance extends TIPHeader {
   }
 
 
-  int getDistance() {
-
+  Long getDistance() {
     return distance;
-
   }
 
   public String toString() {
-
     String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
             + destination.entrySet().toString() + " earthRadius: " + earthRadius + " distance: " + distance + "\n";
     return ret;
