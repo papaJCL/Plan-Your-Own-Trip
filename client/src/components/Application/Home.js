@@ -5,11 +5,28 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import Pane from './Pane'
+import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
+
+
+
+//The code to read a file was from https://developer.mozilla.org/pt-BR/docs/Web/API/FileReader/onload
 
 /*
  * Renders the home page.
  */
 export default class Home extends Component {
+
+    constructor(props) {
+        super(props)
+        this.onChange = this.onChange.bind(this);
+        this.sendItineraryRequest = this.sendItineraryRequest.bind(this)
+
+        this.state = {
+            clientSettings: {
+                serverPort: getOriginalServerPort()
+            },
+        };
+    }
 
     render() {
         return (
@@ -32,16 +49,43 @@ export default class Home extends Component {
             <Pane header={'Choose your file'}
                   bodyJSX={
                       <div>
-                          <Button onClick={this.renderMap}>Choose File</Button>
+                          <span>
+                              <input type="file"
+                                name="myFile"
+                                onChange={this.onChange} />
+                          </span>
                       </div>}
             />
         );
     }
 
+    work(){
+
+    }
+
+    onChange(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (event) =>  {
+            // The file's text will be printed here
+            var inputData = event.target.result
+            this.sendItineraryRequest(inputData)
+        };
+        reader.readAsText(file);
+    }
+
+    sendItineraryRequest(inputData) {
+
+        sendServerRequestWithBody('itinerary', inputData, this.state.clientSettings.serverPort)
+            .then((response) => {
+                console.log(inputData)
+            });
+    }
+
     renderMap() {
         return (
             <Pane header={'Where Am I?'}
-            bodyJSX={this.renderLeafletMap()}
+                  bodyJSX={this.renderLeafletMap()}
             />
         );
     }
@@ -49,34 +93,25 @@ export default class Home extends Component {
     renderLeafletMap() {
         return (
             <div>
-                {this.renderTest()}
                 <Map center={[40.576179, -105.080773]} zoom={10} setView={true}
-                style={{height: 500, maxwidth: 700}}>
+                     style={{height: 500, maxwidth: 700}}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                     />
                     <Marker position={[40.576179, -105.080773]}
-                        icon={this.markerIcon()}>
+                            icon={this.markerIcon()}>
                         <Popup className="font-weight-extrabold">Colorado State University</Popup>
                     </Marker>
                 </Map>
-        </div>
+            </div>
         );
-    }
-
-    renderTest(){
-        // return (
-        //     <div>
-        //     //{setView: true, maxZoom: 16}
-        //     </div>
-        // );
     }
 
     renderIntro() {
         return(
             <Pane header={'Bon Voyage!'}
-            bodyJSX={'Let us help you plan your next trip.'}
+                  bodyJSX={'Let us help you plan your next trip.'}
             />
         );
     }
