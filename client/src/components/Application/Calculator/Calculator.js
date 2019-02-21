@@ -82,6 +82,7 @@ export default class Calculator extends Component {
   }
 
     calculateDistance() {
+        this.checkData();  //makes sure data sent to server is "Good"
         const tipConfigRequest = {
             'type'        : 'distance',
             'version'     : 1,
@@ -131,4 +132,79 @@ export default class Calculator extends Component {
     );
 
     }
+
+    checkData(){  // does 3 things, checks for DMS and converts to decimal
+        // Checks for W & S and puts - in front of field
+        // Makes sure valid coordinates were put in.
+
+        /*
+        console.log("hi into data");
+        this.state.origin.latitude = this.checkNorthSouthEastWest(this.state.origin.latitude);
+        this.state.origin.longitude = this.checkNorthSouthEastWest(this.state.origin.longitude);
+        this.state.destination.latitude = this.checkNorthSouthEastWest(this.state.destination.latitude);
+        this.state.destination.longitude = this.checkNorthSouthEastWest(this.state.destination.longitude);
+        console.log("hi out of data");
+        */
+        this.checkRange(); // checks to make sure coordinates are valid
+    }
+
+    checkNorthSouthEastWest(value){
+        for (var i= 0; i <value.length; i++){
+            console.log("into for loop");
+            var looking = value[i];
+            var negOrPos = '';
+            console.log("into if statements");
+            if(looking === 'S' | looking === 's'){
+                negOrPos = '-';
+                //value[i] = '';
+            }
+            if(looking === 'W' | looking === 'w'){
+                console.log("doing something with test case 'W'");
+                negOrPos = '-';
+                //value[i] = '';
+                console.log("did something with test case 'W'");
+            }
+
+        }
+        value = negOrPos + value;
+        console.log("value at point");
+        console.log(value);
+        return(value);
+    }
+
+    checkRange(){
+
+        if(this.state.origin.latitude < -90 | this.state.origin.latitude > 90){
+            throw new Error("the origin latitude is out of bounds.")
+        }
+        if(this.state.destination.latitude < -90 | this.state.destination.latitude > 90){
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    response.statusText,
+                    response.statusCode,
+                    `the destination latitude, ${this.state.destination.latitude } is not valid`
+                )
+            });
+        }
+        if(this.state.origin.longitude < -180 | this.state.origin.longitude > 180){
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    response.statusText,
+                    response.statusCode,
+                    `the origin longitude, ${this.state.origin.longitude } is not valid`
+                )
+            });
+        }
+        if(this.state.destination.longitude < -180 | this.state.destination.longitude > 180){
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    response.statusText,
+                    response.statusCode,
+                    `the destination longitude, ${this.state.destination.longitude } is not valid`
+                )
+            });
+        }
+
+    }
+
 }

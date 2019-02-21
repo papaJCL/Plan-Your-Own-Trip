@@ -60,7 +60,7 @@ Key planning decisions for this sprint include ...
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *#71 Mid length epic, may require 2 people. *#83 Simple client side conversion. *#82 Related to updating the page. *#75 Can be done in tandem with #83. *#84 To be implemented Client side so as to make as little changes to the server as possible. *#21 Quick edit to home page. *#81 The big one. This will have a scrum session dedicated to it after the other, smaller, tasks are done. * | *#82, #71,  * |
-| Tasks |  *#80,#83,#85,#39,#86*   | *#80,#71*  | 
+| Tasks |  *#80,#83,#85,#39,#86*   | *#71*  | 
 | Story Points |  *33*  | *value* | 
 
 
@@ -68,9 +68,9 @@ Key planning decisions for this sprint include ...
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#39, #80, #83, #86, #85, more to follow as needed.. * | *none* | 
-|17FEB19| #71 |  #102  |  |
-| 20FEB19 |#102 |     | |
+| *date* | *#task, ...* | *#39, #80, #83, #86, #85,#92 * | *none* | 
+|17FEB19| #71 |  #102, #88, #108, #107   |  |
+| 20FEB19 |#102, #88, #108, #107, #92 |     | |
 
 
 ## Review (focus on solution and technology)
