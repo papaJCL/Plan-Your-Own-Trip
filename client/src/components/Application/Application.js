@@ -29,9 +29,8 @@ export default class Application extends Component {
       },
       clientSettings: {
         serverPort: getOriginalServerPort()
-      },
-    };
-
+        },
+      };
     this.updateServerConfig();
   }
 
