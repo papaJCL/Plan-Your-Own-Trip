@@ -8,12 +8,26 @@ import Pane from '../Pane';
 export default class Calculator extends Component {
   constructor(props) {
     super(props);
+
+    this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
+    this.calculateDistance = this.calculateDistance.bind(this);
+    this.createInputField = this.createInputField.bind(this);
+
+    this.state = {
+        origin: {latitude: '', longitude: ''},
+        destination: {latitude: '', longitude: ''},
+        distance: 0,
+        errorMessage: null
+    };
   }
+
+
+
 
   render() {
     return (
         <Container>
-          { this.props.errorMessage }
+          { this.state.errorMessage }
           <Row>
             <Col>
               {this.createHeader()}
@@ -51,8 +65,8 @@ export default class Calculator extends Component {
         <Pane header={stateVar.charAt(0).toUpperCase() + stateVar.slice(1)}
               bodyJSX={
                 <Form >
-                  {this.props.createInputField(stateVar, 'latitude')}
-                  {this.props.createInputField(stateVar, 'longitude')}
+                  {this.createInputField(stateVar, 'latitude')}
+                  {this.createInputField(stateVar, 'longitude')}
                 </Form>
               }
         />);
@@ -63,10 +77,64 @@ export default class Calculator extends Component {
         <Pane header={'Distance'}
               bodyJSX={
                 <div>
-                  <h5>{this.props.distance} {this.props.options.activeUnit}</h5>
-                  <Button onClick={this.props.calculateDistance}>Calculate</Button>
+                  <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
+                  <Button onClick={this.calculateDistance}>Calculate</Button>
                 </div>}
         />
     );
   }
+
+    calculateDistance() {
+        const tipConfigRequest = {
+            'type'        : 'distance',
+            'version'     : 1,
+            'origin'      : this.state.origin,
+            'destination' : this.state.destination,
+            'earthRadius' : this.props.options.units[this.props.options.activeUnit]
+        };
+
+        sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
+            .then((response) => {
+            if(response.statusCode >= 200 && response.statusCode <= 299) {
+            this.setState({
+                distance: response.body.distance,
+                errorMessage: null
+            });
+        }
+    else {
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    response.statusText,
+                    response.statusCode,
+                    `Request to ${ this.props.settings.serverPort } failed.`
+                )
+            });
+        }
+    });
+    }
+
+    updateLocationOnChange(stateVar, field, value) {
+        var DMS = "^([0-8]?[0-9]|90)°(\s[0-5]?[0-9]\')?(\s[0-5]?[0-9](,[0-9])?\")?$";
+        if(value == DMS) {   // This if statement finds out if the value in the field is in DMS form and if so changes it to decimal
+            var convertDMSToDegrees = value.split("\s|\'| \"");
+        }
+        let location = Object.assign({}, this.state[stateVar]);
+        location[field] = value;
+        this.setState({[stateVar]: location});
+    }
+
+    createInputField(stateVar, coordinate) {
+        let updateStateVarOnChange = (event) => {
+            this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+
+        let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
+        return (
+            <Input name={coordinate} placeholder={capitalizedCoordinate}
+        id={`${stateVar}${capitalizedCoordinate}`}
+        value={this.state[stateVar][coordinate]}
+        onChange={updateStateVarOnChange}
+        style={{width: "100%"}} />
+    );
+
+    }
 }
