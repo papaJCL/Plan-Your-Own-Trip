@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Row, Col} from 'reactstrap';
+import {Container, Row, Col, Button} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -28,8 +28,13 @@ export default class Home extends Component {
     }
 
     renderItineratorIntro(){
-        return (
-            <Pane header={'Choose your file'}/>
+        return(
+            <Pane header={'Choose your file'}
+                  bodyJSX={
+                      <div>
+                          <Button onClick={this.renderMap}>Choose File</Button>
+                      </div>}
+            />
         );
     }
 
