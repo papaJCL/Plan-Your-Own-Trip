@@ -21,29 +21,25 @@ public class GreatCircleDistance{
         this.longs = new Vector<Double>(2);
     }
 
-    public int calcDistance(){
-        String[] tokens = tokenizeEntrySets();
-        extractLatsAndLongs(tokens);
+    public Long calcDistance(){
+        //String[] tokens = tokenizeEntrySets();
+        extractLatsAndLongs();
         convertToRadians();
         double dPhi = findCentralAngle();
-        return (int)(dPhi * earthRadius);
+        return (Math.round(dPhi * earthRadius));
     }
 
-    private String[] tokenizeEntrySets(){
+    /*private String[] tokenizeEntrySets(){
         String delimit =  origin.entrySet().toString().concat(destination.entrySet().toString());
         String[] tokens = delimit.split("[=,\\[\\] ]");
         return tokens;
-    }
+    }*/
 
-    private void extractLatsAndLongs(String[] tokens){
-        for(int i = 0; i < tokens.length; ++i){
-            if(tokens[i].equals("latitude")){
-                lats.add(Double.parseDouble(tokens[++i]));
-            }
-            else if(tokens[i].equals("longitude")){
-                longs.add(Double.parseDouble(tokens[++i]));
-            }
-        }
+    private void extractLatsAndLongs(){
+        lats.add(Double.parseDouble((String)origin.get("latitude")));
+        lats.add(Double.parseDouble((String)destination.get("latitude")));
+        longs.add(Double.parseDouble((String)origin.get("longitude")));
+        longs.add(Double.parseDouble((String)destination.get("longitude")));
     }
 
     private void convertToRadians(){
