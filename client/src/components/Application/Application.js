@@ -35,6 +35,7 @@ export default class Application extends Component {
   }
 
   render() {
+
     let pageToRender = this.state.serverConfig ? this.props.page : 'settings';
 
     return (

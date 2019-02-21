@@ -98,7 +98,7 @@ export default class Calculator extends Component {
                 errorMessage: null
             });
         }
-    else {
+        else {
             this.setState({
                 errorMessage: this.props.createErrorBanner(
                     response.statusText,
