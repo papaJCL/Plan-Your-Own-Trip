@@ -20,9 +20,16 @@ export default class Home extends Component {
                     </Col>
                     <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                         {this.renderIntro()}
+                        {this.renderItineratorIntro()}
                     </Col>
                 </Row>
             </Container>
+        );
+    }
+
+    renderItineratorIntro(){
+        return (
+            <Pane header={'Choose your file'}/>
         );
     }
 
