@@ -111,9 +111,6 @@ export default class Calculator extends Component {
     }
 
     updateLocationOnChange(stateVar, field, value) {
-        var DMS = "^([0-8]?[0-9]|90)°(\s[0-5]?[0-9]\')?(\s[0-5]?[0-9](,[0-9])?\")?$";
-        if(value == DMS) {   // This if statement finds out if the value in the field is in DMS form and if so changes it to decimal
-            var convertDMSToDegrees = value.split("\s|\'| \"");
         }
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;
