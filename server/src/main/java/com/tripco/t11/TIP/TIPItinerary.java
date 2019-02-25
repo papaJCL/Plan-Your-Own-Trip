@@ -27,8 +27,9 @@ public class TIPItinerary extends TIPHeader {
     }
 
     public void buildResponse(){
+        distances.clear();
         calcDistances();
-        log.trace("buildResponse -> {}", this);;
+        log.trace("buildResponse -> {}", this);
     }
 
     private void calcDistances(){
