@@ -3,8 +3,10 @@ import {Container, Row, Col, Button} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
+
+
 import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
 
 
@@ -31,8 +33,8 @@ export default class Home extends Component {
             latitude: [],
             longitude: [],
             markers: [[]],
-            zoom: 2 ,
-            boolMarker: false
+            boolMarker: false ,
+            polyLineCoor: [[]]
         };
     }
 
@@ -58,12 +60,12 @@ export default class Home extends Component {
                   bodyJSX={
                       <div>
                           <row>
-                            {'Choose your file'}
+                              {'Choose your file'}
                           </row>
                           <span>
                               <input type="file"
-                                name="myFile"
-                                onChange={this.onChange}/>
+                                     name="myFile"
+                                     onChange={this.onChange}/>
                                 <Button onClick={this.reRenderNewMap}>Render map with Itinerary</Button>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                           </span>
@@ -78,7 +80,6 @@ export default class Home extends Component {
             latitude: [],
             longitude: [],
             markers: [[]],
-            zoom: 2 ,
             boolMarker: false
         });
     }
@@ -91,6 +92,7 @@ export default class Home extends Component {
         const longitude = places.map(mappingFunction1)
 
         var markers = [[]]
+        var polyLine = [[]]
 
         for (var i = 0; i < latitude.length; i++){
             var hold = []
@@ -100,13 +102,16 @@ export default class Home extends Component {
         }
 
         markers.shift()
+        polyLine = markers.slice(0)
+        polyLine.push(markers[0])
+        console.log(polyLine)
 
         this.setState({
             latitude: latitude,
             longitude: longitude,
             markers: markers,
-            zoom: 8,
-            boolMarker: true
+            boolMarker: true ,
+            polyLineCoor : polyLine
         });
     }
 
@@ -143,7 +148,7 @@ export default class Home extends Component {
         if (this.state.boolMarker == false) {
             return(
                 <div>
-                    <Map center={[0,0]} zoom={this.state.zoom} setView={true}
+                    <Map center={[0,0]} zoom={2}
                          style={{height: 500, maxwidth: 700}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -156,11 +161,18 @@ export default class Home extends Component {
         else {
             return (
                 <div>
-                    <Map center={[40.576179, -105.080773]} zoom={this.state.zoom} setView={true}
+                    <Map bounds = {this.state.markers} animate = {true}
                          style={{height: 500, maxwidth: 700}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        />
+                        <Polyline
+                            positions ={this.state.polyLineCoor}
+                            color = {'black'}
+                            weight = {5}
+                            opacity = {0.5}
+                            smoothFactor = {1}
                         />
                         {
                             this.state.markers.map((position, idx) =>
@@ -168,8 +180,10 @@ export default class Home extends Component {
                                     <Popup className="font-weight-extrabold">Location1</Popup>
                                 </Marker>
                             )}
+
                     </Map>
                 </div>
+
             );
         }
     }
