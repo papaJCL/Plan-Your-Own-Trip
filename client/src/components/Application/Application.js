@@ -132,7 +132,44 @@ export default class Application extends Component {
     }
   }
 
+    checkData() {
+        let magellan = require('/t11/client/node_modules/magellan-coords/magellan');
+
+        if (
+            magellan(this.state.origin.latitude).latitude() === null ||
+            magellan(this.state.origin.longitude).longitude() === null ||
+            magellan(this.state.destination.latitude).latitude() ||
+            magellan(this.state.destination.longitude).longitude()
+        ) {
+
+            {/* Error: Invalid Input */
+            }
+            this.setState({
+                errorMessage: this.props.createErrorBanner(
+                    `Invalid Input Entered Into Origin or Destination`
+                )
+            });
+
+
+        }
+
+        else {
+            this.setState({
+                origin: {
+                    latitude: magellan(this.state.origin.latitude).latitude().toDD(),
+                    longitude: this.state.origin.longitude = magellan(this.state.origin.longitude).longitude().toDD()
+                },
+                destination: {
+                    latitude: magellan(this.state.destination.latitude).latitude().toDD(),
+                    longitude: magellan(this.state.destination.longitude).longitude().toDD()
+                }
+
+            })
+        }
+    }
+
   calculateDistance() {
+    this.checkData();
     const tipConfigRequest = {
       'type'        : 'distance',
       'version'     : 1,
