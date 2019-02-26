@@ -23,12 +23,12 @@ import java.util.Map;
 public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
-  private Float earthRadius;
+  private Double earthRadius;
   private Long distance;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
-  TIPDistance(int version, Map origin, Map destination, float earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, double earthRadius) {
     this();
     this.requestVersion = version;
     this.origin = origin;

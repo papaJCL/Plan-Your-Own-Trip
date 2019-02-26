@@ -68,10 +68,14 @@ Key planning decisions for this sprint include ...
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#39, #80, #83, #86, #85,#92 * | *none* | 
-|17FEB19| #71 |  #102, #88, #108, #107   |  |
-| 20FEB19 |#102, #88, #108, #107, #92 |     | |
-
+| *date* | *#task, ...* |  | *none* | 
+|11FEB19|   |#105, #102, #88, #80  ||
+|13FEB19|   |#92, #105, #102, #88, #80  ||
+|15FEB19|   |#92, #105, #102, #88, #80 ||
+|17FEB19|#92  |#105, #102, #88, #80 ||
+|20FEB19|#105, #102, #88,#85 | ||
+|22FEB19|   | #114, #112,#85 ||
+|25FEB19| #114, #112, #80| #89, #85  | |
 
 ## Review (focus on solution and technology)
 
