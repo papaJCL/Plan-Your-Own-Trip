@@ -20,6 +20,9 @@ export default class Application extends Component {
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
+    this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
+    this.calculateDistance = this.calculateDistance.bind(this);
+    this.createInputField = this.createInputField.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -29,8 +32,12 @@ export default class Application extends Component {
       },
       clientSettings: {
         serverPort: getOriginalServerPort()
-        },
-      };
+      },
+      origin: {latitude: '', longitude: ''},
+      destination: {latitude: '', longitude: ''},
+      distance: 0,
+      errorMessage: null
+    };
     this.updateServerConfig();
   }
 
@@ -80,9 +87,12 @@ export default class Application extends Component {
     switch(pageToRender) {
       case 'calc':
         return <Calculator options={this.state.planOptions}
+                           distance = {this.state.distance}
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}
-                           calculateDistance = {this.calculateDistance}/>;
+                           calculateDistance = {this.calculateDistance}
+                           createInputField = {this.createInputField}
+                           updateLocationOnChange = {this.updateLocationOnChange}/>;
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
@@ -122,4 +132,59 @@ export default class Application extends Component {
     }
   }
 
+  calculateDistance() {
+    const tipConfigRequest = {
+      'type'        : 'distance',
+      'version'     : 1,
+      'origin'      : this.state.origin,
+      'destination' : this.state.destination,
+      'earthRadius' : this.state.planOptions.units[this.state.planOptions.activeUnit]
+    };
+
+    sendServerRequestWithBody('distance', tipConfigRequest, this.state.clientSettings.serverPort)
+        .then((response) => {
+          if(response.statusCode >= 200 && response.statusCode <= 299) {
+            this.setState({
+              distance: response.body.distance,
+              errorMessage: null
+            });
+          }
+          else {
+            this.setState({
+              errorMessage: this.state.createErrorBanner(
+                  response.statusText,
+                  response.statusCode,
+                  `Request to ${ this.state.clientSettings.serverPort } failed.`
+              )
+            });
+          }
+        });
+  }
+
+  updateLocationOnChange(stateVar, field, value) {
+    var DMS = "^([0-8]?[0-9]|90)°(\s[0-5]?[0-9]\')?(\s[0-5]?[0-9](,[0-9])?\")?$";
+    if(value == DMS) {   // This if statement finds out if the value in the field is in DMS form and if so changes it to decimal
+      var convertDMSToDegrees = value.split("\s|\'| \"");
+    }
+    let location = Object.assign({}, this.state[stateVar]);
+    location[field] = value;
+    this.setState({[stateVar]: location});
+  }
+
+  createInputField(stateVar, coordinate) {
+    let updateStateVarOnChange = (event) => {
+      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+
+    let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
+    return (
+        <Input name={coordinate} placeholder={capitalizedCoordinate}
+               id={`${stateVar}${capitalizedCoordinate}`}
+               value={this.state[stateVar][coordinate]}
+               onChange={updateStateVarOnChange}
+               style={{width: "100%"}} />
+    );
+
+  }
+
 }
+
