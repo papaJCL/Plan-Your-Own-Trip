@@ -9,11 +9,11 @@ import java.util.Vector;
 public class GreatCircleDistance{
     private Map origin;
     private Map destination;
-    private Float earthRadius;
+    private Double earthRadius;
     private Vector<Double> lats;
     private Vector<Double> longs;
 
-    public GreatCircleDistance(Map origin, Map destination, float earthRadius){
+    public GreatCircleDistance(Map origin, Map destination, double earthRadius){
         this.origin = origin;
         this.destination = destination;
         this.earthRadius = earthRadius;
