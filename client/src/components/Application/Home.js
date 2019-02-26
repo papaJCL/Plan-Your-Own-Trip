@@ -20,11 +20,19 @@ export default class Home extends Component {
         super(props)
         this.onChange = this.onChange.bind(this);
         this.sendItineraryRequest = this.sendItineraryRequest.bind(this)
+        this.reRenderNewMap = this.reRenderNewMap.bind(this)
+        this.clearMap = this.clearMap.bind(this)
 
         this.state = {
             clientSettings: {
                 serverPort: getOriginalServerPort()
             },
+            JSONString: [] ,
+            latitude: [],
+            longitude: [],
+            markers: [[]],
+            zoom: 2 ,
+            boolMarker: false
         };
     }
 
@@ -46,21 +54,60 @@ export default class Home extends Component {
 
     renderItineratorIntro(){
         return(
-            <Pane header={'Choose your file'}
+            <Pane header={'Itinerary Menu'}
                   bodyJSX={
                       <div>
+                          <row>
+                            {'Choose your file'}
+                          </row>
                           <span>
                               <input type="file"
                                 name="myFile"
-                                onChange={this.onChange} />
+                                onChange={this.onChange}/>
+                                <Button onClick={this.reRenderNewMap}>Render map with Itinerary</Button>
+                                <Button onClick={this.clearMap}>Reset Map to default</Button>
                           </span>
                       </div>}
             />
         );
     }
 
-    work(){
+    clearMap(){
+        this.setState({
+            JSONString: [] ,
+            latitude: [],
+            longitude: [],
+            markers: [[]],
+            zoom: 2 ,
+            boolMarker: false
+        });
+    }
 
+    reRenderNewMap(){
+        let places = this.state.JSONString.body.places
+        const mappingFunction = p => p.latitude;
+        const mappingFunction1 = p => p.longitude;
+        const latitude = places.map(mappingFunction);
+        const longitude = places.map(mappingFunction1)
+
+        var markers = [[]]
+
+        for (var i = 0; i < latitude.length; i++){
+            var hold = []
+            hold.push(latitude[i])
+            hold.push(longitude[i])
+            markers.push(hold)
+        }
+
+        markers.shift()
+
+        this.setState({
+            latitude: latitude,
+            longitude: longitude,
+            markers: markers,
+            zoom: 8,
+            boolMarker: true
+        });
     }
 
     onChange(event) {
@@ -78,34 +125,53 @@ export default class Home extends Component {
 
         sendServerRequestWithBody('itinerary', requestBody, this.state.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.body)
+                this.setState({
+                    JSONString: response
+                });
             });
     }
 
     renderMap() {
         return (
-            <Pane header={'Where Am I?'}
+            <Pane header={'World Map'}
                   bodyJSX={this.renderLeafletMap()}
             />
         );
     }
 
     renderLeafletMap() {
-        return (
-            <div>
-                <Map center={[40.576179, -105.080773]} zoom={10} setView={true}
-                     style={{height: 500, maxwidth: 700}}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                    />
-                    <Marker position={[40.576179, -105.080773]}
-                            icon={this.markerIcon()}>
-                        <Popup className="font-weight-extrabold">Colorado State University</Popup>
-                    </Marker>
-                </Map>
-            </div>
-        );
+        if (this.state.boolMarker == false) {
+            return(
+                <div>
+                    <Map center={[0,0]} zoom={this.state.zoom} setView={true}
+                         style={{height: 500, maxwidth: 700}}>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        />
+                    </Map>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <Map center={[40.576179, -105.080773]} zoom={this.state.zoom} setView={true}
+                         style={{height: 500, maxwidth: 700}}>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        />
+                        {
+                            this.state.markers.map((position, idx) =>
+                                <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
+                                    <Popup className="font-weight-extrabold">Location1</Popup>
+                                </Marker>
+                            )}
+                    </Map>
+                </div>
+            );
+        }
     }
 
     renderIntro() {
