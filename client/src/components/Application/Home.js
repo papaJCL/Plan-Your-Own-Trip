@@ -69,16 +69,16 @@ export default class Home extends Component {
         reader.onload = (event) =>  {
             // The file's text will be printed here
             var inputData = event.target.result
-            this.sendItineraryRequest(inputData)
+            this.sendItineraryRequest(JSON.parse(inputData))
         };
         reader.readAsText(file);
     }
 
-    sendItineraryRequest(inputData) {
+    sendItineraryRequest(requestBody) {
 
-        sendServerRequestWithBody('itinerary', inputData, this.state.clientSettings.serverPort)
+        sendServerRequestWithBody('itinerary', requestBody, this.state.clientSettings.serverPort)
             .then((response) => {
-                console.log(inputData)
+                console.log(response.body)
             });
     }
 
