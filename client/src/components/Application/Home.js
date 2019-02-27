@@ -78,7 +78,6 @@ export default class Home extends Component {
                               <input type="file"
                                      name="myFile"
                                      onChange={this.onChange}/>
-                                <Button onClick={this.reRenderNewMap}>Render map with Itinerary</Button>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                           </span>
                       </div>}
@@ -94,13 +93,27 @@ export default class Home extends Component {
     }
 
     renderItinerary(){
+        console.log("distances " , this.state.JSONString.body.distances)
+
+        let places = this.state.JSONString.body.places
+        let distanceArray = this.state.JSONString.body.distances
+
+        for (var i = 0; i < places.length; i++){
+            places[i].distance = distanceArray[i]
+        }
+
+        console.log("modified " , places)
+        let distances = this.state.JSONString.body.distances
+        var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude} Distances: ${item.distance}`} />);
+
         return (
-            <Pane> header={'Itinerary..'}
-        {
-            this.state.names.map((position, idx) =>
-                <Pane key={`Pane-${idx}`} header={position} />
-            )}
-            </Pane>
+            <Pane header={'Itinerary..'}
+                  bodyJSX = {
+                      <div>{body}</div>
+                  }
+
+            />
+
         );
     }
 
@@ -156,8 +169,10 @@ export default class Home extends Component {
             // The file's text will be printed here
             var inputData = event.target.result
             this.sendItineraryRequest(JSON.parse(inputData))
+
         };
         reader.readAsText(file);
+        //this.reRenderNewMap()
     }
 
     sendItineraryRequest(requestBody) {
@@ -166,6 +181,8 @@ export default class Home extends Component {
             .then((response) => {
                 this.setState({
                     JSONString: response
+                } , () => {
+                    this.reRenderNewMap();
                 });
             });
     }
