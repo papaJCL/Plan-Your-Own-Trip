@@ -142,46 +142,17 @@ export default class Application extends Component {
             magellan(this.state.destination.latitude).latitude() === null ||
             magellan(this.state.destination.longitude).longitude() === null
         ) {{
-            console.log('Im going to McKill myself');
+            /* Error: Invalid Input */
 
-                        /* Error: Invalid Input */
-
-                        this.setState({
-                            errorMessage: this.createErrorBanner(config.statusText, config.statusCode,
-                                `Invalid Input Entered Into Origin or Destination`
-                            )
-                        });
+            this.setState({
+                errorMessage: this.createErrorBanner(config.statusText, config.statusCode,
+                    `Invalid Input Entered Into Origin or Destination`
+                )
+            });
         }
 
 
-        } /*
-
-        else {
-
-            let oLat = magellan(this.state.origin.latitude).latitude().toDD();
-            let oLon = magellan(this.state.origin.longitude).longitude().toDD();
-            let dLat = magellan(this.state.destination.latitude).latitude().toDD();
-            let dLon = magellan(this.state.destination.longitude).longitude().toDD();
-
-            console.log(oLat);
-            console.log(oLon);
-            console.log(dLat);
-            console.log(dLon);
-
-
-            this.setState({
-                origin: {
-                    latitude: magellan(this.state.origin.latitude).latitude().toDD(),
-                    longitude: magellan(this.state.origin.longitude).longitude().toDD()
-                },
-                destination: {
-                    latitude: magellan(this.state.destination.latitude).latitude().toDD(),
-                    longitude: magellan(this.state.destination.longitude).longitude().toDD()
-                }
-
-            })
-
-        } */
+        }
     }
 
   calculateDistance() {
