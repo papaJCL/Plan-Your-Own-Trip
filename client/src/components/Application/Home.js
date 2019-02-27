@@ -34,7 +34,8 @@ export default class Home extends Component {
             longitude: [],
             markers: [[]],
             boolMarker: false ,
-            polyLineCoor: [[]]
+            polyLineCoor: [[]],
+            names : []
         };
     }
 
@@ -49,6 +50,17 @@ export default class Home extends Component {
                         {this.renderIntro()}
                         {this.renderItineratorIntro()}
                     </Col>
+                </Row>
+                <Row>
+                    {this.state.boolMarker ?(
+                        <Col xs={12}>
+                            {this.renderItinerary()}
+                        </Col>
+                    ) : (
+                        <Col xs={12}>
+                            {this.basicItinerary()}
+                        </Col>
+                    )}
                 </Row>
             </Container>
         );
@@ -74,13 +86,32 @@ export default class Home extends Component {
         );
     }
 
+    basicItinerary() {
+        return (
+            <Pane header={'Itinerary'}
+                  bodyJSX={'Itinerary will load here'}/>
+        );
+    }
+
+    renderItinerary(){
+        return (
+            <Pane> header={'Itinerary..'}
+        {
+            this.state.names.map((position, idx) =>
+                <Pane key={`Pane-${idx}`} header={position} />
+            )}
+            </Pane>
+        );
+    }
+
     clearMap(){
         this.setState({
             JSONString: [] ,
             latitude: [],
             longitude: [],
             markers: [[]],
-            boolMarker: false
+            boolMarker: false ,
+            names: []
         });
     }
 
@@ -88,8 +119,11 @@ export default class Home extends Component {
         let places = this.state.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
-        const latitude = places.map(mappingFunction);
+        const mappingFunction2 = p => p.name;
+
+        const latitude = places.map(mappingFunction)
         const longitude = places.map(mappingFunction1)
+        const names = places.map(mappingFunction2)
 
         var markers = [[]]
         var polyLine = [[]]
@@ -104,14 +138,14 @@ export default class Home extends Component {
         markers.shift()
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
-        console.log(polyLine)
 
         this.setState({
             latitude: latitude,
             longitude: longitude,
             markers: markers,
             boolMarker: true ,
-            polyLineCoor : polyLine
+            polyLineCoor : polyLine,
+            names : names
         });
     }
 
