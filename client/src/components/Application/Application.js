@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Card, CardBody, CardHeader, Container, Input} from 'reactstrap';
-
 import Home from './Home';
 import Options from './Options/Options';
 import About from './About/About';

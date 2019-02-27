@@ -2,23 +2,25 @@ import './enzyme.config.js';
 import React from 'react';
 import {mount} from 'enzyme';
 import Calculator from '../src/components/Application/Calculator/Calculator';
+import Application from '../src/components/Application/Application';
 
 
 const startProperties = {
-  'options': {
+  'planOptions': {
     'units': {'miles': 3959, 'kilometers': 6371},
     'activeUnit': 'miles',
-    'serverPort': 'black-bottle.cs.colostate.edu:31400'
   }
 };
 
 function testCreateInputFields() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Application options={startProperties.planOptions}/>
   ));
+  console.log('Calculator');
+
 
   let numberOfInputs = calculator.find('Input').length;
-  expect(numberOfInputs).toEqual(4);
+  expect(numberOfInputs).toEqual(2);
 
   let actualInputs = [];
   calculator.find('Input').map((input) => actualInputs.push(input.prop('name')));
@@ -33,12 +35,12 @@ function testCreateInputFields() {
   expect(actualInputs).toEqual(expectedInputs);
 }
 
-/* Tests that createForm() correctly renders 4 Input components */
+//Tests that createForm() correctly renders 4 Input components */
 test('Testing the createForm() function in Calculator', testCreateInputFields);
 
 function testInputsOnChange() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Application options={startProperties.planOptions}/>
   ));
 
   for (let inputIndex = 0; inputIndex < 4; inputIndex++){
