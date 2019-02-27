@@ -147,7 +147,7 @@ export default class Application extends Component {
 
             this.setState({
 
-                errorMessage: this.createErrorBanner(config.statusText, config.statusCode,
+                errorMessage: this.createErrorBanner('Error', '500',
                     `Invalid Input Entered Into Origin or Destination`)
             });
         }
