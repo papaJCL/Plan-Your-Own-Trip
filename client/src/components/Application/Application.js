@@ -91,8 +91,9 @@ export default class Application extends Component {
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}
                            calculateDistance = {this.calculateDistance}
-                           createInputField = {this.createInputField}
-                           updateLocationOnChange = {this.updateLocationOnChange}/>;
+                           createInputField = {this.createInputField()}
+                           updateLocationOnChange = {this.updateLocationOnChange}
+        />;
       case 'options':
         return <Options options={this.state.planOptions}
                         config={this.state.serverConfig}
