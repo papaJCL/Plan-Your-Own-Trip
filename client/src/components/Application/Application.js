@@ -92,7 +92,7 @@ export default class Application extends Component {
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}
                            calculateDistance = {this.calculateDistance}
-                           createInputField = {this.createInputField()}
+                           createInputField = {this.createInputField}
                            updateLocationOnChange = {this.updateLocationOnChange}
         />;
       case 'options':
@@ -146,9 +146,9 @@ export default class Application extends Component {
             /* Error: Invalid Input */
 
             this.setState({
+
                 errorMessage: this.createErrorBanner(config.statusText, config.statusCode,
-                    `Invalid Input Entered Into Origin or Destination`
-                )
+                    `Invalid Input Entered Into Origin or Destination`)
             });
         }
 
