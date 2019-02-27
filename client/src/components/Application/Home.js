@@ -3,8 +3,10 @@ import {Container, Row, Col, Button} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
+
+
 import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
 
 
@@ -31,8 +33,9 @@ export default class Home extends Component {
             latitude: [],
             longitude: [],
             markers: [[]],
-            zoom: 2 ,
-            boolMarker: false
+            boolMarker: false ,
+            polyLineCoor: [[]],
+            names : []
         };
     }
 
@@ -48,6 +51,17 @@ export default class Home extends Component {
                         {this.renderItineratorIntro()}
                     </Col>
                 </Row>
+                <Row>
+                    {this.state.boolMarker ?(
+                        <Col xs={12}>
+                            {this.renderItinerary()}
+                        </Col>
+                    ) : (
+                        <Col xs={12}>
+                            {this.basicItinerary()}
+                        </Col>
+                    )}
+                </Row>
             </Container>
         );
     }
@@ -58,17 +72,48 @@ export default class Home extends Component {
                   bodyJSX={
                       <div>
                           <row>
-                            {'Choose your file'}
+                              {'Choose your file'}
                           </row>
                           <span>
                               <input type="file"
-                                name="myFile"
-                                onChange={this.onChange}/>
-                                <Button onClick={this.reRenderNewMap}>Render map with Itinerary</Button>
+                                     name="myFile"
+                                     onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                           </span>
                       </div>}
             />
+        );
+    }
+
+    basicItinerary() {
+        return (
+            <Pane header={'Itinerary'}
+                  bodyJSX={'Itinerary will load here'}/>
+        );
+    }
+
+    renderItinerary(){
+        console.log("distances " , this.state.JSONString.body.distances)
+
+        let places = this.state.JSONString.body.places
+        let distanceArray = this.state.JSONString.body.distances
+
+        for (var i = 0; i < places.length; i++){
+            places[i].distance = distanceArray[i]
+        }
+
+        console.log("modified " , places)
+        let distances = this.state.JSONString.body.distances
+        var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude} Distances: ${item.distance}`} />);
+
+        return (
+            <Pane header={'Itinerary..'}
+                  bodyJSX = {
+                      <div>{body}</div>
+                  }
+
+            />
+
         );
     }
 
@@ -78,8 +123,8 @@ export default class Home extends Component {
             latitude: [],
             longitude: [],
             markers: [[]],
-            zoom: 2 ,
-            boolMarker: false
+            boolMarker: false ,
+            names: []
         });
     }
 
@@ -87,10 +132,14 @@ export default class Home extends Component {
         let places = this.state.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
-        const latitude = places.map(mappingFunction);
+        const mappingFunction2 = p => p.name;
+
+        const latitude = places.map(mappingFunction)
         const longitude = places.map(mappingFunction1)
+        const names = places.map(mappingFunction2)
 
         var markers = [[]]
+        var polyLine = [[]]
 
         for (var i = 0; i < latitude.length; i++){
             var hold = []
@@ -100,13 +149,16 @@ export default class Home extends Component {
         }
 
         markers.shift()
+        polyLine = markers.slice(0)
+        polyLine.push(markers[0])
 
         this.setState({
             latitude: latitude,
             longitude: longitude,
             markers: markers,
-            zoom: 8,
-            boolMarker: true
+            boolMarker: true ,
+            polyLineCoor : polyLine,
+            names : names
         });
     }
 
@@ -117,8 +169,10 @@ export default class Home extends Component {
             // The file's text will be printed here
             var inputData = event.target.result
             this.sendItineraryRequest(JSON.parse(inputData))
+
         };
         reader.readAsText(file);
+        //this.reRenderNewMap()
     }
 
     sendItineraryRequest(requestBody) {
@@ -127,6 +181,8 @@ export default class Home extends Component {
             .then((response) => {
                 this.setState({
                     JSONString: response
+                } , () => {
+                    this.reRenderNewMap();
                 });
             });
     }
@@ -143,7 +199,7 @@ export default class Home extends Component {
         if (this.state.boolMarker == false) {
             return(
                 <div>
-                    <Map center={[0,0]} zoom={this.state.zoom} setView={true}
+                    <Map center={[0,0]} zoom={2}
                          style={{height: 500, maxwidth: 700}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -156,11 +212,18 @@ export default class Home extends Component {
         else {
             return (
                 <div>
-                    <Map center={[40.576179, -105.080773]} zoom={this.state.zoom} setView={true}
+                    <Map bounds = {this.state.markers} animate = {true}
                          style={{height: 500, maxwidth: 700}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        />
+                        <Polyline
+                            positions ={this.state.polyLineCoor}
+                            color = {'black'}
+                            weight = {5}
+                            opacity = {0.5}
+                            smoothFactor = {1}
                         />
                         {
                             this.state.markers.map((position, idx) =>
@@ -168,8 +231,10 @@ export default class Home extends Component {
                                     <Popup className="font-weight-extrabold">Location1</Popup>
                                 </Marker>
                             )}
+
                     </Map>
                 </div>
+
             );
         }
     }

@@ -11,7 +11,7 @@ export default class Calculator extends Component {
 
         // this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
         // this.calculateDistance = this.calculateDistance.bind(this);
-        //this.createInputField = this.createInputField.bind(this);
+        //this.props.createInputField = this.props.createInputField.bind(this);
 
 
 
@@ -76,4 +76,6 @@ export default class Calculator extends Component {
             />
         );
     }
+
+
 }
