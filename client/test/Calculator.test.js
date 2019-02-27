@@ -6,10 +6,10 @@ import Application from '../src/components/Application/Application';
 
 
 const startProperties = {
-  'planOptions': {
-    'units': {'miles': 3959, 'kilometers': 6371},
-    'activeUnit': 'miles'
-  }
+    'planOptions': {
+        'units': {'miles': 3959, 'kilometers': 6371},
+        'activeUnit': 'miles'
+    }
 };
 
 function testCreateInputFields() {

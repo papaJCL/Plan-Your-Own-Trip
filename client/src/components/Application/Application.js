@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Card, CardBody, CardHeader, Container, Input} from 'reactstrap';
-
 import Home from './Home';
 import Options from './Options/Options';
 import About from './About/About';
@@ -8,7 +7,7 @@ import Calculator from './Calculator/Calculator';
 import Settings from './Settings/Settings';
 import {getOriginalServerPort, sendServerRequest, sendServerRequestWithBody} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
-
+/*import {latitude} from './../../../../node_modules/magellan-coords/magellan';*/
 
 /* Renders the application.
  * Holds the destinations and options state shared with the trip.
@@ -23,6 +22,8 @@ export default class Application extends Component {
     this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
     this.calculateDistance = this.calculateDistance.bind(this);
     this.createInputField = this.createInputField.bind(this);
+    this.createErrorBanner = this.createErrorBanner.bind(this);
+
 
     this.state = {
       serverConfig: null,
@@ -91,7 +92,7 @@ export default class Application extends Component {
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}
                            calculateDistance = {this.calculateDistance}
-                           createInputField = {this.createInputField()}
+                           createInputField = {this.createInputField}
                            updateLocationOnChange = {this.updateLocationOnChange}
         />;
       case 'options':
@@ -133,12 +134,36 @@ export default class Application extends Component {
     }
   }
 
+    checkData() {
+        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+
+        if (
+            magellan(this.state.origin.latitude).latitude() === null ||
+            magellan(this.state.origin.longitude).longitude() === null ||
+            magellan(this.state.destination.latitude).latitude() === null ||
+            magellan(this.state.destination.longitude).longitude() === null
+        ) {{
+            /* Error: Invalid Input */
+
+            this.setState({
+
+                errorMessage: this.createErrorBanner('Error', '500',
+                    `Invalid Input Entered Into Origin or Destination`)
+            });
+        }
+
+
+        }
+    }
+
   calculateDistance() {
+    this.checkData();
+    var magellan = require('./../../../../node_modules/magellan-coords/magellan');
     const tipConfigRequest = {
       'type'        : 'distance',
       'version'     : 1,
-      'origin'      : this.state.origin,
-      'destination' : this.state.destination,
+      'origin'      : {latitude: magellan(this.state.origin.latitude).latitude().toDD(), longitude: magellan(this.state.origin.longitude).longitude().toDD()},
+      'destination' : {latitude: magellan(this.state.destination.latitude).latitude().toDD(), longitude: magellan(this.state.destination.longitude).longitude().toDD()},
       'earthRadius' : this.state.planOptions.units[this.state.planOptions.activeUnit]
     };
 
@@ -152,7 +177,7 @@ export default class Application extends Component {
           }
           else {
             this.setState({
-              errorMessage: this.state.createErrorBanner(
+              errorMessage: this.createErrorBanner(
                   response.statusText,
                   response.statusCode,
                   `Request to ${ this.state.clientSettings.serverPort } failed.`
@@ -163,10 +188,6 @@ export default class Application extends Component {
   }
 
   updateLocationOnChange(stateVar, field, value) {
-    var DMS = "^([0-8]?[0-9]|90)°(\s[0-5]?[0-9]\')?(\s[0-5]?[0-9](,[0-9])?\")?$";
-    if(value == DMS) {   // This if statement finds out if the value in the field is in DMS form and if so changes it to decimal
-      var convertDMSToDegrees = value.split("\s|\'| \"");
-    }
     let location = Object.assign({}, this.state[stateVar]);
     location[field] = value;
     this.setState({[stateVar]: location});
