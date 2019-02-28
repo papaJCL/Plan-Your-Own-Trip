@@ -133,7 +133,7 @@ export default class Application extends Component {
       });
     }
   }
-
+    /* The code below uses the magellan-coords library by dbarbalato at www.npmjs.com*/
     checkData() {
         var magellan = require('./../../../../node_modules/magellan-coords/magellan');
 
