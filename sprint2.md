@@ -59,9 +59,9 @@ Key planning decisions for this sprint include ...
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *#71 Mid length epic, may require 2 people. *#83 Simple client side conversion. *#82 Related to updating the page. *#75 Can be done in tandem with #83. *#84 To be implemented Client side so as to make as little changes to the server as possible. *#21 Quick edit to home page. *#81 The big one. This will have a scrum session dedicated to it after the other, smaller, tasks are done. * | *#82, #71,  * |
-| Tasks |  *#80,#83,#85,#39,#86*   | *#71*  | 
-| Story Points |  *33*  | *value* | 
+| Epics | #83, #81, #82, #71, #75, #21, #16, #130* | *#83, #81, #82, #71, #75** |
+| Tasks |  #98, #105, #102, #88, #92, #80, #114, #112, #89, #121, #85, #86, #128, #90, #91, #39  | #98, #105, #102, #88, #92, #80, #114, #112, #89, #121, #85, #86, #128, #90  | 
+| Story Points |  *29*  | *25* | 
 
 
 ## Scrums
@@ -75,52 +75,57 @@ Key planning decisions for this sprint include ...
 |17FEB19|#92  |#105, #102, #88, #80 ||
 |20FEB19|#105, #102, #88,#85 | ||
 |22FEB19|   | #114, #112,#85 ||
-|25FEB19| #114, #112, #80| #89, #85  | |
+|25FEB19| #114, #112, #80| #89, #85, #86, #90| |
+|27FEB19| #128 , #86, #90| | |
 
 ## Review (focus on solution and technology)
-
-In this sprint, ...
+For this sprint we focused on getting our server to send and receive itineraries with all the support implied by that both client and server side. We also worked to make our website more intuitive and added explanations and instructions for everything that you can do on our website as well as error handling for the calculator.
+ 
 
 #### Completed epics in Sprint Backlog 
 
 These Epics were completed.
-
-* *## epic title: comments*
+  #71 The calculator data shouldn't go away when units change
+  #75 The calculator needs to display an error if there is bad latitude/longitude
+  #81 Show me a map and itinerary for my trip - This was the main goal of this sprint and we did not complete all of it. We created Epic #130. with the one task we didn't get to.
+  #82 The calculator data shouldn't go away when units change
+  #83 Enter latitudes and longitudes in the calculator using degree-minute-second and other formats
+* 
 * 
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
-
-* *## epic title: explanation*
+#16  I want to know where I am on the map - Did not have enough time.
+#84  I may need distances in other units of measure - Started on this but more important tasks pulled away manpower.
+#130 Be able to display different parts of the itinerary according to the users wishes - This was the only part of Epic #84 we did not complete.
+* 
 *
 
 #### What went well
-
-The ...
+We work together well as a team and schedules and work were coordinated to ensure we always had people able to handle merge requests or help with problems. Almost always, when one person was working on the project at least one other person was either with them physically or virtually to help. 
 
 
 #### Problems encountered and resolutions
-
-The ...
+The process of getting familiar with ReactJSX has made some of the tasks take an inordinately long time, this will get better with time as we get more familiar with the language. There were also some major problems with getting the backend and frontend to talk to each other the way we needed them to. This was eventually fixed by spending a lot of time in the lab and asking the TA a few questions.
 
 
 ## Retrospective (focus on people, process, tools)
+We began to work together better as a team. We started to really produce good results for our epics although this took time.
+We kept good track of what was going on and we were very careful to make sure everything worked well all the time. We never broke master. We made use of tools as soon as they were made available to improve our code and we have tried to follow clean code principles throughout the sprint.
 
-In this sprint, ...
 
 #### What we changed this sprint
+We focused much more on the process this sprint with everything happening in sequence as directed. We didn't do as much work early in the sprint and did much more later. We also spent much more time in the scrum process to enable us to distribute tasks effectively. 
 
-Our changes for this sprint included ...
 
 #### What we did well
+Group attendance slipped this sprint and although many of the absences were fairly valid we may need to be more strict with group attendance. At the same time we made sure that tasks were fully understood and that the goals were before we started coding. This meant that we spent less time having to redo code because of misunderstandings.
 
-We ...
 
 #### What we need to work on
 
-We could improve ...
+We had some problems with multiple people working on the same project from the same/similar angles. We would then have one person finish and waste the other’s work. Increased communication and more efficient tasking have helped us to fix this. We also didn’t get started as early as we probably should have. This was not an issue the first sprint but we let ourselves slip on this one. We need to roll back our practices to avoid this from hurting us in sprint 3. We also had a few issues with people having to wait to begin work due to dependent parts being in progress. In the future we need to try our best to eliminate this.
 
 #### What we will change next sprint 
-
-We will change ...
+We need to combine our work habits from sprint1 and 2. We need to keep our workflow constant to avoid dependency issues holding us back as happened a few times by making sure that tasks are done in sequence and no one is held up by other work not being done. Otherwise we have been pretty good.
