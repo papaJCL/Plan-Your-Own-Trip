@@ -10,7 +10,7 @@ import com.tripco.t11.misc.GreatCircleDistance;
 public class TIPItinerary extends TIPHeader {
     private Map options;
     private Vector<Map> places;
-    private Vector<Long> distances;
+    protected Vector<Long> distances;
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -28,7 +28,8 @@ public class TIPItinerary extends TIPHeader {
 
     public void buildResponse(){
         distances.clear();
-        calcDistances();
+        if(places.size() == 0);
+        else calcDistances();
         log.trace("buildResponse -> {}", this);
     }
 
