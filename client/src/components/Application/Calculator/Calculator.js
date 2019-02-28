@@ -48,8 +48,9 @@ export default class Calculator extends Component {
     createHeader() {
         return (
             <Pane header={'Calculator'}
-                  bodyJSX={<div>Determine the distance between the origin and destination.
-                      Change the units on the <b>Options</b> page.</div>}/>
+                  bodyJSX={<div>Determine the distance between the origin and destination. The calculator will accept most
+                      coordinate formats. If the one you have is invalid, an error will appear a the top of the page.
+                      You can Change the units on the <b>Options</b> page.</div>}/>
         );
     }
 

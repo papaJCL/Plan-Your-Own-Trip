@@ -5,6 +5,8 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
+import { Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle } from 'reactstrap';
 
 
 import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
@@ -51,6 +53,7 @@ export default class Home extends Component {
                     <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                         {this.renderIntro()}
                         {this.renderItineratorIntro()}
+
                     </Col>
                 </Row>
                 <Row>
@@ -87,15 +90,52 @@ export default class Home extends Component {
             <Pane header={'Itinerary Menu'}
                   bodyJSX={
                       <div>
+
                           <row>
                               {'Choose your file'}
                           </row>
                           <span>
+
+
+
+                              <Card>
+                                  <CardBody>
+                                      <CardTitle><b>Download Itinerary</b></CardTitle>
+                                      <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
+
+
                               <input type="file"
                                      name="myFile"
                                      onChange={this.onChange}/>
-                                <Button onClick={this.clearMap}>Reset Map to default</Button>
-                                <Button onClick={this.download}>Download Your Trip Itinerary</Button>
+
+                               </CardBody>
+                              </Card>
+
+
+
+                              <Card>
+                                  <CardBody>
+                                      <CardTitle><b>Reset Map</b></CardTitle>
+                                      <CardSubtitle>This button will reset the map so you can upload a new itinerary.</CardSubtitle>
+
+                                      <row>
+                                          <Button onClick={this.clearMap}>Reset Map to default</Button>
+                                      </row>
+
+                                  </CardBody>
+                                </Card>
+
+                                 <Card>
+                                  <CardBody>
+                                      <CardTitle><b>Download Trip Itinerary</b></CardTitle>
+                                      <CardSubtitle>This button will download your trip itinerary to your downloads folder.</CardSubtitle>
+                                      <row>
+                                          <Button onClick={this.download}>Download Trip Itinerary</Button>
+                                      </row>
+
+                                  </CardBody>
+                                </Card>
+
                           </span>
                       </div>}
             />
@@ -105,12 +145,18 @@ export default class Home extends Component {
     basicItinerary() {
         return (
             <Pane header={'Itinerary'}
-                  bodyJSX={'Itinerary will load here'}/>
+                  bodyJSX={'Your itinerary will load here'}/>
         );
     }
 
     renderItinerary(){
         console.log("distances " , this.state.JSONString.body.distances)
+
+        var footerStyle = {
+            backgroundColor: 'grey',
+            alignSelf: 'center',
+            color: 'white'
+        };
 
         let places = this.state.JSONString.body.places
         let distanceArray = this.state.JSONString.body.distances
@@ -119,15 +165,28 @@ export default class Home extends Component {
             places[i].distance = distanceArray[i]
         }
 
+        var totalDistance =0
+        for (var i = 0; i < places.length; i++){
+
+            totalDistance = distanceArray[i] + totalDistance
+        }
+        var numStops = places.length
+
         console.log("modified " , places)
         let distances = this.state.JSONString.body.distances
-        var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude} Distances: ${item.distance}`} />);
+        var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
 
         return (
-            <Pane header={'Itinerary..'}
+            <Pane header={'Itinerary'}
                   bodyJSX = {
-                      <div>{body}</div>
+                      <div>{body}
+
+                          <Card style = {footerStyle}>
+                              {`  You have  ${numStops}  stops on your trip totalling  ${totalDistance}  miles.`}
+                          </Card>
+                      </div>
                   }
+
 
             />
 
@@ -260,8 +319,10 @@ export default class Home extends Component {
 
     renderIntro() {
         return(
-            <Pane header={'Bon Voyage!'}
-                  bodyJSX={'Let us help you plan your next trip.'}
+            <Pane header={'Let us help you plan your next trip!'}
+                  bodyJSX={'Let us help you plan your next trip. To calculate the distance between two points go to the calculator and enter your origin and destination. ' +
+                  'To select a different unit to use for those calculations, use the options page. You can also click on the button below' +
+                  ' to add a travel itinerary that will be displayed on the map. Bon Voyage!'}
             />
         );
     }
