@@ -29,9 +29,9 @@ export default class Options extends Component{
                      updateOption={this.props.updateOption}/>
             </Col>
               {/* Insert here <- different column, same row.*/}
-            <Col xs="12" sm="12" md="6" lg="4" xl="3">
+              {/*<Col xs="12" sm="12" md="6" lg="4" xl="3">
                 <CustomUnits/>
-            </Col>
+            </Col> */}
           </Row>
         </Container>
     )

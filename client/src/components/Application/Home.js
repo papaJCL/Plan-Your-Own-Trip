@@ -24,12 +24,14 @@ export default class Home extends Component {
         this.sendItineraryRequest = this.sendItineraryRequest.bind(this)
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
         this.clearMap = this.clearMap.bind(this)
+        this.download = this.download.bind(this)
 
         this.state = {
             clientSettings: {
                 serverPort: getOriginalServerPort()
             },
             JSONString: [] ,
+            returnFile: [],
             latitude: [],
             longitude: [],
             markers: [[]],
@@ -66,7 +68,21 @@ export default class Home extends Component {
         );
     }
 
-    renderItineratorIntro(){
+    /*download(jsonData, 'json.txt', 'text/plain');*/
+    /*Modified code beloning to Rafał Łużyński on www.stackoverflow.com*/
+    download() {
+        var content = JSON.stringify(this.state.returnFile);
+        var fileName = 'my Trip';
+        var contentType = 'text/plain';
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+
+
+        renderItineratorIntro(){
         return(
             <Pane header={'Itinerary Menu'}
                   bodyJSX={
@@ -79,6 +95,7 @@ export default class Home extends Component {
                                      name="myFile"
                                      onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
+                                <Button onClick={this.download}>Download Your Trip Itinerary</Button>
                           </span>
                       </div>}
             />
@@ -120,6 +137,7 @@ export default class Home extends Component {
     clearMap(){
         this.setState({
             JSONString: [] ,
+            returnFile: [],
             latitude: [],
             longitude: [],
             markers: [[]],
@@ -180,7 +198,8 @@ export default class Home extends Component {
         sendServerRequestWithBody('itinerary', requestBody, this.state.clientSettings.serverPort)
             .then((response) => {
                 this.setState({
-                    JSONString: response
+                    JSONString: response,
+                    returnFile: response.body
                 } , () => {
                     this.reRenderNewMap();
                 });
