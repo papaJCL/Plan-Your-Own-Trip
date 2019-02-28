@@ -16,6 +16,10 @@ import edward from './edward.png'
 export default class About extends Component{
     constructor(props) {
         super(props);
+        this.getImage = this.getImage.bind(this)
+        this.getBlurb = this.getBlurb.bind(this)
+        this.createFunction = this.createFunction.bind(this)
+
     }
 
 
@@ -29,119 +33,124 @@ export default class About extends Component{
                 </Row>
                 <Row>
                     <Col  xs={12} sm={6}>
-                        {this.createJeremy()}
+                        {this.createFunction('Griffin Gilbert')}
                     </Col>
                     <Col xs={12} sm={6}>
-                        {this.createDarien()}
+                        {this.createFunction('Jeremy Lesser')}
                     </Col>
                 </Row>
                 <Row>
                     <Col xs={12} sm={6}>
-                        {this.createEdward()}
+                        {this.createFunction(`Edward Pike`)}
                     </Col>
                     <Col  xs={12} sm={6}>
-                        {this.createGriffin()}
+                        {this.createFunction(`Darien Cupit`)}
                     </Col>
                 </Row>
             </Container>
         )
     }
 
+    createFunction(person){
+        return (
+            <Pane header={person}
+                  bodyJSX={
+                      <div>
+                          <Row>
+                              <Col  xs={12} sm={6}>
+                                  {this.getImage(person)}
+                              </Col>
+                              {this.getBlurb(person)}
+                          </Row>
+                      </div>}/>
+        );
 
+    }
+
+    getImage(person){
+        switch(person){
+            case `Griffin Gilbert`:
+                return(
+                    <Col  xs={12} sm={14}>
+                        <img src={Griffin}/>
+                    </Col>);
+
+            case `Jeremy Lesser`:
+                return(
+                    <Col  xs={12} sm={14}>
+                        <img src={jeremy}/>
+                    </Col>);
+
+            case `Edward Pike`:
+                return(
+                    <Col  xs={12} sm={14}>
+                        <img src={edward}/>
+                    </Col>);
+
+
+            case `Darien Cupit`:
+                return(
+                    <Col  xs={12} sm={14}>
+                        <img src={darien}/>
+                    </Col>);
+
+            default:
+                return;
+        }
+
+    }
+
+
+
+    getBlurb(person){
+        switch(person){
+            case 'Griffin Gilbert':
+                return(
+                    <Col  xs={12} sm={6}>
+                        I am a third year computer science student at CSU. I am an Army ROTC cadet
+                        and a member of our school secruity club, Hashdump. Born in California and
+                        raised in Colorado I enjoy skiing, fishing, and playing sports. I am an avid
+                        reader and play too many video games for my own good.
+                    </Col>);
+
+            case 'Jeremy Lesser':
+                return(
+                    <Col  xs={12} sm={6}>
+                        I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
+                        skiing, hiking, and video games.
+                    </Col>);
+
+            case 'Edward Pike':
+                return(
+                    <Col  xs={12} sm={6}>
+                        I am a computer science major in my last year of school at CSU.  I was born
+                        and raised in Chicago, IL and originally attended UIUC as a physics major,
+                        and transferred after 2 years. My hobbies consist of playing with my doggo,
+                        playing with other doggos, and anything else related to heckin' good bois.
+                    </Col>);
+            case 'Darien Cupit':
+                return(
+                    <Col  xs={12} sm={6}>
+                        I am a third-year Computer Science student and AROTC cadet at Colorado State University.
+                        My work experience before college involved network administration at our family's
+                        business. While this wasn't an arduous job, it is what got me interested in working on
+                        computers. When it came time to decided on a university, I decided to become a student
+                        at CSU due to its amazing Computer Science and ROTC programs, and have since gained many
+                        incredibly useful experiences and skills.
+                    </Col>);
+            default:
+                return;
+        }
+    }
     createHeader() {
         return (
             <Pane header={'About us'}
-                bodyJSX={
-                    <div>
-                        We are a familiy friendly small buisiness trying to make a big impact in the world
-                        of trip management. We hope to change the way you plan trips online and for free!
-                        Below are the members of our team, who are dedicated to making this company a success.
-                    </div>}/>
+                  bodyJSX={
+                      <div>
+                          We are a familiy friendly small buisiness trying to make a big impact in the world
+                          of trip management. We hope to change the way you plan trips online and for free!
+                          Below are the members of our team, who are dedicated to making this company a success.
+                      </div>}/>
         );
     }
-
-
-
-    createJeremy() {
-        return (
-            <Pane header={'Jeremy Lesser'}
-                bodyJSX={
-                    <div>
-                        <Row>
-                            <Col  xs={12} sm={6}>
-                                <img src={jeremy}/>
-                            </Col>
-                            <Col  xs={12} sm={6}>
-                                I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
-                                skiing, hiking, and video games.
-                            </Col>
-                        </Row>
-                    </div>}/>
-        );
-    }
-
-    createEdward() {
-        return (
-            <Pane header={'Edward Pike'}
-                bodyJSX={
-                    <div>
-                        <Row>
-                            <Col xs={12} sm={6}>
-                                <img src={edward}/>
-                            </Col>
-                            <Col xs={12} sm={6}>
-                                I am a computer science major in my last year of school at CSU.  I was born
-                                and raised in Chicago, IL and originally attended UIUC as a physics major,
-                                and transferred after 2 years. My hobbies consist of playing with my doggo,
-                                playing with other doggos, and anything else related to heckin' good bois.
-                            </Col>
-                        </Row>
-                    </div>}/>
-        );
-    }
-
-    createDarien() {
-        return (
-            <Pane header={'Darien Cupit'}
-                bodyJSX={
-                    <div>
-                        <Row>
-                            <Col  xs={12} sm={6}>
-                                <img src={darien}/>
-                            </Col>
-                            <Col xs={12} sm={6}>
-                                I am a third-year Computer Science student and AROTC cadet at Colorado State University.
-                                My work experience before college involved network administration at our family's
-                                business. While this wasn't an arduous job, it is what got me interested in working on
-                                computers. When it came time to decided on a university, I decided to become a student
-                                at CSU due to its amazing Computer Science and ROTC programs, and have since gained many
-                                incredibly useful experiences and skills.
-                            </Col>
-                        </Row>
-                    </div>}/>
-    );
-    }
-
-    createGriffin() {
-        return (
-            <Pane header={'Griffin Gilbert'}
-                bodyJSX={
-                    <div>
-                        <Row>
-                            <Col  xs={12} sm={6}>
-                                <img src={Griffin}/>
-                            </Col>
-                            <Col  xs={12} sm={6}>
-                                I am a third year computer science student at CSU. I am an Army ROTC cadet
-                                and a member of our school secruity club, Hashdump. Born in California and
-                                raised in Colorado I enjoy skiing, fishing, and playing sports. I am an avid
-                                reader and play too many video games for my own good.
-                            </Col>
-                        </Row>
-                    </div>}/>
-        );
-    }
-
-
-
 }
