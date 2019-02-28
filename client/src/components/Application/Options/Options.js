@@ -41,7 +41,7 @@ export default class Options extends Component{
   heading() {
     return (
         <Pane header={'Options'}
-              bodyJSX={'Select ...'}/>
+              bodyJSX={'Here you can select what unit you want the calculator to display distances in.'}/>
     );
   }
 
