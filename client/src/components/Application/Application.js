@@ -19,13 +19,15 @@ export default class Application extends Component {
     this.updatePlanOption = this.updatePlanOption.bind(this);
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
-    this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
-    this.calculateDistance = this.calculateDistance.bind(this);
-    this.createInputField = this.createInputField.bind(this);
     this.createErrorBanner = this.createErrorBanner.bind(this);
+    this.updatecheckData = this.updatecheckData.bind(this);
+    this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
+    this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
+    this.processConfigResponse = this.processConfigResponse.bind(this);
+    this.setValue = this.setValue.bind(this)
 
 
-    this.state = {
+      this.state = {
       serverConfig: null,
       planOptions: {
         units: {'miles':3959 , 'kilometers' : 6371 , 'nautical miles' : 3440},
@@ -90,10 +92,15 @@ export default class Application extends Component {
         return <Calculator options={this.state.planOptions}
                            distance = {this.state.distance}
                            settings={this.state.clientSettings}
+                           origin = {this.state.origin}
+                           destination = {this.state.destination}
+                           planOptions = {this.state.planOptions}
                            createErrorBanner={this.createErrorBanner}
-                           calculateDistance = {this.calculateDistance}
-                           createInputField = {this.createInputField}
                            updateLocationOnChange = {this.updateLocationOnChange}
+                           updatecheckData = {this.updatecheckData}
+                           updateIfBadCalculator = {this.updateIfBadCalculator}
+                           updateIfGoodCalculator = {this.updateIfGoodCalculator}
+                           setValue = {this.setValue}
         />;
       case 'options':
         return <Options options={this.state.planOptions}
@@ -133,80 +140,38 @@ export default class Application extends Component {
       });
     }
   }
-    /* The code below uses the magellan-coords library by dbarbalato at www.npmjs.com*/
-    checkData() {
-        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-
-        if (
-            magellan(this.state.origin.latitude).latitude() === null ||
-            magellan(this.state.origin.longitude).longitude() === null ||
-            magellan(this.state.destination.latitude).latitude() === null ||
-            magellan(this.state.destination.longitude).longitude() === null
-        ) {{
-            /* Error: Invalid Input */
-
-            this.setState({
-
-                errorMessage: this.createErrorBanner('Error', '500',
-                    `Invalid Input Entered Into Origin or Destination`)
-            });
-        }
 
 
-        }
+    updatecheckData(){
+        this.setState({
+            errorMessage: this.createErrorBanner('Error', '500',
+                `Invalid Input Entered Into Origin or Destination`)
+        });
     }
 
-  calculateDistance() {
-    this.checkData();
-    var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-    const tipConfigRequest = {
-      'type'        : 'distance',
-      'version'     : 1,
-      'origin'      : {latitude: magellan(this.state.origin.latitude).latitude().toDD(), longitude: magellan(this.state.origin.longitude).longitude().toDD()},
-      'destination' : {latitude: magellan(this.state.destination.latitude).latitude().toDD(), longitude: magellan(this.state.destination.longitude).longitude().toDD()},
-      'earthRadius' : this.state.planOptions.units[this.state.planOptions.activeUnit]
-    };
-
-    sendServerRequestWithBody('distance', tipConfigRequest, this.state.clientSettings.serverPort)
-        .then((response) => {
-          if(response.statusCode >= 200 && response.statusCode <= 299) {
-            this.setState({
-              distance: response.body.distance,
-              errorMessage: null
-            });
-          }
-          else {
-            this.setState({
-              errorMessage: this.createErrorBanner(
-                  response.statusText,
-                  response.statusCode,
-                  `Request to ${ this.state.clientSettings.serverPort } failed.`
-              )
-            });
-          }
+    updateIfGoodCalculator(response){
+        this.setState({
+            distance: response.body.distance,
+            errorMessage: null
         });
-  }
+    }
 
-  updateLocationOnChange(stateVar, field, value) {
-    let location = Object.assign({}, this.state[stateVar]);
-    location[field] = value;
-    this.setState({[stateVar]: location});
-  }
+    updateIfBadCalculator(response){
+        this.setState({
+            errorMessage: this.createErrorBanner(
+                response.statusText,
+                response.statusCode,
+                `Request to ${ this.state.clientSettings.serverPort } failed.`
+            )
+        });
+    }
 
-  createInputField(stateVar, coordinate) {
-    let updateStateVarOnChange = (event) => {
-      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
 
-    let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
-    return (
-        <Input name={coordinate} placeholder={capitalizedCoordinate}
-               id={`${stateVar}${capitalizedCoordinate}`}
-               value={this.state[stateVar][coordinate]}
-               onChange={updateStateVarOnChange}
-               style={{width: "100%"}} />
-    );
 
-  }
+    setValue(stateVar, location){
+        this.setState({[stateVar]: location});
+    }
+
 
 }
 
