@@ -60,9 +60,17 @@ export default class About extends Component{
                       <div>
                           <Row>
                               <Col  xs={12} sm={6}>
+                                  <Col  xs={12} sm={14}>
                                   {this.getImage(person)}
+                                  </Col>
                               </Col>
+
+
+                              <Col  xs={12} sm={6}>
+                                  <Card>
                               {this.getBlurb(person)}
+                                  </Card>
+                              </Col>
                           </Row>
                       </div>}/>
         );
@@ -73,29 +81,20 @@ export default class About extends Component{
         switch(person){
             case `Griffin Gilbert`:
                 return(
-                    <Col  xs={12} sm={14}>
                         <img src={Griffin}/>
-                    </Col>);
-
+                   );
             case `Jeremy Lesser`:
                 return(
-                    <Col  xs={12} sm={14}>
                         <img src={jeremy}/>
-                    </Col>);
-
+                    );
             case `Edward Pike`:
                 return(
-                    <Col  xs={12} sm={14}>
                         <img src={edward}/>
-                    </Col>);
-
-
+                    );
             case `Darien Cupit`:
                 return(
-                    <Col  xs={12} sm={14}>
                         <img src={darien}/>
-                    </Col>);
-
+                    );
             default:
                 return;
         }
@@ -108,46 +107,42 @@ export default class About extends Component{
         switch(person){
             case 'Griffin Gilbert':
                 return(
-                    <Col  xs={12} sm={6}>
-                        <Card>
+                    <span>
                         I am a third year computer science student at CSU. I am an Army ROTC cadet
                         and a member of our school secruity club, Hashdump. Born in California and
                         raised in Colorado I enjoy skiing, fishing, and playing sports. I am an avid
                         reader and play too many video games for my own good.
-                        </Card>
-                    </Col>);
+                    </span>
+            );
 
             case 'Jeremy Lesser':
                 return(
-                    <Col  xs={12} sm={6}>
-                        <Card>
+                    <span>
                         I am a fourth year Computer Science Major. I was raised in Erie Colorado. My hobbies include
                         skiing, hiking, and video games.
-                        </Card>
-                    </Col>);
+                    </span>
+                );
 
             case 'Edward Pike':
                 return(
-                    <Col  xs={12} sm={6}>
-                        <Card>
+                    <span>
                         I am a computer science major in my last year of school at CSU.  I was born
                         and raised in Chicago, IL and originally attended UIUC as a physics major,
                         and transferred after 2 years. My hobbies consist of playing with my doggo,
                         playing with other doggos, and anything else related to heckin' good bois.
-                        </Card>
-                    </Col>);
+                    </span>
+                );
             case 'Darien Cupit':
                 return(
-                    <Col  xs={12} sm={6}>
-                        <Card>
+                    <span>
                         I am a third-year Computer Science student and AROTC cadet at Colorado State University.
                         My work experience before college involved network administration at our family's
                         business. While this wasn't an arduous job, it is what got me interested in working on
                         computers. When it came time to decided on a university, I decided to become a student
                         at CSU due to its amazing Computer Science and ROTC programs, and have since gained many
                         incredibly useful experiences and skills.
-                        </Card>
-                    </Col>);
+                    </span>
+                );
             default:
                 return;
         }

@@ -27,6 +27,8 @@ export default class Home extends Component {
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
         this.clearMap = this.clearMap.bind(this)
         this.download = this.download.bind(this)
+        this.createDownloadButton = this.createDownloadButton.bind(this)
+        this.createResetButton = this.createResetButton.bind(this)
 
         this.state = {
             clientSettings: {
@@ -96,34 +98,11 @@ export default class Home extends Component {
                           </row>
                           <span>
 
-
-
-                              <Card>
-                                  <CardBody>
-                                      <CardTitle><b>Download Itinerary</b></CardTitle>
-                                      <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
-
-
-                              <input type="file"
-                                     name="myFile"
-                                     onChange={this.onChange}/>
-
-                               </CardBody>
-                              </Card>
+                              {this.createDownloadButton()}
 
 
 
-                              <Card>
-                                  <CardBody>
-                                      <CardTitle><b>Reset Map</b></CardTitle>
-                                      <CardSubtitle>This button will reset the map so you can upload a new itinerary.</CardSubtitle>
-
-                                      <row>
-                                          <Button onClick={this.clearMap}>Reset Map to default</Button>
-                                      </row>
-
-                                  </CardBody>
-                                </Card>
+                              {this.createResetButton()}
 
                                  <Card>
                                   <CardBody>
@@ -142,6 +121,45 @@ export default class Home extends Component {
         );
     }
 
+
+    createDownloadButton(){
+            return(
+        <Card>
+            <CardBody>
+                <CardTitle><b>Download Itinerary</b></CardTitle>
+                <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
+
+
+                <input type="file"
+                       name="myFile"
+                       onChange={this.onChange}/>
+
+            </CardBody>
+        </Card>
+            );
+
+    }
+
+    createResetButton(){
+        return(
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Reset Map</b></CardTitle>
+                    <CardSubtitle>This button will reset the map so you can upload a new itinerary.</CardSubtitle>
+
+                    <row>
+                        <Button onClick={this.clearMap}>Reset Map to default</Button>
+                    </row>
+
+                </CardBody>
+            </Card>
+        );
+    }
+
+
+
+
+
     basicItinerary() {
         return (
             <Pane header={'Itinerary'}
@@ -150,7 +168,7 @@ export default class Home extends Component {
     }
 
     renderItinerary(){
-        console.log("distances " , this.state.JSONString.body.distances)
+
 
         var footerStyle = {
             backgroundColor: 'grey',
@@ -166,8 +184,7 @@ export default class Home extends Component {
         }
 
         var totalDistance =0
-        for (var i = 0; i < places.length; i++){
-
+        for (var i = 0; i < places.length; i++) {
             totalDistance = distanceArray[i] + totalDistance
         }
         var numStops = places.length
@@ -180,16 +197,12 @@ export default class Home extends Component {
             <Pane header={'Itinerary'}
                   bodyJSX = {
                       <div>{body}
-
                           <Card style = {footerStyle}>
                               {`  You have  ${numStops}  stops on your trip totalling  ${totalDistance}  miles.`}
                           </Card>
                       </div>
                   }
-
-
             />
-
         );
     }
 
