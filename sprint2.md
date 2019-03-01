@@ -59,7 +59,7 @@ Key planning decisions for this sprint include ...
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | #83, #81, #82, #71, #75, #21, #16, #130* | *#83, #81, #82, #71, #75** |
+| Epics | #83, #81, #82, #71, #75, #21, #16, #130* | *#83, #81, #82, #75** |
 | Tasks |  #98, #105, #102, #88, #92, #80, #114, #112, #89, #121, #85, #86, #128, #90, #91, #39  | #98, #105, #102, #88, #92, #80, #114, #112, #89, #121, #85, #86, #128, #90  | 
 | Story Points |  *29*  | *25* | 
 
@@ -85,7 +85,6 @@ For this sprint we focused on getting our server to send and receive itineraries
 #### Completed epics in Sprint Backlog 
 
 These Epics were completed.
-  #71 The calculator data shouldn't go away when units change
   #75 The calculator needs to display an error if there is bad latitude/longitude
   #81 Show me a map and itinerary for my trip - This was the main goal of this sprint and we did not complete all of it. We created Epic #130. with the one task we didn't get to.
   #82 The calculator data shouldn't go away when units change
@@ -96,6 +95,7 @@ These Epics were completed.
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
+#71 The calculator data shouldn't go away when units change - Didn't work with the testing.
 #16  I want to know where I am on the map - Did not have enough time.
 #84  I may need distances in other units of measure - Started on this but more important tasks pulled away manpower.
 #130 Be able to display different parts of the itinerary according to the users wishes - This was the only part of Epic #84 we did not complete.
