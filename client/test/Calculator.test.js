@@ -1,21 +1,40 @@
 import './enzyme.config.js';
 import React from 'react';
-import {mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import Calculator from '../src/components/Application/Calculator/Calculator';
+import Application from '../src/components/Application/Application'
+//import Application from "./Application.test";
 
 
 const startProperties = {
-    'options': {
-        'units': {'miles': 3959, 'kilometers': 6371},
-        'activeUnit': 'miles',
-        'serverPort': 'black-bottle.cs.colostate.edu:31400'
-    }
+        'planOptions': {
+            'units': {'miles': 3959, 'kilometers': 6371},
+            'activeUnit': 'miles',
+            'serverPort': 'black-bottle.cs.colostate.edu:31400'
+        },
+        'origin': {'latitude':0, 'longitude': 1},
+        'destination': {'latitude':2, 'longitude': 3},
+        'updatecheckData': () => {},
+        'updateIfBadCalculator': () => {},
+        'updateIfGoodCalculator': () => {},
+        'setValue': () => {},
+
 };
 
 function testCreateInputFields() {
-    const calculator = mount((
-        <Calculator options={startProperties.options}/>
-    ));
+    const calculator = mount(<Calculator
+        options={startProperties.planOptions}
+        distance = {startProperties.distance}
+        settings={startProperties.clientSettings}
+        origin = {startProperties.origin}
+        destination = {startProperties.destination}
+        planOptions = {startProperties.planOptions}
+        createErrorBanner={startProperties.createErrorBanner}
+        updatecheckData = {startProperties.updatecheckData}
+        updateIfBadCalculator = {startProperties.updateIfBadCalculator}
+        updateIfGoodCalculator = {startProperties.updateIfGoodCalculator}
+        setValue = {startProperties.setValue}/>
+);
 
     let numberOfInputs = calculator.find('Input').length;
     expect(numberOfInputs).toEqual(4);
@@ -38,17 +57,29 @@ test('Testing the createForm() function in Calculator', testCreateInputFields);
 
 function testInputsOnChange() {
     const calculator = mount((
-        <Calculator options={startProperties.options}/>
-    ));
+        <Calculator options={startProperties.planOptions}
+    distance = {startProperties.distance}
+    settings={startProperties.clientSettings}
+    origin = {startProperties.origin}
+    destination = {startProperties.destination}
+    planOptions = {startProperties.planOptions}
+    createErrorBanner={startProperties.createErrorBanner}
+    updatecheckData = {startProperties.updatecheckData}
+    updateIfBadCalculator = {startProperties.updateIfBadCalculator}
+    updateIfGoodCalculator = {startProperties.updateIfGoodCalculator}
+    setValue = {startProperties.setValue}/>
+));
+
 
     for (let inputIndex = 0; inputIndex < 4; inputIndex++){
         simulateOnChangeEvent(inputIndex, calculator);
     }
 
-    expect(calculator.state().origin.latitude).toEqual(0);
-    expect(calculator.state().origin.longitude).toEqual(1);
-    expect(calculator.state().destination.latitude).toEqual(2);
-    expect(calculator.state().destination.longitude).toEqual(3);
+
+    expect(calculator.props().origin.latitude).toEqual(0);
+    expect(calculator.props().origin.longitude).toEqual(1);
+    expect(calculator.props().destination.latitude).toEqual(2);
+    expect(calculator.props().destination.longitude).toEqual(3);
 }
 
 function simulateOnChangeEvent(inputIndex, reactWrapper) {

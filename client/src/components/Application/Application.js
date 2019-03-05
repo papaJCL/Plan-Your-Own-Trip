@@ -20,6 +20,11 @@ export default class Application extends Component {
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
     this.createErrorBanner = this.createErrorBanner.bind(this);
+    this.updatecheckData = this.updatecheckData.bind(this);
+    this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
+    this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
+    this.processConfigResponse = this.processConfigResponse.bind(this);
+    this.setValue = this.setValue.bind(this)
 
 
     this.state = {
@@ -30,7 +35,11 @@ export default class Application extends Component {
       },
       clientSettings: {
         serverPort: getOriginalServerPort()
-      }
+      },
+      origin: {latitude: '', longitude: ''},
+      destination: {latitude: '', longitude: ''},
+      distance: 0,
+      errorMessage: null
     };
     this.updateServerConfig();
   }
@@ -41,9 +50,9 @@ export default class Application extends Component {
 
     return (
         <div className='application-width'>
-          { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
-        </div>
-    );
+        { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
+  </div>
+  );
   }
 
   updateClientSetting(field, value) {
@@ -65,39 +74,47 @@ export default class Application extends Component {
   updateServerConfig() {
     sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
       console.log(config);
-      this.processConfigResponse(config);
-    });
+    this.processConfigResponse(config);
+  });
   }
 
   createErrorBanner(statusText, statusCode, message) {
     return (
         <ErrorBanner statusText={statusText}
-                     statusCode={statusCode}
-                     message={message}/>
-    );
+    statusCode={statusCode}
+    message={message}/>
+  );
   }
 
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
         return <Calculator options={this.state.planOptions}
-                           settings={this.state.clientSettings}
-                           createErrorBanner={this.createErrorBanner}
-
+        distance = {this.state.distance}
+        settings={this.state.clientSettings}
+        origin = {this.state.origin}
+        destination = {this.state.destination}
+        planOptions = {this.state.planOptions}
+        createErrorBanner={this.createErrorBanner}
+        updateLocationOnChange = {this.updateLocationOnChange}
+        updatecheckData = {this.updatecheckData}
+        updateIfBadCalculator = {this.updateIfBadCalculator}
+        updateIfGoodCalculator = {this.updateIfGoodCalculator}
+        setValue = {this.setValue}
         />;
       case 'options':
         return <Options options={this.state.planOptions}
-                        config={this.state.serverConfig}
-                        updateOption={this.updatePlanOption}/>;
+        config={this.state.serverConfig}
+        updateOption={this.updatePlanOption}/>;
       case 'settings':
         return <Settings settings={this.state.clientSettings}
-                         serverConfig={this.state.serverConfig}
-                         updateSetting={this.updateClientSetting}/>;
+        serverConfig={this.state.serverConfig}
+        updateSetting={this.updateClientSetting}/>;
 
       case 'about':
         return <About about={this.state.planOptions}
-                      config={this.state.serverConfig}
-                      updateOption={this.updatePlanOption}/>;
+        config={this.state.serverConfig}
+        updateOption={this.updatePlanOption}/>;
 
       default:
         return <Home/>;
@@ -114,15 +131,46 @@ export default class Application extends Component {
     }
     else {
       this.setState({
-        serverConfig: null,
-        errorMessage:
-            <Container>
-              {this.createErrorBanner(config.statusText, config.statusCode,
-                  `Failed to fetch config from ${ this.state.clientSettings.serverPort}. Please choose a valid server.`)}
-            </Container>
-      });
+            serverConfig: null,
+            errorMessage:
+          <Container>
+          {this.createErrorBanner(config.statusText, config.statusCode,
+                `Failed to fetch config from ${ this.state.clientSettings.serverPort}. Please choose a valid server.`)}
+          </Container>
+    });
     }
   }
 
-}
 
+  updatecheckData(){
+    this.setState({
+      errorMessage: this.createErrorBanner('Error', '500',
+          `Invalid Input Entered Into Origin or Destination`)
+    });
+  }
+
+  updateIfGoodCalculator(response){
+    this.setState({
+      distance: response.body.distance,
+      errorMessage: null
+    });
+  }
+
+  updateIfBadCalculator(response){
+    this.setState({
+      errorMessage: this.createErrorBanner(
+          response.statusText,
+          response.statusCode,
+          `Request to ${ this.state.clientSettings.serverPort } failed.`
+      )
+    });
+  }
+
+
+
+  setValue(stateVar, location){
+    this.setState({[stateVar]: location});
+  }
+
+
+}
