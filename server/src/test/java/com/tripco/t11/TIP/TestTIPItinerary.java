@@ -49,7 +49,7 @@ public class TestTIPItinerary {
     public void testSingleLocation(){
         Vector<Map> singlePlace = new Vector<Map>();
         singlePlace.add(FoCo);
-        TIPItinerary foco = new TIPItinerary(options, singlePlace, distances);
+        TIPItinerary foco = new TIPItinerary(options, singlePlace);
         foco.buildResponse();
         Vector<Long> expect = new Vector<Long>();
         expect.add(0L);
@@ -59,7 +59,7 @@ public class TestTIPItinerary {
     @Test
     public void testNoLocation(){
         Vector<Map> noPlace = new Vector<Map>();
-        TIPItinerary noNo = new TIPItinerary(options, noPlace, distances);
+        TIPItinerary noNo = new TIPItinerary(options, noPlace);
         noNo.buildResponse();
         Vector<Long> expect = new Vector<Long>();
         assertEquals("No location provides empty location vector", expect, noNo.distances);
@@ -71,7 +71,7 @@ public class TestTIPItinerary {
         dist.add(100L);
         dist.add(50L);
         dist.add(25L);
-        TIPItinerary test = new TIPItinerary(options, places, dist);
+        TIPItinerary test = new TIPItinerary(options, places);
         test.buildResponse();
         Vector<Long> expect = new Vector<Long>();
         expect.add(24L);
