@@ -1,9 +1,9 @@
-# Sprint e - *your team number* - *your team name*
+# Sprint 3 - *T11* - *Ultra Super Team Delta*
 
 ## Goal
 
 ### Shorter trips to more places!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Darien Cupit*
 
 ## Definition of Done
 
@@ -43,7 +43,7 @@
 This sprint will complete the following Epics.
 
 * *#0 epic title: description*
-*
+* 
 
 ***(Include a discussion of you plan with key diagrams here and remove this!)***
 
