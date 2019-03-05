@@ -14,11 +14,10 @@ public class TIPItinerary extends TIPHeader {
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
-    TIPItinerary(Map options, Vector<Map> places, Vector<Long> distances){
+    TIPItinerary(Map options, Vector<Map> places){
         this();
         this.options = options;
         this.places = places;
-        this.distances = distances;
     }
 
     private TIPItinerary(){
@@ -27,9 +26,11 @@ public class TIPItinerary extends TIPHeader {
     }
 
     public void buildResponse(){
-        distances.clear();
-        if(places.size() == 0);
-        else calcDistances();
+        distances = new Vector<Long>();
+        if(places.size() == 0){}
+        else {
+            calcDistances();
+        }
         log.trace("buildResponse -> {}", this);
     }
 
