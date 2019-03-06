@@ -47,8 +47,6 @@ This sprint will complete the following Epics.
 * *#156 TripCo: validate all requests sent to the server and responses received by the client.*
 * *#138 User: Make my trip shorter.*
 
-
-***(Include a discussion of you plan with key diagrams here and remove this!)***
 Last sprint, our team realized that we messed up the priority of assigned epics and tasks while also taking a divide and conquer approach. This did not go very well for us. This sprint, we are making sure to carefully plan out each epic and task so that higher priority epics get the most attention by far. For example, we are dividing up #148 into multiple tasks and focusing on that epic first as a team before moving on to the next one. As far as reviewing the Tip spec goes, we had one deficiency that we immediatly fixed after the sprint 2 deploy; TIPitinerary didn't handle non-existant distances in the request. We also didn't preserve the state on our website due to test incompatability, but this epic was transfered over to this sprint. Finally, we still have to make sure that the itinerary can accept degrees-minutes-seconds format, but this can be done easily with the Magellan-Coords Library. As for the changes:
 - request version is now 3 across all protocols
 - config added an optimization element (itinerary will also have an optimization element)
