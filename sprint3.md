@@ -60,6 +60,8 @@ We also discussed general improvements that need to be done to our website/code,
 ![client](/diagram/client.jpg)
 - Class Diagram/Heirarchy
 ![server](/diagram/server.jpg)
+- State Diagram/Heirarchy
+![server](/diagram/state.jpg)
 
 ## Metrics
 
