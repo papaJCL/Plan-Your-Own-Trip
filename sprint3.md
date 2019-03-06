@@ -1,9 +1,9 @@
-# Sprint e - *your team number* - *your team name*
+# Sprint 3 - *T11* - *Ultra Super Team Delta*
 
 ## Goal
 
 ### Shorter trips to more places!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Darien Cupit*
 
 ## Definition of Done
 
@@ -42,20 +42,34 @@
 
 This sprint will complete the following Epics.
 
-* *#0 epic title: description*
-*
+* *#148 User: Data shouldn't go away when I change tabs.*
+* *#139 User: let me change my itinerary.*
+* *#156 TripCo: validate all requests sent to the server and responses received by the client.*
+* *#138 User: Make my trip shorter.*
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
+Last sprint, our team realized that we messed up the priority of assigned epics and tasks while also taking a divide and conquer approach. This did not go very well for us. This sprint, we are making sure to carefully plan out each epic and task so that higher priority epics get the most attention by far. For example, we are dividing up #148 into multiple tasks and focusing on that epic first as a team before moving on to the next one. As far as reviewing the Tip spec goes, we had one deficiency that we immediatly fixed after the sprint 2 deploy; TIPitinerary didn't handle non-existant distances in the request. We also didn't preserve the state on our website due to test incompatability, but this epic was transfered over to this sprint. Finally, we still have to make sure that the itinerary can accept degrees-minutes-seconds format, but this can be done easily with the Magellan-Coords Library. As for the changes:
+- request version is now 3 across all protocols
+- config added an optimization element (itinerary will also have an optimization element)
+- introduced find protocol with unique elements: match, limit, found, and places.
 
+We also discussed general improvements that need to be done to our website/code, and came to the conclusion that home.js needs some reworking in order to make the itinerary more readable and to improve our code climate scores. We will also be monitoring code climate much more carefully this sprint, and have a plan to make every reviewer look at it before approving a pull request. Finally, as per our discussion with Dave, we will make sure to emphasize incremental testing with zest and npm.
+
+*Diagrams:*
+
+- Client Componenet/Screen Layout
+![client](/diagram/client.jpg)
+- Class Diagram/Heirarchy
+![server](/diagram/server.jpg)
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Epics | #148, #139, #156, and #138.| *value* |
+| Tasks |  #140, #143, #149, #146, #130, #141, #162, #163, #145, #157, #158, #159, and #161  | *value* | 
+| Story Points |  19  | *value* | 
 
+We were more careful this time in selecting the epics that we knew we could complete. We expect to finish these epics, but may not get to the last one (#138) in the case of some unforseen problem like we had last time. As for the tasks, we may complete a task or two without closing an epic towards the end if we dont finish everything in time, but we plan on getting all of them complete except for maybe the tasks accociated with epic #138. 
 
 ## Scrums
 
