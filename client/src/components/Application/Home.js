@@ -29,20 +29,6 @@ export default class Home extends Component {
         this.download = this.download.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
-
-        this.state = {
-            clientSettings: {
-                serverPort: getOriginalServerPort()
-            },
-            JSONString: [] ,
-            returnFile: [],
-            latitude: [],
-            longitude: [],
-            markers: [[]],
-            boolMarker: false ,
-            polyLineCoor: [[]],
-            names : []
-        };
     }
 
     render() {
@@ -59,7 +45,7 @@ export default class Home extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    {this.state.boolMarker ?(
+                    {this.props.boolMarker ?(
                         <Col xs={12}>
                             {this.renderItinerary()}
                         </Col>
@@ -76,7 +62,7 @@ export default class Home extends Component {
     /*download(jsonData, 'json.txt', 'text/plain');*/
     /*Modified code beloning to Rafał Łużyński on www.stackoverflow.com*/
     download() {
-        var content = JSON.stringify(this.state.returnFile);
+        var content = JSON.stringify(this.props.returnFile);
         var fileName = 'my Trip';
         var contentType = 'text/plain';
         var a = document.createElement("a");
@@ -176,8 +162,8 @@ export default class Home extends Component {
             color: 'white'
         };
 
-        let places = this.state.JSONString.body.places
-        let distanceArray = this.state.JSONString.body.distances
+        let places = this.props.JSONString.body.places
+        let distanceArray = this.props.JSONString.body.distances
 
         for (var i = 0; i < places.length; i++){
             places[i].distance = distanceArray[i]
@@ -190,7 +176,7 @@ export default class Home extends Component {
         var numStops = places.length
 
         console.log("modified " , places)
-        let distances = this.state.JSONString.body.distances
+        let distances = this.props.JSONString.body.distances
         var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
 
         return (
@@ -207,19 +193,11 @@ export default class Home extends Component {
     }
 
     clearMap(){
-        this.setState({
-            JSONString: [] ,
-            returnFile: [],
-            latitude: [],
-            longitude: [],
-            markers: [[]],
-            boolMarker: false ,
-            names: []
-        });
+        this.props.clearMapState();
     }
 
     reRenderNewMap(){
-        let places = this.state.JSONString.body.places
+        let places = this.props.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
         const mappingFunction2 = p => p.name;
@@ -242,14 +220,7 @@ export default class Home extends Component {
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
 
-        this.setState({
-            latitude: latitude,
-            longitude: longitude,
-            markers: markers,
-            boolMarker: true ,
-            polyLineCoor : polyLine,
-            names : names
-        });
+        this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
     onChange(event) {
@@ -262,19 +233,13 @@ export default class Home extends Component {
 
         };
         reader.readAsText(file);
-        //this.reRenderNewMap()
     }
 
     sendItineraryRequest(requestBody) {
 
-        sendServerRequestWithBody('itinerary', requestBody, this.state.clientSettings.serverPort)
+        sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
-                this.setState({
-                    JSONString: response,
-                    returnFile: response.body
-                } , () => {
-                    this.reRenderNewMap();
-                });
+                this.props.liftHomeState(response);
             });
     }
 
@@ -287,7 +252,7 @@ export default class Home extends Component {
     }
 
     renderLeafletMap() {
-        if (this.state.boolMarker == false) {
+        if (this.props.boolMarker == false) {
             return(
                 <div>
                     <Map center={[0,0]} zoom={2}
@@ -303,21 +268,21 @@ export default class Home extends Component {
         else {
             return (
                 <div>
-                    <Map bounds = {this.state.markers} animate = {true}
+                    <Map bounds = {this.props.markers} animate = {true}
                          style={{height: 500, maxwidth: 700}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                         />
                         <Polyline
-                            positions ={this.state.polyLineCoor}
+                            positions ={this.props.polyLineCoor}
                             color = {'black'}
                             weight = {5}
                             opacity = {0.5}
                             smoothFactor = {1}
                         />
                         {
-                            this.state.markers.map((position, idx) =>
+                            this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
                                     <Popup className="font-weight-extrabold">Location1</Popup>
                                 </Marker>
