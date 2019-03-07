@@ -146,6 +146,7 @@ export default class Application extends Component {
             polyLineCoor = {this.state.polyLineCoor}
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
+            ref="child"
             />;
     }
   }
@@ -211,7 +212,7 @@ export default class Application extends Component {
     });
   }
 
-  reRenderNewMapState(){
+  reRenderNewMapState(latitude, longitude, names, polyLine, markers){
       this.setState({
           latitude: latitude,
           longitude: longitude,
@@ -226,6 +227,8 @@ export default class Application extends Component {
       this.setState({
           JSONString: response,
           returnFile: response.body
+      } , () => {
+          this.refs.child.reRenderNewMap();
       });
   }
 

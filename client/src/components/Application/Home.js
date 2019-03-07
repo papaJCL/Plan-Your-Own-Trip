@@ -29,20 +29,6 @@ export default class Home extends Component {
         this.download = this.download.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
-
-        // this.state = {
-        //     clientSettings: {
-        //         serverPort: getOriginalServerPort()
-        //     },
-        //     JSONString: [] ,
-        //     returnFile: [],
-        //     latitude: [],
-        //     longitude: [],
-        //     markers: [[]],
-        //     boolMarker: false ,
-        //     polyLineCoor: [[]],
-        //     names : []
-        // };
     }
 
     render() {
@@ -234,7 +220,7 @@ export default class Home extends Component {
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
 
-        this.props.reRenderNewMapState()
+        this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
     onChange(event) {
@@ -247,19 +233,12 @@ export default class Home extends Component {
 
         };
         reader.readAsText(file);
-        //this.reRenderNewMap()
     }
 
     sendItineraryRequest(requestBody) {
 
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
-                // this.setState({
-                //     JSONString: response,
-                //     returnFile: response.body
-                // } , () => {
-                //     this.reRenderNewMap();
-                // });
                 this.props.liftHomeState(response);
             });
     }
