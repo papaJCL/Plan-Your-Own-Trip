@@ -24,7 +24,10 @@ export default class Application extends Component {
     this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
     this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
     this.processConfigResponse = this.processConfigResponse.bind(this);
-    this.setValue = this.setValue.bind(this)
+    this.setValue = this.setValue.bind(this);
+    this.clearMapState = this.clearMapState.bind(this);
+    this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
+    this.liftHomeState = this.liftHomeState.bind(this)
 
 
     this.state = {
@@ -36,10 +39,19 @@ export default class Application extends Component {
       clientSettings: {
         serverPort: getOriginalServerPort()
       },
-      origin: {latitude: '', longitude: ''},
-      destination: {latitude: '', longitude: ''},
-      distance: 0,
-      errorMessage: null
+        origin: {latitude: '', longitude: ''},
+        destination: {latitude: '', longitude: ''},
+        distance: 0,
+        errorMessage: null,
+        JSONString: [] ,
+        returnFile: [],
+        latitude: [],
+        longitude: [],
+        markers: [[]],
+        boolMarker: false ,
+        polyLineCoor: [[]],
+        names : []
+
     };
     this.updateServerConfig();
   }
@@ -50,9 +62,9 @@ export default class Application extends Component {
 
     return (
         <div className='application-width'>
-        { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
-  </div>
-  );
+            { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
+        </div>
+    );
   }
 
   updateClientSetting(field, value) {
@@ -89,35 +101,52 @@ export default class Application extends Component {
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
-        return <Calculator options={this.state.planOptions}
-        distance = {this.state.distance}
-        settings={this.state.clientSettings}
-        origin = {this.state.origin}
-        destination = {this.state.destination}
-        planOptions = {this.state.planOptions}
-        createErrorBanner={this.createErrorBanner}
-        updateLocationOnChange = {this.updateLocationOnChange}
-        updatecheckData = {this.updatecheckData}
-        updateIfBadCalculator = {this.updateIfBadCalculator}
-        updateIfGoodCalculator = {this.updateIfGoodCalculator}
-        setValue = {this.setValue}
-        />;
+        return <Calculator
+            options={this.state.planOptions}
+            distance = {this.state.distance}
+            settings={this.state.clientSettings}
+            origin = {this.state.origin}
+            destination = {this.state.destination}
+            planOptions = {this.state.planOptions}
+            createErrorBanner={this.createErrorBanner}
+            updateLocationOnChange = {this.updateLocationOnChange}
+            updatecheckData = {this.updatecheckData}
+            updateIfBadCalculator = {this.updateIfBadCalculator}
+            updateIfGoodCalculator = {this.updateIfGoodCalculator}
+            setValue = {this.setValue}
+            />;
       case 'options':
-        return <Options options={this.state.planOptions}
-        config={this.state.serverConfig}
-        updateOption={this.updatePlanOption}/>;
+        return <Options
+            options={this.state.planOptions}
+            config={this.state.serverConfig}
+            updateOption={this.updatePlanOption}/>;
       case 'settings':
-        return <Settings settings={this.state.clientSettings}
-        serverConfig={this.state.serverConfig}
-        updateSetting={this.updateClientSetting}/>;
+        return <Settings
+            settings={this.state.clientSettings}
+            serverConfig={this.state.serverConfig}
+            updateSetting={this.updateClientSetting}/>;
 
       case 'about':
-        return <About about={this.state.planOptions}
-        config={this.state.serverConfig}
-        updateOption={this.updatePlanOption}/>;
+        return <About
+            about={this.state.planOptions}
+            config={this.state.serverConfig}
+            updateOption={this.updatePlanOption}/>;
 
       default:
-        return <Home/>;
+        return <Home
+            clientSettings = {this.state.clientSettings}
+            clearMapState = {this.clearMapState}
+            reRenderNewMapState = {this.reRenderNewMapState}
+            markers = {this.state.markers}
+            JSONString = {this.state.JSONString}
+            returnFile = {this.state.returnFile}
+            latitude = {this.state.latitude}
+            longitude = {this.state.longitude}
+            boolMarker = {this.state.boolMarker}
+            polyLineCoor = {this.state.polyLineCoor}
+            names = {this.state.names}
+            liftHomeState = {this.liftHomeState}
+            />;
     }
   }
 
@@ -166,10 +195,38 @@ export default class Application extends Component {
     });
   }
 
-
-
   setValue(stateVar, location){
     this.setState({[stateVar]: location});
+  }
+
+  clearMapState(){
+    this.setState({
+      JSONString: [] ,
+      returnFile: [],
+      latitude: [],
+      longitude: [],
+      markers: [[]],
+      boolMarker: false ,
+      names: []
+    });
+  }
+
+  reRenderNewMapState(){
+      this.setState({
+          latitude: latitude,
+          longitude: longitude,
+          markers: markers,
+          boolMarker: true ,
+          polyLineCoor : polyLine,
+          names : names
+      });
+  }
+
+  liftHomeState(response){
+      this.setState({
+          JSONString: response,
+          returnFile: response.body
+      });
   }
 
 
