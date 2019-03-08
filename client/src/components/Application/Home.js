@@ -284,7 +284,7 @@ export default class Home extends Component {
                         {
                             this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup className="font-weight-extrabold">Location1</Popup>
+                                    <Popup className="font-weight-extrabold">Location {idx + 1}</Popup>
                                 </Marker>
                             )}
 
