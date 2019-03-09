@@ -27,8 +27,9 @@ export default class Home extends Component {
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
         this.clearMap = this.clearMap.bind(this)
         this.download = this.download.bind(this)
-        this.createDownloadButton = this.createDownloadButton.bind(this)
+        this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
+        this.createDownloadButton = this.createDownloadButton.bind(this)
     }
 
     render() {
@@ -40,7 +41,6 @@ export default class Home extends Component {
                     </Col>
                     <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                         {this.renderIntro()}
-                        {this.renderItineratorIntro()}
 
                     </Col>
                 </Row>
@@ -73,56 +73,56 @@ export default class Home extends Component {
     }
 
 
-        renderItineratorIntro(){
+    renderIntro(){
         return(
             <Pane header={'Itinerary Menu'}
-                  bodyJSX={
-                      <div>
+                 bodyJSX={
+                    <div>
 
-                          <row>
-                              {'Choose your file'}
-                          </row>
-                          <span>
+                        <row>
+                         {'Choose your file'}
+                        </row>
+                        <span>
 
-                              {this.createDownloadButton()}
+                         {this.createUploadButton()}
 
+                         {this.createResetButton()}
 
+                         {this.createDownloadButton()}
 
-                              {this.createResetButton()}
-
-                                 <Card>
-                                  <CardBody>
-                                      <CardTitle><b>Download Trip Itinerary</b></CardTitle>
-                                      <CardSubtitle>This button will download your trip itinerary to your downloads folder.</CardSubtitle>
-                                      <row>
-                                          <Button onClick={this.download}>Download Trip Itinerary</Button>
-                                      </row>
-
-                                  </CardBody>
-                                </Card>
-
-                          </span>
-                      </div>}
-            />
-        );
+                        </span>
+                    </div>}
+        />
+    );
     }
 
 
     createDownloadButton(){
-            return(
-        <Card>
-            <CardBody>
-                <CardTitle><b>Download Itinerary</b></CardTitle>
-                <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
+        return(
+            <Card>
+                <CardBody>
+                     <CardTitle><b>Download Trip Itinerary</b></CardTitle>
+                     <CardSubtitle>This button will download your trip itinerary to your downloads folder.</CardSubtitle>
+                    <row>
+                        <Button onClick={this.download}>Download Trip Itinerary</Button>
+                    </row>
+
+                </CardBody>
+            </Card>
+        );
+    }
 
 
-                <input type="file"
-                       name="myFile"
-                       onChange={this.onChange}/>
-
-            </CardBody>
-        </Card>
-            );
+    createUploadButton(){
+        return(
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Upload Itinerary</b></CardTitle>
+                    <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
+                    <input type="file"name="myFile" onChange={this.onChange}/>
+                </CardBody>
+            </Card>
+             );
 
     }
 
@@ -131,15 +131,13 @@ export default class Home extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Reset Map</b></CardTitle>
-                    <CardSubtitle>This button will reset the map so you can upload a new itinerary.</CardSubtitle>
-
+                    <CardSubtitle>This button will reset the map.</CardSubtitle>
                     <row>
                         <Button onClick={this.clearMap}>Reset Map to default</Button>
                     </row>
-
                 </CardBody>
-            </Card>
-        );
+             </Card>
+    );
     }
 
 
@@ -177,7 +175,7 @@ export default class Home extends Component {
 
         console.log("modified " , places)
         let distances = this.props.JSONString.body.distances
-        var body = places.map(item => <Pane bodyJSX =  {`  Location: ${item.name}  Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
+        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX =  {`Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
 
         return (
             <Pane header={'Itinerary'}
@@ -284,7 +282,7 @@ export default class Home extends Component {
                         {
                             this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup className="font-weight-extrabold">Location1</Popup>
+                                    <Popup className="font-weight-extrabold">Location {idx + 1}</Popup>
                                 </Marker>
                             )}
 
@@ -295,15 +293,7 @@ export default class Home extends Component {
         }
     }
 
-    renderIntro() {
-        return(
-            <Pane header={'Let us help you plan your next trip!'}
-                  bodyJSX={'Let us help you plan your next trip. To calculate the distance between two points go to the calculator and enter your origin and destination. ' +
-                  'To select a different unit to use for those calculations, use the options page. You can also click on the button below' +
-                  ' to add a travel itinerary that will be displayed on the map. Bon Voyage!'}
-            />
-        );
-    }
+
 
     markerIcon() {
         // react-leaflet does not currently handle default marker icons correctly,
