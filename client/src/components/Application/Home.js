@@ -151,6 +151,14 @@ export default class Home extends Component {
         );
     }
 
+    changeStartLocation(idx) {
+        let places = this.props.JSONString.body.places
+        for (var i = 0; i < places.length; i++) {
+            if (places[i].name) {}
+        }
+
+    }
+
     renderItinerary(){
 
 
@@ -282,7 +290,7 @@ export default class Home extends Component {
                         {
                             this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup className="font-weight-extrabold">Location {idx + 1}</Popup>
+                                    <Popup><div>Location {idx + 1}<br /><button onClick={this.download}>Make Origin</button></div></Popup>
                                 </Marker>
                             )}
 
