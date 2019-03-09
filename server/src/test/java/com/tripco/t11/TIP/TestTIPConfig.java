@@ -27,7 +27,7 @@ public class TestTIPConfig {
   @Test
   public void testVersion() {
     int version = conf.requestVersion;
-    assertEquals("config requestVersion", 2, version);
+    assertEquals("config requestVersion", 3, version);
   }
 
   @Test
@@ -40,5 +40,11 @@ public class TestTIPConfig {
   public void testPlaceAttributes() {
     List<String> attr = conf.getPlaceAttributes();
     assertEquals("config attribute size", 6, attr.size());
+  }
+
+  @Test
+  public void testOptimizationOptions(){
+    List<String> opt = conf.getOptimizationOptions();
+    assertEquals("config Optimizations", "none", opt.get(0));
   }
 }
