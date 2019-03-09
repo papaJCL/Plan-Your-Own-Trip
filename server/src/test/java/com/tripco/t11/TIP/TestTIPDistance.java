@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.Math;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +20,7 @@ public class TestTIPDistance {
   private Map<String, Object> syd;
   private Map<String, Object> northPole;
   private Map<String, Object> origin;
-  private final int version = 2;
+  private final int version = 3;
 
   @Before
   public void createLocationsForTestCases() {
