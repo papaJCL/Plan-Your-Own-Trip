@@ -290,7 +290,7 @@ export default class Home extends Component {
                         {
                             this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup><div>Location {idx + 1}<br /><button onClick={this.download}>Make Origin</button></div></Popup>
+                                    <Popup><div>Location {idx + 1}<br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button></div></Popup>
                                 </Marker>
                             )}
 
