@@ -27,7 +27,8 @@ export default class Application extends Component {
     this.setValue = this.setValue.bind(this);
     this.clearMapState = this.clearMapState.bind(this);
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
-    this.liftHomeState = this.liftHomeState.bind(this)
+    this.liftHomeState = this.liftHomeState.bind(this);
+    this.updatePlacesArray = this.updatePlacesArray.bind(this);
 
 
     this.state = {
@@ -233,6 +234,11 @@ export default class Application extends Component {
   }
 
   updatePlacesArray(arr) {
+      let obj = JSON.parse(this.JSONString);
+      obj.places = arr;
+      this.setState({
+        JSONString: JSON.stringify(obj),
+      });
 
   }
 

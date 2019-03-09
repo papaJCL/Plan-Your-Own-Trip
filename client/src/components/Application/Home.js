@@ -157,7 +157,7 @@ export default class Home extends Component {
         for (var i = 0; i < places.length; i++) {
             newplaces[i] = places[(idx + i) % places.length];
         }
-        updatePlacesArray(newplaces);
+        this.props.updatePlacesArray(newplaces);
     }
 
     renderItinerary(){
