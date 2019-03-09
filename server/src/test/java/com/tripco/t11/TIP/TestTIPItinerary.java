@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,10 +13,10 @@ public class TestTIPItinerary {
     private Map<String, Object> FoCo;
     private Map<String, Object> Denver;
     private Map<String, Object> Boulder;
-    private Vector<Map> places;
+    private Map<String, Object>[] places;
     private Map<String, Object> options;
-    private final int version = 2;
-    private Vector<Long> distances = new Vector<Long>();
+    private final int version = 3;
+    private Long[] distances = new Long[3];
 
     @Before
     public void createLocationsForTestCases() {
@@ -39,44 +38,44 @@ public class TestTIPItinerary {
         FoCo.put("name", "Denver");
         FoCo.put("latitude", "40.585258");
         FoCo.put("longitude", "-105.084419");
-        places = new Vector<Map>();
-        places.add(Denver);
-        places.add(Boulder);
-        places.add(FoCo);
+        places = new Map[3];
+        places[0] = Denver;
+        places[1] = Boulder;
+        places[2] = FoCo;
     }
 
     @Test
     public void testSingleLocation(){
-        Vector<Map> singlePlace = new Vector<Map>();
-        singlePlace.add(FoCo);
+        Map<String, Object>[] singlePlace = new Map[1];
+        singlePlace[0] = FoCo;
         TIPItinerary foco = new TIPItinerary(options, singlePlace);
         foco.buildResponse();
-        Vector<Long> expect = new Vector<Long>();
-        expect.add(0L);
+        Long[] expect = new Long[1];
+        expect[0] = 0L;
         assertEquals("Single location provides single distance of 0", expect, foco.distances);
     }
 
     @Test
     public void testNoLocation(){
-        Vector<Map> noPlace = new Vector<Map>();
+        Map<String, Object>[] noPlace = new Map[0];
         TIPItinerary noNo = new TIPItinerary(options, noPlace);
         noNo.buildResponse();
-        Vector<Long> expect = new Vector<Long>();
+        Long[] expect = new Long[0];
         assertEquals("No location provides empty location vector", expect, noNo.distances);
     }
 
     @Test
     public void testOverWriteDistances(){
-        Vector<Long> dist = new Vector<Long>();
-        dist.add(100L);
-        dist.add(50L);
-        dist.add(25L);
+        Long[] dist = new Long[3];
+        dist[0] = 100L;
+        dist[1] = 50L;
+        dist[2] = 25L;
         TIPItinerary test = new TIPItinerary(options, places);
         test.buildResponse();
-        Vector<Long> expect = new Vector<Long>();
-        expect.add(24L);
-        expect.add(41L);
-        expect.add(59L);
+        Long[] expect = new Long[3];
+        expect[0] = 24L;
+        expect[1] = 41L;
+        expect[2] = 59L;
         assertEquals("distances are overwritten with good ones", expect, test.distances);
     }
 
