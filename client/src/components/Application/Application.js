@@ -27,7 +27,8 @@ export default class Application extends Component {
     this.setValue = this.setValue.bind(this);
     this.clearMapState = this.clearMapState.bind(this);
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
-    this.liftHomeState = this.liftHomeState.bind(this)
+    this.liftHomeState = this.liftHomeState.bind(this);
+    this.updatePlacesArray = this.updatePlacesArray.bind(this);
 
 
     this.state = {
@@ -43,7 +44,7 @@ export default class Application extends Component {
         destination: {latitude: '', longitude: ''},
         distance: 0,
         errorMessage: null,
-        JSONString: [] ,
+        JSONString: [],
         returnFile: [],
         latitude: [],
         longitude: [],
@@ -146,6 +147,7 @@ export default class Application extends Component {
             polyLineCoor = {this.state.polyLineCoor}
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
+            updatePlacesArray = {this.updatePlacesArray}
             ref="child"
             />;
     }
@@ -227,6 +229,17 @@ export default class Application extends Component {
       this.setState({
           JSONString: response,
           returnFile: response.body
+      } , () => {
+          this.refs.child.reRenderNewMap();
+      });
+  }
+
+  updatePlacesArray(arr) {
+      let newJSON = this.state.JSONString;
+      newJSON.body.places = arr;
+      this.setState({
+        //JSONString: this.state.JSONString
+        JSONString: newJSON,
       } , () => {
           this.refs.child.reRenderNewMap();
       });
