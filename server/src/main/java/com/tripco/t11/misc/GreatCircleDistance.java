@@ -7,53 +7,34 @@ import java.util.Vector;
 /** Determines the distance between geographic coordinates.
  */
 public class GreatCircleDistance{
-    private Map origin;
-    private Map destination;
+    private Double[] origin;
+    private Double[] destination;
     private Double earthRadius;
-    private Vector<Double> lats;
-    private Vector<Double> longs;
 
-    public GreatCircleDistance(Map origin, Map destination, double earthRadius){
+    public GreatCircleDistance(Double[] origin, Double[] destination, double earthRadius){
         this.origin = origin;
         this.destination = destination;
         this.earthRadius = earthRadius;
-        this.lats = new Vector<Double>(2);
-        this.longs = new Vector<Double>(2);
     }
 
     public Long calcDistance(){
-        //String[] tokens = tokenizeEntrySets();
-        extractLatsAndLongs();
         convertToRadians();
         double dPhi = findCentralAngle();
         return (Math.round(dPhi * earthRadius));
     }
 
-    /*private String[] tokenizeEntrySets(){
-        String delimit =  origin.entrySet().toString().concat(destination.entrySet().toString());
-        String[] tokens = delimit.split("[=,\\[\\] ]");
-        return tokens;
-    }*/
-
-    private void extractLatsAndLongs(){
-        lats.add(Double.parseDouble((String)origin.get("latitude")));
-        lats.add(Double.parseDouble((String)destination.get("latitude")));
-        longs.add(Double.parseDouble((String)origin.get("longitude")));
-        longs.add(Double.parseDouble((String)destination.get("longitude")));
-    }
-
     private void convertToRadians(){
         for(int i = 0; i < 2; ++i){
-            lats.set( i, ((lats.get(i)/180) * Math.PI) );
-            longs.set( i, ((longs.get(i)/180) * Math.PI) );
+            origin[i] = ((origin[i]/180.0) * Math.PI);
+            destination[i] = ((destination[i]/180.0) * Math.PI);
         }
     }
-    //comment to test commits
+
     private double findCentralAngle(){
         //Implements Haversine formula for computing central angle
-        double sinSqDeltaLat = Math.pow( ( Math.sin( Math.abs(lats.get(0) - lats.get(1) ) /2 ) ), 2 );
-        double cosLat1cosLat2 = Math.cos( lats.get(0) ) * Math.cos( lats.get(1) );
-        double sinSqDeltaLong = Math.pow( ( Math.sin( Math.abs(longs.get(0) - longs.get(1) ) /2 ) ), 2 );
+        double sinSqDeltaLat = Math.pow( ( Math.sin( Math.abs(origin[0] - destination[0]) /2 ) ), 2 );
+        double cosLat1cosLat2 = Math.cos( origin[0] ) * Math.cos( destination[0] );
+        double sinSqDeltaLong = Math.pow( ( Math.sin( Math.abs(origin[1] - destination[1] ) /2 ) ), 2 );
 
         double dPhi = 2 * Math.asin( Math.sqrt(sinSqDeltaLat + cosLat1cosLat2 * sinSqDeltaLong) );
 
@@ -62,6 +43,7 @@ public class GreatCircleDistance{
 
     public String toString() {
         // Displays Map sets and other variables.
+        /*
         String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
                 + destination.entrySet().toString() + " earthRadius: " + earthRadius + " Lats: ";
         // display lats
@@ -72,6 +54,8 @@ public class GreatCircleDistance{
         for (int i = 0; i < longs.size() - 1; i++) ret += longs.get(i) + ", ";
         ret += longs.get(longs.size() - 1) + "\n"; // tidying up output
         return ret;
+        */
+        return "";
     }
 
 }
