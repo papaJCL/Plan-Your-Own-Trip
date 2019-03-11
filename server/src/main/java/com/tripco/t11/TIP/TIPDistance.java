@@ -41,25 +41,17 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    Double[] originCoords = parseCoords(origin);
-    Double[] destinationCoords = parseCoords(destination);
-    GreatCircleDistance circle = new GreatCircleDistance(originCoords, destinationCoords, earthRadius);
+    GreatCircleDistance circle = new GreatCircleDistance(parseCoords(origin), parseCoords(destination), earthRadius);
     this.distance = circle.calcDistance();        //Write a method here to changed the distance between the two points. Static class. Distance between two points.
     log.trace("buildResponse -> {}", this);
 
-  }
-
-  Double[] parseCoords(Map<String, Object> location){
-    Double[] coords = new Double[2];
-    coords[0] = Double.parseDouble((String)location.get("latitude"));
-    coords[1] = Double.parseDouble((String)location.get("longitude"));
-    return coords;
   }
 
   Long getDistance() {
     return distance;
   }
 
+  @Override
   public String toString() {
     String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
             + destination.entrySet().toString() + " earthRadius: " + earthRadius + " distance: " + distance + "\n";
