@@ -240,6 +240,7 @@ export default class Home extends Component {
 
         };
         reader.readAsText(file);
+        event.target.value = null;
     }
 
     sendItineraryRequest(requestBody) {
