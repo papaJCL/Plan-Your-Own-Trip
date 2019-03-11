@@ -24,19 +24,13 @@ public class TIPItinerary extends TIPHeader {
         this.requestVersion = 3;
     }
 
+    @Override
     public void buildResponse(){
         this.distances = new Long[places.length];
         if(places.length != 0){
             calcDistances();
         }
         log.trace("buildResponse -> {}", this);
-    }
-
-    private Double[] parseCoords(Map<String, Object> location){
-        Double[] coords = new Double[2];
-        coords[0] = Double.parseDouble((String)(location.get("latitude")));
-        coords[1] = Double.parseDouble((String)(location.get("longitude")));
-        return coords;
     }
 
     private void calcDistances(){
@@ -50,10 +44,11 @@ public class TIPItinerary extends TIPHeader {
         return;
     }
 
+    @Override
     public String toString(){
-        String ret = options.toString();
-        ret += places.toString();
-        ret += distances.toString();
+        String ret = "options: " + options.toString();
+        ret += "\nplaces: " + places.toString();
+        ret += "\ndistances: " + distances.toString();
         return ret;
     }
 }
