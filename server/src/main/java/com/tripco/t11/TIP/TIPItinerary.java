@@ -25,20 +25,27 @@ public class TIPItinerary extends TIPHeader {
     }
 
     public void buildResponse(){
-        distances = new Long[places.length];
+        this.distances = new Long[places.length];
         if(places.length != 0){
             calcDistances();
         }
         log.trace("buildResponse -> {}", this);
     }
 
+    private Double[] parseCoords(Map<String, Object> location){
+        Double[] coords = new Double[2];
+        coords[0] = Double.parseDouble((String)(location.get("latitude")));
+        coords[1] = Double.parseDouble((String)(location.get("longitude")));
+        return coords;
+    }
+
     private void calcDistances(){
         Float earthRadius = Float.parseFloat((String)options.get("earthRadius"));
         for(int i = 0; i < places.length - 1; ++i){
-            GreatCircleDistance circle = new GreatCircleDistance(places[i], places[i+1], earthRadius);
+            GreatCircleDistance circle = new GreatCircleDistance(parseCoords(places[i]), parseCoords(places[i+1]), earthRadius);
             distances[i] = circle.calcDistance();
         }
-        GreatCircleDistance circle = new GreatCircleDistance(places[0], places[places.length-1], earthRadius);
+        GreatCircleDistance circle = new GreatCircleDistance(parseCoords(places[0]), parseCoords(places[places.length - 1]), earthRadius);
         distances[distances.length - 1] = circle.calcDistance();
         return;
     }
