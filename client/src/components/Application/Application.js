@@ -44,7 +44,7 @@ export default class Application extends Component {
         destination: {latitude: '', longitude: ''},
         distance: 0,
         errorMessage: null,
-        JSONString: [] ,
+        JSONString: [],
         returnFile: [],
         latitude: [],
         longitude: [],
@@ -235,11 +235,11 @@ export default class Application extends Component {
   }
 
   updatePlacesArray(arr) {
-      //let obj = JSON.parse(this.state.JSONString);
-     // obj.places = arr;
-      this.state.JSONString.places = arr;
+      let newJSON = this.state.JSONString;
+      newJSON.body.places = arr;
       this.setState({
-        JSONString: this.state.JSONString
+        //JSONString: this.state.JSONString
+        JSONString: newJSON,
       } , () => {
           this.refs.child.reRenderNewMap();
       });
