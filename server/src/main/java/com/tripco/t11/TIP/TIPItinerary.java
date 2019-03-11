@@ -24,8 +24,9 @@ public class TIPItinerary extends TIPHeader {
         this.requestVersion = 3;
     }
 
+    @Override
     public void buildResponse(){
-        distances = new Long[places.length];
+        this.distances = new Long[places.length];
         if(places.length != 0){
             calcDistances();
         }
@@ -35,18 +36,19 @@ public class TIPItinerary extends TIPHeader {
     private void calcDistances(){
         Float earthRadius = Float.parseFloat((String)options.get("earthRadius"));
         for(int i = 0; i < places.length - 1; ++i){
-            GreatCircleDistance circle = new GreatCircleDistance(places[i], places[i+1], earthRadius);
+            GreatCircleDistance circle = new GreatCircleDistance(parseCoords(places[i]), parseCoords(places[i+1]), earthRadius);
             distances[i] = circle.calcDistance();
         }
-        GreatCircleDistance circle = new GreatCircleDistance(places[0], places[places.length-1], earthRadius);
+        GreatCircleDistance circle = new GreatCircleDistance(parseCoords(places[0]), parseCoords(places[places.length - 1]), earthRadius);
         distances[distances.length - 1] = circle.calcDistance();
         return;
     }
 
+    @Override
     public String toString(){
-        String ret = options.toString();
-        ret += places.toString();
-        ret += distances.toString();
+        String ret = "options: " + options.toString();
+        ret += "\nplaces: " + places.toString();
+        ret += "\ndistances: " + distances.toString();
         return ret;
     }
 }

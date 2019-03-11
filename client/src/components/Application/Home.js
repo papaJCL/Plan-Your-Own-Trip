@@ -102,7 +102,6 @@ export default class Home extends Component {
             <Card>
                 <CardBody>
                      <CardTitle><b>Download Trip Itinerary</b></CardTitle>
-                     <CardSubtitle>This button will download your trip itinerary to your downloads folder.</CardSubtitle>
                     <row>
                         <Button onClick={this.download}>Download Trip Itinerary</Button>
                     </row>
@@ -118,7 +117,6 @@ export default class Home extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Upload Itinerary</b></CardTitle>
-                    <CardSubtitle>Click this button to upload an itinerary and start planning your trip!</CardSubtitle>
                     <input type="file"name="myFile" onChange={this.onChange}/>
                 </CardBody>
             </Card>
@@ -131,7 +129,6 @@ export default class Home extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Reset Map</b></CardTitle>
-                    <CardSubtitle>This button will reset the map.</CardSubtitle>
                     <row>
                         <Button onClick={this.clearMap}>Reset Map to default</Button>
                     </row>
