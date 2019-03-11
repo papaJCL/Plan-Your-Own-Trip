@@ -147,6 +147,7 @@ export default class Application extends Component {
             polyLineCoor = {this.state.polyLineCoor}
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
+            updatePlacesArray = {this.updatePlacesArray}
             ref="child"
             />;
     }
@@ -234,12 +235,14 @@ export default class Application extends Component {
   }
 
   updatePlacesArray(arr) {
-      let obj = JSON.parse(this.JSONString);
-      obj.places = arr;
+      //let obj = JSON.parse(this.state.JSONString);
+     // obj.places = arr;
+      this.state.JSONString.places = arr;
       this.setState({
-        JSONString: JSON.stringify(obj),
+        JSONString: this.state.JSONString
+      } , () => {
+          this.refs.child.reRenderNewMap();
       });
-
   }
 
 

@@ -152,8 +152,8 @@ export default class Home extends Component {
     }
 
     changeStartLocation(idx) {
-        let places = this.props.JSONString.body.places
-        let newplaces = [];
+        let places = this.props.JSONString.body.places;
+        var newplaces = [];
         for (var i = 0; i < places.length; i++) {
             newplaces[i] = places[(idx + i) % places.length];
         }
