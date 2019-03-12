@@ -159,7 +159,7 @@ export default class Home extends Component {
 
     deleteLocation(idx) {
         let places = this.props.JSONString.body.places;
-        if (places.size() === 2) {
+        if (places.length === 2) {
             this.props.deleteError();
             return;
         }
