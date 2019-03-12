@@ -29,6 +29,7 @@ export default class Application extends Component {
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
+    this.deleteError = this.deleteError.bind(this);
 
 
     this.state = {
@@ -148,6 +149,7 @@ export default class Application extends Component {
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
             updatePlacesArray = {this.updatePlacesArray}
+            deleteError = {this.deleteError}
             ref="child"
             />;
     }
@@ -179,6 +181,13 @@ export default class Application extends Component {
       errorMessage: this.createErrorBanner('Error', '500',
           `Invalid Input Entered Into Origin or Destination`)
     });
+  }
+
+  deleteError() {
+      this.setState({
+          errorMessage: this.createErrorBanner('Error', '500',
+              `You Must Have Atleast Two Locations For the Itinerary`)
+      });
   }
 
   updateIfGoodCalculator(response){

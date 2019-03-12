@@ -159,6 +159,10 @@ export default class Home extends Component {
 
     deleteLocation(idx) {
         let places = this.props.JSONString.body.places;
+        if (places.size() === 2) {
+            this.props.deleteError();
+            return;
+        }
         places.splice(idx, 1);
         this.props.updatePlacesArray(places);
     }
