@@ -157,6 +157,12 @@ export default class Home extends Component {
         this.props.updatePlacesArray(newplaces);
     }
 
+    deleteLocation(idx) {
+        let places = this.props.JSONString.body.places;
+        places.splice(idx, 1);
+        this.props.updatePlacesArray(places);
+    }
+
     renderItinerary(){
 
 
