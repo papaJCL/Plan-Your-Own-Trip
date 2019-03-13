@@ -110,24 +110,24 @@ export default class Home extends Component {
     renderIntro(){
         return(
             <Pane header={'Itinerary Menu'}
-                 bodyJSX={
-                    <div>
+                  bodyJSX={
+                      <div>
 
-                        <row>
-                         {'Choose your file'}
-                        </row>
-                        <span>
+                          <row>
+                              {'Choose your file'}
+                          </row>
+                          <span>
 
                          {this.createUploadButton()}
 
-                         {this.createResetButton()}
+                              {this.createResetButton()}
 
-                         {this.createDownloadButton()}
+                              {this.createDownloadButton()}
 
                         </span>
-                    </div>}
-        />
-    );
+                      </div>}
+            />
+        );
     }
 
 
@@ -135,7 +135,7 @@ export default class Home extends Component {
         return(
             <Card>
                 <CardBody>
-                     <CardTitle><b>Download Trip Itinerary</b></CardTitle>
+                    <CardTitle><b>Download Trip Itinerary</b></CardTitle>
                     <row>
                         <Button onClick={this.download}>Download Trip Itinerary</Button>
                     </row>
@@ -154,7 +154,7 @@ export default class Home extends Component {
                     <input type="file"name="myFile" onChange={this.onChange}/>
                 </CardBody>
             </Card>
-             );
+        );
 
     }
 
@@ -167,8 +167,8 @@ export default class Home extends Component {
                         <Button onClick={this.clearMap}>Reset Map to default</Button>
                     </row>
                 </CardBody>
-             </Card>
-    );
+            </Card>
+        );
     }
 
 
