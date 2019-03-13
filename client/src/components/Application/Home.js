@@ -7,7 +7,8 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
-
+import 'react-dropdown/style.css'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
 
@@ -30,6 +31,9 @@ export default class Home extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
+        this.toggle = this.toggle.bind(this)
+
+        this.state = {dropDownOpen: false};
     }
 
     render() {
@@ -41,6 +45,8 @@ export default class Home extends Component {
                     </Col>
                     <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                         {this.renderIntro()}
+                        {this.renderDropDown()}
+
 
                     </Col>
                 </Row>
@@ -58,6 +64,34 @@ export default class Home extends Component {
             </Container>
         );
     }
+
+
+    // Code originally from  https://reactstrap.github.io/components/dropdowns/
+    toggle() {
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }));
+    }
+
+    renderDropDown(){
+        return(
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret>
+                    Other Options
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem header>Itinerary actions</DropdownItem>
+                    <DropdownItem>Add stop</DropdownItem>
+                    <DropdownItem> Remove stop</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>Change start point</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        );
+    }
+
+
+
 
     /*download(jsonData, 'json.txt', 'text/plain');*/
     /*Modified code beloning to Rafał Łużyński on www.stackoverflow.com*/
