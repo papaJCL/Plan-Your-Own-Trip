@@ -157,6 +157,16 @@ export default class Home extends Component {
         this.props.updatePlacesArray(newplaces);
     }
 
+    deleteLocation(idx) {
+        let places = this.props.JSONString.body.places;
+        if (places.length === 2) {
+            this.props.deleteError();
+            return;
+        }
+        places.splice(idx, 1);
+        this.props.updatePlacesArray(places);
+    }
+
     renderItinerary(){
 
 
@@ -181,7 +191,7 @@ export default class Home extends Component {
 
         console.log("modified " , places)
         let distances = this.props.JSONString.body.distances
-        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX =  {`Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
+        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude} <b>Longitude:</b> {item.longitude}  <b>Distance:</b> {item.distance}<br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><button onClick={() => this.deleteLocation(idx)}>Delete</button></div>} />);
 
         return (
             <Pane header={'Itinerary'}
@@ -289,7 +299,7 @@ export default class Home extends Component {
                         {
                             this.props.markers.map((position, idx) =>
                                 <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup><div>Location {idx + 1}<br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button></div></Popup>
+                                    <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.deleteLocation(idx)}>Delete</button><br /></div></Popup>
                                 </Marker>
                             )}
 
