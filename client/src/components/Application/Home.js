@@ -191,7 +191,7 @@ export default class Home extends Component {
 
         console.log("modified " , places)
         let distances = this.props.JSONString.body.distances
-        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX =  {`Latitude: ${item.latitude} Longitude: ${item.longitude}  Distance: ${item.distance}`} />);
+        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}Latitude: {item.latitude} Longitude: {item.longitude}  Distance: {item.distance}</div>} />);
 
         return (
             <Pane header={'Itinerary'}
