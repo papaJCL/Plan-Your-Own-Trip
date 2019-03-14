@@ -29,6 +29,23 @@ public class NearestNeighbor extends Optimizations {
         return;
     }
 
+    public void findOptimalTrip(){
+        for(int i = 0; i < distances.length; ++i){
+            assignVisited(i);
+            Long currentDist = optimizeCurrentStart(i);
+            if(currentDist < bestDist) {
+                bestDist = currentDist;
+                trip = currentTrip.clone();
+            }
+        }
+    }
 
+    private void assignVisited(int i){
+
+    }
+
+    private Long optimizeCurrentStart(int i){
+        return 0L;
+    }
 
 }
