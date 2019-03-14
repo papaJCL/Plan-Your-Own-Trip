@@ -1,8 +1,6 @@
 package com.tripco.t11.misc;
 
 import java.lang.Math;
-import java.util.Map;
-import java.util.Vector;
 
 /** Determines the distance between geographic coordinates.
  */
@@ -12,8 +10,8 @@ public class GreatCircleDistance{
     private Double earthRadius;
 
     public GreatCircleDistance(Double[] origin, Double[] destination, double earthRadius){
-        this.origin = origin;
-        this.destination = destination;
+        this.origin = origin.clone();
+        this.destination = destination.clone();
         this.earthRadius = earthRadius;
     }
 
