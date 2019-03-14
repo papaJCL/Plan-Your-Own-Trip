@@ -23,6 +23,7 @@ public class TestTIPItinerary {
         options = new HashMap<>();
         options.put("title", "My Trip");
         options.put("earthRadius", "3958.761316");
+        options.put("optimization", "none");
         Denver = new HashMap<>();
         Denver.put("id", "dnvr");
         Denver.put("name", "Denver");
