@@ -41,11 +41,34 @@ public class NearestNeighbor extends Optimizations {
     }
 
     private void assignVisited(int i){
-
+        for(int j = 0; j < visited.length; ++j){
+            visited[j] = false;
+            currentTrip[j] = -1;
+        }
+        visited[i] = true;
+        currentTrip[0] = i;
     }
 
-    private Long optimizeCurrentStart(int i){
-        return 0L;
+    private Long optimizeCurrentStart(int index){
+        Long tripDistance = 0L;
+        int placeInTrip = 1;
+        while(placesAreUnvisited()){
+            int nextIndex = findNextPlace(index);
+            currentTrip[placeInTrip++] = nextIndex;
+            visited[nextIndex] = true;
+            tripDistance += distances[index][nextIndex];
+            index = nextIndex;
+        }
+        tripDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
+        return tripDistance;
+    }
+
+    private boolean placesAreUnvisited(){
+        return true;
+    }
+
+    private int findNextPlace(int index){
+        return 0;
     }
 
 }
