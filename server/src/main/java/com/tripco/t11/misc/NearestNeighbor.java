@@ -6,7 +6,6 @@ public class NearestNeighbor extends Optimizations {
 
     public int[] trip;
     public int[] currentTrip;
-    private Long bestDist;
     private Long[][] distances;
     private boolean[] visited;
 
@@ -15,7 +14,6 @@ public class NearestNeighbor extends Optimizations {
         this.currentTrip = new int[coords.length];
         generateDistances(coords, earthRadius);
         this.visited = new boolean[coords.length];
-        this.bestDist = Long.MAX_VALUE;
     }
 
     private void generateDistances(Double[][] coords, Double earthRadius){
@@ -32,11 +30,12 @@ public class NearestNeighbor extends Optimizations {
     }
 
     public void findOptimalTrip(){
+        Long bestTotal = Long.MAX_VALUE;
         for(int i = 0; i < distances.length; ++i){
             assignVisited(i);
-            Long currentDist = optimizeCurrentStart(i);
-            if(currentDist < bestDist) {
-                bestDist = currentDist;
+            Long currentTotal = optimizeCurrentStart(i);
+            if(currentTotal < bestTotal) {
+                bestTotal = currentTotal;
                 trip = currentTrip.clone();
             }
         }
@@ -75,8 +74,8 @@ public class NearestNeighbor extends Optimizations {
     private int findNextPlace(int index){
         Long shortest = Long.MAX_VALUE;
         int next = -1;
-        for(int i = 0; i < distances[index].length; ++i){
-            if((distances[index][i] < shortest && distances[index][i] != 0) && !visited[i]){
+        for(int i = 0; i < distances[index].length; ++i) {
+            if ((distances[index][i] < shortest && distances[index][i] != 0) && !visited[i]) {
                 shortest = distances[index][i];
                 next = i;
             }
