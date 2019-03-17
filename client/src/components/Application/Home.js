@@ -266,51 +266,58 @@ export default class Home extends Component {
         );
     }
 
-    renderLeafletMap() {
-        if (this.props.boolMarker == false) {
-            return(
-                <div>
-                    <Map center={[0,0]} zoom={2}
-                         style={{height: 500, maxwidth: 700}}>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                        />
-                    </Map>
-                </div>
-            )
-        }
-        else {
-            return (
-                <div>
-                    <Map bounds = {this.props.markers} animate = {true}
-                         style={{height: 500, maxwidth: 700}}>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                        />
-                        <Polyline
-                            positions ={this.props.polyLineCoor}
-                            color = {'black'}
-                            weight = {5}
-                            opacity = {0.5}
-                            smoothFactor = {1}
-                        />
-                        {
-                            this.props.markers.map((position, idx) =>
-                                <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                    <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.deleteLocation(idx)}>Delete</button><br /></div></Popup>
-                                </Marker>
-                            )}
-
-                    </Map>
-                </div>
-
-            );
-        }
+    renderBasicMap(){
+        console.log("landed on basic map")
+        return(
+            <div>
+                <Map center={[0,0]} zoom={2}
+                     style={{height: 500, maxwidth: 700}}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    />
+                </Map>
+            </div>
+        )
     }
 
+    renderComplexMap(){
+        return (
+            <div>
+                <Map bounds = {this.props.markers} animate = {true}
+                     style={{height: 500, maxwidth: 700}}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    />
+                    <Polyline
+                        positions ={this.props.polyLineCoor}
+                        color = {'black'}
+                        weight = {5}
+                        opacity = {0.5}
+                        smoothFactor = {1}
+                    />
+                    {
+                        this.props.markers.map((position, idx) =>
+                            <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
+                                <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.deleteLocation(idx)}>Delete</button><br /></div></Popup>
+                            </Marker>
+                        )}
 
+                </Map>
+            </div>
+
+        );
+    }
+
+    renderLeafletMap() {
+        if (this.props.boolMarker == false) {
+            return ( this.renderBasicMap());
+        }
+        else {
+            return (this.renderComplexMap());
+        }
+    }
 
     markerIcon() {
         // react-leaflet does not currently handle default marker icons correctly,
