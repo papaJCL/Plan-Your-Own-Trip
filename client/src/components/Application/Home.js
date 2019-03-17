@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
+import Itinerary from './Itinerary'
 
 
 import { getOriginalServerPort, sendServerRequestWithBody } from '../../api/restfulAPI'
@@ -30,6 +31,8 @@ export default class Home extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
+        this.changeStartLocation = this.changeStartLocation.bind(this)
+        this.deleteLocation = this.deleteLocation.bind(this)
     }
 
     render() {
@@ -44,17 +47,12 @@ export default class Home extends Component {
 
                     </Col>
                 </Row>
-                <Row>
-                    {this.props.boolMarker ?(
-                        <Col xs={12}>
-                            {this.renderItinerary()}
-                        </Col>
-                    ) : (
-                        <Col xs={12}>
-                            {this.basicItinerary()}
-                        </Col>
-                    )}
-                </Row>
+                <Itinerary
+                    boolMarker = {this.props.boolMarker}
+                    JSONString = {this.props.JSONString}
+                    changeStartLocation = {this.changeStartLocation}
+                    deleteLocation = {this.deleteLocation}
+                />
             </Container>
         );
     }
@@ -138,16 +136,6 @@ export default class Home extends Component {
     }
 
 
-
-
-
-    basicItinerary() {
-        return (
-            <Pane header={'Itinerary'}
-                  bodyJSX={'Your itinerary will load here'}/>
-        );
-    }
-
     changeStartLocation(idx) {
         let places = this.props.JSONString.body.places;
         var newplaces = [];
@@ -167,44 +155,6 @@ export default class Home extends Component {
         this.props.updatePlacesArray(places);
     }
 
-    renderItinerary(){
-
-
-        var footerStyle = {
-            backgroundColor: 'grey',
-            alignSelf: 'center',
-            color: 'white'
-        };
-
-        let places = this.props.JSONString.body.places
-        let distanceArray = this.props.JSONString.body.distances
-
-        for (var i = 0; i < places.length; i++){
-            places[i].distance = distanceArray[i]
-        }
-
-        var totalDistance =0
-        for (var i = 0; i < places.length; i++) {
-            totalDistance = distanceArray[i] + totalDistance
-        }
-        var numStops = places.length
-
-        console.log("modified " , places)
-        let distances = this.props.JSONString.body.distances
-        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude} <b>Longitude:</b> {item.longitude}  <b>Distance:</b> {item.distance}<br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><button onClick={() => this.deleteLocation(idx)}>Delete</button></div>} />);
-
-        return (
-            <Pane header={'Itinerary'}
-                  bodyJSX = {
-                      <div>{body}
-                          <Card style = {footerStyle}>
-                              {`  You have  ${numStops}  stops on your trip totalling  ${totalDistance}  miles.`}
-                          </Card>
-                      </div>
-                  }
-            />
-        );
-    }
 
     clearMap(){
         this.props.clearMapState();
@@ -267,7 +217,6 @@ export default class Home extends Component {
     }
 
     renderBasicMap(){
-        console.log("landed on basic map")
         return(
             <div>
                 <Map center={[0,0]} zoom={2}
