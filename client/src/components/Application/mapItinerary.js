@@ -18,7 +18,6 @@ export default class mapItinerary extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
-        this.changeStartLocation = this.changeStartLocation.bind(this)
     }
 
     render(){
@@ -144,7 +143,7 @@ export default class mapItinerary extends Component {
                     {
                         this.props.markers.map((position, idx) =>
                             <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.props.deleteLocation(idx)}>Delete</button><br /></div></Popup>
+                                <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.props.deleteLocation(idx)}>Delete</button><br /></div></Popup>
                             </Marker>
                         )}
 
@@ -195,12 +194,4 @@ export default class mapItinerary extends Component {
         this.props.clearMapState();
     }
 
-    changeStartLocation(idx) {
-        let places = this.props.JSONString.body.places;
-        var newplaces = [];
-        for (var i = 0; i < places.length; i++) {
-            newplaces[i] = places[(idx + i) % places.length];
-        }
-        this.props.updatePlacesArray(newplaces);
-    }
 }

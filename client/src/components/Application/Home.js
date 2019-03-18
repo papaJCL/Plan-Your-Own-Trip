@@ -49,6 +49,7 @@ export default class Home extends Component {
                 deleteError = {this.props.deleteError}
                 deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
+                changeStartLocation = {this.changeStartLocation}
                 ref="child"
             />
         )
