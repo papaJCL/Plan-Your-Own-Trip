@@ -40,7 +40,7 @@ public class GreatCircleDistance{
     }
 
     public String toString() {
-        // Displays Map sets and other variables. - no it doesn't it makes them a string and returns them; nice comment, jackass.
+        // Displays Map sets and other variables.
         /*
         String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
                 + destination.entrySet().toString() + " earthRadius: " + earthRadius + " Lats: ";
