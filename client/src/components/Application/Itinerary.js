@@ -84,7 +84,7 @@ export default class Iitnerary extends Component {
                   bodyJSX = {
                       <div>{body}
                           <Card style = {footerStyle}>
-                              {`  You have  ${numStops}  stops on your trip totalling  ${totalDistance} ${this.props.planOptions.activeUnit}.`}
+                              {`  You have  ${numStops}  stops on your trip totalling  ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`}
                           </Card>
                       </div>
                   }
