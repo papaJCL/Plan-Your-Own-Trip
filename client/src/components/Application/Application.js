@@ -150,6 +150,7 @@ export default class Application extends Component {
             liftHomeState = {this.liftHomeState}
             updatePlacesArray = {this.updatePlacesArray}
             deleteError = {this.deleteError}
+            planOptions = {this.state.planOptions}
             ref="child"
             />;
     }
