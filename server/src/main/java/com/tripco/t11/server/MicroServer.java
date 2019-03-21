@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import com.tripco.t11.TIP.TIPConfig;
 import com.tripco.t11.TIP.TIPDistance;
+import com.tripco.t11.TIP.TIPFind;
 import com.tripco.t11.TIP.TIPItinerary;
 import com.tripco.t11.TIP.TIPHeader;
 
@@ -64,6 +65,7 @@ class MicroServer {
     Spark.post("/api/distance", this::processTIPdistanceRequest);
     Spark.get("/api/echo", this::echoHTTPrequest);
     Spark.post("/api/itinerary", this::processTIPitineraryRequest);
+    Spark.post("/api/find", this::processTIPFindRequest);
     log.trace("Restful configuration complete");
   }
 
@@ -94,6 +96,10 @@ class MicroServer {
 
   private String processTIPitineraryRequest(Request request, Response response){
     return processTIPrequest(TIPItinerary.class, request, response);
+  }
+
+  private String processTIPFindRequest(Request request, Response response){
+    return processTIPrequest(TIPFind.class, request, response);
   }
 
 
