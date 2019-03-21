@@ -1,12 +1,12 @@
 package com.tripco.t11.TIP;
 
+import com.tripco.t11.misc.GreatCircleDistance;
+import com.tripco.t11.misc.NearestNeighbor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-
-import com.tripco.t11.misc.GreatCircleDistance;
-import com.tripco.t11.misc.NearestNeighbor;
 
 public class TIPItinerary extends TIPHeader {
     private Map<String, Object> options;
@@ -15,16 +15,14 @@ public class TIPItinerary extends TIPHeader {
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
-    TIPItinerary(Map<String, Object> options, Map<String, Object>[] places){
+    TIPItinerary(int version, Map<String, Object> options, Map<String, Object>[] places){
         this();
+        this.requestVersion = version;
         this.options = options;
         this.places = places;
     }
 
-    private TIPItinerary(){
-        this.requestType = "itinerary";
-        this.requestVersion = 3;
-    }
+    private TIPItinerary(){ this.requestType = "itinerary"; }
 
     @Override
     public void buildResponse(){
