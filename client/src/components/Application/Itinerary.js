@@ -8,6 +8,10 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 
+import Calculator from './Calculator/Calculator'
+
+
+
 
 export default class Iitnerary extends Component {
 
@@ -33,6 +37,22 @@ export default class Iitnerary extends Component {
         )
     }
 
+    convertUnitsToNum(unit){
+        if (unit == 'miles'){return 3959}
+        if (unit == 'kilometers'){return 6371}
+        if (unit == 'nautical miles'){return 3440}
+    }
+
+    convertDistance(distance, activeUnit, oldUnit){
+        if (oldUnit == ''){ return distance}
+        let newDistance = distance
+        let numOldUnit = this.convertUnitsToNum(oldUnit)
+        let numNewUnit = this.convertUnitsToNum(activeUnit)
+        newDistance = distance * (numNewUnit/numOldUnit)
+        newDistance = Math.round(newDistance)
+        return newDistance
+    }
+
     renderItinerary(){
         var footerStyle = {
             backgroundColor: 'grey',
@@ -54,8 +74,9 @@ export default class Iitnerary extends Component {
         var numStops = places.length
 
         let distances = this.props.JSONString.body.distances
-        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude}
-        <b>Longitude:</b> {item.longitude}  <b>Distance:</b> {item.distance} {this.props.planOptions.activeUnit} <br/> <button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>
+        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude}<br/>
+        <b>Longitude:</b> {item.longitude} <br/>  <b>Distance: </b> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )} {' '}
+        {this.props.planOptions.activeUnit} <br/> <button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>
             <button onClick={() => this.props.deleteLocation(idx)}>Delete</button></div>} />);
 
         return (

@@ -30,7 +30,7 @@ export default class Application extends Component {
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
     this.deleteError = this.deleteError.bind(this);
-
+    this.updateOldUnit = this.updateOldUnit.bind(this)
 
     this.state = {
       serverConfig: null,
@@ -52,7 +52,8 @@ export default class Application extends Component {
         markers: [[]],
         boolMarker: false ,
         polyLineCoor: [[]],
-        names : []
+        names : [] ,
+        oldUnits : ''
 
     };
     this.updateServerConfig();
@@ -84,6 +85,12 @@ export default class Application extends Component {
     optionsCopy[option] = value;
     this.setState({'planOptions': optionsCopy});
   }
+
+  updateOldUnit(){
+      this.setState({
+            oldUnits: this.state.planOptions.activeUnit
+        })
+    }
 
   updateServerConfig() {
     sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
@@ -121,6 +128,8 @@ export default class Application extends Component {
         return <Options
             options={this.state.planOptions}
             config={this.state.serverConfig}
+            oldUnits = {this.state.oldUnits}
+            updateOldUnit = {this.updateOldUnit}
             updateOption={this.updatePlanOption}/>;
       case 'settings':
         return <Settings
@@ -151,6 +160,7 @@ export default class Application extends Component {
             updatePlacesArray = {this.updatePlacesArray}
             deleteError = {this.deleteError}
             planOptions = {this.state.planOptions}
+            oldUnits = {this.state.oldUnits}
             ref="child"
             />;
     }
@@ -207,6 +217,7 @@ export default class Application extends Component {
       )
     });
   }
+
 
   setValue(stateVar, location){
     this.setState({[stateVar]: location});
