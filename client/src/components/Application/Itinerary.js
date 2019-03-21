@@ -55,7 +55,7 @@ export default class Iitnerary extends Component {
 
         let distances = this.props.JSONString.body.distances
         var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude}
-        <b>Longitude:</b> {item.longitude}  <b>Distance:</b> {item.distance}<br /><button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>
+        <b>Longitude:</b> {item.longitude}  <b>Distance:</b> {item.distance} {this.props.planOptions.activeUnit} <br/> <button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>
             <button onClick={() => this.props.deleteLocation(idx)}>Delete</button></div>} />);
 
         return (
