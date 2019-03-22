@@ -64,6 +64,7 @@ export default class Home extends Component {
                 deleteLocation = {this.deleteLocation}
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
+                origUnit = {this.props.origUnit}
             />
         )
     }

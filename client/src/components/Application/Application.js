@@ -53,7 +53,8 @@ export default class Application extends Component {
         boolMarker: false ,
         polyLineCoor: [[]],
         names : [] ,
-        oldUnits : ''
+        oldUnits : '',
+        origUnit: ''
 
     };
     this.updateServerConfig();
@@ -161,6 +162,7 @@ export default class Application extends Component {
             deleteError = {this.deleteError}
             planOptions = {this.state.planOptions}
             oldUnits = {this.state.oldUnits}
+            origUnit = {this.state.origUnit}
             ref="child"
             />;
     }
@@ -231,7 +233,8 @@ export default class Application extends Component {
       longitude: [],
       markers: [[]],
       boolMarker: false ,
-      names: []
+      names: [],
+      origUnit: 0
     });
   }
 
@@ -249,7 +252,8 @@ export default class Application extends Component {
   liftHomeState(response){
       this.setState({
           JSONString: response,
-          returnFile: response.body
+          returnFile: response.body,
+          origUnit : response.body.options.earthRadius
       } , () => {
           this.refs.child.reRenderNewMap();
       });
