@@ -21,14 +21,15 @@ export default class Units extends Component {
   }
 
   renderUnitButtons(names) {
-    return names.sort().map((unit) =>
+      return names.sort().map((unit) =>
       <Button
         className='btn-csu w-100 text-left'
         key={"button_"+unit}
         active={this.props.activeUnit === unit}
         value={unit}
-        onClick={(event) => this.props.updateOption('activeUnit', event.target.value)}
+        onClick={(event) => {this.props.updateOldUnit(), this.props.updateOption('activeUnit', event.target.value)}}
       >
+
         {unit.charAt(0).toUpperCase() + unit.slice(1)}
       </Button>
     );

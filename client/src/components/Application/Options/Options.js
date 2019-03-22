@@ -26,6 +26,8 @@ export default class Options extends Component{
             <Col xs="12" sm="12" md="6" lg="4" xl="3">
               <Units options={this.props.options}
                      activeUnit={this.props.options.activeUnit}
+                     oldUnits = {this.props.oldUnits}
+                     updateOldUnit = {this.props.updateOldUnit}
                      updateOption={this.props.updateOption}/>
             </Col>
               {/* Insert here <- different column, same row.*/}

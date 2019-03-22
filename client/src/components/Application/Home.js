@@ -62,6 +62,8 @@ export default class Home extends Component {
                 JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
+                planOptions = {this.props.planOptions}
+                oldUnits = {this.props.oldUnits}
             />
         )
     }
@@ -129,5 +131,7 @@ export default class Home extends Component {
 
         this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
+
+
 
 }
