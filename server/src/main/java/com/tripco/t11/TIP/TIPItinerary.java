@@ -32,7 +32,7 @@ public class TIPItinerary extends TIPHeader {
             if(options.get("optimization").equals("short")) {
                 NearestNeighbor optimize = new NearestNeighbor(coords, parseRadius());
                 optimize.findOptimalTrip();
-                reAssignPlaces(optimize.trip);
+                coords = reAssignPlaces(optimize.trip, coords);
             }
         }
         if (places.length != 0) {
@@ -49,12 +49,24 @@ public class TIPItinerary extends TIPHeader {
         return coords;
     }
 
-    private void reAssignPlaces(int[] trip){
-        Map<String, Object>[] temp = new Map[places.length];
-        for(int i = 0; i < temp.length; ++i){
-            temp[i] = places[trip[i]];
+    private Double[][] reAssignPlaces(int[] trip, Double[][] coords){
+        int j = 0;
+        for(int i = 0; i < trip.length; ++i){
+            if(trip[i] == 0)
+                j = i;
         }
-        places = temp.clone();
+        Map<String, Object>[] tempPlaces = new Map[places.length];
+        Double[][] tempCoords = new Double[coords.length][2];
+        for(int i = 0; i < tempPlaces.length; ++i){
+            if(j == trip.length)
+                j = 0;
+            tempCoords[i] = coords[trip[j]];
+            tempPlaces[i] = places[trip[j]];
+            j++;
+        }
+        places = tempPlaces.clone();
+        coords = tempCoords.clone();
+        return coords;
     }
 
     private Double parseRadius(){
