@@ -9,6 +9,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 
 import Calculator from './Calculator/Calculator'
+//import Table from 'react-bootstrap/Table'
 
 
 
@@ -43,8 +44,23 @@ export default class Iitnerary extends Component {
         if (unit == 'nautical miles'){return 3440}
     }
 
+    convertIfOriginalNotMiles(oldUnit){
+        if (oldUnit == 6371){ return 'kilometers'}
+        if (oldUnit == 3440){ return 'nautical miles'}
+    }
+
     convertDistance(distance, activeUnit, oldUnit){
-        if (oldUnit == ''){ return distance}
+        console.log("origUnit is " , this.props.origUnit)
+        console.log("old unit is " , oldUnit)
+        console.log("active unit is" , activeUnit)
+        if (oldUnit == '' && this.props.origUnit != 3959){
+            oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
+        }
+        else if (oldUnit == ''){ return distance }
+        else if (this.props.origUnit != 3959){
+            oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
+            console.log("land here")
+        }
         let newDistance = distance
         let numOldUnit = this.convertUnitsToNum(oldUnit)
         let numNewUnit = this.convertUnitsToNum(activeUnit)
