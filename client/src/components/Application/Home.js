@@ -65,6 +65,10 @@ export default class Home extends Component {
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
                 origUnit = {this.props.origUnit}
+                latitude = {this.props.latitude}
+                longitude = {this.props.longitude}
+                names = {this.props.names}
+
             />
         )
     }
@@ -88,6 +92,7 @@ export default class Home extends Component {
     }
 
     deleteLocation(idx) {
+        console.log("land here")
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
             this.props.deleteError();
