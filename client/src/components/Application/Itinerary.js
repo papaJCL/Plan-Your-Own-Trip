@@ -9,6 +9,8 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
+let order = 'desc';
+
 export default class Iitnerary extends Component {
 
     constructor(props) {
@@ -17,6 +19,7 @@ export default class Iitnerary extends Component {
         this.basicItinerary = this.basicItinerary.bind(this)
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
+        this.reverseList = this.reverseList.bind(this)
     }
 
     render(){
@@ -134,18 +137,26 @@ export default class Iitnerary extends Component {
                     ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
                 }
                 bodyJSX ={
-                    <BootstrapTable data={ products }>
-                        <TableHeaderColumn width='150' dataField='id' isKey={ true }>ID</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='name'>Name</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='latitude'>Latitude</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='longitude'>Longitude</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
-                        <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                    </BootstrapTable>
+                    <div>
+                        <BootstrapTable data={products} >
+                            <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='name'>Name</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='latitude'>Latitude</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='longitude'>Longitude</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
+                        </BootstrapTable>
+                    </div>
                 }
             />
         );
+    }
+
+    reverseList(){
+        return(
+            <button>Reverse</button>
+        )
     }
 
     deleteFunc(cell, row, enumObject, index){
