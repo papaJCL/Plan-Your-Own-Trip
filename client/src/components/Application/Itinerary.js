@@ -6,12 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle } from 'reactstrap';
-
-import Calculator from './Calculator/Calculator'
-//import Table from 'react-bootstrap/Table'
-
-
+    CardTitle, CardSubtitle , Table} from 'reactstrap';
 
 
 export default class Iitnerary extends Component {
@@ -50,16 +45,12 @@ export default class Iitnerary extends Component {
     }
 
     convertDistance(distance, activeUnit, oldUnit){
-        console.log("origUnit is " , this.props.origUnit)
-        console.log("old unit is " , oldUnit)
-        console.log("active unit is" , activeUnit)
         if (oldUnit == '' && this.props.origUnit != 3959){
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
         }
         else if (oldUnit == ''){ return distance }
         else if (this.props.origUnit != 3959){
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
-            console.log("land here")
         }
         let newDistance = distance
         let numOldUnit = this.convertUnitsToNum(oldUnit)
@@ -69,44 +60,70 @@ export default class Iitnerary extends Component {
         return newDistance
     }
 
-    renderItinerary(){
-        var footerStyle = {
-            backgroundColor: 'grey',
-            alignSelf: 'center',
-            color: 'white'
-        };
-
+    getPlaces(){
         let places = this.props.JSONString.body.places
         let distanceArray = this.props.JSONString.body.distances
-
         for (var i = 0; i < places.length; i++){
             places[i].distance = distanceArray[i]
         }
+        return places
+    }
 
+    getTotalDistance(places){
+
+        let distanceArray = this.props.JSONString.body.distances
         var totalDistance =0
         for (var i = 0; i < places.length; i++) {
             totalDistance = distanceArray[i] + totalDistance
         }
-        var numStops = places.length
+        return totalDistance
+    }
 
-        let distances = this.props.JSONString.body.distances
-        var body = places.map((item, idx) => <Pane header= {'Location ' + (idx + 1) + ': ' + item.name} bodyJSX = {<div>{body}<b>Latitude:</b> {item.latitude}<br/>
-        <b>Longitude:</b> {item.longitude} <br/>  <b>Distance: </b> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )} {' '}
-        {this.props.planOptions.activeUnit} <br/> <button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>
-            <button onClick={() => this.props.deleteLocation(idx)}>Delete</button></div>} />);
+    renderItinerary(){
+        let places = this.getPlaces()
+        var totalDistance = this.getTotalDistance(places)
+        var body = places.map((item, idx) =>
+                <tr>
+                    <td> {(idx + 1)}                                                                                   </td>
+                    <td> {item.name}                                                                                   </td>
+                    <td> {item.latitude}                                                                               </td>
+                    <td> {item.longitude}                                                                              </td>
+                    <td> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )}
+                         {' '} {this.props.planOptions.activeUnit}                                                     </td>
+                    <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
+                    <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
+                </tr>
+        )
 
         return (
-            <Pane header={'Itinerary'}
-                  bodyJSX = {
-                      <div>{body}
-                          <Card style = {footerStyle}>
-                              {`  You have  ${numStops}  stops on your trip totalling  ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`}
-                          </Card>
-                      </div>
-                  }
+            <Pane
+                header={
+                    `  You have  ${places.length}  stops on your trip totalling
+                    ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
+                }
+                bodyJSX ={
+                <Table size="sm">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Leg Distance</th>
+                            <th>Delete</th>
+                            <th>Make Origin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {body}
+                    </tbody>
+                </Table>
+                }
             />
+
         );
     }
+
 
     basicItinerary() {
         return (
