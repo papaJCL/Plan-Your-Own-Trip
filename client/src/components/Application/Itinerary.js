@@ -7,7 +7,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
-
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 
 export default class Iitnerary extends Component {
 
@@ -15,6 +15,8 @@ export default class Iitnerary extends Component {
         super(props)
         this.renderItinerary = this.renderItinerary.bind(this)
         this.basicItinerary = this.basicItinerary.bind(this)
+        this.deleteFunc = this.deleteFunc.bind(this)
+        this.makeOriginFunc = this.makeOriginFunc.bind(this)
     }
 
     render(){
@@ -95,6 +97,36 @@ export default class Iitnerary extends Component {
                 </tr>
         )
 
+        // return (
+        //     <Pane
+        //         header={
+        //             `  You have  ${places.length}  stops on your trip totalling
+        //             ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
+        //         }
+        //         bodyJSX ={
+        //         <Table size="sm" height='120' scrollTop={ 'Bottom' } >
+        //             <thead>
+        //                 <tr>
+        //                     <th>ID</th>
+        //                     <th>Name</th>
+        //                     <th>Latitude</th>
+        //                     <th>Longitude</th>
+        //                     <th>Leg Distance</th>
+        //                     <th>Delete</th>
+        //                     <th>Make Origin</th>
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+        //                 {body}
+        //             </tbody>
+        //         </Table>
+        //         }
+        //     />
+        //
+        // );
+
+        var products = this.addProducts()
+
         return (
             <Pane
                 header={
@@ -102,26 +134,51 @@ export default class Iitnerary extends Component {
                     ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
                 }
                 bodyJSX ={
-                <Table size="sm">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Latitude</th>
-                            <th>Longitude</th>
-                            <th>Leg Distance</th>
-                            <th>Delete</th>
-                            <th>Make Origin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {body}
-                    </tbody>
-                </Table>
+                    <BootstrapTable data={ products }>
+                        <TableHeaderColumn width='150' dataField='id' isKey={ true }>ID</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='name'>Name</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='latitude'>Latitude</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='longitude'>Longitude</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
+                        <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
+                    </BootstrapTable>
                 }
             />
-
         );
+    }
+
+    deleteFunc(cell, row, enumObject, index){
+        return (
+            <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
+        );
+    }
+
+    makeOriginFunc(cell, row, enumObject, index){
+        return (
+            <button onClick={() => this.props.changeStartLocation(index)}>Make Origin</button>
+        );
+    }
+
+
+
+     addProducts() {
+         var products = [];
+         const startId = products.length;
+        for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
+            const id = startId + i;
+            products[i] = ({
+                id: id + 1,
+                name: this.props.names[i],
+                latitude: this.props.latitude[i] ,
+                longitude: this.props.longitude[i],
+                distance: this.convertDistance(this.props.JSONString.body.distances[i], this.props.planOptions.activeUnit,
+                    this.props.oldUnits ) + ' ' +  this.props.planOptions.activeUnit,
+                delete: '',
+                origin: ' '
+            });
+        }
+        return products
     }
 
 
