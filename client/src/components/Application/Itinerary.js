@@ -8,6 +8,7 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let order = 'desc';
 
@@ -20,6 +21,11 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
+        this.renderDropDown = this.renderDropDown.bind(this)
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            dropdownOpen: false
+        };
     }
 
     render(){
@@ -97,6 +103,7 @@ export default class Iitnerary extends Component {
                          {' '} {this.props.planOptions.activeUnit}                                                     </td>
                     <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
                     <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
+                    <td> {this.renderDropDown()}</td>
                 </tr>
         )
 
@@ -146,12 +153,37 @@ export default class Iitnerary extends Component {
                             <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
             />
         );
     }
+
+    toggle() {
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }));
+    }
+    renderDropDown() {
+        return (
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret>
+                    Other Options
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem header>Itinerary actions</DropdownItem>
+                    <DropdownItem>Add stop</DropdownItem>
+                    <DropdownItem> Remove stop</DropdownItem>
+                    <DropdownItem divider/>
+                    <DropdownItem>Change start point</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        );
+    }
+
+
 
     reverseList(){
         return(
