@@ -22,6 +22,7 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
         this.renderDropDown = this.renderDropDown.bind(this)
+        this.makeCkeckbox = this.makeCheckbox.bind(this)
         this.toggle = this.toggle.bind(this);
         this.state = {
             dropdownOpen: false
@@ -147,19 +148,28 @@ export default class Iitnerary extends Component {
                     <div>
                         <BootstrapTable data={products} >
                             <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='name'>Name</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='latitude'>Latitude</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='longitude'>Longitude</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='name'>Name   {this.makeCheckbox()}</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='latitude'>Latitude  {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='longitude'>Longitude   {this.makeCheckbox()}</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance  {this.makeCheckbox()}</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete {this.makeCheckbox()}</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin {this.makeCheckbox()}</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order {this.makeCheckbox()}</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
             />
         );
     }
+
+    makeCheckbox(){
+        return(
+            <input type="checkbox" />
+        );
+
+    }
+
+
 
     toggle() {
         this.setState(prevState => ({
