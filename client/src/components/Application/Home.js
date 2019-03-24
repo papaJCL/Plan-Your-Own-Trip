@@ -27,6 +27,7 @@ export default class Home extends Component {
         this.sendItineraryRequest = this.sendItineraryRequest.bind(this)
         this.deleteLocation = this.deleteLocation.bind(this)
         this.changeStartLocation = this.changeStartLocation.bind(this)
+        this.changeOrder = this.changeOrder.bind(this)
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
     }
 
@@ -62,6 +63,7 @@ export default class Home extends Component {
                 JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
+                changeOrder = {this.changeOrder}
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
                 origUnit = {this.props.origUnit}
@@ -80,6 +82,10 @@ export default class Home extends Component {
                 {this.callItinerary()}
             </Container>
         );
+    }
+
+    changeOrder(idx) {
+
     }
 
 

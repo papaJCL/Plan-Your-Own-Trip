@@ -21,7 +21,7 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
-        this.renderDropDown = this.renderDropDown.bind(this)
+        this.changeOrder = this.changeOrder.bind(this)
 
     }
 
@@ -100,7 +100,7 @@ export default class Iitnerary extends Component {
                          {' '} {this.props.planOptions.activeUnit}                                                     </td>
                     <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
                     <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
-                    <td> {this.renderDropDown()}</td>
+                    <td> {this.changeOrder()}</td>
                 </tr>
         )
 
@@ -150,7 +150,7 @@ export default class Iitnerary extends Component {
                             <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.changeOrder}>Change Order</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
@@ -158,15 +158,19 @@ export default class Iitnerary extends Component {
         );
     }
 
-    renderDropDown() {
+    changeOrder() {
+        let places = this.props.JSONString.body.places;
+        let dropdownitems = places.map((item, idx) =>
+            <button onClick={() => this.props.changeOrder(idx)}>Move to  Location {idx + 1}</button>
+
+        )
         return (
             <UncontrolledButtonDropdown>
-                <DropdownToggle caret size="lg">
-                    Large Button
+                <DropdownToggle caret size="sm">
+                    Change Order
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem>Another Action</DropdownItem>
-                    <DropdownItem>Another Action</DropdownItem>
+                    {dropdownitems}
                 </DropdownMenu>
             </UncontrolledButtonDropdown>
         );
