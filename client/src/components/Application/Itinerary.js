@@ -8,7 +8,7 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledButtonDropdown } from 'reactstrap';
 
 let order = 'desc';
 
@@ -22,10 +22,7 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
         this.renderDropDown = this.renderDropDown.bind(this)
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            dropdownOpen: false
-        };
+
     }
 
     render(){
@@ -161,28 +158,19 @@ export default class Iitnerary extends Component {
         );
     }
 
-    toggle() {
-        this.setState(prevState => ({
-            dropdownOpen: !prevState.dropdownOpen
-        }));
-    }
     renderDropDown() {
         return (
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret>
-                    Other Options
+            <UncontrolledButtonDropdown>
+                <DropdownToggle caret size="lg">
+                    Large Button
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem header>Itinerary actions</DropdownItem>
-                    <DropdownItem>Add stop</DropdownItem>
-                    <DropdownItem> Remove stop</DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem>Change start point</DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
-            </Dropdown>
+            </UncontrolledButtonDropdown>
         );
     }
-
 
 
     reverseList(){
