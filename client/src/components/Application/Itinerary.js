@@ -147,13 +147,13 @@ export default class Iitnerary extends Component {
                     <div>
                         <BootstrapTable data={products} >
                             <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='name'>Name</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='latitude'>Latitude</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='longitude'>Longitude</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='name'>Name   <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='latitude'>Latitude   <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='longitude'>Longitude   <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance  <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin <input type="checkbox" /></TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order <input type="checkbox" /></TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
