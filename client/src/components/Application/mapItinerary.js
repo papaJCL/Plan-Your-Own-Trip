@@ -7,7 +7,6 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 export default class mapItinerary extends Component {
 
@@ -19,11 +18,6 @@ export default class mapItinerary extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
-        this.renderDropDown = this.renderDropDown.bind(this)
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            dropdownOpen: false
-        };
     }
 
     render(){
@@ -52,8 +46,6 @@ export default class mapItinerary extends Component {
                               {this.createUploadButton()}
                               {this.createResetButton()}
                               {this.createDownloadButton()}
-                              {this.renderDropDown()}
-
                         </span>
                       </div>
                   }
@@ -158,28 +150,6 @@ export default class mapItinerary extends Component {
                 </Map>
             </div>
 
-        );
-    }
-
-    toggle() {
-        this.setState(prevState => ({
-            dropdownOpen: !prevState.dropdownOpen
-        }));
-    }
-    renderDropDown() {
-        return (
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret>
-                    Other Options
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem header>Itinerary actions</DropdownItem>
-                    <DropdownItem>Add stop</DropdownItem>
-                    <DropdownItem> Remove stop</DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem>Change start point</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
         );
     }
 

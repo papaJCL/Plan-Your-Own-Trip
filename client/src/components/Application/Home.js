@@ -82,6 +82,7 @@ export default class Home extends Component {
         );
     }
 
+
     changeStartLocation(idx) {
         let places = this.props.JSONString.body.places;
         var newplaces = [];
