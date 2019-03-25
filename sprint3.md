@@ -68,8 +68,8 @@ We also discussed general improvements that need to be done to our website/code,
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | #148, #139, #156, and #138.| #148 |
-| Tasks |  #140, #155, #143, #149, #146, 147, #130, #141, #142, #162, #163, #144, #145, #157, #158, #159, #80, #170, #173, #175, #179 and #161  | #80, #147, #155, #142, #146, #173, #175, #179, #144 and #170 | 
-| Story Points |  19  | *4* | 
+| Tasks |  #140, #155, #143, #149, #146, 147, #130, #140, #141, #142, #160, #162, #163, #144, #145, #157, #158, #159, #80, #170, #173, #175, #179, #183, #185, #191, #196, #202, #204, #206 and #161  | #80, #140, #147, #155, #142, #143, #146, #149, #173, #175, #179, #183, #185 #144, #141, #158, #160, #191, #196, #202, #204, #206 and #170 | 
+| Story Points |  31  | *22* | 
 
 We were more careful this time in selecting the epics that we knew we could complete. We expect to finish these epics, but may not get to the last one (#156) in the case of some unforseen problem like we had last time. As for the tasks, we may complete a task or two without closing an epic towards the end if we dont finish everything in time, but we plan on getting all of them complete except for maybe the tasks accociated with epic #138. 
 
@@ -79,7 +79,8 @@ We were more careful this time in selecting the epics that we knew we could comp
 | :--- | :--- | :--- | :--- |
 | Mar 6 | *#80, #147* | *#142, #144, #146, #155* | *none* |
 | Mar 8 | *#155* | *#142, #144, #146* | *none* |
-| Mar 8 | *#170, #146, #173, #175, #144, #142, and #179* | *#140, #158, #141 and #183* | Difficulty with changing JSON | 
+| Mar 13 | *#170, #146, #173, #175, #144, #142, and #179* | *#140, #158, #141 and #183* | Difficulty with changing JSON | 
+| Mar 25 | *#206, #140, #204, #185, #202, #183, #149, #143, #196, #191, #160, #158* |*#157, #181, #130*| *Spring Break* |
 
 
 ## Review (focus on solution and technology)
