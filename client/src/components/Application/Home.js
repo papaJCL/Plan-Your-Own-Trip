@@ -84,14 +84,19 @@ export default class Home extends Component {
         );
     }
 
-    changeOrder(idx) {
-
+    changeOrder(idx0, idx) {
+        console.log(idx0 + ' ' + idx)
+        let newplaces = this.props.JSONString.body.places;
+        let temp = newplaces[idx];
+        newplaces[idx] = newplaces[idx0];
+        newplaces[idx0] = temp;
+        this.props.updatePlacesArray(newplaces);
     }
 
 
     changeStartLocation(idx) {
         let places = this.props.JSONString.body.places;
-        var newplaces = [];
+        let newplaces = [];
         for (var i = 0; i < places.length; i++) {
             newplaces[i] = places[(idx + i) % places.length];
         }
@@ -99,7 +104,6 @@ export default class Home extends Component {
     }
 
     deleteLocation(idx) {
-        console.log("land here")
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
             this.props.deleteError();

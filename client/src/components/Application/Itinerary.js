@@ -21,7 +21,7 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
-        this.changeOrder = this.changeOrder.bind(this)
+        this.renderChangeOrderMenu = this.renderChangeOrderMenu.bind(this)
 
     }
 
@@ -100,7 +100,7 @@ export default class Iitnerary extends Component {
                          {' '} {this.props.planOptions.activeUnit}                                                     </td>
                     <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
                     <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
-                    <td> {this.changeOrder()}</td>
+                    <td> {this.renderChangeOrderMenu(idx)}                                                                   </td>
                 </tr>
         )
 
@@ -150,7 +150,7 @@ export default class Iitnerary extends Component {
                             <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.changeOrder}>Change Order</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderChangeOrderMenu}>Change Order</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
@@ -158,11 +158,15 @@ export default class Iitnerary extends Component {
         );
     }
 
-    changeOrder() {
+    renderChangeOrderMenu(idx0) {
+        console.log('asdf')
+        console.log(idx0)
         let places = this.props.JSONString.body.places;
+        console.log('places:');
+        console.log(places);
+        places.map((item, idx) => {console.log('inside map'); console.log(item); console.log(idx);});
         let dropdownitems = places.map((item, idx) =>
-            <button onClick={() => this.props.changeOrder(idx)}>Move to  Location {idx + 1}</button>
-
+            <button onClick={() => this.props.changeOrder(idx0, idx)}>Move to  Location {idx + 1}</button>
         )
         return (
             <UncontrolledButtonDropdown>
