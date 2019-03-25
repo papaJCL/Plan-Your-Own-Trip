@@ -77,7 +77,7 @@ public class NearestNeighbor extends Optimizations {
         Long shortest = Long.MAX_VALUE;
         int next = -1;
         for(int i = 0; i < distances[index].length; ++i) {
-            if ((distances[index][i] < shortest && distances[index][i] != 0) && !visited[i]) {
+            if (distances[index][i] < shortest && index != i && !visited[i]) {
                 shortest = distances[index][i];
                 next = i;
             }
