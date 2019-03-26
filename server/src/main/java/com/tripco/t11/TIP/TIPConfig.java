@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TIPConfig extends TIPHeader {
   private String serverName;
-  private List<String> placeAttributes;
+  protected List<String> placeAttributes;
   private List<String> optimizations;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
