@@ -45,6 +45,8 @@ public class TIPFind extends TIPHeader {
             )   {
                 rsCount.next();
                 this.found = rsCount.getInt(1);
+                initializePlaces();
+                addPlaces(rsQuery, config.placeAttributes);
             }
         } catch (Exception e) {
             System.err.println("Exception: " + e.getMessage());
@@ -78,6 +80,27 @@ public class TIPFind extends TIPHeader {
         queryEnd += match + "%' or municipality like '%";
         queryEnd += match + "%'";
         return queryEnd;
+    }
+
+    private void initializePlaces(){
+        if(limit != null){
+            if(limit != 0){
+                this.places = new Map[limit];
+            }
+        }
+        else{
+            this.places = new Map[found];
+        }
+    }
+    private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
+        int j = 0;
+        while(rsQuery.next()){
+            Map<String, Object> newPlace = new HashMap<>();
+            for(int i = 0; i < attributes.size(); ++i){
+                newPlace.put(attributes.get(i), rsQuery.getString(attributes.get(i)));
+            }
+            places[j++] = newPlace;
+        }
     }
 
     @Override
