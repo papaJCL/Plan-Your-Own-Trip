@@ -105,7 +105,6 @@ export default class Iitnerary extends Component {
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
 
-
         var products = this.addProducts()
 
         return (
