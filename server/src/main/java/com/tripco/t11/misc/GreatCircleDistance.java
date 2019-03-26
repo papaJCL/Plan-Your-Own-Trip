@@ -2,6 +2,8 @@ package com.tripco.t11.misc;
 
 import java.lang.Math;
 
+import java.util.Arrays;
+
 /** Determines the distance between geographic coordinates.
  */
 public class GreatCircleDistance{
@@ -41,19 +43,10 @@ public class GreatCircleDistance{
 
     public String toString() {
         // Displays Map sets and other variables.
-        /*
-        String ret = "Variables - origin: " + origin.entrySet().toString() + " destination: "
-                + destination.entrySet().toString() + " earthRadius: " + earthRadius + " Lats: ";
-        // display lats
-        for (int i = 0; i < lats.size() - 1; i++) ret += lats.get(i) + ", ";
-        ret += lats.get(lats.size() - 1) + " "; // tidying up output
-        ret += "longs: ";
-        // display longs
-        for (int i = 0; i < longs.size() - 1; i++) ret += longs.get(i) + ", ";
-        ret += longs.get(longs.size() - 1) + "\n"; // tidying up output
+        String ret = "origin coordinates: " + Arrays.toString(origin) + "\n";
+        ret += "destination coordinates: " + Arrays.toString(destination) + "\n";
+        ret += "earth radius: " + earthRadius + "\n";
         return ret;
-        */
-        return "";
     }
 
 }

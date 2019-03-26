@@ -1,10 +1,16 @@
 package com.tripco.t11.TIP;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class TIPFind extends TIPHeader {
     //db info
@@ -68,7 +74,7 @@ public class TIPFind extends TIPHeader {
         matchQuery += queryEnd();
         if(limit != null){
             if(limit != 0){
-                matchQuery += " limit " + Integer.toString(limit);
+                matchQuery += " limit " + limit;
             }
         }
         matchQuery += ";";
@@ -87,11 +93,10 @@ public class TIPFind extends TIPHeader {
         if(limit != null){
             if(limit != 0){
                 this.places = new Map[limit];
+                return;
             }
         }
-        else{
-            this.places = new Map[found];
-        }
+        this.places = new Map[found];
     }
 
     private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
