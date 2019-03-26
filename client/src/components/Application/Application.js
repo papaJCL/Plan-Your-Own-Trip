@@ -199,7 +199,7 @@ export default class Application extends Component {
   deleteError() {
       this.setState({
           errorMessage: this.createErrorBanner('Error', '500',
-              `You Must Have Atleast Two Locations For the Itinerary`)
+              `You Must Have At least Two Locations For the Itinerary`)
       });
   }
 

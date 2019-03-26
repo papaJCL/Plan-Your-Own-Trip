@@ -8,7 +8,8 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledButtonDropdown } from 'reactstrap';
+import { Form, Label, Input  } from 'reactstrap';
+import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let order = 'desc';
 
@@ -22,6 +23,8 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
         this.renderChangeOrderMenu = this.renderChangeOrderMenu.bind(this)
+        this.renderChangeOrderInput = this.renderChangeOrderInput.bind(this)
+        this.changeFunc = this.changeFunc.bind(this)
 
     }
 
@@ -90,19 +93,7 @@ export default class Iitnerary extends Component {
     renderItinerary(){
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
-        var body = places.map((item, idx) =>
-                <tr>
-                    <td> {(idx + 1)}                                                                                   </td>
-                    <td> {item.name}                                                                                   </td>
-                    <td> {item.latitude}                                                                               </td>
-                    <td> {item.longitude}                                                                              </td>
-                    <td> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )}
-                         {' '} {this.props.planOptions.activeUnit}                                                     </td>
-                    <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
-                    <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
-                    <td> {this.renderChangeOrderMenu(idx)}                                                                   </td>
-                </tr>
-        )
+
 
         // return (
         //     <Pane
@@ -150,7 +141,7 @@ export default class Iitnerary extends Component {
                             <TableHeaderColumn width='150' dataField='distance'>Leg Distance</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderChangeOrderMenu}>Change Order</TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.changeFunc}>Change Order</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
@@ -159,11 +150,8 @@ export default class Iitnerary extends Component {
     }
 
     renderChangeOrderMenu(idx0) {
-        console.log('asdf')
-        console.log(idx0)
         let places = this.props.JSONString.body.places;
-        console.log('places:');
-        console.log(places);
+        console.log(this.props)
         places.map((item, idx) => {console.log('inside map'); console.log(item); console.log(idx);});
         let dropdownitems = places.map((item, idx) =>
             <button onClick={() => this.props.changeOrder(idx0, idx)}>Move to  Location {idx + 1}</button>
@@ -180,6 +168,17 @@ export default class Iitnerary extends Component {
         );
     }
 
+    renderChangeOrderInput(idx0) {
+        console.log(idx0)
+        let idx = 0;
+
+        console.log(this.props)
+
+        return (
+            <input value={null} onChange={(event) => this.props.changeOrder(idx0, event.target.value)}/>
+        );
+    }
+
 
     reverseList(){
         return(
@@ -187,7 +186,21 @@ export default class Iitnerary extends Component {
         )
     }
 
+    ihatemylife(index) {
+        console.log('Fuck me')
+    }
+
+    changeFunc(cell, row, enumObject, index) {
+        let updateVar = (event) => {
+            this.props.changeOrder(index, event.target.value - 1)
+        };
+        return (
+            <input value={''} onChange={updateVar}/>
+        );
+    }
+
     deleteFunc(cell, row, enumObject, index){
+        console.log('why' + this.props)
         return (
             <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
         );
