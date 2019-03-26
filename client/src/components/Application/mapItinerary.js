@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
+import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 export default class mapItinerary extends Component {
 
@@ -46,10 +47,41 @@ export default class mapItinerary extends Component {
                               {this.createUploadButton()}
                               {this.createResetButton()}
                               {this.createDownloadButton()}
+                              {this.createAddDropDown()}
                         </span>
                       </div>
                   }
             />
+        );
+    }
+
+    createAddDropDown() {
+
+        return (
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Add a New Location</b></CardTitle>
+        <UncontrolledButtonDropdown>
+            <DropdownToggle caret>
+                Add Location
+            </DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem toggle={false}>
+                    <input id="name" type="text" name={"input"} placeholder="Enter Name"/>
+                </DropdownItem>
+                <DropdownItem toggle={false}>
+                    <input id="lat" type="text" name={"input"} placeholder="Enter Latitude"/>
+                </DropdownItem>
+                <DropdownItem toggle={false}>
+                    <input id="long" type="text" name={"input"} placeholder="Enter Longitude"/>
+                </DropdownItem>
+                <DropdownItem>
+                    <input type="submit" value="Submit"/>
+                </DropdownItem>
+            </DropdownMenu>
+        </UncontrolledButtonDropdown>
+                </CardBody>
+            </Card>
         );
     }
 
