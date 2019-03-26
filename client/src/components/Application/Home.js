@@ -84,7 +84,9 @@ export default class Home extends Component {
 
 
     changeStartLocation(idx) {
+        console.log("LAND AT START PLSPLS")
         let places = this.props.JSONString.body.places;
+        console.log(places)
         var newplaces = [];
         for (var i = 0; i < places.length; i++) {
             newplaces[i] = places[(idx + i) % places.length];
@@ -93,8 +95,9 @@ export default class Home extends Component {
     }
 
     deleteLocation(idx) {
-        console.log("land here")
+        console.log("LAND AT DELETE PLSPLS")
         let places = this.props.JSONString.body.places;
+        console.log(places)
         if (places.length === 2) {
             this.props.deleteError();
             return;

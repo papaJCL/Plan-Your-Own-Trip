@@ -12,7 +12,6 @@ import BootstrapTable1 from 'react-bootstrap-table-next';
 import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-let order = 'desc';
 
 export default class Iitnerary extends Component {
 
@@ -96,22 +95,6 @@ export default class Iitnerary extends Component {
     renderItinerary(){
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
-       /*
-        var body = places.map((item, idx) =>
-                <tr>
-                    <td> {(idx + 1)}                                                                                   </td>
-                    <td> {item.name}                                                                                   </td>
-                    <td> {item.latitude}                                                                               </td>
-                    <td> {item.longitude}                                                                              </td>
-                    <td> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )}
-                         {' '} {this.props.planOptions.activeUnit}                                                     </td>
-                    <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
-                    <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
-                    <td> {this.renderDropDown()}</td>
-                </tr>
-        )
-        */
-
 
         var products = this.addProducts()
         var cols =this.addCols()
@@ -124,7 +107,13 @@ export default class Iitnerary extends Component {
                 }
                 bodyJSX ={
                     <div>
-                        <BootstrapTable1  bootstrap4 keyField="id" data={ products } columns={ cols }>
+                        <BootstrapTable1
+                            selectRow={ { mode: 'checkbox' } }
+                            tabIndexCell
+                            bootstrap4
+                            keyField="id"
+                            data={ products }
+                            columns={ cols }>
                         /*
                             <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='name'>Name  </TableHeaderColumn>
@@ -217,17 +206,19 @@ export default class Iitnerary extends Component {
         )
     }
 
-    deleteFunc(index){
-        console.log(index)
+    deleteFunc(e, column, columnIndex, row, rowIndex){
+        console.log(columnIndex)
+        console.log("LAND HERE delete " + columnIndex)
         return (
-            <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
+            <button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</button>
         );
     }
 
-    makeOriginFunc(index){
-        console.log(index)
+    makeOriginFunc(e, column, columnIndex, row, rowIndex){
+        console.log(columnIndex)
+        console.log("LAND HERE create" + columnIndex)
         return (
-            <button onClick={() => this.props.changeStartLocation(index)}>Make Origin</button>
+            <button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</button>
         );
     }
 
