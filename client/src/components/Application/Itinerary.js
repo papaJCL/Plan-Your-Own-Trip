@@ -9,7 +9,8 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Form, Label, Input  } from 'reactstrap';
-import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import BootstrapTable1 from 'react-bootstrap-table-next';
+import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 
 let order = 'desc';
 
@@ -23,8 +24,7 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
-        this.makeCkeckbox = this.makeCheckbox.bind(this)
-
+        this.addCols =this.addCols.bind(this)
     }
 
     render() {
@@ -106,6 +106,7 @@ export default class Iitnerary extends Component {
         var totalDistance = this.getTotalDistance(places)
 
         var products = this.addProducts()
+        var cols =this.addCols()
 
         return (
             <Pane
@@ -114,20 +115,14 @@ export default class Iitnerary extends Component {
                     ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                 }
                 bodyJSX={
-                    <div>
-                        <BootstrapTable data={products} pagination>
-                            <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID
-                                <button>Reverse</button>
-                            </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='name'>Name {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='latitude'>Latitude {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='longitude'>Longitude {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc}>Delete {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.changeFunc}>Change Order {this.makeCheckbox()} </TableHeaderColumn>
-                        </BootstrapTable>
-                    </div>
+                    <BootstrapTable1
+                        selectRow={ { mode: 'checkbox' } }
+                        tabIndexCell
+                        bootstrap4
+                        keyField="id"
+                        data={ products }
+                        columns={ cols }>
+                    </BootstrapTable1>
                 }
             />
         );
@@ -140,6 +135,47 @@ export default class Iitnerary extends Component {
 
     }
 
+    addCols(){
+        const columns = [{
+            dataField: 'id',
+            text: 'ID',
+            sort: true
+        },{
+            dataField: 'name',
+            text: 'Name'
+
+        },{
+            dataField: 'latitude',
+            text: 'latitude'
+
+        }, {
+            dataField: 'longitude',
+            text: 'Longitude'
+        },{
+
+            dataField: 'distance',
+            text: 'Leg Distance'
+
+        },{
+            dataField: 'delete',
+            text: 'Delete',
+            formatter: this.deleteFunc
+
+        },{
+            dataField: 'origin',
+            text: 'Make Origin',
+            formatter: this.makeOriginFunc
+
+        },{
+            dataField: 'change',
+            text: 'Change Order',
+            formatter: this.changeFunc
+
+        }];
+
+        return columns
+    }
+
 
     reverseList(){
         return(
@@ -147,11 +183,10 @@ export default class Iitnerary extends Component {
         )
     }
 
-    changeFunc(cell, row, enumObject, index) {
+    changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             let number = document.getElementById('number');
-            console.log(number.value);
-            this.props.changeOrder(index, number.value - 1);
+            this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
 
@@ -163,19 +198,17 @@ export default class Iitnerary extends Component {
         );
     }
 
-    deleteFunc(cell, row, enumObject, index){
+    deleteFunc(e, column, columnIndex, row, rowIndex){
         return (
-            <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
+            <button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</button>
         );
     }
 
-    makeOriginFunc(cell, row, enumObject, index){
+    makeOriginFunc(e, column, columnIndex, row, rowIndex){
         return (
-            <button onClick={() => this.props.changeStartLocation(index)}>Make Origin</button>
+            <button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</button>
         );
     }
-
-
 
     addProducts() {
         var products = [];
