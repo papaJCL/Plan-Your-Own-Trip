@@ -1,6 +1,7 @@
 package com.tripco.t11.TIP;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +93,7 @@ public class TIPFind extends TIPHeader {
             this.places = new Map[found];
         }
     }
+
     private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
         int j = 0;
         while(rsQuery.next()){
@@ -105,6 +107,10 @@ public class TIPFind extends TIPHeader {
 
     @Override
     public String toString(){
-        return "";
+        String ret = "match: " + match + "\n";
+        ret += "limit: " + limit.toString() + "\n";
+        ret += "found: " + found.toString() + "\n";
+        ret += "places: " + Arrays.toString(places) + "\n";
+        return ret;
     }
 }
