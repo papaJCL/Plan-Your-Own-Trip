@@ -22,8 +22,6 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
-        this.renderChangeOrderMenu = this.renderChangeOrderMenu.bind(this)
-        this.renderChangeOrderInput = this.renderChangeOrderInput.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
 
     }
@@ -149,50 +147,18 @@ export default class Iitnerary extends Component {
         );
     }
 
-    renderChangeOrderMenu(idx0) {
-        let places = this.props.JSONString.body.places;
-        console.log(this.props)
-        places.map((item, idx) => {console.log('inside map'); console.log(item); console.log(idx);});
-        let dropdownitems = places.map((item, idx) =>
-            <button onClick={() => this.props.changeOrder(idx0, idx)}>Move to  Location {idx + 1}</button>
-        )
-        return (
-            <UncontrolledButtonDropdown>
-                <DropdownToggle caret size="sm">
-                    Change Order
-                </DropdownToggle>
-                <DropdownMenu>
-                    {dropdownitems}
-                </DropdownMenu>
-            </UncontrolledButtonDropdown>
-        );
-    }
-
-    renderChangeOrderInput(idx0) {
-        console.log(idx0)
-        let idx = 0;
-
-        console.log(this.props)
-
-        return (
-            <input value={null} onChange={(event) => this.props.changeOrder(idx0, event.target.value)}/>
-        );
-    }
-
-
     reverseList(){
         return(
             <button>Reverse</button>
         )
     }
 
-    ihatemylife(index) {
-        console.log('Fuck me')
-    }
-
     changeFunc(cell, row, enumObject, index) {
+
         let updateVar = (event) => {
+
             this.props.changeOrder(index, event.target.value - 1)
+
         };
         return (
             <input value={''} onChange={updateVar}/>
@@ -200,7 +166,6 @@ export default class Iitnerary extends Component {
     }
 
     deleteFunc(cell, row, enumObject, index){
-        console.log('why' + this.props)
         return (
             <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
         );
