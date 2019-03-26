@@ -149,14 +149,25 @@ export default class Iitnerary extends Component {
     }
 
     changeFunc(cell, row, enumObject, index) {
+        let val = null;
+
+        let handleSubmit = (event) => {
+            let number = document.getElementById('number');
+            console.log(number.value)
+            this.props.changeOrder(index, number.value - 1)
+            event.preventDefault();
+        }
 
         let updateVar = (event) => {
-
-            this.props.changeOrder(index, event.target.value - 1)
+            val = event.target.value - 1;
+            //this.props.changeOrder(index, event.target.value - 1)
 
         };
         return (
-            <input value={''} onChange={updateVar}/>
+            <form onSubmit={handleSubmit}>
+            <input id="number" type="number" name={"input"} />
+                <input type="submit" value="Enter"/>
+            </form>
         );
     }
 
