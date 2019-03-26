@@ -85,7 +85,6 @@ export default class Home extends Component {
     }
 
     changeOrder(idx0, idx) {
-        console.log(idx0 + ' ' + idx)
         let newplaces = this.props.JSONString.body.places;
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[idx0];
