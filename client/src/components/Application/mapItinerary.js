@@ -56,30 +56,31 @@ export default class mapItinerary extends Component {
     }
 
     createAddDropDown() {
-
         return (
             <Card>
                 <CardBody>
                     <CardTitle><b>Add a New Location</b></CardTitle>
-        <UncontrolledButtonDropdown>
-            <DropdownToggle caret>
-                Add Location
-            </DropdownToggle>
-            <DropdownMenu>
-                <DropdownItem toggle={false}>
-                    <input id="name" type="text" name={"input"} placeholder="Enter Name"/>
-                </DropdownItem>
-                <DropdownItem toggle={false}>
-                    <input id="lat" type="text" name={"input"} placeholder="Enter Latitude"/>
-                </DropdownItem>
-                <DropdownItem toggle={false}>
-                    <input id="long" type="text" name={"input"} placeholder="Enter Longitude"/>
-                </DropdownItem>
-                <DropdownItem>
-                    <input type="submit" value="Submit"/>
-                </DropdownItem>
-            </DropdownMenu>
-        </UncontrolledButtonDropdown>
+                        <UncontrolledButtonDropdown>
+                            <DropdownToggle caret>
+                                Add Location
+                            </DropdownToggle>
+                                <form onSubmit={handleSubmit}>
+                                <DropdownMenu>
+                                    <DropdownItem toggle={false}>
+                                         <input id="name" type="text" name={"input"} placeholder="Enter Name"/>
+                                    </DropdownItem>
+                                    <DropdownItem toggle={false}>
+                                         <input id="lat" type="text" name={"input"} placeholder="Enter Latitude"/>
+                                    </DropdownItem>
+                                    <DropdownItem toggle={false}>
+                                        <input id="long" type="text" name={"input"} placeholder="Enter Longitude"/>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <input type="submit" value="Submit"/>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                                </form>
+                        </UncontrolledButtonDropdown>
                 </CardBody>
             </Card>
         );
