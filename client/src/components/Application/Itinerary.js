@@ -108,34 +108,6 @@ export default class Iitnerary extends Component {
                 </tr>
         )
 
-        // return (
-        //     <Pane
-        //         header={
-        //             `  You have  ${places.length}  stops on your trip totalling
-        //             ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
-        //         }
-        //         bodyJSX ={
-        //         <Table size="sm" height='120' scrollTop={ 'Bottom' } >
-        //             <thead>
-        //                 <tr>
-        //                     <th>ID</th>
-        //                     <th>Name</th>
-        //                     <th>Latitude</th>
-        //                     <th>Longitude</th>
-        //                     <th>Leg Distance</th>
-        //                     <th>Delete</th>
-        //                     <th>Make Origin</th>
-        //                 </tr>
-        //             </thead>
-        //             <tbody>
-        //                 {body}
-        //             </tbody>
-        //         </Table>
-        //         }
-        //     />
-        //
-        // );
-
         var products = this.addProducts()
 
         return (
@@ -146,7 +118,7 @@ export default class Iitnerary extends Component {
                 }
                 bodyJSX ={
                     <div>
-                        <BootstrapTable data={products} >
+                        <BootstrapTable data={products}  pagination>
                             <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='name'>Name   {this.makeCheckbox()}</TableHeaderColumn>
                             <TableHeaderColumn width='150' dataField='latitude'>Latitude  {this.makeCheckbox()} </TableHeaderColumn>
