@@ -1,6 +1,8 @@
 package com.tripco.t11.TIP;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TIPFind extends TIPHeader {
@@ -9,60 +11,60 @@ public class TIPFind extends TIPHeader {
     private final static String myUrl = "jdbc:mysql://faure.cs.colostate.edu/cs314";
     private final static String user = "cs314-db";
     private final static String pass = "eiK5liet1uej";
-
-    private final static String count = "";
-    private final static String search = "";
     //class vars
     private String match;
-    private Long limit;
-    private Long found;
+    private Integer limit;
+    private Integer found;
     private Map<String, Object>[] places;
 
 
-    public TIPFind(int version, String match, Long limit){
+    public TIPFind(String match, int limit){
         this();
-        this.requestVersion = version;
         this.match = match;
         this.limit = limit;
     }
 
-    private TIPFind(){ this.requestType = "find"; }
+    private TIPFind(){
+        this.requestType = "find";
+        this.requestVersion = 3;
+    }
 
     @Override
     public void buildResponse(){
+        TIPConfig config = new TIPConfig();
+        config.buildResponse();
+        String countQuery = buildCountQuery();
+        //String matchQuery = buildMatchQuery(config.placeAttributes);
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
-                Statement stCount = connect.createStatement();
-                Statement stQuery = connect.createStatement();
-                ResultSet rsCount = stCount.executeQuery(count);
-                ResultSet rsQuery = stQuery.executeQuery(search);
+                 Statement stCount = connect.createStatement();
+                 //Statement stQuery = connect.createStatement();
+                 ResultSet rsCount = stCount.executeQuery(countQuery);
+                 //ResultSet rsQuery = stQuery.executeQuery(matchQuery);
             )   {
-                printJSON(rsCount, rsQuery);
-            }
 
+            }
         } catch (Exception e) {
             System.err.println("Exception: " + e.getMessage());
         }
     }
 
-    private static void printJSON(ResultSet count, ResultSet query) throws SQLException {
-        System.out.printf("\n{\n");
-        System.out.printf("\"type\": \"find\",\n");
-        System.out.printf("\"title\": \"%s\",\n",search);
-        System.out.printf("\"places\": [\n");
+    private String buildCountQuery(){
+        String countQuery = "select count(*) " + queryEnd() + ";";
+        return countQuery;
+    }
 
-        count.next();
-        int results = count.getInt(1);
+    private String buildMatchQuery(){
+        return "";
+    }
 
-        while(count.next()){
-            System.out.printf(" \"%s\"", query.getString("code"));
-            if(--results == 0)
-                System.out.printf("\n");
-            else
-                System.out.printf(",\n");
-        }
-        System.out.printf(" ]\n}\n");
+    private String queryEnd(){
+        String queryEnd = "from colorado where name like '%";
+        queryEnd += match + "%' or type like '%";
+        queryEnd += match + "%' or municipality like '%";
+        queryEnd += match + "%'";
+        return queryEnd;
     }
 
     @Override
