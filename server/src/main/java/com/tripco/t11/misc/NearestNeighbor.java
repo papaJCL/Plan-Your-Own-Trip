@@ -43,13 +43,13 @@ public class NearestNeighbor extends Optimizations {
         }
     }
 
-    private void assignVisited(int i){
+    private void assignVisited(int index){
         for(int j = 0; j < visited.length; ++j){
             visited[j] = false;
             currentTrip[j] = -1;
         }
-        visited[i] = true;
-        currentTrip[0] = i;
+        visited[index] = true;
+        currentTrip[0] = index;
     }
 
     private Long optimizeCurrentStart(int index){
@@ -77,7 +77,7 @@ public class NearestNeighbor extends Optimizations {
         Long shortest = Long.MAX_VALUE;
         int next = -1;
         for(int i = 0; i < distances[index].length; ++i) {
-            if ((distances[index][i] < shortest && distances[index][i] != 0) && !visited[i]) {
+            if (distances[index][i] < shortest && index != i && !visited[i]) {
                 shortest = distances[index][i];
                 next = i;
             }
