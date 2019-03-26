@@ -8,6 +8,8 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import BootstrapTable1 from 'react-bootstrap-table-next';
+import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let order = 'desc';
@@ -22,8 +24,8 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
         this.renderDropDown = this.renderDropDown.bind(this)
-        this.makeCkeckbox = this.makeCheckbox.bind(this)
-        this.toggle = this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this)
+        this.addCols =this.addCols.bind(this)
         this.state = {
             dropdownOpen: false
         };
@@ -94,6 +96,7 @@ export default class Iitnerary extends Component {
     renderItinerary(){
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
+       /*
         var body = places.map((item, idx) =>
                 <tr>
                     <td> {(idx + 1)}                                                                                   </td>
@@ -107,8 +110,11 @@ export default class Iitnerary extends Component {
                     <td> {this.renderDropDown()}</td>
                 </tr>
         )
+        */
+
 
         var products = this.addProducts()
+        var cols =this.addCols()
 
         return (
             <Pane
@@ -118,28 +124,66 @@ export default class Iitnerary extends Component {
                 }
                 bodyJSX ={
                     <div>
-                        <BootstrapTable data={products}  pagination>
+                        <BootstrapTable1  bootstrap4 keyField="id" data={ products } columns={ cols }>
+                        /*
                             <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='name'>Name   {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='latitude'>Latitude  {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='longitude'>Longitude   {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance  {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order {this.makeCheckbox()}</TableHeaderColumn>
-                        </BootstrapTable>
+                            <TableHeaderColumn width='150' dataField='name'>Name  </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='latitude'>Latitude  </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='longitude'>Longitude   </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order </TableHeaderColumn>
+
+                       */ </BootstrapTable1>
+
                     </div>
                 }
             />
         );
     }
 
-    makeCheckbox(){
-        return(
-            <input type="checkbox" />
-        );
+    addCols(){
+        const columns = [{
+            dataField: 'id',
+            text: 'ID',
+            sort: true
+        },{
+            dataField: 'name',
+            text: 'Name'
 
+        },{
+            dataField: 'latitude',
+            text: 'latitude'
+
+        }, {
+            dataField: 'longitude',
+            text: 'Longitude'
+        },{
+
+            dataField: 'distance',
+            text: 'Leg Distance'
+
+        },{
+            dataField: 'delete',
+            text: 'Delete',
+            formatter: this.deleteFunc
+
+        },{
+            dataField: 'origin',
+            text: 'Make Origin',
+            formatter: this.makeOriginFunc
+
+        },{
+            dataField: 'change',
+            text: 'Change Order',
+            formatter: this.renderDropDown
+
+        }];
+
+        return columns
     }
+
 
 
 
@@ -173,13 +217,15 @@ export default class Iitnerary extends Component {
         )
     }
 
-    deleteFunc(cell, row, enumObject, index){
+    deleteFunc(index){
+        console.log(index)
         return (
             <button onClick={() => this.props.deleteLocation(index)}>Delete</button>
         );
     }
 
-    makeOriginFunc(cell, row, enumObject, index){
+    makeOriginFunc(index){
+        console.log(index)
         return (
             <button onClick={() => this.props.changeStartLocation(index)}>Make Origin</button>
         );
