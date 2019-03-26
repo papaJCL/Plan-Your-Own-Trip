@@ -27,6 +27,7 @@ export default class Home extends Component {
         this.sendItineraryRequest = this.sendItineraryRequest.bind(this)
         this.deleteLocation = this.deleteLocation.bind(this)
         this.changeStartLocation = this.changeStartLocation.bind(this)
+        this.changeOrder = this.changeOrder.bind(this)
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
     }
 
@@ -62,6 +63,7 @@ export default class Home extends Component {
                 JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
+                changeOrder = {this.changeOrder}
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
                 origUnit = {this.props.origUnit}
@@ -82,10 +84,18 @@ export default class Home extends Component {
         );
     }
 
+    changeOrder(idx0, idx) {
+        let newplaces = this.props.JSONString.body.places;
+        let temp = newplaces[idx];
+        newplaces[idx] = newplaces[idx0];
+        newplaces[idx0] = temp;
+        this.props.updatePlacesArray(newplaces);
+    }
+
 
     changeStartLocation(idx) {
         let places = this.props.JSONString.body.places;
-        var newplaces = [];
+        let newplaces = [];
         for (var i = 0; i < places.length; i++) {
             newplaces[i] = places[(idx + i) % places.length];
         }
@@ -93,7 +103,6 @@ export default class Home extends Component {
     }
 
     deleteLocation(idx) {
-        console.log("land here")
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
             this.props.deleteError();

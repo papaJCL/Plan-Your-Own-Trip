@@ -8,7 +8,8 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Form, Label, Input  } from 'reactstrap';
+import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let order = 'desc';
 
@@ -21,18 +22,15 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.reverseList = this.reverseList.bind(this)
-        this.renderDropDown = this.renderDropDown.bind(this)
+        this.changeFunc = this.changeFunc.bind(this)
         this.makeCkeckbox = this.makeCheckbox.bind(this)
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            dropdownOpen: false
-        };
+
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <Row>
-                {this.props.boolMarker ?(
+                {this.props.boolMarker ? (
                     <Col xs={12}>
                         {this.renderItinerary()}
                     </Col>
@@ -45,68 +43,68 @@ export default class Iitnerary extends Component {
         )
     }
 
-    convertUnitsToNum(unit){
-        if (unit == 'miles'){return 3959}
-        if (unit == 'kilometers'){return 6371}
-        if (unit == 'nautical miles'){return 3440}
+    convertUnitsToNum(unit) {
+        if (unit == 'miles') {
+            return 3959
+        }
+        if (unit == 'kilometers') {
+            return 6371
+        }
+        if (unit == 'nautical miles') {
+            return 3440
+        }
     }
 
-    convertIfOriginalNotMiles(oldUnit){
-        if (oldUnit == 6371){ return 'kilometers'}
-        if (oldUnit == 3440){ return 'nautical miles'}
+    convertIfOriginalNotMiles(oldUnit) {
+        if (oldUnit == 6371) {
+            return 'kilometers'
+        }
+        if (oldUnit == 3440) {
+            return 'nautical miles'
+        }
     }
 
-    convertDistance(distance, activeUnit, oldUnit){
-        if (oldUnit == '' && this.props.origUnit != 3959){
+    convertDistance(distance, activeUnit, oldUnit) {
+        if (oldUnit == '' && this.props.origUnit != 3959) {
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
         }
-        else if (oldUnit == ''){ return distance }
-        else if (this.props.origUnit != 3959){
+        else if (oldUnit == '') {
+            return distance
+        }
+        else if (this.props.origUnit != 3959) {
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
         }
         let newDistance = distance
         let numOldUnit = this.convertUnitsToNum(oldUnit)
         let numNewUnit = this.convertUnitsToNum(activeUnit)
-        newDistance = distance * (numNewUnit/numOldUnit)
+        newDistance = distance * (numNewUnit / numOldUnit)
         newDistance = Math.round(newDistance)
         return newDistance
     }
 
-    getPlaces(){
+    getPlaces() {
         let places = this.props.JSONString.body.places
         let distanceArray = this.props.JSONString.body.distances
-        for (var i = 0; i < places.length; i++){
+        for (var i = 0; i < places.length; i++) {
             places[i].distance = distanceArray[i]
         }
         return places
     }
 
-    getTotalDistance(places){
+    getTotalDistance(places) {
 
         let distanceArray = this.props.JSONString.body.distances
-        var totalDistance =0
+        var totalDistance = 0
         for (var i = 0; i < places.length; i++) {
             totalDistance = distanceArray[i] + totalDistance
         }
         return totalDistance
     }
 
-    renderItinerary(){
+    renderItinerary() {
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
-        var body = places.map((item, idx) =>
-                <tr>
-                    <td> {(idx + 1)}                                                                                   </td>
-                    <td> {item.name}                                                                                   </td>
-                    <td> {item.latitude}                                                                               </td>
-                    <td> {item.longitude}                                                                              </td>
-                    <td> {this.convertDistance(item.distance, this.props.planOptions.activeUnit, this.props.oldUnits )}
-                         {' '} {this.props.planOptions.activeUnit}                                                     </td>
-                    <td> {<button onClick={() => this.props.deleteLocation(idx)}>Delete</button>}                      </td>
-                    <td> {<button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button>}            </td>
-                    <td> {this.renderDropDown()}</td>
-                </tr>
-        )
+
 
         var products = this.addProducts()
 
@@ -114,19 +112,21 @@ export default class Iitnerary extends Component {
             <Pane
                 header={
                     `  You have  ${places.length}  stops on your trip totalling
-                    ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits )} ${this.props.planOptions.activeUnit}.`
+                    ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                 }
-                bodyJSX ={
+                bodyJSX={
                     <div>
-                        <BootstrapTable data={products}  pagination>
-                            <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID <button>Reverse</button></TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='name'>Name   {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='latitude'>Latitude  {this.makeCheckbox()} </TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='longitude'>Longitude   {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance  {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc }>Delete {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin {this.makeCheckbox()}</TableHeaderColumn>
-                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.renderDropDown}>Change Order {this.makeCheckbox()}</TableHeaderColumn>
+                        <BootstrapTable data={products} pagination>
+                            <TableHeaderColumn width='150' dataField='id' isKey={true} dataSort={true}>ID
+                                <button>Reverse</button>
+                            </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='name'>Name {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='latitude'>Latitude {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='longitude'>Longitude {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='distance'>Leg Distance {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='delete' dataFormat={this.deleteFunc}>Delete {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='origin' dataFormat={this.makeOriginFunc}>Make Origin {this.makeCheckbox()} </TableHeaderColumn>
+                            <TableHeaderColumn width='150' dataField='change' dataFormat={this.changeFunc}>Change Order {this.makeCheckbox()} </TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 }
@@ -142,35 +142,26 @@ export default class Iitnerary extends Component {
     }
 
 
-
-    toggle() {
-        this.setState(prevState => ({
-            dropdownOpen: !prevState.dropdownOpen
-        }));
-    }
-    renderDropDown() {
-        return (
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret>
-                    Other Options
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem header>Itinerary actions</DropdownItem>
-                    <DropdownItem>Add stop</DropdownItem>
-                    <DropdownItem> Remove stop</DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem>Change start point</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-        );
-    }
-
-
-
     reverseList(){
         return(
             <button>Reverse</button>
         )
+    }
+
+    changeFunc(cell, row, enumObject, index) {
+        let handleSubmit = (event) => {
+            let number = document.getElementById('number');
+            console.log(number.value);
+            this.props.changeOrder(index, number.value - 1);
+            event.preventDefault();
+        };
+
+        return (
+            <form onSubmit={handleSubmit}>
+            <input id="number" type="number" name={"input"} min="1" max={this.props.JSONString.body.places.length} />
+                <input type="submit" value="Enter"/>
+            </form>
+        );
     }
 
     deleteFunc(cell, row, enumObject, index){
