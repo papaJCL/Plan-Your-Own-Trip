@@ -70,7 +70,16 @@ export default class Home extends Component {
                 latitude = {this.props.latitude}
                 longitude = {this.props.longitude}
                 names = {this.props.names}
-
+                filterID = {this.props.filterID}
+                filterName = {this.props.filterName}
+                filterLat = {this.props.filterLat}
+                filterLong = {this.props.filterLong}
+                filterDist = {this.props.filterDist}
+                renderFilterID = {this.props.renderFilterID}
+                renderFilterName = {this.props.renderFilterName}
+                renderFilterLatitude = {this.props.renderFilterLatitude}
+                renderFilterLongitude = {this.props.renderFilterLongitude}
+                renderFilterDistance = {this.props.renderFilterDistance}
             />
         )
     }
