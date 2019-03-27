@@ -22,7 +22,6 @@ export default class Application extends Component {
     this.createErrorBanner = this.createErrorBanner.bind(this);
     this.createErrorBannerState = this.createErrorBannerState.bind(this);
     this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
-    this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
     this.processConfigResponse = this.processConfigResponse.bind(this);
     this.setValue = this.setValue.bind(this);
     this.clearMapState = this.clearMapState.bind(this);
@@ -138,7 +137,6 @@ export default class Application extends Component {
             createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
             updatecheckData = {this.updatecheckData}
-            updateIfBadCalculator = {this.updateIfBadCalculator}
             updateIfGoodCalculator = {this.updateIfGoodCalculator}
             setValue = {this.setValue}
             />;
@@ -246,17 +244,6 @@ export default class Application extends Component {
       errorMessage: null
     });
   }
-
-  updateIfBadCalculator(response){
-    this.setState({
-      errorMessage: this.createErrorBanner(
-          response.statusText,
-          response.statusCode,
-          `Request to ${ this.state.clientSettings.serverPort } failed.`
-      )
-    });
-  }
-
 
   setValue(stateVar, location){
     this.setState({[stateVar]: location});

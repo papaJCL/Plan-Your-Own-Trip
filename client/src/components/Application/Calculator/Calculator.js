@@ -109,7 +109,7 @@ export default class Calculator extends Component {
             this.props.updateIfGoodCalculator(response)
         }
     else {
-            this.props.updateIfBadCalculator(response)
+            this.props.createErrorBannerState(response.statusText, response.statusCode, `Request to ${ this.state.clientSettings.serverPort } failed.`);
         }
     });
     }
