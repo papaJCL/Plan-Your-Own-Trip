@@ -55,6 +55,10 @@ export default class mapItinerary extends Component {
         );
     }
 
+    handleAddSubmit(event) {
+        let number = document.getElementById('name'); // dont believe that this is in scope
+    }
+
     createAddDropDown() {
         return (
             <Card>
@@ -64,7 +68,7 @@ export default class mapItinerary extends Component {
                             <DropdownToggle caret>
                                 Add Location
                             </DropdownToggle>
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={() => this.handleAddSubmit(event)}>
                                 <DropdownMenu>
                                     <DropdownItem toggle={false}>
                                          <input id="name" type="text" name={"input"} placeholder="Enter Name"/>
