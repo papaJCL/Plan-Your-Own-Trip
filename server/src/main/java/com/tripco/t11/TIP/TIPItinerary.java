@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class TIPItinerary extends TIPHeader {
     private Map<String, Object> options;
-    private Map<String, Object>[] places;
+    protected Map<String, Object>[] places;
     protected Long[] distances;
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
