@@ -115,12 +115,10 @@ export default class Application extends Component {
   );
   }
 
-    createErrorBannerState(statusText, statusCode, message) {
+  createErrorBannerState(statusText, statusCode, message) {
     this.setState({
         errorMessage: <ErrorBanner statusText={statusText} statusCode={statusCode} message={message}/>
     });
-
-
     }
 
   createApplicationPage(pageToRender) {
@@ -136,7 +134,6 @@ export default class Application extends Component {
             createErrorBanner={this.createErrorBanner}
             createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
-            updatecheckData = {this.updatecheckData}
             updateIfGoodCalculator = {this.updateIfGoodCalculator}
             setValue = {this.setValue}
             />;
@@ -174,6 +171,7 @@ export default class Application extends Component {
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
             updatePlacesArray = {this.updatePlacesArray}
+            createErrorBannerState = {this.createErrorBannerState}
             deleteError = {this.deleteError}
             planOptions = {this.state.planOptions}
             oldUnits = {this.state.oldUnits}
@@ -258,7 +256,8 @@ export default class Application extends Component {
       markers: [[]],
       boolMarker: false ,
       names: [],
-      origUnit: 0
+      origUnit: 0,
+      errorMessage: null
     });
   }
 
