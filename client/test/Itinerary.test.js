@@ -1,0 +1,34 @@
+import './enzyme.config.js';
+import React from 'react';
+import { shallow } from 'enzyme'
+import {mount} from 'enzyme';
+import Application from '../src/components/Application/Application';
+import Itinerary from '../src/components/Application/Settings/Itinerary'
+
+import {Container, Row, Col, Button} from 'reactstrap';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import 'leaflet/dist/leaflet.css';
+import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
+import Pane from './Pane'
+import { Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle , Table} from 'reactstrap';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import { Form, Label, Input  } from 'reactstrap';
+import BootstrapTable1 from 'react-bootstrap-table-next';
+import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
+
+
+
+
+    function testConvertDistance() {
+        const testConvert = mount(<Iitnerary/>);
+
+        let milesNotOrigional = testConvert.instance().convertDistance(10, 'miles', 'kilometers');
+        expect(milesNotOrigional).toEqual(6);
+
+        let generalTest = testConvert.instance().convertDistance(10, 'kilometers', 'nautical miles');
+        expect(generalTest).toEqual(19)
+    }
+
+    test('Double checking validity of our distance conversion', testConvertDistance);
