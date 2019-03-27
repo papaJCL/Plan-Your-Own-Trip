@@ -30,7 +30,12 @@ export default class Application extends Component {
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
     this.deleteError = this.deleteError.bind(this);
-    this.updateOldUnit = this.updateOldUnit.bind(this)
+    this.updateOldUnit = this.updateOldUnit.bind(this);
+    this.renderFilterID = this.renderFilterID.bind(this);
+    this.renderFilterName = this.renderFilterName.bind(this);
+    this.renderFilterLatitude = this.renderFilterLatitude.bind(this);
+    this.renderFilterLongitude = this.renderFilterLongitude.bind(this);
+    this.renderFilterDistance = this.renderFilterDistance.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -54,8 +59,12 @@ export default class Application extends Component {
         polyLineCoor: [[]],
         names : [] ,
         oldUnits : '',
-        origUnit: ''
-
+        origUnit: '',
+        filterID: true,
+        filterName: false,
+        filterLat: false,
+        filterLong: false,
+        filterDist: false
     };
     this.updateServerConfig();
   }
@@ -163,10 +172,45 @@ export default class Application extends Component {
             planOptions = {this.state.planOptions}
             oldUnits = {this.state.oldUnits}
             origUnit = {this.state.origUnit}
+            filterID = {this.state.filterID}
+            filterName = {this.state.filterName}
+            filterLat = {this.state.filterLat}
+            filterLong = {this.state.filterLong}
+            filterDist = {this.state.filterDist}
+            renderFilterID = {this.renderFilterID}
+            renderFilterName = {this.renderFilterName}
+            renderFilterLatitude = {this.renderFilterLatitude}
+            renderFilterLongitude = {this.renderFilterLongitude}
+            renderFilterDistance = {this.renderFilterDistance}
             ref="child"
             />;
     }
   }
+
+    renderFilterID(){
+      if (this.state.filterID == true) this.setState({ filterID: false })
+      else{ this.setState({ filterID: true }) }
+    }
+
+    renderFilterName(){
+      if (this.state.filterName == true) this.setState({ filterName: false })
+      else{ this.setState({ filterName: true }) }
+    }
+
+    renderFilterLatitude(){
+      if (this.state.filterLat == true) this.setState({ filterLat: false })
+      else{ this.setState({ filterLat: true }) }
+    }
+
+    renderFilterLongitude(){
+      if (this.state.filterLong == true) this.setState({ filterLong: false })
+      else{ this.setState({ filterLong: true }) }
+    }
+
+    renderFilterDistance(){
+      if (this.state.filterDist == true) this.setState({ filterDist: false })
+      else{ this.setState({ filterDist: true }) }
+    }
 
   processConfigResponse(config) {
     if(config.statusCode >= 200 && config.statusCode <= 299) {
