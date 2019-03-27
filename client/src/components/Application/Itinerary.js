@@ -102,6 +102,7 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
+        console.log("This should happen after i press the button")
         let places = this.getPlaces()
         var totalDistance = this.getTotalDistance(places)
 
@@ -109,24 +110,41 @@ export default class Iitnerary extends Component {
         var cols =this.addCols()
 
         return (
-            <Pane
-                header={
-                    `  You have  ${places.length}  stops on your trip totalling
-                    ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
-                }
-                bodyJSX={
-                    <BootstrapTable1
-                        selectRow={ { mode: 'checkbox' } }
-                        tabIndexCell
-                        bootstrap4
-                        keyField="id"
-                        data={ products }
-                        columns={ cols }>
-                    </BootstrapTable1>
-                }
-            />
+            <div>
+                <Pane
+                    header={
+                        `  You have  ${places.length}  stops on your trip totalling
+                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
+                    }
+                    bodyJSX={
+                        <div>
+                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
+                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
+                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
+                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
+                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
+                            <BootstrapTable1
+                                selectRow={ { mode: 'checkbox' } }
+                                tabIndexCell
+                                bootstrap4
+                                keyField="id"
+                                data={ products }
+                                columns={ cols }>
+                            </BootstrapTable1>
+                        </div>
+                    }
+                />
+            </div>
         );
     }
+
+
+    boolCheck(check){
+        console.log("check is " , check)
+        if (check == true)return true;
+        else{ return false}
+    }
+
 
     makeCheckbox(){
         return(
@@ -136,30 +154,37 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        const columns = [{
+        console.log("Modifying columns with " , this.props.filterID)
+        var columns = [{
             dataField: 'id',
             text: 'ID',
-            sort: true
+            sort: true,
+            hidden: this.props.filterID
         },{
             dataField: 'name',
-            text: 'Name'
+            text: 'Name',
+            hidden: this.props.filterName
 
         },{
             dataField: 'latitude',
-            text: 'latitude'
+            text: 'latitude',
+            hidden: this.props.filterLat
 
         }, {
             dataField: 'longitude',
-            text: 'Longitude'
+            text: 'Longitude',
+            hidden: this.props.filterLong
         },{
 
             dataField: 'distance',
-            text: 'Leg Distance'
+            text: 'Leg Distance',
+            hidden: this.props.filterDist
 
         },{
             dataField: 'delete',
             text: 'Delete',
             formatter: this.deleteFunc
+
 
         },{
             dataField: 'origin',
