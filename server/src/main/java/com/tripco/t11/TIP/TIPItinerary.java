@@ -32,7 +32,8 @@ public class TIPItinerary extends TIPHeader {
             if(options.get("optimization").equals("short")) {
                 NearestNeighbor optimize = new NearestNeighbor(coords, parseRadius());
                 optimize.findOptimalTrip();
-                coords = reAssignPlaces(optimize.trip, coords);
+                int originIndex = calcOriginIndex(optimize.trip);
+                coords = reAssignPlaces(originIndex, optimize.trip, coords);
             }
         }
         if (places.length != 0) {
@@ -49,28 +50,31 @@ public class TIPItinerary extends TIPHeader {
         return coords;
     }
 
-    private Double[][] reAssignPlaces(int[] trip, Double[][] coords){
-        int j = 0;
+    private Double parseRadius(){
+        return Double.parseDouble((String)options.get("earthRadius"));
+    }
+
+    private int calcOriginIndex(int[] trip){
+        int originIndex = 0;
         for(int i = 0; i < trip.length; ++i){
             if(trip[i] == 0)
-                j = i;
+                originIndex = i;
         }
+        return originIndex;
+    }
+
+    private Double[][] reAssignPlaces(int index, int[] trip, Double[][] coords){
         Map<String, Object>[] tempPlaces = new Map[places.length];
         Double[][] tempCoords = new Double[coords.length][2];
         for(int i = 0; i < tempPlaces.length; ++i){
-            if(j == trip.length)
-                j = 0;
-            tempCoords[i] = coords[trip[j]];
-            tempPlaces[i] = places[trip[j]];
-            j++;
+            if(index == trip.length)
+                index = 0;
+            tempCoords[i] = coords[trip[index]];
+            tempPlaces[i] = places[trip[index++]];
         }
         places = tempPlaces.clone();
         coords = tempCoords.clone();
         return coords;
-    }
-
-    private Double parseRadius(){
-        return Double.parseDouble((String)options.get("earthRadius"));
     }
 
     private void calcDistances(Double[][] coords){
