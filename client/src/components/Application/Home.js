@@ -47,7 +47,7 @@ export default class Home extends Component {
                 names = {this.props.names}
                 liftHomeState = {this.props.liftHomeState}
                 updatePlacesArray = {this.props.updatePlacesArray}
-                deleteError = {this.props.deleteError}
+                createErrorBannerState = {this.props.createErrorBannerState}
                 deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
@@ -98,6 +98,7 @@ export default class Home extends Component {
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[idx0];
         newplaces[idx0] = temp;
+        console.log('Step Change Order')
         this.props.updatePlacesArray(newplaces);
     }
 
@@ -114,7 +115,7 @@ export default class Home extends Component {
     deleteLocation(idx) {
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
-            this.props.deleteError();
+            this.props.createErrorBannerState('Error', '500', `You Must Have At least Two Locations For the Itinerary`);
             return;
         }
         places.splice(idx, 1);
@@ -131,6 +132,7 @@ export default class Home extends Component {
     }
 
     reRenderNewMap(){
+        console.log('Step reRenderNewMap --- Places Array: ' + this.props.JSONString.body.places)
         let places = this.props.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;

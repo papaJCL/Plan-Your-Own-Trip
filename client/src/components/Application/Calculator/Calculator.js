@@ -86,7 +86,7 @@ export default class Calculator extends Component {
         ) {
             {
                 /* Error: Invalid Input */
-                this.props.updatecheckData()
+                this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`)
             }
         }
     }

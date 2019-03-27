@@ -85,8 +85,13 @@ export default class Iitnerary extends Component {
     getPlaces() {
         let places = this.props.JSONString.body.places
         let distanceArray = this.props.JSONString.body.distances
+        console.log('Distances: ' + this.props.JSONString.body.distances)
         for (var i = 0; i < places.length; i++) {
+            console.log('places.length: ' + places.length)
+            console.log('places[i]: ' + i + places[i])
+            console.log('distanceArray[i]: ' + i + distanceArray[i])
             places[i].distance = distanceArray[i]
+            console.log('getPlaces for-loop: ' + distanceArray[i])
         }
         return places
     }
@@ -211,6 +216,7 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             let number = document.getElementById('number');
+            console.log('Step changeFunc' + this.props.JSONString.body.places)
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };

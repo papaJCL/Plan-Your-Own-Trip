@@ -20,7 +20,7 @@ export default class Application extends Component {
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
     this.createErrorBanner = this.createErrorBanner.bind(this);
-    this.updatecheckData = this.updatecheckData.bind(this);
+    this.createErrorBannerState = this.createErrorBannerState.bind(this);
     this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
     this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
     this.processConfigResponse = this.processConfigResponse.bind(this);
@@ -29,7 +29,6 @@ export default class Application extends Component {
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
-    this.deleteError = this.deleteError.bind(this);
     this.updateOldUnit = this.updateOldUnit.bind(this);
     this.renderFilterID = this.renderFilterID.bind(this);
     this.renderFilterName = this.renderFilterName.bind(this);
@@ -117,6 +116,14 @@ export default class Application extends Component {
   );
   }
 
+    createErrorBannerState(statusText, statusCode, message) {
+    this.setState({
+        errorMessage: <ErrorBanner statusText={statusText} statusCode={statusCode} message={message}/>
+    });
+
+
+    }
+
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
@@ -128,6 +135,7 @@ export default class Application extends Component {
             destination = {this.state.destination}
             planOptions = {this.state.planOptions}
             createErrorBanner={this.createErrorBanner}
+            createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
             updatecheckData = {this.updatecheckData}
             updateIfBadCalculator = {this.updateIfBadCalculator}
@@ -232,21 +240,6 @@ export default class Application extends Component {
     }
   }
 
-
-  updatecheckData(){
-    this.setState({
-      errorMessage: this.createErrorBanner('Error', '500',
-          `Invalid Input Entered Into Origin or Destination`)
-    });
-  }
-
-  deleteError() {
-      this.setState({
-          errorMessage: this.createErrorBanner('Error', '500',
-              `You Must Have At least Two Locations For the Itinerary`)
-      });
-  }
-
   updateIfGoodCalculator(response){
     this.setState({
       distance: response.body.distance,
@@ -283,6 +276,8 @@ export default class Application extends Component {
   }
 
   reRenderNewMapState(latitude, longitude, names, polyLine, markers){
+      console.log('Step reRenderNewMapState !!! JSONString.body.places is undefined here !!!')
+      //console.log('Step ReRenderNewMapState --- Places Array: ' + this.props.JSONString.body.places)
       this.setState({
           latitude: latitude,
           longitude: longitude,
@@ -306,12 +301,14 @@ export default class Application extends Component {
   updatePlacesArray(arr) {
       let newJSON = this.state.JSONString;
       newJSON.body.places = arr;
+      console.log('Step updatePlacesArray')
       this.setState({
         //JSONString: this.state.JSONString
         JSONString: newJSON,
       } , () => {
           this.refs.child.reRenderNewMap();
       });
+      console.log('Step updatePlacesArray: Stateset')
   }
 
 
