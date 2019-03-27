@@ -56,7 +56,7 @@ public class TIPFind extends TIPHeader {
                 addPlaces(rsQuery, config.placeAttributes);
             }
         } catch (Exception e) {
-            System.err.println("Exception: " + e.getMessage());
+            log.error("Exception: " + e.getMessage());
         }
         log.trace("buildResponse -> {}", this);
     }
