@@ -3,6 +3,7 @@ import {Container, Row, Col, Button} from 'reactstrap';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
+import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
@@ -18,6 +19,8 @@ export default class mapItinerary extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
+        this.createSearchBar = this.createSearchBar.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     render(){
@@ -46,10 +49,45 @@ export default class mapItinerary extends Component {
                               {this.createUploadButton()}
                               {this.createResetButton()}
                               {this.createDownloadButton()}
+                              {this.createSearchBar()}
                         </span>
                       </div>
                   }
             />
+        );
+    }
+
+    // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
+
+    handleSubmit(e) {
+        console.log(this.input.value)
+        var request = {
+            'requestType':'find',
+            'requestVersion': 3,
+            'match': this.input.value,
+            'limit': 5
+        };
+        console.log(request)
+        sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
+            .then((response) => {console.log(response.body)});
+        e.preventDefault();
+    }
+    createSearchBar(){
+        return(
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Search for Destination</b></CardTitle>
+                    <row>
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                <input type="text" ref={(input) => this.input = input} />
+                            </label>
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </row>
+
+                </CardBody>
+            </Card>
         );
     }
 
