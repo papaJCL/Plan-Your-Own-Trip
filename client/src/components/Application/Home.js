@@ -87,6 +87,7 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
+                { this.props.errorMessage }
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
@@ -126,7 +127,11 @@ export default class Home extends Component {
 
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
-                this.props.liftHomeState(response);
+                if(response.statusCode === 400){
+                    this.props.createErrorBannerState("Error", 400 , "Invalid JSON file.");
+                }else{
+                    this.props.liftHomeState(response);
+                }
             });
     }
 
