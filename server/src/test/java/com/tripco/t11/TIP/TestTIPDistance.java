@@ -69,4 +69,12 @@ public class TestTIPDistance {
     assertEquals("Distance matches handwritten calculation with easy numbers", expect, actual);
   }
 
+  @Test
+  public void testToString(){
+    TIPDistance trip = new TIPDistance(version, csu, csu, radiusMiles);
+    Object toString = trip.toString();
+    boolean TorF = toString != null;
+    assertEquals("assure toString returns a String", true, TorF);
+  }
+
 }

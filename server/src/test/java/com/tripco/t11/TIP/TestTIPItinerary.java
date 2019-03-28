@@ -117,4 +117,12 @@ public class TestTIPItinerary {
         assertEquals("optimized trip is computed", expect, Trip.places);
     }
 
+    @Test
+    public void testToString(){
+        TIPItinerary trip = new TIPItinerary(version, options, places);
+        Object toString = trip.toString();
+        boolean TorF = toString != null;
+        assertEquals("assure toString returns a String", true, TorF);
+    }
+
 }

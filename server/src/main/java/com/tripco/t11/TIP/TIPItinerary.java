@@ -6,6 +6,7 @@ import com.tripco.t11.misc.NearestNeighbor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class TIPItinerary extends TIPHeader {
@@ -89,9 +90,12 @@ public class TIPItinerary extends TIPHeader {
 
     @Override
     public String toString(){
-        String ret = "options: " + options.toString();
-        ret += "\nplaces: " + places.toString();
-        ret += "\ndistances: " + distances.toString();
+        String ret = "options: " + options.toString() + "\n";
+        ret += "places:\n" + places.toString();
+        for(int i = 0; i < places.length; ++i){
+            ret += "\t" + places[i].toString() + "\n";
+        }
+        ret += "distances: " + Arrays.toString(distances) + "\n";
         return ret;
     }
 }
