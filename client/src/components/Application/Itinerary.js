@@ -86,8 +86,7 @@ export default class Iitnerary extends Component {
         let places = this.props.JSONString.body.places
         let distanceArray = this.props.JSONString.body.distances
         for (var i = 0; i < places.length; i++) {
-            console.log('getPlaces: ', this.props.JSONString.body.places)
-            console.log('getPlaces: ', distanceArray)
+
             places[i].distance = distanceArray[i]
         }
         return places
@@ -104,7 +103,6 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        console.log("renderItinerary: " + this.props.JSONString.body.places)
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
         //
@@ -138,13 +136,6 @@ export default class Iitnerary extends Component {
                 />
             </div>
         );
-    }
-
-
-    boolCheck(check){
-        console.log("check is " , check)
-        if (check == true)return true;
-        else{ return false}
     }
 
 
@@ -221,7 +212,6 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             let number = document.getElementById(columnIndex);
-            console.log('number value', number)
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
