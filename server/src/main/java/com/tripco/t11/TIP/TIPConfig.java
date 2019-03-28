@@ -26,12 +26,10 @@ public class TIPConfig extends TIPHeader {
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
-
   public TIPConfig() {
     this.requestType = "config";
     this.requestVersion = 3;
   }
-
 
   @Override
   public void buildResponse() {
@@ -41,11 +39,9 @@ public class TIPConfig extends TIPHeader {
     log.trace("buildResponse -> {}", this);
   }
 
-
   String getServerName() {
     return this.serverName;
   }
-
 
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
@@ -54,9 +50,15 @@ public class TIPConfig extends TIPHeader {
   List<String> getOptimizationOptions() { return this.optimizations; }
 
   public String toString() {
-    String ret = "Variables - serverName: " + serverName +" placeAttributes: ";
-    for (int i = 0; i < placeAttributes.size() - 1; i++) ret += placeAttributes.get(i) + ", "; // display placeAttributes
-    ret += placeAttributes.get(placeAttributes.size() - 1) + "\n"; // tidying up output
+    String ret = "Variables - serverName: " + serverName + "\n";
+    ret += "placeAttributes:\n";
+    for (int i = 0; i < placeAttributes.size(); ++i) {
+      ret += "\t" + placeAttributes.get(i) + "\n";
+    }
+    ret += "optimizations:\n";
+    for(int i = 0; i < optimizations.size(); ++i){
+      ret += "\t" + optimizations.get(i) + "\n";
+    }
     return ret;
   }
 
