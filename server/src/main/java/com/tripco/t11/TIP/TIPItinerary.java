@@ -1,16 +1,19 @@
 package com.tripco.t11.TIP;
 
 import com.tripco.t11.misc.GreatCircleDistance;
-import com.tripco.t11.misc.NearestNeighbor;
+import com.tripco.t11.misc.Optimizations;
+import com.tripco.t11.misc.OptimizationsFactory;
+
+import java.util.Arrays;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 public class TIPItinerary extends TIPHeader {
+
     private Map<String, Object> options;
-    private Map<String, Object>[] places;
+    protected Map<String, Object>[] places;
     protected Long[] distances;
 
     private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
@@ -26,15 +29,12 @@ public class TIPItinerary extends TIPHeader {
 
     @Override
     public void buildResponse(){
-        Double[][] coords = generateCoords();
         this.distances = new Long[places.length];
-        if(options.get("optimization") != null){
-            if(options.get("optimization").equals("short")) {
-                NearestNeighbor optimize = new NearestNeighbor(coords, parseRadius());
-                optimize.findOptimalTrip();
-                coords = reAssignPlaces(optimize.trip, coords);
-            }
-        }
+        Double[][] coords = generateCoords();
+        Optimizations optimize = OptimizationsFactory.getOpt((String)options.get("optimization"), coords, parseRadius());
+        optimize.findOptimalTrip();
+        int originIndex = calcOriginIndex(optimize.getTrip());
+        coords = reAssignPlaces(originIndex, optimize.getTrip(), coords);
         if (places.length != 0) {
             calcDistances(coords);
         }
@@ -49,28 +49,31 @@ public class TIPItinerary extends TIPHeader {
         return coords;
     }
 
-    private Double[][] reAssignPlaces(int[] trip, Double[][] coords){
-        int j = 0;
+    private Double parseRadius(){
+        return Double.parseDouble((String)options.get("earthRadius"));
+    }
+
+    private int calcOriginIndex(int[] trip){
+        int originIndex = 0;
         for(int i = 0; i < trip.length; ++i){
             if(trip[i] == 0)
-                j = i;
+                originIndex = i;
         }
+        return originIndex;
+    }
+
+    private Double[][] reAssignPlaces(int index, int[] trip, Double[][] coords){
         Map<String, Object>[] tempPlaces = new Map[places.length];
         Double[][] tempCoords = new Double[coords.length][2];
         for(int i = 0; i < tempPlaces.length; ++i){
-            if(j == trip.length)
-                j = 0;
-            tempCoords[i] = coords[trip[j]];
-            tempPlaces[i] = places[trip[j]];
-            j++;
+            if(index == trip.length)
+                index = 0;
+            tempCoords[i] = coords[trip[index]];
+            tempPlaces[i] = places[trip[index++]];
         }
         places = tempPlaces.clone();
         coords = tempCoords.clone();
         return coords;
-    }
-
-    private Double parseRadius(){
-        return Double.parseDouble((String)options.get("earthRadius"));
     }
 
     private void calcDistances(Double[][] coords){
@@ -85,9 +88,12 @@ public class TIPItinerary extends TIPHeader {
 
     @Override
     public String toString(){
-        String ret = "options: " + options.toString();
-        ret += "\nplaces: " + places.toString();
-        ret += "\ndistances: " + distances.toString();
+        String ret = "options: " + options.toString() + "\n";
+        ret += "places:\n" + places.toString();
+        for(int i = 0; i < places.length; ++i){
+            ret += "\t" + places[i].toString() + "\n";
+        }
+        ret += "distances: " + Arrays.toString(distances) + "\n";
         return ret;
     }
 }

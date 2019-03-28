@@ -11,6 +11,8 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
+import { sendServerRequestWithBody } from '../../api/restfulAPI'
+
 
 
 let order = 'desc';
@@ -23,25 +25,100 @@ export default class Iitnerary extends Component {
         this.basicItinerary = this.basicItinerary.bind(this)
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
-        this.reverseList = this.reverseList.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
     }
 
-    render() {
-        return (
-            <Row>
-                {this.props.boolMarker ? (
-                    <Col xs={12}>
-                        {this.renderItinerary()}
-                    </Col>
-                ) : (
-                    <Col xs={12}>
-                        {this.basicItinerary()}
-                    </Col>
-                )}
-            </Row>
+
+    varBody(){
+        let work = this.props.SQLJson.places
+        var body = work.map((item, idx) =>
+            <tr>
+                <td> {idx + 1} </td>
+                <td> {item.id} </td>
+                <td> {item.name} </td>
+                <td> {item.altitude} </td>
+                <td> {item.latitude} </td>
+                <td> {item.longitude} </td>
+                <td> {item.municipality} </td>
+                <td> {this.buttonSQL(idx)} </td>
+            </tr>
         )
+        return(body)
+    }
+
+
+    SQLBody(){
+        if (this.props.SQLJson.places == null) return;
+        else{ return( this.varBody());
+        }
+    }
+
+    buttonSQL(idx){
+        let work = this.props.SQLJson.places[idx]
+        return(
+            <button onClick={() => this.callNewItineraryWithSQL(work) }>Add to Itinerary</button>
+        );
+    }
+
+    callNewItineraryWithSQL(work){
+        return (this.props.updateItinerarySQL(work));
+    }
+
+    SQLMenu(){
+        return(
+            <row>
+                <Pane header = {'SQL Header'}
+                      bodyJSX ={
+                          <div>
+                              <Table>
+                                  <thead>
+                                  <tr>
+                                      <th>#</th>
+                                      <th>ID</th>
+                                      <th>Name</th>
+                                      <th>Altitude</th>
+                                      <th>Latitude</th>
+                                      <th>Longitude</th>
+                                      <th>Municipality</th>
+                                      <th>Add to Itinerary</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  {this.SQLBody()}
+                                  </tbody>
+                              </Table>
+                          </div>
+                      }
+                />
+            </row>
+        )
+    }
+
+    render() {
+        if (this.props.boolSQL == true){
+            return(
+                <div>
+                    {this.SQLMenu()}
+                    <Row>
+                        <Col xs={12}>
+                            {this.renderItinerary()}
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    <Row>
+                        <Col xs={12}>
+                            {this.renderItinerary()}
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
     }
 
     convertUnitsToNum(unit) {
@@ -68,6 +145,7 @@ export default class Iitnerary extends Component {
     convertDistance(distance, activeUnit, oldUnit) {
         if (oldUnit == '' && this.props.origUnit != 3959) {
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
+
         }
         else if (oldUnit == '') {
             return distance
@@ -83,15 +161,6 @@ export default class Iitnerary extends Component {
         return newDistance
     }
 
-    getPlaces() {
-        let places = this.props.JSONString.body.places
-        let distanceArray = this.props.JSONString.body.distances
-        for (var i = 0; i < places.length; i++) {
-            places[i].distance = distanceArray[i]
-        }
-        return places
-    }
-
     getTotalDistance(places) {
 
         let distanceArray = this.props.JSONString.body.distances
@@ -103,112 +172,36 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        let places = this.getPlaces()
-        var totalDistance = this.getTotalDistance(places)
-
-        var products = this.addProducts()
-        var cols =this.addCols()
-
-        return (
-            <Pane
-                header={
-                    `  You have  ${places.length}  stops on your trip totalling
-                    ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
-                }
-                bodyJSX={
-                    <BootstrapTable1
-                        selectRow={ { mode: 'checkbox' } }
-                        tabIndexCell
-                        bootstrap4
-                        keyField="id"
-                        data={ products }
-                        columns={ cols }>
-                    </BootstrapTable1>
-                }
-            />
-        );
+        // let places = this.getPlaces()
+        // var totalDistance = this.getTotalDistance(places)
+        //
+        if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length == 0){
+            return (
+                <div>
+                    <Pane header={"Itinerary will load here"}/>
+                </div>
+            );
+        }
+        else if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length != 0){
+            return (this.returnSQLItinerary());
+        }
+        else{ return(this.returnMainItinerary())}
     }
 
-    makeCheckbox(){
-        return(
-            <input type="checkbox" />
-        );
-
-    }
-
-    addCols(){
-        const columns = [{
-            dataField: 'id',
-            text: 'ID',
-            sort: true
-        },{
-            dataField: 'name',
-            text: 'Name'
-
-        },{
-            dataField: 'latitude',
-            text: 'latitude'
-
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude'
-        },{
-
-            dataField: 'distance',
-            text: 'Leg Distance'
-
-        },{
-            dataField: 'delete',
-            text: 'Delete',
-            formatter: this.deleteFunc
-
-        },{
-            dataField: 'origin',
-            text: 'Make Origin',
-            formatter: this.makeOriginFunc
-
-        },{
-            dataField: 'change',
-            text: 'Change Order',
-            formatter: this.changeFunc
-
-        }];
-
-        return columns
-    }
-
-
-    reverseList(){
-        return(
-            <button>Reverse</button>
-        )
-    }
-
-    changeFunc(e, column, columnIndex, row, rowIndex) {
-        let handleSubmit = (event) => {
-            let number = document.getElementById('number');
-            this.props.changeOrder(columnIndex, number.value - 1);
-            event.preventDefault();
-        };
-
-        return (
-            <form onSubmit={handleSubmit}>
-                <input id="number" type="number" name={"input"} min="1" max={this.props.JSONString.body.places.length} />
-                <input type="submit" value="Enter"/>
-            </form>
-        );
-    }
-
-    deleteFunc(e, column, columnIndex, row, rowIndex){
-        return (
-            <button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</button>
-        );
-    }
-
-    makeOriginFunc(e, column, columnIndex, row, rowIndex){
-        return (
-            <button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</button>
-        );
+    SQLProducts(){
+        const products = [];
+        const startId = products.length;
+        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
+            const id = startId + i;
+            products[i] = ({
+                id: id + 1,
+                name: this.props.SQLItineraryInfo[i].name,
+                latitude: this.props.SQLItineraryInfo[i].latitude ,
+                longitude: this.props.SQLItineraryInfo[i].longitude,
+                municipality: this.props.SQLItineraryInfo[i].municipality
+            });
+        }
+        return products
     }
 
     addProducts() {
@@ -230,6 +223,193 @@ export default class Iitnerary extends Component {
         return products
     }
 
+    sendSQLRequest(){
+        var request = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 3,
+            "options"        : {"earthRadius": "3959"},
+            "places"         : this.props.SQLItineraryInfo,
+            "distances"      : []
+        };
+        sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
+            .then((response) => {
+                console.log(response.body)
+                this.props.liftHomeState(response);
+                this.props.boolSQLFunc();
+            });
+
+    }
+
+    finalizeSQLItinerary(){
+        return (
+            <button onClick={() => this.sendSQLRequest()}>Click this when SQL Itinerary is done</button>
+        );
+    }
+
+    returnSQLItinerary(){
+        var products = this.SQLProducts();
+        var cols = this.SQLColumns();
+        return (
+            <div>
+                <Pane
+                    header={this.finalizeSQLItinerary()}
+                    bodyJSX={
+                            <BootstrapTable1
+                                selectRow={{mode: 'checkbox'}}
+                                tabIndexCell
+                                bootstrap4
+                                keyField="id"
+                                data={products}
+                                columns={cols}>
+                            </BootstrapTable1>
+                    }
+                />
+            </div>
+        );
+    }
+
+    returnMainItinerary(){
+        var products = this.addProducts();
+        var cols = this.addCols();
+        return (
+            <div>
+                <Pane
+                    header={
+                        `  You have  ${10}  stops on your trip totalling
+                        ${this.convertDistance(10, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
+                    }
+                    bodyJSX={
+                        <div>
+                            <BootstrapTable1
+                                selectRow={{mode: 'checkbox'}}
+                                tabIndexCell
+                                bootstrap4
+                                keyField="id"
+                                data={products}
+                                columns={cols}>
+                            </BootstrapTable1>
+                        </div>
+                    }
+                />
+            </div>
+        );
+    }
+
+
+
+    makeCheckbox(){
+        return(
+            <input type="checkbox" />
+        );
+    }
+
+    returnIDInfo(){
+        return(
+            <div>
+                ID
+                <button>Reverse</button>
+            </div>
+        );
+    }
+
+    addCols(){
+        var columns = [{
+            dataField: 'id',
+            text: 'ID',
+            sort: true,
+            hidden: this.props.filterID,
+            headerFormatter: this.returnIDInfo
+
+        },{
+            dataField: 'name',
+            text: 'Name',
+            hidden: this.props.filterName
+
+        },{
+            dataField: 'latitude',
+            text: 'latitude',
+            hidden: this.props.filterLat
+
+        }, {
+            dataField: 'longitude',
+            text: 'Longitude',
+            hidden: this.props.filterLong
+        },{
+
+            dataField: 'distance',
+            text: 'Leg Distance',
+            hidden: this.props.filterDist
+
+        },{
+            dataField: 'delete',
+            text: 'Delete',
+            formatter: this.deleteFunc
+
+
+        },{
+            dataField: 'origin',
+            text: 'Make Origin',
+            formatter: this.makeOriginFunc
+
+        },{
+            dataField: 'change',
+            text: 'Switch Order',
+            formatter: this.changeFunc
+
+        }];
+
+        return columns
+    }
+
+    SQLColumns(){
+        var columns = [{
+            dataField: 'id',
+            text: 'ID',
+
+        },{
+            dataField: 'name',
+            text: 'Name',
+
+        },{
+            dataField: 'latitude',
+            text: 'latitude',
+
+        }, {
+            dataField: 'longitude',
+            text: 'Longitude',
+        },{
+            dataField: 'municipality',
+            text: 'Municipality'
+        }];
+        return columns
+    }
+
+    changeFunc(e, column, columnIndex, row, rowIndex) {
+        let handleSubmit = (event) => {
+            let number = document.getElementById(columnIndex);
+            this.props.changeOrder(columnIndex, number.value - 1);
+            event.preventDefault();
+        };
+
+        return (
+            <form onSubmit={handleSubmit}>
+                <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
+                <input type="submit" value="Enter"/>
+            </form>
+        );
+    }
+
+    deleteFunc(e, column, columnIndex, row, rowIndex){
+        return (
+            <button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</button>
+        );
+    }
+
+    makeOriginFunc(e, column, columnIndex, row, rowIndex){
+        return (
+            <button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</button>
+        );
+    }
 
     basicItinerary() {
         return (

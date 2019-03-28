@@ -47,10 +47,12 @@ export default class Home extends Component {
                 names = {this.props.names}
                 liftHomeState = {this.props.liftHomeState}
                 updatePlacesArray = {this.props.updatePlacesArray}
-                deleteError = {this.props.deleteError}
+                createErrorBannerState = {this.props.createErrorBannerState}
                 deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
+                SQLJson = {this.props.SQLJson}
+                updateSQLState = {this.props.updateSQLState}
                 ref="child"
             />
         )
@@ -59,6 +61,7 @@ export default class Home extends Component {
     callItinerary(){
         return (
             <Itinerary
+                clientSettings = {this.props.clientSettings}
                 boolMarker = {this.props.boolMarker}
                 JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
@@ -70,6 +73,24 @@ export default class Home extends Component {
                 latitude = {this.props.latitude}
                 longitude = {this.props.longitude}
                 names = {this.props.names}
+                filterID = {this.props.filterID}
+                filterName = {this.props.filterName}
+                filterLat = {this.props.filterLat}
+                filterLong = {this.props.filterLong}
+                filterDist = {this.props.filterDist}
+                renderFilterID = {this.props.renderFilterID}
+                renderFilterName = {this.props.renderFilterName}
+                renderFilterLatitude = {this.props.renderFilterLatitude}
+                renderFilterLongitude = {this.props.renderFilterLongitude}
+                renderFilterDistance = {this.props.renderFilterDistance}
+                SQLJson = {this.props.SQLJson}
+                updateSQLState = {this.props.updateSQLState}
+                SQLItineraryInfo = {this.props.SQLItineraryInfo}
+                updateItinerarySQL = {this.props.updateItinerarySQL}
+                sendItineraryRequest = {this.props.sendItineraryRequest}
+                liftHomeState = {this.props.liftHomeState}
+                boolSQL = {this.props.boolSQL}
+                boolSQLFunc = {this.props.boolSQLFunc}
 
             />
         )
@@ -105,7 +126,7 @@ export default class Home extends Component {
     deleteLocation(idx) {
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
-            this.props.deleteError();
+            this.props.createErrorBannerState('Error', '500', `You Must Have At least Two Locations For the Itinerary`);
             return;
         }
         places.splice(idx, 1);
@@ -114,7 +135,7 @@ export default class Home extends Component {
 
 
     sendItineraryRequest(requestBody) {
-
+        console.log("Request body is " , requestBody)
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
                 this.props.liftHomeState(response);
@@ -144,7 +165,6 @@ export default class Home extends Component {
         markers.shift()
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
-
         this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 

@@ -20,17 +20,23 @@ export default class Application extends Component {
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
     this.createErrorBanner = this.createErrorBanner.bind(this);
-    this.updatecheckData = this.updatecheckData.bind(this);
+    this.createErrorBannerState = this.createErrorBannerState.bind(this);
     this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
-    this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
     this.processConfigResponse = this.processConfigResponse.bind(this);
     this.setValue = this.setValue.bind(this);
     this.clearMapState = this.clearMapState.bind(this);
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
-    this.deleteError = this.deleteError.bind(this);
-    this.updateOldUnit = this.updateOldUnit.bind(this)
+    this.updateOldUnit = this.updateOldUnit.bind(this);
+    this.renderFilterID = this.renderFilterID.bind(this);
+    this.renderFilterName = this.renderFilterName.bind(this);
+    this.renderFilterLatitude = this.renderFilterLatitude.bind(this);
+    this.renderFilterLongitude = this.renderFilterLongitude.bind(this);
+    this.renderFilterDistance = this.renderFilterDistance.bind(this);
+    this.updateSQLState = this.updateSQLState.bind(this);
+    this.updateItinerarySQL = this.updateItinerarySQL.bind(this);
+    this.boolSQLFunc = this.boolSQLFunc.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -54,7 +60,15 @@ export default class Application extends Component {
         polyLineCoor: [[]],
         names : [] ,
         oldUnits : '',
-        origUnit: ''
+        origUnit: '',
+        filterID: true,
+        filterName: false,
+        filterLat: false,
+        filterLong: false,
+        filterDist: false,
+        SQLJson: [] ,
+        SQLItineraryInfo: [],
+        boolSQL: true
 
     };
     this.updateServerConfig();
@@ -108,6 +122,12 @@ export default class Application extends Component {
   );
   }
 
+  createErrorBannerState(statusText, statusCode, message) {
+    this.setState({
+        errorMessage: <ErrorBanner statusText={statusText} statusCode={statusCode} message={message}/>
+    });
+    }
+
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
@@ -119,9 +139,8 @@ export default class Application extends Component {
             destination = {this.state.destination}
             planOptions = {this.state.planOptions}
             createErrorBanner={this.createErrorBanner}
+            createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
-            updatecheckData = {this.updatecheckData}
-            updateIfBadCalculator = {this.updateIfBadCalculator}
             updateIfGoodCalculator = {this.updateIfGoodCalculator}
             setValue = {this.setValue}
             />;
@@ -159,14 +178,56 @@ export default class Application extends Component {
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
             updatePlacesArray = {this.updatePlacesArray}
+            createErrorBannerState = {this.createErrorBannerState}
             deleteError = {this.deleteError}
             planOptions = {this.state.planOptions}
             oldUnits = {this.state.oldUnits}
             origUnit = {this.state.origUnit}
+            filterID = {this.state.filterID}
+            filterName = {this.state.filterName}
+            filterLat = {this.state.filterLat}
+            filterLong = {this.state.filterLong}
+            filterDist = {this.state.filterDist}
+            renderFilterID = {this.renderFilterID}
+            renderFilterName = {this.renderFilterName}
+            renderFilterLatitude = {this.renderFilterLatitude}
+            renderFilterLongitude = {this.renderFilterLongitude}
+            renderFilterDistance = {this.renderFilterDistance}
+            SQLJson = {this.state.SQLJson}
+            updateSQLState = {this.updateSQLState}
+            SQLItineraryInfo = {this.state.SQLItineraryInfo}
+            updateItinerarySQL = {this.updateItinerarySQL}
+            boolSQL = {this.state.boolSQL}
+            boolSQLFunc = {this.boolSQLFunc}
             ref="child"
             />;
     }
   }
+
+    renderFilterID(){
+      if (this.state.filterID == true) this.setState({ filterID: false })
+      else{ this.setState({ filterID: true }) }
+    }
+
+    renderFilterName(){
+      if (this.state.filterName == true) this.setState({ filterName: false })
+      else{ this.setState({ filterName: true }) }
+    }
+
+    renderFilterLatitude(){
+      if (this.state.filterLat == true) this.setState({ filterLat: false })
+      else{ this.setState({ filterLat: true }) }
+    }
+
+    renderFilterLongitude(){
+      if (this.state.filterLong == true) this.setState({ filterLong: false })
+      else{ this.setState({ filterLong: true }) }
+    }
+
+    renderFilterDistance(){
+      if (this.state.filterDist == true) this.setState({ filterDist: false })
+      else{ this.setState({ filterDist: true }) }
+    }
 
   processConfigResponse(config) {
     if(config.statusCode >= 200 && config.statusCode <= 299) {
@@ -188,38 +249,12 @@ export default class Application extends Component {
     }
   }
 
-
-  updatecheckData(){
-    this.setState({
-      errorMessage: this.createErrorBanner('Error', '500',
-          `Invalid Input Entered Into Origin or Destination`)
-    });
-  }
-
-  deleteError() {
-      this.setState({
-          errorMessage: this.createErrorBanner('Error', '500',
-              `You Must Have At least Two Locations For the Itinerary`)
-      });
-  }
-
   updateIfGoodCalculator(response){
     this.setState({
       distance: response.body.distance,
       errorMessage: null
     });
   }
-
-  updateIfBadCalculator(response){
-    this.setState({
-      errorMessage: this.createErrorBanner(
-          response.statusText,
-          response.statusCode,
-          `Request to ${ this.state.clientSettings.serverPort } failed.`
-      )
-    });
-  }
-
 
   setValue(stateVar, location){
     this.setState({[stateVar]: location});
@@ -234,7 +269,8 @@ export default class Application extends Component {
       markers: [[]],
       boolMarker: false ,
       names: [],
-      origUnit: 0
+      origUnit: 0,
+      errorMessage: null,
     });
   }
 
@@ -253,7 +289,7 @@ export default class Application extends Component {
       this.setState({
           JSONString: response,
           returnFile: response.body,
-          origUnit : response.body.options.earthRadius
+          origUnit : Math.round(response.body.options.earthRadius)
       } , () => {
           this.refs.child.reRenderNewMap();
       });
@@ -269,6 +305,32 @@ export default class Application extends Component {
           this.refs.child.reRenderNewMap();
       });
   }
+
+    updateSQLState(newJSON){
+        this.setState({
+            SQLJson: newJSON
+        });
+
+        // this.setState({
+        //     JSONString: response,
+        //     returnFile: response.body,
+        //     origUnit : Math.round(response.body.options.earthRadius)
+        // } , () => {
+        //     this.refs.child.reRenderNewMap();
+        // });
+    }
+
+    updateItinerarySQL(sql){
+      this.setState({
+          SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
+        });
+    }
+
+    boolSQLFunc(){
+      this.setState({
+          boolSQL: false
+      })
+    }
 
 
 }

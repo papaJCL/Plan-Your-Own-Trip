@@ -80,4 +80,49 @@ public class TestTIPItinerary {
         assertEquals("distances are overwritten with good ones", expect, test.distances);
     }
 
+    @Test
+    public void testOpt(){
+        Map<String, Object>[] trip =  new Map[5];
+        options.replace("optimization","short");
+        Map<String,Object> origin = new HashMap<>();
+        origin.put("latitude","0.0");
+        origin.put("longitude","0.0");
+        trip[4] = origin;
+        Map<String,Object> topLeft = new HashMap<>();
+        topLeft.put("latitude","10.0");
+        topLeft.put("longitude","-90.0");
+        trip[0] = topLeft;
+        Map<String,Object> topRight = new HashMap<>();
+        topRight.put("latitude","10.0");
+        topRight.put("longitude","90.0");
+        trip[1] = topRight;
+        Map<String,Object> botLeft = new HashMap<>();
+        botLeft.put("latitude","-10.0");
+        botLeft.put("longitude","-90.0");
+        trip[2] = botLeft;
+        Map<String,Object> botRight = new HashMap<>();
+        botRight.put("latitude","-10.0");
+        botRight.put("longitude","90.0");
+        trip[3] = botRight;
+        TIPItinerary Trip = new TIPItinerary(version, options, trip);
+        Trip.buildResponse();
+
+        Map<String,Object>[] expect = new Map[5];
+        expect[0] = topLeft;
+        expect[4] = botLeft;
+        expect[1] = origin;
+        expect[2] = topRight;
+        expect[3] = botRight;
+
+        assertEquals("optimized trip is computed", expect, Trip.places);
+    }
+
+    @Test
+    public void testToString(){
+        TIPItinerary trip = new TIPItinerary(version, options, places);
+        Object toString = trip.toString();
+        boolean TorF = toString != null;
+        assertEquals("assure toString returns a String", true, TorF);
+    }
+
 }
