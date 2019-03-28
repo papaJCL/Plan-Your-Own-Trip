@@ -82,15 +82,14 @@ export default class Iitnerary extends Component {
         return newDistance
     }
 
-    getPlaces() {
-        let places = this.props.JSONString.body.places
-        let distanceArray = this.props.JSONString.body.distances
-        for (var i = 0; i < places.length; i++) {
-
-            places[i].distance = distanceArray[i]
-        }
-        return places
-    }
+    //getPlaces() {
+    //    let places = this.props.JSONString.body.places
+    //    let distanceArray = this.props.JSONString.body.distances
+    //    for (var i = 0; i < places.length; i++) {
+    //        places[i].distance = distanceArray[i]
+    //    }
+    //    return places
+    //}
 
     getTotalDistance(places) {
 
