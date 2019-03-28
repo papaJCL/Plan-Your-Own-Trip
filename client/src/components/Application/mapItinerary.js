@@ -64,7 +64,7 @@ export default class mapItinerary extends Component {
             'requestType':'find',
             'requestVersion': 3,
             'match': this.input.value,
-            'limit': 10
+            'limit': 5
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
