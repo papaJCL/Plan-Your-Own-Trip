@@ -47,7 +47,7 @@ export default class Home extends Component {
                 names = {this.props.names}
                 liftHomeState = {this.props.liftHomeState}
                 updatePlacesArray = {this.props.updatePlacesArray}
-                deleteError = {this.props.deleteError}
+                createErrorBannerState = {this.props.createErrorBannerState}
                 deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
@@ -95,9 +95,13 @@ export default class Home extends Component {
 
     changeOrder(idx0, idx) {
         let newplaces = this.props.JSONString.body.places;
+        console.log(this.props.JSONString.body.places)
+        console.log('new places0' , newplaces)
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[idx0];
         newplaces[idx0] = temp;
+        console.log('Step Change Order')
+        console.log('new places1' , newplaces)
         this.props.updatePlacesArray(newplaces);
     }
 
@@ -114,7 +118,7 @@ export default class Home extends Component {
     deleteLocation(idx) {
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
-            this.props.deleteError();
+            this.props.createErrorBannerState('Error', '500', `You Must Have At least Two Locations For the Itinerary`);
             return;
         }
         places.splice(idx, 1);
@@ -131,10 +135,13 @@ export default class Home extends Component {
     }
 
     reRenderNewMap(){
+        console.log('Step reRenderNewMap --- Places Array: ' + this.props.JSONString.body.places)
         let places = this.props.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
         const mappingFunction2 = p => p.name;
+
+        console.log("Shouldn't land here")
 
         const latitude = places.map(mappingFunction)
         const longitude = places.map(mappingFunction1)
@@ -153,6 +160,7 @@ export default class Home extends Component {
         markers.shift()
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
+        console.log('Should be undefined: ' + this.props.JSONString.body)
 
         this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }

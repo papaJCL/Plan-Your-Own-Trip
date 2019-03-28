@@ -14,9 +14,7 @@ const startProperties = {
         },
         'origin': {'latitude':0, 'longitude': 1},
         'destination': {'latitude':2, 'longitude': 3},
-        'updatecheckData': () => {},
-        'updateIfBadCalculator': () => {},
-        'updateIfGoodCalculator': () => {},
+        'createErrorBannerState': () => {},
         'setValue': () => {},
 
 };
