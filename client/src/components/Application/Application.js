@@ -276,7 +276,7 @@ export default class Application extends Component {
       this.setState({
           JSONString: response,
           returnFile: response.body,
-          origUnit : response.body.options.earthRadius
+          origUnit : Math.round(response.body.options.earthRadius)
       } , () => {
           this.refs.child.reRenderNewMap();
       });
