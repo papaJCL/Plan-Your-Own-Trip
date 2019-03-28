@@ -60,14 +60,12 @@ export default class mapItinerary extends Component {
     // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
 
     handleSubmit(e) {
-        console.log(this.input.value)
         var request = {
             'requestType':'find',
             'requestVersion': 3,
             'match': this.input.value,
             'limit': 5
         };
-        console.log(request)
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {console.log(response.body)});
         e.preventDefault();

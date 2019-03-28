@@ -95,13 +95,9 @@ export default class Home extends Component {
 
     changeOrder(idx0, idx) {
         let newplaces = this.props.JSONString.body.places;
-        console.log(this.props.JSONString.body.places)
-        console.log('new places0' , newplaces)
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[idx0];
         newplaces[idx0] = temp;
-        console.log('Step Change Order')
-        console.log('new places1' , newplaces)
         this.props.updatePlacesArray(newplaces);
     }
 

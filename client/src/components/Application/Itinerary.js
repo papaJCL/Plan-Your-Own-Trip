@@ -22,7 +22,6 @@ export default class Iitnerary extends Component {
         this.basicItinerary = this.basicItinerary.bind(this)
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
-        this.reverseList = this.reverseList.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
     }
@@ -82,16 +81,14 @@ export default class Iitnerary extends Component {
         return newDistance
     }
 
-    getPlaces() {
-        let places = this.props.JSONString.body.places
-        let distanceArray = this.props.JSONString.body.distances
-        for (var i = 0; i < places.length; i++) {
-            console.log('getPlaces: ', this.props.JSONString.body.places)
-            console.log('getPlaces: ', distanceArray)
-            places[i].distance = distanceArray[i]
-        }
-        return places
-    }
+    //getPlaces() {
+    //    let places = this.props.JSONString.body.places
+    //    let distanceArray = this.props.JSONString.body.distances
+    //    for (var i = 0; i < places.length; i++) {
+    //        places[i].distance = distanceArray[i]
+    //    }
+    //    return places
+    //}
 
     getTotalDistance(places) {
 
@@ -104,7 +101,6 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        console.log("renderItinerary: " + this.props.JSONString.body.places)
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
         //
@@ -138,13 +134,6 @@ export default class Iitnerary extends Component {
                 />
             </div>
         );
-    }
-
-
-    boolCheck(check){
-        console.log("check is " , check)
-        if (check == true)return true;
-        else{ return false}
     }
 
 
@@ -212,23 +201,16 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-
-    reverseList(){
-
-    }
-
-
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
-            //var number = document.getElementById('number');
-            console.log('number value', this.input.value)
+            let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
 
         return (
             <form onSubmit={handleSubmit}>
-                <input id={columnIndex} type="number" ref={(input) => this.input = input} min="1" max={this.props.JSONString.body.places.length} />
+                <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
         );
