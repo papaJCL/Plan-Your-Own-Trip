@@ -21,6 +21,8 @@ import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 
 const startProperties = {
     'origUnit': 3959,
+    'JSONString' : [],
+    'SQLItineraryInfo' : []
 
 };
 
@@ -28,6 +30,8 @@ const startProperties = {
 function testConvertDistance() {
     const testConvert = mount(<Itinerary
         origUnit = {startProperties.origUnit}
+        JSONString = {startProperties.JSONString}
+        SQLItineraryInfo = {startProperties.SQLItineraryInfo}
     />);
 
     let milesNotOrigional = testConvert.instance().convertDistance(10, 'miles', 'kilometers');
