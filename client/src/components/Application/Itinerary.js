@@ -22,7 +22,6 @@ export default class Iitnerary extends Component {
         this.basicItinerary = this.basicItinerary.bind(this)
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
-        this.reverseList = this.reverseList.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
     }
