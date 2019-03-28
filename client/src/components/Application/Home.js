@@ -28,6 +28,7 @@ export default class Home extends Component {
         this.deleteLocation = this.deleteLocation.bind(this)
         this.changeStartLocation = this.changeStartLocation.bind(this)
         this.changeOrder = this.changeOrder.bind(this)
+        this.addLocation = this.addLocation.bind(this)
         this.reRenderNewMap = this.reRenderNewMap.bind(this)
     }
 
@@ -49,6 +50,7 @@ export default class Home extends Component {
                 updatePlacesArray = {this.props.updatePlacesArray}
                 createErrorBannerState = {this.props.createErrorBannerState}
                 deleteLocation = {this.deleteLocation}
+                addLocation = {this.addLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
                 SQLJson = {this.props.SQLJson}
@@ -103,6 +105,18 @@ export default class Home extends Component {
                 {this.callItinerary()}
             </Container>
         );
+    }
+
+    addLocation(name, lat, long) {
+        if (typeof this.props.JSONString.body === 'undefined') {
+            this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
+            return;
+        }
+        let newplaces = this.props.JSONString.body.places;
+        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": this.props.JSONString.body.places.length};
+        newplaces.push(newloc);
+        this.props.updatePlacesArray(newplaces);
+
     }
 
     changeOrder(idx0, idx) {

@@ -21,7 +21,9 @@ export default class mapItinerary extends Component {
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
         this.createSearchBar = this.createSearchBar.bind(this)
+        this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleAddSubmit = this.handleAddSubmit.bind(this)
     }
 
     render(){
@@ -60,7 +62,15 @@ export default class mapItinerary extends Component {
     }
 
     handleAddSubmit(event) {
-        let number = document.getElementById('name'); // dont believe that this is in scope
+        event.preventDefault();
+        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        let name = document.getElementById('name').value;
+        let lat = document.getElementById('lat').value;
+        let long = document.getElementById('long').value;
+        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+            this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
+        }
+        this.props.addLocation(name, lat, long);
     }
 
     createAddDropDown() {
@@ -68,27 +78,12 @@ export default class mapItinerary extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Add a New Location</b></CardTitle>
-                        <UncontrolledButtonDropdown>
-                            <DropdownToggle caret>
-                                Add Location
-                            </DropdownToggle>
-                                <form onSubmit={() => this.handleAddSubmit(event)}>
-                                <DropdownMenu>
-                                    <DropdownItem toggle={false}>
-                                         <input id="name" type="text" name={"input"} placeholder="Enter Name"/>
-                                    </DropdownItem>
-                                    <DropdownItem toggle={false}>
-                                         <input id="lat" type="text" name={"input"} placeholder="Enter Latitude"/>
-                                    </DropdownItem>
-                                    <DropdownItem toggle={false}>
-                                        <input id="long" type="text" name={"input"} placeholder="Enter Longitude"/>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <input type="submit" value="Submit"/>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                                </form>
-                        </UncontrolledButtonDropdown>
+                        <form onSubmit={this.handleAddSubmit}>
+                            <input id="name" type="text" placeholder="Enter Name"/>
+                            <input id="lat" type="text" placeholder="Enter Latitude"/>
+                            <input id="long" type="text" placeholder="Enter Longitude"/>
+                            <input type="submit" value="Submit"/>
+                        </form>
                 </CardBody>
             </Card>
                     );
