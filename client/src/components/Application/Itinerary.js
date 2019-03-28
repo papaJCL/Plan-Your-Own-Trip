@@ -203,12 +203,6 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-
-    reverseList(){
-
-    }
-
-
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             let number = document.getElementById(columnIndex);
