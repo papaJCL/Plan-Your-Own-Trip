@@ -220,15 +220,15 @@ export default class Iitnerary extends Component {
 
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
-            //var number = document.getElementById('number');
-            console.log('number value', this.input.value)
+            let number = document.getElementById(columnIndex);
+            console.log('number value', number)
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
 
         return (
             <form onSubmit={handleSubmit}>
-                <input id={columnIndex} type="number" ref={(input) => this.input = input} min="1" max={this.props.JSONString.body.places.length} />
+                <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
         );
