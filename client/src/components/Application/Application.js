@@ -34,6 +34,9 @@ export default class Application extends Component {
     this.renderFilterLatitude = this.renderFilterLatitude.bind(this);
     this.renderFilterLongitude = this.renderFilterLongitude.bind(this);
     this.renderFilterDistance = this.renderFilterDistance.bind(this);
+    this.updateSQLState = this.updateSQLState.bind(this);
+    this.updateItinerarySQL = this.updateItinerarySQL.bind(this);
+    this.boolSQLFunc = this.boolSQLFunc.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -62,7 +65,11 @@ export default class Application extends Component {
         filterName: false,
         filterLat: false,
         filterLong: false,
-        filterDist: false
+        filterDist: false,
+        SQLJson: [] ,
+        SQLItineraryInfo: [],
+        boolSQL: true
+
     };
     this.updateServerConfig();
   }
@@ -186,6 +193,12 @@ export default class Application extends Component {
             renderFilterLatitude = {this.renderFilterLatitude}
             renderFilterLongitude = {this.renderFilterLongitude}
             renderFilterDistance = {this.renderFilterDistance}
+            SQLJson = {this.state.SQLJson}
+            updateSQLState = {this.updateSQLState}
+            SQLItineraryInfo = {this.state.SQLItineraryInfo}
+            updateItinerarySQL = {this.updateItinerarySQL}
+            boolSQL = {this.state.boolSQL}
+            boolSQLFunc = {this.boolSQLFunc}
             ref="child"
             />;
     }
@@ -257,7 +270,7 @@ export default class Application extends Component {
       boolMarker: false ,
       names: [],
       origUnit: 0,
-      errorMessage: null
+      errorMessage: null,
     });
   }
 
@@ -292,6 +305,32 @@ export default class Application extends Component {
           this.refs.child.reRenderNewMap();
       });
   }
+
+    updateSQLState(newJSON){
+        this.setState({
+            SQLJson: newJSON
+        });
+
+        // this.setState({
+        //     JSONString: response,
+        //     returnFile: response.body,
+        //     origUnit : Math.round(response.body.options.earthRadius)
+        // } , () => {
+        //     this.refs.child.reRenderNewMap();
+        // });
+    }
+
+    updateItinerarySQL(sql){
+      this.setState({
+          SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
+        });
+    }
+
+    boolSQLFunc(){
+      this.setState({
+          boolSQL: false
+      })
+    }
 
 
 }
