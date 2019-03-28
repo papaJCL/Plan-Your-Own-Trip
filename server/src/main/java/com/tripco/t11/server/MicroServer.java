@@ -150,16 +150,16 @@ class MicroServer {
     System.out.println("in the function");
     JSONObject toBeValidated = new JSONObject(request.body());
     if(tipType == TIPConfig.class){
-      JSONObject config = parseJsonFile("../../../../../../../TIPConfigSchema.json");
+      JSONObject config = parseJsonFile("../../TIPConfigSchema.json");
       isValid = performValidation(toBeValidated, config);
     }else if(tipType == TIPDistance.class){
-      JSONObject distance = parseJsonFile("../../../../../../../TIPDistanceSchema.json");
+      JSONObject distance = parseJsonFile("../../TIPDistanceSchema.json");
       isValid = performValidation(toBeValidated, distance);
     }else if(tipType == TIPFind.class){
-      JSONObject find = parseJsonFile("../../../../../../../TIPFindSchema.json");
+      JSONObject find = parseJsonFile("../../TIPFindSchema.json");
       isValid = performValidation(toBeValidated, find);
     }else if(tipType == TIPItinerary.class){
-      JSONObject itinierary = parseJsonFile("../../../../../../../TIPItinerarySchema.json");
+      JSONObject itinierary = parseJsonFile("/s/bach/g/under/griffgil/cs314/t11/server/TIPItinerarySchema.json");
       isValid = performValidation(toBeValidated, itinierary);
     }
     return isValid;
@@ -241,6 +241,5 @@ class MicroServer {
       return parsedObject;
     }
   }
-
 
 }
