@@ -20,16 +20,14 @@ export default class Application extends Component {
     this.updateClientSetting = this.updateClientSetting.bind(this);
     this.createApplicationPage = this.createApplicationPage.bind(this);
     this.createErrorBanner = this.createErrorBanner.bind(this);
-    this.updatecheckData = this.updatecheckData.bind(this);
+    this.createErrorBannerState = this.createErrorBannerState.bind(this);
     this.updateIfGoodCalculator = this.updateIfGoodCalculator.bind(this);
-    this.updateIfBadCalculator = this.updateIfBadCalculator.bind(this);
     this.processConfigResponse = this.processConfigResponse.bind(this);
     this.setValue = this.setValue.bind(this);
     this.clearMapState = this.clearMapState.bind(this);
     this.reRenderNewMapState = this.reRenderNewMapState.bind(this);
     this.liftHomeState = this.liftHomeState.bind(this);
     this.updatePlacesArray = this.updatePlacesArray.bind(this);
-    this.deleteError = this.deleteError.bind(this);
     this.updateOldUnit = this.updateOldUnit.bind(this);
     this.renderFilterID = this.renderFilterID.bind(this);
     this.renderFilterName = this.renderFilterName.bind(this);
@@ -117,6 +115,12 @@ export default class Application extends Component {
   );
   }
 
+  createErrorBannerState(statusText, statusCode, message) {
+    this.setState({
+        errorMessage: <ErrorBanner statusText={statusText} statusCode={statusCode} message={message}/>
+    });
+    }
+
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
@@ -128,9 +132,8 @@ export default class Application extends Component {
             destination = {this.state.destination}
             planOptions = {this.state.planOptions}
             createErrorBanner={this.createErrorBanner}
+            createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
-            updatecheckData = {this.updatecheckData}
-            updateIfBadCalculator = {this.updateIfBadCalculator}
             updateIfGoodCalculator = {this.updateIfGoodCalculator}
             setValue = {this.setValue}
             />;
@@ -168,6 +171,7 @@ export default class Application extends Component {
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
             updatePlacesArray = {this.updatePlacesArray}
+            createErrorBannerState = {this.createErrorBannerState}
             deleteError = {this.deleteError}
             planOptions = {this.state.planOptions}
             oldUnits = {this.state.oldUnits}
@@ -232,38 +236,12 @@ export default class Application extends Component {
     }
   }
 
-
-  updatecheckData(){
-    this.setState({
-      errorMessage: this.createErrorBanner('Error', '500',
-          `Invalid Input Entered Into Origin or Destination`)
-    });
-  }
-
-  deleteError() {
-      this.setState({
-          errorMessage: this.createErrorBanner('Error', '500',
-              `You Must Have At least Two Locations For the Itinerary`)
-      });
-  }
-
   updateIfGoodCalculator(response){
     this.setState({
       distance: response.body.distance,
       errorMessage: null
     });
   }
-
-  updateIfBadCalculator(response){
-    this.setState({
-      errorMessage: this.createErrorBanner(
-          response.statusText,
-          response.statusCode,
-          `Request to ${ this.state.clientSettings.serverPort } failed.`
-      )
-    });
-  }
-
 
   setValue(stateVar, location){
     this.setState({[stateVar]: location});
@@ -278,7 +256,8 @@ export default class Application extends Component {
       markers: [[]],
       boolMarker: false ,
       names: [],
-      origUnit: 0
+      origUnit: 0,
+      errorMessage: null
     });
   }
 
@@ -297,7 +276,7 @@ export default class Application extends Component {
       this.setState({
           JSONString: response,
           returnFile: response.body,
-          origUnit : response.body.options.earthRadius
+          origUnit : Math.round(response.body.options.earthRadius)
       } , () => {
           this.refs.child.reRenderNewMap();
       });

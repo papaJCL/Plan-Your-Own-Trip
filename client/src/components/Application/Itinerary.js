@@ -22,7 +22,6 @@ export default class Iitnerary extends Component {
         this.basicItinerary = this.basicItinerary.bind(this)
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
-        this.reverseList = this.reverseList.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
     }
@@ -67,6 +66,7 @@ export default class Iitnerary extends Component {
     convertDistance(distance, activeUnit, oldUnit) {
         if (oldUnit == '' && this.props.origUnit != 3959) {
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
+
         }
         else if (oldUnit == '') {
             return distance
@@ -82,14 +82,14 @@ export default class Iitnerary extends Component {
         return newDistance
     }
 
-    getPlaces() {
-        let places = this.props.JSONString.body.places
-        let distanceArray = this.props.JSONString.body.distances
-        for (var i = 0; i < places.length; i++) {
-            places[i].distance = distanceArray[i]
-        }
-        return places
-    }
+    //getPlaces() {
+    //    let places = this.props.JSONString.body.places
+    //    let distanceArray = this.props.JSONString.body.distances
+    //    for (var i = 0; i < places.length; i++) {
+    //        places[i].distance = distanceArray[i]
+    //    }
+    //    return places
+    //}
 
     getTotalDistance(places) {
 
@@ -102,10 +102,9 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        console.log("This should happen after i press the button")
-        let places = this.getPlaces()
-        var totalDistance = this.getTotalDistance(places)
-
+        // let places = this.getPlaces()
+        // var totalDistance = this.getTotalDistance(places)
+        //
         var products = this.addProducts()
         var cols =this.addCols()
 
@@ -113,8 +112,8 @@ export default class Iitnerary extends Component {
             <div>
                 <Pane
                     header={
-                        `  You have  ${places.length}  stops on your trip totalling
-                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
+                        `  You have  ${10}  stops on your trip totalling
+                        ${this.convertDistance(10, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                     }
                     bodyJSX={
                         <div>
@@ -139,27 +138,29 @@ export default class Iitnerary extends Component {
     }
 
 
-    boolCheck(check){
-        console.log("check is " , check)
-        if (check == true)return true;
-        else{ return false}
-    }
-
-
     makeCheckbox(){
         return(
             <input type="checkbox" />
         );
+    }
 
+    returnIDInfo(){
+        return(
+            <div>
+                ID
+                <button>Reverse</button>
+            </div>
+        );
     }
 
     addCols(){
-        console.log("Modifying columns with " , this.props.filterID)
         var columns = [{
             dataField: 'id',
             text: 'ID',
             sort: true,
-            hidden: this.props.filterID
+            hidden: this.props.filterID,
+            headerFormatter: this.returnIDInfo
+
         },{
             dataField: 'name',
             text: 'Name',
@@ -193,7 +194,7 @@ export default class Iitnerary extends Component {
 
         },{
             dataField: 'change',
-            text: 'Change Order',
+            text: 'Switch Order',
             formatter: this.changeFunc
 
         }];
@@ -201,23 +202,16 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-
-    reverseList(){
-        return(
-            <button>Reverse</button>
-        )
-    }
-
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
-            let number = document.getElementById('number');
+            let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
 
         return (
             <form onSubmit={handleSubmit}>
-                <input id="number" type="number" name={"input"} min="1" max={this.props.JSONString.body.places.length} />
+                <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
         );

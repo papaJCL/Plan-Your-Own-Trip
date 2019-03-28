@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TIPFind extends TIPHeader {
     //db info
@@ -23,7 +25,8 @@ public class TIPFind extends TIPHeader {
     private Integer limit;
     private Integer found;
     private Map<String, Object>[] places;
-
+    //logger
+    private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
     public TIPFind(String match, int limit){
         this();
@@ -40,24 +43,22 @@ public class TIPFind extends TIPHeader {
     public void buildResponse(){
         TIPConfig config = new TIPConfig();
         config.buildResponse();
-        String countQuery = buildCountQuery();
-        String matchQuery = buildMatchQuery(config.placeAttributes);
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
                  Statement stCount = connect.createStatement();
                  Statement stQuery = connect.createStatement();
-                 ResultSet rsCount = stCount.executeQuery(countQuery);
-                 ResultSet rsQuery = stQuery.executeQuery(matchQuery);
+                 ResultSet rsCount = stCount.executeQuery(buildCountQuery());
+                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery(config.placeAttributes));
             )   {
                 rsCount.next();
                 this.found = rsCount.getInt(1);
-                initializePlaces();
                 addPlaces(rsQuery, config.placeAttributes);
             }
         } catch (Exception e) {
-            System.err.println("Exception: " + e.getMessage());
+            log.error("Exception: " + e.getMessage());
         }
+        log.trace("buildResponse -> {}", this);
     }
 
     private String buildCountQuery(){
@@ -89,6 +90,18 @@ public class TIPFind extends TIPHeader {
         return queryEnd;
     }
 
+    private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
+        initializePlaces();
+        int index = 0;
+        while(rsQuery.next()){
+            Map<String, Object> newPlace = new HashMap<>();
+            for(int i = 0; i < attributes.size(); ++i){
+                newPlace.put(attributes.get(i), rsQuery.getString(attributes.get(i)));
+            }
+            places[index++] = newPlace;
+        }
+    }
+
     private void initializePlaces(){
         if(limit != null){
             if(limit != 0){
@@ -99,23 +112,12 @@ public class TIPFind extends TIPHeader {
         this.places = new Map[found];
     }
 
-    private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
-        int j = 0;
-        while(rsQuery.next()){
-            Map<String, Object> newPlace = new HashMap<>();
-            for(int i = 0; i < attributes.size(); ++i){
-                newPlace.put(attributes.get(i), rsQuery.getString(attributes.get(i)));
-            }
-            places[j++] = newPlace;
-        }
-    }
-
     @Override
     public String toString(){
         String ret = "match: " + match + "\n";
         ret += "limit: " + limit.toString() + "\n";
         ret += "found: " + found.toString() + "\n";
-        ret += "places: " + Arrays.toString(places) + "\n";
+        ret += "places: [\n" + Arrays.toString(places) + "\n]\n";
         return ret;
     }
 }

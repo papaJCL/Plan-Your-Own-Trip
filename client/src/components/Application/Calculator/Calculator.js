@@ -86,14 +86,16 @@ export default class Calculator extends Component {
         ) {
             {
                 /* Error: Invalid Input */
-                this.props.updatecheckData()
+                this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`);
+                return false;
             }
         }
+        else return true;
     }
 
 
     calculateDistance() {
-        this.checkData()
+        if (this.checkData() === false) return;
         var magellan = require('./../../../../../node_modules/magellan-coords/magellan');
         const tipConfigRequest = {
             'type'        : 'distance',
@@ -109,7 +111,7 @@ export default class Calculator extends Component {
             this.props.updateIfGoodCalculator(response)
         }
     else {
-            this.props.updateIfBadCalculator(response)
+            this.props.createErrorBannerState(response.statusText, response.statusCode, `Request to ${ this.state.clientSettings.serverPort } failed.`);
         }
     });
     }
