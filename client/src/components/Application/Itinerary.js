@@ -66,6 +66,7 @@ export default class Iitnerary extends Component {
     convertDistance(distance, activeUnit, oldUnit) {
         if (oldUnit == '' && this.props.origUnit != 3959) {
             oldUnit = this.convertIfOriginalNotMiles(this.props.origUnit)
+
         }
         else if (oldUnit == '') {
             return distance
@@ -193,7 +194,7 @@ export default class Iitnerary extends Component {
 
         },{
             dataField: 'change',
-            text: 'Change Order',
+            text: 'Switch Order',
             formatter: this.changeFunc
 
         }];
