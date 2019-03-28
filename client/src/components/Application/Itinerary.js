@@ -150,7 +150,15 @@ export default class Iitnerary extends Component {
         return(
             <input type="checkbox" />
         );
+    }
 
+    returnIDInfo(){
+        return(
+            <div>
+                ID
+                <button>Reverse</button>
+            </div>
+        );
     }
 
     addCols(){
@@ -159,7 +167,9 @@ export default class Iitnerary extends Component {
             dataField: 'id',
             text: 'ID',
             sort: true,
-            hidden: this.props.filterID
+            hidden: this.props.filterID,
+            headerFormatter: this.returnIDInfo
+
         },{
             dataField: 'name',
             text: 'Name',
