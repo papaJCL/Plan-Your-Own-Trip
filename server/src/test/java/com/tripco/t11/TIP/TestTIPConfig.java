@@ -47,4 +47,12 @@ public class TestTIPConfig {
     List<String> opt = conf.getOptimizationOptions();
     assertEquals("config Optimizations", "none", opt.get(0));
   }
+
+  @Test
+  public void testToString(){
+    Object toString = conf.toString();
+    boolean TorF = toString != null;
+    assertEquals("assure toString returns a String", true, TorF);
+  }
+
 }

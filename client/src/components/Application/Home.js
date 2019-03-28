@@ -51,6 +51,8 @@ export default class Home extends Component {
                 deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
+                SQLJson = {this.props.SQLJson}
+                updateSQLState = {this.props.updateSQLState}
                 ref="child"
             />
         )
@@ -59,6 +61,7 @@ export default class Home extends Component {
     callItinerary(){
         return (
             <Itinerary
+                clientSettings = {this.props.clientSettings}
                 boolMarker = {this.props.boolMarker}
                 JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
@@ -80,6 +83,15 @@ export default class Home extends Component {
                 renderFilterLatitude = {this.props.renderFilterLatitude}
                 renderFilterLongitude = {this.props.renderFilterLongitude}
                 renderFilterDistance = {this.props.renderFilterDistance}
+                SQLJson = {this.props.SQLJson}
+                updateSQLState = {this.props.updateSQLState}
+                SQLItineraryInfo = {this.props.SQLItineraryInfo}
+                updateItinerarySQL = {this.props.updateItinerarySQL}
+                sendItineraryRequest = {this.props.sendItineraryRequest}
+                liftHomeState = {this.props.liftHomeState}
+                boolSQL = {this.props.boolSQL}
+                boolSQLFunc = {this.props.boolSQLFunc}
+
             />
         )
     }
@@ -124,7 +136,7 @@ export default class Home extends Component {
 
 
     sendItineraryRequest(requestBody) {
-
+        console.log("Request body is " , requestBody)
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
                 if(response.statusCode === 400){

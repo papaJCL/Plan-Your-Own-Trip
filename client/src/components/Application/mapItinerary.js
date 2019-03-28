@@ -67,7 +67,10 @@ export default class mapItinerary extends Component {
             'limit': 5
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
-            .then((response) => {console.log(response.body)});
+            .then((response) => {
+            console.log(response.body)
+                this.props.updateSQLState(response.body);
+                });
         e.preventDefault();
     }
     createSearchBar(){
@@ -80,8 +83,8 @@ export default class mapItinerary extends Component {
                             <label>
                                 <input type="text" ref={(input) => this.input = input} />
                             </label>
-                            <input type="submit" value="Submit" />
                         </form>
+
                     </row>
 
                 </CardBody>

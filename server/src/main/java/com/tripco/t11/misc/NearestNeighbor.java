@@ -28,9 +28,9 @@ public class NearestNeighbor extends Optimizations {
                 distances[j][i] = distances[i][j];
             }
         }
-        return;
     }
 
+    @Override
     public void findOptimalTrip(){
         Long bestTotal = Long.MAX_VALUE;
         for(int i = 0; i < distances.length; ++i){
@@ -83,6 +83,11 @@ public class NearestNeighbor extends Optimizations {
             }
         }
         return next;
+    }
+
+    @Override
+    public int[] getTrip(){
+        return this.trip;
     }
 
 }
