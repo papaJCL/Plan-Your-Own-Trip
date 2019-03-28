@@ -70,7 +70,7 @@ export default class mapItinerary extends Component {
         if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
             this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
         }
-        this.props.addLocation(name, lat, long);
+        this.props.addLocation(name, magellan(lat).latitude.toDD(), magellan(long).longitude.toDD());
     }
 
     createAddDropDown() {
