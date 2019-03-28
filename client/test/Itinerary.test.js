@@ -21,14 +21,8 @@ import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 
 const startProperties = {
     'origUnit': 3959,
-    'JSONString' : []
 
 };
-
-
-
-
-
 
 
 function testConvertDistance() {
@@ -61,3 +55,4 @@ function testTotalDistance(){
 }
 
 test('Making sure the itinerary boxes render', testTotalDistance);
+*/
