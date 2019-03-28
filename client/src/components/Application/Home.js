@@ -131,13 +131,10 @@ export default class Home extends Component {
     }
 
     reRenderNewMap(){
-        console.log('Step reRenderNewMap --- Places Array: ' + this.props.JSONString.body.places)
         let places = this.props.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
         const mappingFunction2 = p => p.name;
-
-        console.log("Shouldn't land here")
 
         const latitude = places.map(mappingFunction)
         const longitude = places.map(mappingFunction1)
@@ -156,8 +153,6 @@ export default class Home extends Component {
         markers.shift()
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
-        console.log('Should be undefined: ' + this.props.JSONString.body)
-
         this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
