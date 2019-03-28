@@ -128,8 +128,9 @@ export default class Home extends Component {
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
                 if(response.statusCode === 400){
-                    this.props.createErrorBannerState("Error", 400 , "Invalid JSON file.");
+                    this.props.createErrorBannerState("Error", '400' , "Invalid JSON file.");
                 }else{
+
                     this.props.liftHomeState(response);
                 }
             });
