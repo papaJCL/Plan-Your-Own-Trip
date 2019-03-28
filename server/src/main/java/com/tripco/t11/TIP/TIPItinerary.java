@@ -1,17 +1,17 @@
 package com.tripco.t11.TIP;
 
 import com.tripco.t11.misc.GreatCircleDistance;
-import com.tripco.t11.misc.NearestNeighbor;
 import com.tripco.t11.misc.Optimizations;
 import com.tripco.t11.misc.OptimizationsFactory;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TIPItinerary extends TIPHeader {
+
     private Map<String, Object> options;
     protected Map<String, Object>[] places;
     protected Long[] distances;
