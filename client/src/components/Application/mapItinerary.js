@@ -45,15 +45,16 @@ export default class mapItinerary extends Component {
             <Pane header={'Itinerary Menu'}
                   bodyJSX={
                       <div>
-                          <row>
-                              {'Choose your file'}
-                          </row>
                           <span>
-                              {this.createUploadButton()}
-                              {this.createResetButton()}
-                              {this.createDownloadButton()}
-                              {this.createAddDropDown()}
-                              {this.createSearchBar()}
+                              <Card>
+                              <CardBody>
+                                {this.createUploadButton()}
+                                {this.createResetButton()}
+                                {this.createDownloadButton()}
+                              </CardBody>
+                              </Card>
+                                {this.createAddDropDown()}
+                                {this.createSearchBar()}
                         </span>
                       </div>
                   }
@@ -63,15 +64,15 @@ export default class mapItinerary extends Component {
 
     handleAddSubmit(event) {
         event.preventDefault();
-        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
         let name = document.getElementById('name').value;
         let lat = document.getElementById('lat').value;
         let long = document.getElementById('long').value;
-        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-            this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
-            return;
-        }
-        this.props.addLocation(name, magellan(lat).latitude().toDD(), magellan(long).longitude().toDD());
+        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
+        //     return;
+        // }
+        this.props.addLocation(name, lat, long);
     }
 
     createAddDropDown() {
@@ -114,7 +115,7 @@ export default class mapItinerary extends Component {
                     <row>
                         <form onSubmit={this.handleSubmit}>
                             <label>
-                                <input type="text" ref={(input) => this.input = input} />
+                                <input type="text" placeholder="Enter Location" ref={(input) => this.input = input} />
                             </label>
                         </form>
 
@@ -126,41 +127,21 @@ export default class mapItinerary extends Component {
 
     createDownloadButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Download Trip Itinerary</b></CardTitle>
-                    <row>
-                        <Button onClick={this.download}>Download Trip Itinerary</Button>
-                    </row>
-
-                </CardBody>
-            </Card>
+                <Button onClick={this.download}>Download Trip Itinerary</Button>
         );
     }
 
 
     createUploadButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Upload Itinerary</b></CardTitle>
                     <input type="file"name="myFile" onChange={this.onChange}/>
-                </CardBody>
-            </Card>
         );
 
     }
 
     createResetButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Reset Map</b></CardTitle>
-                    <row>
-                        <Button onClick={this.clearMap}>Reset Map to default</Button>
-                    </row>
-                </CardBody>
-            </Card>
+            <Button onClick={this.clearMap}>Reset Map to default</Button>
         );
     }
 

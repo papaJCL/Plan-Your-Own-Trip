@@ -417,5 +417,4 @@ export default class Iitnerary extends Component {
                   bodyJSX={'Your itinerary will load here'}/>
         );
     }
-
 }

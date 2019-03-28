@@ -305,9 +305,11 @@ export default class Application extends Component {
           "places"         : arr,
           "distances"      : []
       };
+
+      console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
-              console.log(response.body)
+              console.log("What the server sends back" , response.body)
               this.liftHomeState(response);
           });
       this.setState({
