@@ -262,8 +262,6 @@ export default class Application extends Component {
   }
 
   reRenderNewMapState(latitude, longitude, names, polyLine, markers){
-      console.log('Step reRenderNewMapState !!! JSONString.body.places is undefined here !!!')
-      //console.log('Step ReRenderNewMapState --- Places Array: ' + this.props.JSONString.body.places)
       this.setState({
           latitude: latitude,
           longitude: longitude,
@@ -287,14 +285,12 @@ export default class Application extends Component {
   updatePlacesArray(arr) {
       let newJSON = this.state.JSONString;
       newJSON.body.places = arr;
-      console.log('Step updatePlacesArray')
       this.setState({
         //JSONString: this.state.JSONString
         JSONString: newJSON,
       } , () => {
           this.refs.child.reRenderNewMap();
       });
-      console.log('Step updatePlacesArray: Stateset')
   }
 
 

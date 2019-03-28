@@ -85,13 +85,10 @@ export default class Iitnerary extends Component {
     getPlaces() {
         let places = this.props.JSONString.body.places
         let distanceArray = this.props.JSONString.body.distances
-        console.log('Distances: ' + this.props.JSONString.body.distances)
         for (var i = 0; i < places.length; i++) {
-            console.log('places.length: ' + places.length)
-            console.log('places[i]: ' + i + places[i])
-            console.log('distanceArray[i]: ' + i + distanceArray[i])
+            console.log('getPlaces: ', this.props.JSONString.body.places)
+            console.log('getPlaces: ', distanceArray)
             places[i].distance = distanceArray[i]
-            console.log('getPlaces for-loop: ' + distanceArray[i])
         }
         return places
     }
@@ -107,10 +104,10 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        console.log("This should happen after i press the button")
-        let places = this.getPlaces()
-        var totalDistance = this.getTotalDistance(places)
-
+        console.log("renderItinerary: " + this.props.JSONString.body.places)
+        // let places = this.getPlaces()
+        // var totalDistance = this.getTotalDistance(places)
+        //
         var products = this.addProducts()
         var cols =this.addCols()
 
@@ -118,8 +115,8 @@ export default class Iitnerary extends Component {
             <div>
                 <Pane
                     header={
-                        `  You have  ${places.length}  stops on your trip totalling
-                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
+                        `  You have  ${10}  stops on your trip totalling
+                        ${this.convertDistance(10, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                     }
                     bodyJSX={
                         <div>
@@ -159,7 +156,6 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        console.log("Modifying columns with " , this.props.filterID)
         var columns = [{
             dataField: 'id',
             text: 'ID',
@@ -208,22 +204,21 @@ export default class Iitnerary extends Component {
 
 
     reverseList(){
-        return(
-            <button>Reverse</button>
-        )
+
     }
+
 
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
-            let number = document.getElementById('number');
-            console.log('Step changeFunc' + this.props.JSONString.body.places)
+            //var number = document.getElementById('number');
+            console.log('number value', this.input.value)
             this.props.changeOrder(columnIndex, number.value - 1);
             event.preventDefault();
         };
 
         return (
             <form onSubmit={handleSubmit}>
-                <input id="number" type="number" name={"input"} min="1" max={this.props.JSONString.body.places.length} />
+                <input id={columnIndex} type="number" ref={(input) => this.input = input} min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
         );
