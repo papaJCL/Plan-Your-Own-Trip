@@ -249,7 +249,7 @@ export default class Iitnerary extends Component {
         var products = this.SQLProducts();
         var cols = this.SQLColumns();
         return (
-            <div>
+            <div class = "table-responsive">
                 <Pane
                     header={this.finalizeSQLItinerary()}
                     bodyJSX={
