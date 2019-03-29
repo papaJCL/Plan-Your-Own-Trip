@@ -10,13 +10,28 @@ import com.tripco.t11.TIP.TIPHeader;
 
 import java.lang.reflect.Type;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import org.everit.json.schema.SchemaException;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.Request;
 import spark.Response;
 import spark.Spark;
 import static spark.Spark.secure;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /** A micro server for a single page web application that serves the static files
@@ -110,6 +125,13 @@ class MicroServer {
     response.status(200);
     try {
       Gson jsonConverter = new Gson();
+
+      boolean isGood = validateRequest(request, tipType);
+      if(isGood == false){
+        response.status(400);
+        return request.body();
+      }
+
       TIPHeader tipRequest = jsonConverter.fromJson(request.body(), tipType);
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
@@ -122,6 +144,24 @@ class MicroServer {
     }
   }
 
+  private static boolean validateRequest(Request request, Type tipType){
+    boolean isValid = false;
+    JSONObject toBeValidated = new JSONObject(request.body());
+    if(tipType == TIPConfig.class){
+      JSONObject config = parseJsonFile("server/src/resources/TIPConfigSchema.json");
+      isValid = performValidation(toBeValidated, config);
+    }else if(tipType == TIPDistance.class){
+      JSONObject distance = parseJsonFile("server/src/resources/TIPDistancSchema.json");
+      isValid = performValidation(toBeValidated, distance);
+    }else if(tipType == TIPFind.class){
+      JSONObject find = parseJsonFile("server/src/resources/TIPFindSchema.json");
+      isValid = performValidation(toBeValidated, find);
+    }else if(tipType == TIPItinerary.class){
+      JSONObject itinierary = parseJsonFile("server/src/resources/TIPItinerarySchema.json");
+      isValid = performValidation(toBeValidated, itinierary);
+    }
+    return isValid;
+  }
 
   private String echoHTTPrequest(Request request, Response response) {
     response.type("application/json");
@@ -154,6 +194,50 @@ class MicroServer {
         + "\"url()\":\"" + request.url() + "\",\n"
         + "\"userAgent\":\"" + request.userAgent() + "\"\n"
         + "}";
+  }
+
+  private static boolean performValidation(JSONObject json, JSONObject jsonSchema) {
+    boolean validationResult = true;
+    try {
+      Schema schema = SchemaLoader.load(jsonSchema);
+      // This is the line that will throw a ValidationException if anything doesn't conform to the schema!
+      schema.validate(json);
+    }
+    catch (SchemaException e) {
+      e.printStackTrace();
+      validationResult = false;
+    }
+    catch (ValidationException e) {
+      // For now, messages are probably just good for debugging, to see why something failed
+      List<String> allMessages = e.getAllMessages();
+      for (String message : allMessages) {
+
+      }
+      validationResult = false;
+    }
+    finally {
+      return validationResult;
+    }
+  }
+
+  private static JSONObject parseJsonFile(String path) {
+    // Here, we simply dump the contents of a file into a String (and then an object);
+    // there are other ways of creating a JSONObject, like from an InputStream...
+    // (https://github.com/everit-org/json-schema#quickstart)
+    JSONObject parsedObject = null;
+    try {
+      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
+      parsedObject = new JSONObject(new String(jsonBytes));
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    catch (JSONException e) {
+      e.printStackTrace();
+    }
+    finally {
+      return parsedObject;
+    }
   }
 
 }
