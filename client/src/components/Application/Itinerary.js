@@ -14,6 +14,7 @@ import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
 
 
+
 let order = 'desc';
 
 export default class Iitnerary extends Component {
@@ -26,6 +27,7 @@ export default class Iitnerary extends Component {
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
+        this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
     }
 
 
@@ -61,6 +63,7 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
+        this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
 
@@ -226,7 +229,7 @@ export default class Iitnerary extends Component {
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "3959"},
+            "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
@@ -270,12 +273,13 @@ export default class Iitnerary extends Component {
     returnMainItinerary(){
         var products = this.addProducts();
         var cols = this.addCols();
+        let totalDistance = this.getTotalDistance(this.props.JSONString.body.places);
         return (
             <div>
                 <Pane
                     header={
-                        `  You have  ${10}  stops on your trip totalling
-                        ${this.convertDistance(10, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
+                        `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
+                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                     }
                     bodyJSX={
                         <div>
@@ -385,9 +389,10 @@ export default class Iitnerary extends Component {
 
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
+            event.preventDefault();
+            console.log(this.props.JSONString.body.options.earthRadius)
             let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
-            event.preventDefault();
         };
 
         return (
@@ -416,5 +421,4 @@ export default class Iitnerary extends Component {
                   bodyJSX={'Your itinerary will load here'}/>
         );
     }
-
 }

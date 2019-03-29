@@ -298,10 +298,25 @@ export default class Application extends Component {
 
   updatePlacesArray(arr) {
       let newJSON = this.state.JSONString;
-      newJSON.body.places = arr;
+      newJSON.body.places = arr
+      var request = {
+          "requestType"    : "itinerary",
+          "requestVersion" : 3,
+          "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+          "places"         : arr,
+          "distances"      : []
+      };
+
+      console.log("UPDATE PLACES ARRAY " , request)
+      sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
+          .then((response) => {
+              console.log("What the server sends back" , response.body)
+              this.liftHomeState(response);
+          });
       this.setState({
         //JSONString: this.state.JSONString
         JSONString: newJSON,
+        errorMessage: null
       } , () => {
           this.refs.child.reRenderNewMap();
       });
