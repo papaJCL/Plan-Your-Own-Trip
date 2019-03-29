@@ -69,6 +69,7 @@ export default class Home extends Component {
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
                 changeOrder = {this.changeOrder}
+                addLocation = {this.addLocation}
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
                 origUnit = {this.props.origUnit}

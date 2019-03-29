@@ -63,6 +63,7 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
+        this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
 
