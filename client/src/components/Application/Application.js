@@ -276,6 +276,7 @@ export default class Application extends Component {
 
   reRenderNewMapState(latitude, longitude, names, polyLine, markers){
       this.setState({
+          errorMessage: null,
           latitude: latitude,
           longitude: longitude,
           markers: markers,
