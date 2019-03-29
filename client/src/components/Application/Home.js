@@ -108,6 +108,18 @@ export default class Home extends Component {
     }
 
     addLocation(name, lat, long) {
+        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        //console.log(magellan(lat).latitude())
+        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+            this.props.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
+            return;
+        }
+        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
+            lat = magellan(lat).latitude().toDD();
+        }
+        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
+            long = magellan(long).longitude().toDD();
+        }
         if (typeof this.props.JSONString.body === 'undefined') {
             this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
             return;
