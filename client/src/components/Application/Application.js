@@ -301,7 +301,7 @@ export default class Application extends Component {
       var request = {
           "requestType"    : "itinerary",
           "requestVersion" : 3,
-          "options"        : {"earthRadius": "3959"},
+          "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
           "places"         : arr,
           "distances"      : []
       };
@@ -315,6 +315,7 @@ export default class Application extends Component {
       this.setState({
         //JSONString: this.state.JSONString
         JSONString: newJSON,
+        errorMessage: null
       } , () => {
           this.refs.child.reRenderNewMap();
       });
