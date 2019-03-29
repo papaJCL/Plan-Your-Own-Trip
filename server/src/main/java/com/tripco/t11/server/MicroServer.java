@@ -10,11 +10,6 @@ import com.tripco.t11.TIP.TIPHeader;
 
 import java.lang.reflect.Type;
 
-import spark.Request;
-import spark.Response;
-import spark.Spark;
-import static spark.Spark.secure;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +26,12 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import spark.Request;
+import spark.Response;
+import spark.Spark;
+import static spark.Spark.secure;
+
 
 
 /** A micro server for a single page web application that serves the static files
