@@ -126,8 +126,6 @@ class MicroServer {
       Gson jsonConverter = new Gson();
 
       boolean isGood = validateRequest(request, tipType);
-      System.out.println(isGood);
-      System.out.println("here I am");
       if(isGood == false){
         response.status(400);
         return request.body();
@@ -147,7 +145,6 @@ class MicroServer {
 
   private static boolean validateRequest(Request request, Type tipType){
     boolean isValid = false;
-    System.out.println("in the function");
     JSONObject toBeValidated = new JSONObject(request.body());
     if(tipType == TIPConfig.class){
       JSONObject config = parseJsonFile("server/src/resources/TIPConfigSchema.json");
