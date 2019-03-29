@@ -127,7 +127,7 @@ export default class Home extends Component {
             return;
         }
         let newplaces = this.props.JSONString.body.places;
-        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": this.props.JSONString.body.places.length};
+        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.props.JSONString.body.places.length};
         newplaces.push(newloc);
         this.props.updatePlacesArray(newplaces);
 
