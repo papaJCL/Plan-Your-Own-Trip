@@ -10,11 +10,6 @@ import com.tripco.t11.TIP.TIPHeader;
 
 import java.lang.reflect.Type;
 
-import spark.Request;
-import spark.Response;
-import spark.Spark;
-import static spark.Spark.secure;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +26,12 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import spark.Request;
+import spark.Response;
+import spark.Spark;
+import static spark.Spark.secure;
+
 
 
 /** A micro server for a single page web application that serves the static files
@@ -126,8 +127,6 @@ class MicroServer {
       Gson jsonConverter = new Gson();
 
       boolean isGood = validateRequest(request, tipType);
-      System.out.println(isGood);
-      System.out.println("here I am");
       if(isGood == false){
         response.status(400);
         return request.body();
@@ -147,7 +146,6 @@ class MicroServer {
 
   private static boolean validateRequest(Request request, Type tipType){
     boolean isValid = false;
-    System.out.println("in the function");
     JSONObject toBeValidated = new JSONObject(request.body());
     if(tipType == TIPConfig.class){
       JSONObject config = parseJsonFile("server/src/resources/TIPConfigSchema.json");

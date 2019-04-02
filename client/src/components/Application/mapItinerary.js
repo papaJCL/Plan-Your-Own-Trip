@@ -8,6 +8,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
+import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 export default class mapItinerary extends Component {
 
@@ -20,7 +21,9 @@ export default class mapItinerary extends Component {
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
         this.createSearchBar = this.createSearchBar.bind(this)
+        this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleAddSubmit = this.handleAddSubmit.bind(this)
     }
 
     render(){
@@ -42,14 +45,16 @@ export default class mapItinerary extends Component {
             <Pane header={'Itinerary Menu'}
                   bodyJSX={
                       <div>
-                          <row>
-                              {'Choose your file'}
-                          </row>
                           <span>
-                              {this.createUploadButton()}
-                              {this.createResetButton()}
-                              {this.createDownloadButton()}
-                              {this.createSearchBar()}
+                              <Card>
+                              <CardBody>
+                                {this.createUploadButton()}
+                                {this.createResetButton()}
+                                {this.createDownloadButton()}
+                              </CardBody>
+                              </Card>
+                                {this.createAddDropDown()}
+                                {this.createSearchBar()}
                         </span>
                       </div>
                   }
@@ -57,6 +62,34 @@ export default class mapItinerary extends Component {
         );
     }
 
+    handleAddSubmit(event) {
+        event.preventDefault();
+        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        let name = document.getElementById('name').value;
+        let lat = document.getElementById('lat').value;
+        let long = document.getElementById('long').value;
+        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
+        //     return;
+        // }
+        this.props.addLocation(name, lat, long);
+    }
+
+    createAddDropDown() {
+        return (
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Add a New Location</b></CardTitle>
+                        <form onSubmit={this.handleAddSubmit}>
+                            <input id="name" type="text" placeholder="Enter Name"/>
+                            <input id="lat" type="text" placeholder="Enter Latitude"/>
+                            <input id="long" type="text" placeholder="Enter Longitude"/>
+                            <input type="submit" value="Submit"/>
+                        </form>
+                </CardBody>
+            </Card>
+                    );
+    }
     // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
 
     handleSubmit(e) {
@@ -73,6 +106,7 @@ export default class mapItinerary extends Component {
                 });
         e.preventDefault();
     }
+
     createSearchBar(){
         return(
             <Card>
@@ -81,12 +115,11 @@ export default class mapItinerary extends Component {
                     <row>
                         <form onSubmit={this.handleSubmit}>
                             <label>
-                                <input type="text" ref={(input) => this.input = input} />
+                                <input type="text" placeholder="Enter Location" ref={(input) => this.input = input} />
                             </label>
                         </form>
 
                     </row>
-
                 </CardBody>
             </Card>
         );
@@ -94,41 +127,21 @@ export default class mapItinerary extends Component {
 
     createDownloadButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Download Trip Itinerary</b></CardTitle>
-                    <row>
-                        <Button onClick={this.download}>Download Trip Itinerary</Button>
-                    </row>
-
-                </CardBody>
-            </Card>
+                <Button onClick={this.download}>Download Trip Itinerary</Button>
         );
     }
 
 
     createUploadButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Upload Itinerary</b></CardTitle>
                     <input type="file"name="myFile" onChange={this.onChange}/>
-                </CardBody>
-            </Card>
         );
 
     }
 
     createResetButton(){
         return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Reset Map</b></CardTitle>
-                    <row>
-                        <Button onClick={this.clearMap}>Reset Map to default</Button>
-                    </row>
-                </CardBody>
-            </Card>
+            <Button onClick={this.clearMap}>Reset Map to default</Button>
         );
     }
 
