@@ -51,7 +51,7 @@ Deficiences: in TIPFind in the case where a limit was specified and the number o
 
 *Diagrams:*
 - Class Diagram/Heirarchy
-![server](/diagram/server.jpg)
+![server](/diagram/xd.jpg)
 
 This sprint will complete the following Epics.
 #245:User: I would like to highlight certain places on the map:
