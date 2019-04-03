@@ -1,9 +1,9 @@
-# Sprint 4 - *t11* - *Jeremy Lesser*
+# Sprint 4 - *t11* 
 
 ## Goal
 
 ### Worldwide!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Jeremy Lesser*
 
 ## Definition of Done
 
