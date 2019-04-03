@@ -41,6 +41,14 @@
 
 ## Plan
 
+## TFFI SPEC
+TIP version has switched to 4 across all protocals. 
+TIPConfig: placeAttributes now contains region country and continents, optimizations has option shorter if implemented. Also new element "filters" to aid TIPFind.
+TIPDistance: no changes to note in new spec
+TIPItinerary: No changes to note outside new place attributes and possible new optimization of specified in TIPConfig
+TIPFind: new element narrow from TIPconfig filters to apply to the search on server side as well as now changing non alphanumeric characters to wildcard.
+Deficiences: in TIPFind in the case where a limit was specified and the number of elements found was less than the limit an array was returned of size limit with some null values - a fix has been planned but not yet implemented. Also schemas were not fully in working order but will be soon
+
 This sprint will complete the following Epics.
 #245:User: I would like to highlight certain places on the map:
 A map full of markers isn't useful, don't display them by default.
