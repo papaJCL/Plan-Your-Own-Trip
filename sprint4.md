@@ -74,8 +74,8 @@ The person that implemented nearest neighbor may not implement 2-opt. Similarly 
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | #245| #254| #261| #262| 
-| Tasks | #256 | #247 | #248 | #249 | #251 | #254 | #255 | #256 | #257 | #258 | 260
+| Epics | #245 #254 #261 #262| #value|
+| Tasks | #256 #247 #248 #249  #251 #254  #255 #256  #257  #258  260| #value
 | Story Points | 13 | *value* | 
 
 
