@@ -102,7 +102,7 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
-                { this.props.errorMessage }
+
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
@@ -123,7 +123,8 @@ export default class Home extends Component {
             long = magellan(long).longitude().toDD();
         }
         if (typeof this.props.JSONString.body === 'undefined') {
-            this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
+            //this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
+            console.log("land here")
             return;
         }
         let newplaces = this.props.JSONString.body.places;
