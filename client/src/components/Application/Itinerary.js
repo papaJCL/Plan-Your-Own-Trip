@@ -63,6 +63,7 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
+        console.log('SQLJSON: ', work)
         //this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
@@ -176,18 +177,19 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        //
-        if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length == 0){
+        console.log('JSONString: ', this.props.JSONString)
+        console.log('SQLItineraryInfo: ', this.props.SQLItineraryInfo)
+        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
                     <Pane header={"Itinerary will load here"}/>
                 </div>
             );
         }
-        else if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length != 0){
+        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
             return (this.returnSQLItinerary());
         }
-        else{ return(this.returnMainItinerary())}
+        else{console.log('JSONString: ', this.props.JSONString); console.log('SQLInfo: ', this.props.SQLItineraryInfo); return(this.returnMainItinerary())}
     }
 
     SQLProducts(){
@@ -233,7 +235,7 @@ export default class Iitnerary extends Component {
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(this.convertUnitsToNum(this.props.planOptions.activeUnit))},
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
@@ -241,7 +243,7 @@ export default class Iitnerary extends Component {
             .then((response) => {
                 console.log(response.body)
                 this.props.liftHomeState(response);
-                this.props.boolSQLFunc();
+                //this.props.boolSQLFunc();
             });
 
     }
@@ -253,6 +255,7 @@ export default class Iitnerary extends Component {
     }
 
     returnSQLItinerary(){
+        console.log('returnSQLItinerary')
         var products = this.SQLProducts();
         var cols = this.SQLColumns();
         return (
