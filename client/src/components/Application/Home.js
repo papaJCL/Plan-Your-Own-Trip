@@ -122,11 +122,6 @@ export default class Home extends Component {
         if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
             long = magellan(long).longitude().toDD();
         }
-        if (typeof this.props.JSONString.body === 'undefined') {
-            //this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
-            console.log("land here")
-            return;
-        }
         let newplaces = this.props.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.props.JSONString.body.places.length};
         newplaces.push(newloc);
