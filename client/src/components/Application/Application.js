@@ -316,7 +316,6 @@ export default class Application extends Component {
           "distances"      : []
       };
 
-      console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
               console.log("What the server sends back" , response.body)
@@ -346,8 +345,10 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
-      this.setState({
-          SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
+        this.setState({
+            SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
+        } , () => {
+            console.log("CONCAT HERE " , this.state.SQLItineraryInfo)
         });
     }
 

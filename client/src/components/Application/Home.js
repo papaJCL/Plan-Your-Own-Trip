@@ -102,7 +102,6 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
-
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
@@ -159,7 +158,7 @@ export default class Home extends Component {
 
 
     sendItineraryRequest(requestBody) {
-        console.log("Request body is " , requestBody)
+        console.log("sendItineraryRequest body is " , requestBody)
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
                 if(response.statusCode === 400){

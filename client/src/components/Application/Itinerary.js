@@ -175,18 +175,26 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
+        console.log("default title options" , this.props.JSONString.body.options.title)
+
+        if (this.props.JSONString.body.options.title == 'defaultJSON'){
+            return (this.returnSQLItinerary());
+        }
+        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
                     <Pane header={"Itinerary will load here"}/>
                 </div>
             );
+        }else{
+            console.log("JSONString length" , this.props.JSONString.body.places.length);
+            console.log("SQLItineraryInfo length " , this.props.SQLItineraryInfo.length);
+            return(this.returnMainItinerary())
         }
-        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
 
-            return (this.returnSQLItinerary());
-        }
-        return(this.returnMainItinerary())
+        // console.log("JSONString length" , this.props.JSONString.body.places.length);
+        // console.log("SQLItineraryInfo length " , this.props.SQLItineraryInfo.length);
+        // return(this.returnMainItinerary())
     }
 
     SQLProducts(){
@@ -237,7 +245,7 @@ export default class Iitnerary extends Component {
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.body)
+                console.log("SQL REQUEST " , response.body)
                 this.props.liftHomeState(response);
                 this.props.boolSQLFunc();
             });
