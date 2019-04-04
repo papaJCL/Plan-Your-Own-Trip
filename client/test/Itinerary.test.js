@@ -21,7 +21,14 @@ import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 
 const startProperties = {
     'origUnit': 3959,
-    'JSONString' : [],
+    'JSONString' : {"body": {
+        "requestType": "itinerary",
+        "requestVersion": 2,
+        "options": {"title": "defaultJSON", "earthRadius": "3959"},
+        "places": [],
+        "distances": []
+    }
+},
     'SQLItineraryInfo' : []
 
 };

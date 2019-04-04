@@ -176,18 +176,18 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        //
-        if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length == 0){
+        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
                     <Pane header={"Itinerary will load here"}/>
                 </div>
             );
         }
-        else if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length != 0){
+        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
+
             return (this.returnSQLItinerary());
         }
-        else{ return(this.returnMainItinerary())}
+        return(this.returnMainItinerary())
     }
 
     SQLProducts(){
@@ -233,7 +233,7 @@ export default class Iitnerary extends Component {
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(this.convertUnitsToNum(this.props.planOptions.activeUnit))},
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
@@ -394,7 +394,6 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             event.preventDefault();
-            console.log(this.props.JSONString.body.options.earthRadius)
             let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
         };

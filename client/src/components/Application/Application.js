@@ -51,7 +51,15 @@ export default class Application extends Component {
         destination: {latitude: '', longitude: ''},
         distance: 0,
         errorMessage: null,
-        JSONString: [],
+        JSONString: {
+          "body": {
+              "requestType": "itinerary",
+              "requestVersion": 2,
+              "options": {"title": "defaultJSON", "earthRadius": "3959"},
+              "places": [],
+              "distances": []
+          }
+        },
         returnFile: [],
         latitude: [],
         longitude: [],
@@ -287,7 +295,7 @@ export default class Application extends Component {
   }
 
   liftHomeState(response){
-      console.log("Land here")
+
       this.setState({
           JSONString: response,
           returnFile: response.body,
@@ -303,7 +311,7 @@ export default class Application extends Component {
       var request = {
           "requestType"    : "itinerary",
           "requestVersion" : 3,
-          "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+          "options"        : {"earthRadius": "" + Math.round(parseFloat(this.state.JSONString.body.options.earthRadius))},
           "places"         : arr,
           "distances"      : []
       };
