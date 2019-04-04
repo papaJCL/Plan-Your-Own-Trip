@@ -164,7 +164,6 @@ export default class Iitnerary extends Component {
     }
 
     getTotalDistance(places) {
-
         let distanceArray = this.props.JSONString.body.distances
         var totalDistance = 0
         for (var i = 0; i < places.length; i++) {
@@ -229,7 +228,6 @@ export default class Iitnerary extends Component {
         console.log("sendSQLRequest")
         console.log(this.props.JSONString.body)
         console.log(this.props.planOptions.activeUnit)
-        //console.log(this.)
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
@@ -268,7 +266,7 @@ export default class Iitnerary extends Component {
                                 data={products}
                                 columns={cols}>
                             </BootstrapTable1>
-                    }
+                        }
                 />
             </div>
         );
@@ -287,6 +285,11 @@ export default class Iitnerary extends Component {
                     }
                     bodyJSX={
                         <div>
+                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
+                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
+                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
+                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
+                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
                             <BootstrapTable1
                                 selectRow={{mode: 'checkbox'}}
                                 tabIndexCell
@@ -334,7 +337,7 @@ export default class Iitnerary extends Component {
 
         },{
             dataField: 'latitude',
-            text: 'latitude',
+            text: 'Latitude',
             hidden: this.props.filterLat
 
         }, {
