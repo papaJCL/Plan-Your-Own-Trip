@@ -63,7 +63,7 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
-        this.props.addLocation(work.name, work.latitude, work.longitude);
+        //this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
 
@@ -226,10 +226,14 @@ export default class Iitnerary extends Component {
     }
 
     sendSQLRequest(){
+        console.log("sendSQLRequest")
+        console.log(this.props.JSONString.body)
+        console.log(this.props.planOptions.activeUnit)
+        //console.log(this.)
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+            "options"        : {"earthRadius": "" + Math.round(this.convertUnitsToNum(this.props.planOptions.activeUnit))},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
