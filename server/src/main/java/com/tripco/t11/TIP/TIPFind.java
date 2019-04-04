@@ -104,7 +104,11 @@ public class TIPFind extends TIPHeader {
 
     private void initializePlaces(){
         if(limit != null){
-            if(limit != 0){
+            if(found < limit){
+                this.places = new Map[found];
+                return;
+            }
+            else if(limit != 0){
                 this.places = new Map[limit];
                 return;
             }
