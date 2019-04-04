@@ -184,9 +184,10 @@ export default class Iitnerary extends Component {
             );
         }
         else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
+
             return (this.returnSQLItinerary());
         }
-        else{console.log('JSONString: ', this.props.JSONString); console.log('SQLInfo: ', this.props.SQLItineraryInfo); return(this.returnMainItinerary())}
+        return(this.returnMainItinerary())
     }
 
     SQLProducts(){
@@ -240,7 +241,7 @@ export default class Iitnerary extends Component {
             .then((response) => {
                 console.log(response.body)
                 this.props.liftHomeState(response);
-                //this.props.boolSQLFunc();
+                this.props.boolSQLFunc();
             });
 
     }
@@ -252,7 +253,6 @@ export default class Iitnerary extends Component {
     }
 
     returnSQLItinerary(){
-        console.log('returnSQLItinerary')
         var products = this.SQLProducts();
         var cols = this.SQLColumns();
         return (
@@ -394,7 +394,6 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             event.preventDefault();
-            console.log(this.props.JSONString.body.options.earthRadius)
             let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
         };

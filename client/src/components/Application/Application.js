@@ -295,7 +295,7 @@ export default class Application extends Component {
   }
 
   liftHomeState(response){
-      console.log("Land here")
+
       this.setState({
           JSONString: response,
           returnFile: response.body,
