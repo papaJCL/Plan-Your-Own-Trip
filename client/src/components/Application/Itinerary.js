@@ -63,7 +63,6 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
-        console.log('SQLJSON: ', work)
         //this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
@@ -177,8 +176,6 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        console.log('JSONString: ', this.props.JSONString)
-        console.log('SQLItineraryInfo: ', this.props.SQLItineraryInfo)
         if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
