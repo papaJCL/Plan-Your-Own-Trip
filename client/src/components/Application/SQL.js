@@ -15,7 +15,7 @@ export default class SQL extends Component {
     constructor(props) {
         super(props)
         this.SQLMenu = this.SQLMenu.bind(this);
-        this.returnSQLItinerary = this.returnSQLItinerary.bind(this);
+        //this.returnSQLItinerary = this.returnSQLItinerary.bind(this);
     }
 
     render() { console.log('I am in render for SQL.js')
@@ -92,94 +92,95 @@ export default class SQL extends Component {
         return (this.props.updateItinerarySQL(work));
     }
 
-    finalizeSQLItinerary(){ console.log('finalizeSQLItinerary')
-        return (
-            <button onClick={() => this.sendSQLRequest()}>Click this when SQL Itinerary is done</button>
-        );
-    }
-
-    sendSQLRequest(){
-        console.log("sendSQLRequest")
-        console.log(this.props.JSONString.body)
-        console.log(this.props.planOptions.activeUnit)
-        var request = {
-            "requestType"    : "itinerary",
-            "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.SQLItineraryInfo,
-            "distances"      : []
-        };
-        sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
-            .then((response) => {
-                console.log(response.body)
-                this.props.liftHomeState(response);
-                this.props.boolSQLFunc();
-            });
-
-    }
-
-    SQLProducts(){ console.log('SQLProducts: ', this.props.SQLItineraryInfo)
-        const products = [];
-        const startId = products.length;
-        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-            const id = startId + i;
-            products[i] = ({
-                id: id + 1,
-                name: this.props.SQLItineraryInfo[i].name,
-                latitude: this.props.SQLItineraryInfo[i].latitude ,
-                longitude: this.props.SQLItineraryInfo[i].longitude,
-                municipality: this.props.SQLItineraryInfo[i].municipality
-            });
+/*
+        finalizeSQLItinerary(){ console.log('finalizeSQLItinerary')
+            return (
+                <button onClick={() => this.sendSQLRequest()}>Click this when SQL Itinerary is done</button>
+            );
         }
-        return products
-    }
 
-    SQLColumns(){
-        var columns = [{
-            dataField: 'id',
-            text: 'ID',
+        sendSQLRequest(){
+            console.log("sendSQLRequest")
+            console.log(this.props.JSONString.body)
+            console.log(this.props.planOptions.activeUnit)
+            var request = {
+                "requestType"    : "itinerary",
+                "requestVersion" : 3,
+                "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+                "places"         : this.props.SQLItineraryInfo,
+                "distances"      : []
+            };
+            sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
+                .then((response) => {
+                    console.log(response.body)
+                    this.props.liftHomeState(response);
+                    this.props.boolSQLFunc();
+                });
 
-        },{
-            dataField: 'name',
-            text: 'Name',
+        }
 
-        },{
-            dataField: 'latitude',
-            text: 'latitude',
+        SQLProducts(){ console.log('SQLProducts: ', this.props.SQLItineraryInfo)
+            const products = [];
+            const startId = products.length;
+            for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
+                const id = startId + i;
+                products[i] = ({
+                    id: id + 1,
+                    name: this.props.SQLItineraryInfo[i].name,
+                    latitude: this.props.SQLItineraryInfo[i].latitude ,
+                    longitude: this.props.SQLItineraryInfo[i].longitude,
+                    municipality: this.props.SQLItineraryInfo[i].municipality
+                });
+            }
+            return products
+        }
 
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude',
-        },{
-            dataField: 'municipality',
-            text: 'Municipality'
-        }];
-        return columns
-    }
+        SQLColumns(){
+            var columns = [{
+                dataField: 'id',
+                text: 'ID',
 
-    returnSQLItinerary(){
-        var products = this.SQLProducts();
-        var cols = this.SQLColumns();
-        console.log('products; ', products)
-        return (
-            <div>
-                <Pane
-                    header={this.finalizeSQLItinerary()}
-                    bodyJSX={
-                        <BootstrapTable1
-                            selectRow={{mode: 'checkbox'}}
-                            tabIndexCell
-                            bootstrap4
-                            keyField="id"
-                            data={products}
-                            columns={cols}>
-                        </BootstrapTable1>
-                    }
-                />
-            </div>
-        );
-    }
+            },{
+                dataField: 'name',
+                text: 'Name',
 
+            },{
+                dataField: 'latitude',
+                text: 'latitude',
+
+            }, {
+                dataField: 'longitude',
+                text: 'Longitude',
+            },{
+                dataField: 'municipality',
+                text: 'Municipality'
+            }];
+            return columns
+        }
+
+        returnSQLItinerary(){
+            var products = this.SQLProducts();
+            var cols = this.SQLColumns();
+            console.log('products; ', products)
+            return (
+                <div>
+                    <Pane
+                        header={this.finalizeSQLItinerary()}
+                        bodyJSX={
+                            <BootstrapTable1
+                                selectRow={{mode: 'checkbox'}}
+                                tabIndexCell
+                                bootstrap4
+                                keyField="id"
+                                data={products}
+                                columns={cols}>
+                            </BootstrapTable1>
+                        }
+                    />
+                </div>
+            );
+        }
+    */
 
 
 }
