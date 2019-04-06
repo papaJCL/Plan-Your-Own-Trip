@@ -28,14 +28,21 @@ export default class Iitnerary extends Component {
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
+        this.SQL = new SQL(props);
     }
 
-    callSQL() { console.log('I am in callSQL')
+    callSQL() {
         return (
             <SQL
             SQLMenu = {this.props.SQLMenu}
             SQLJson = {this.props.SQLJson}
             updateItinerarySQL = {this.props.updateItinerarySQL}
+            SQLItineraryInfo = {this.props.SQLItineraryInfo}
+            JSONString = {this.props.JSONString}
+            planOptions = {this.props.planOptions}
+            clientSettings = {this.props.clientSettings}
+            liftHomeState = {this.props.liftHomeState}
+            boolSQLFunc = {this.props.boolSQLFunc}
             />
         )
     }
@@ -134,7 +141,7 @@ export default class Iitnerary extends Component {
         return(this.returnMainItinerary())
     }
 
-    SQLProducts(){
+    SQLProducts(){ console.log('SQLProducts: ', this.props.SQLItineraryInfo)
         const products = [];
         const startId = products.length;
         for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {

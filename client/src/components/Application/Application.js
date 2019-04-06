@@ -345,7 +345,8 @@ export default class Application extends Component {
         // });
     }
 
-    updateItinerarySQL(sql){
+    updateItinerarySQL(sql){ console.log('updateItinerarySQL: ', sql)
+        console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
         });
