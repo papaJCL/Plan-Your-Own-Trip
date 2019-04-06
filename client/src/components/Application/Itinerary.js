@@ -12,7 +12,7 @@ import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
-
+import SQL from './SQL'
 
 
 let order = 'desc';
@@ -28,6 +28,16 @@ export default class Iitnerary extends Component {
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
+    }
+
+    callSQL() { console.log('I am in callSQL')
+        return (
+            <SQL
+            SQLMenu = {this.props.SQLMenu}
+            SQLJson = {this.props.SQLJson}
+            updateItinerarySQL = {this.props.updateItinerarySQL}
+            />
+        )
     }
 
 
@@ -49,7 +59,7 @@ export default class Iitnerary extends Component {
     }
 
 
-    SQLBody(){
+    SQLBody(){ console.log(this.props.SQLJson)
         if (this.props.SQLJson.places == null) return;
         else{ return( this.varBody());
         }
@@ -67,7 +77,7 @@ export default class Iitnerary extends Component {
         return (this.props.updateItinerarySQL(work));
     }
 
-    SQLMenu(){
+    SQMenu(){
         return(
             <row>
                 <Pane header = {'SQL Header'}
@@ -101,7 +111,9 @@ export default class Iitnerary extends Component {
         if (this.props.boolSQL == true){
             return(
                 <div>
-                    {this.SQLMenu()}
+                    <Container>
+                    {this.callSQL()}
+                    </Container>
                     <Row>
                         <Col xs={12}>
                             {this.renderItinerary()}
