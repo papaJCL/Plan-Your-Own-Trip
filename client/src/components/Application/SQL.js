@@ -57,29 +57,34 @@ export default class SQL extends Component {
         );
     }
 
-    SQLMenu(){ console.log('I am in SQLMenu --- SQLJSON; ', this.props.SQLJson)
+    SQLTable() {
+        return (
+            <Table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Altitude</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Municipality</th>
+                    <th>Add to Itinerary</th>
+                </tr>
+                </thead>
+                <tbody>
+                {this.SQLBody()}
+                </tbody>
+            </Table>
+        )
+    }
+    SQLMenu(){
         return(
             <row>
                 <Pane header = {'SQL Header'}
                       bodyJSX ={
                           <div>
-                              <Table>
-                                  <thead>
-                                  <tr>
-                                      <th>#</th>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Altitude</th>
-                                      <th>Latitude</th>
-                                      <th>Longitude</th>
-                                      <th>Municipality</th>
-                                      <th>Add to Itinerary</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  {this.SQLBody()}
-                                  </tbody>
-                              </Table>
+                              {this.SQLTable()}
                           </div>
                       }
                 />
