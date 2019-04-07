@@ -30,13 +30,26 @@ public class TIPFind extends TIPHeader {
 
     public TIPFind(String match, int limit){
         this();
-        this.match = match;
+        this.match = sanatize(match);
         this.limit = limit;
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 3;
+    }
+
+    private String sanatize(String match){
+        String sanatized = "";
+        for(int i = 0; i < match.length(); ++i){
+            if(Character.isLetterOrDigit(match.charAt(i)) || Character.isWhitespace(match.charAt(i))){
+                sanatized += match.charAt(i);
+            }
+            else{
+                sanatized += '_';
+            }
+        }
+        return sanatized;
     }
 
     @Override
@@ -104,7 +117,11 @@ public class TIPFind extends TIPHeader {
 
     private void initializePlaces(){
         if(limit != null){
-            if(limit != 0){
+            if(found < limit){
+                this.places = new Map[found];
+                return;
+            }
+            else if(limit != 0){
                 this.places = new Map[limit];
                 return;
             }

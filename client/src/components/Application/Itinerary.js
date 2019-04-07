@@ -63,7 +63,7 @@ export default class Iitnerary extends Component {
     }
 
     callNewItineraryWithSQL(work){
-        this.props.addLocation(work.name, work.latitude, work.longitude);
+        //this.props.addLocation(work.name, work.latitude, work.longitude);
         return (this.props.updateItinerarySQL(work));
     }
 
@@ -164,7 +164,6 @@ export default class Iitnerary extends Component {
     }
 
     getTotalDistance(places) {
-
         let distanceArray = this.props.JSONString.body.distances
         var totalDistance = 0
         for (var i = 0; i < places.length; i++) {
@@ -176,18 +175,18 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        //
-        if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length == 0){
+        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
                     <Pane header={"Itinerary will load here"}/>
                 </div>
             );
         }
-        else if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length != 0){
+        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
+
             return (this.returnSQLItinerary());
         }
-        else{ return(this.returnMainItinerary())}
+        return(this.returnMainItinerary())
     }
 
     SQLProducts(){
@@ -226,10 +225,13 @@ export default class Iitnerary extends Component {
     }
 
     sendSQLRequest(){
+        console.log("sendSQLRequest")
+        console.log(this.props.JSONString.body)
+        console.log(this.props.planOptions.activeUnit)
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
@@ -264,7 +266,7 @@ export default class Iitnerary extends Component {
                                 data={products}
                                 columns={cols}>
                             </BootstrapTable1>
-                    }
+                        }
                 />
             </div>
         );
@@ -283,6 +285,11 @@ export default class Iitnerary extends Component {
                     }
                     bodyJSX={
                         <div>
+                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
+                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
+                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
+                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
+                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
                             <BootstrapTable1
                                 selectRow={{mode: 'checkbox'}}
                                 tabIndexCell
@@ -330,7 +337,7 @@ export default class Iitnerary extends Component {
 
         },{
             dataField: 'latitude',
-            text: 'latitude',
+            text: 'Latitude',
             hidden: this.props.filterLat
 
         }, {
@@ -390,7 +397,6 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             event.preventDefault();
-            console.log(this.props.JSONString.body.options.earthRadius)
             let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
         };
