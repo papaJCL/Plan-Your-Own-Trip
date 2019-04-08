@@ -43,11 +43,11 @@ public class TwoOpt extends NearestNeighbor{
 
                                 for (k = i + 2; k < trip.length - 1; k++) {
 
-                                        int delta = (-1*distances[i][i+1]) + (-1*distances[k][k+1]) + (distances[i][k]) + (distances[i+1][k+1]);
+                                        int delta = (-1*distances[i][i+1]) + (-1*distances[k][(k+1)%trip.length)]) + (distances[i][k]) + (distances[i+1][[(k+1)%trip.length)]);
 
 
                                         if (delta < 0) {
-                                                uncross(trip, i + 1, k)
+                                                uncross(trip, i + 1, k);
                                                         improve = true;
                                         }
                                 }
