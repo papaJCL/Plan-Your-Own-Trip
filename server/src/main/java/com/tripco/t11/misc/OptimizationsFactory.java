@@ -12,6 +12,9 @@ public class OptimizationsFactory {
         }
         else if(optType.equals("short")){
             return new NearestNeighbor(coords, earthRadius);
+
+        }else if(optType.equals("shorter")){
+            return new TwoOpt(coords, earthRadius);
         }
         return new None(coords);
     }
