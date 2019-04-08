@@ -10,7 +10,7 @@ import com.tripco.t11.TIP.TIPHeader;
 
 import java.lang.reflect.Type;
 
-
+import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -146,16 +146,16 @@ class MicroServer {
     boolean isValid = false;
     JSONObject toBeValidated = new JSONObject(request.body());
     if(tipType == TIPConfig.class){
-      JSONObject config = parseJsonFile("server/src/resources/TIPConfigSchema.json");
+      JSONObject config = parseJsonFile("/TIPConfigSchema.json");
       isValid = performValidation(toBeValidated, config);
     }else if(tipType == TIPDistance.class){
-      JSONObject distance = parseJsonFile("server/src/resources/TIPDistancSchema.json");
+      JSONObject distance = parseJsonFile("/TIPDistancSchema.json");
       isValid = performValidation(toBeValidated, distance);
     }else if(tipType == TIPFind.class){
-      JSONObject find = parseJsonFile("server/src/resources/TIPFindSchema.json");
+      JSONObject find = parseJsonFile("/TIPFindSchema.json");
       isValid = performValidation(toBeValidated, find);
     }else if(tipType == TIPItinerary.class){
-      JSONObject itinierary = parseJsonFile("server/src/resources/TIPItinerarySchema.json");
+      JSONObject itinierary = parseJsonFile("/TIPItinerarySchema.json");
       isValid = performValidation(toBeValidated, itinierary);
     }
     return isValid;
@@ -223,9 +223,8 @@ class MicroServer {
     // there are other ways of creating a JSONObject, like from an InputStream...
     // (https://github.com/everit-org/json-schema#quickstart)
     JSONObject parsedObject = null;
-    try {
-      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
-      parsedObject = new JSONObject(new String(jsonBytes));
+    try (InputStream inputStream = MicroServer.class.getResourceAsStream(path)){
+      parsedObject = new JSONObject(new JSONTokener(inputStream));
     }
     catch (IOException e) {
       e.printStackTrace();
