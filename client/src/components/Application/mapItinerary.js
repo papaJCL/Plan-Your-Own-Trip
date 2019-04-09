@@ -173,7 +173,24 @@ export default class mapItinerary extends Component {
                     />
                 </Map>
             </div>
-        )
+        );
+    }
+
+    renderMarkers() {
+        let content = <div />;
+        let name;
+        for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
+
+            content += <Marker key={`marker-${i}`} position={this.props.markers[i]} icon={this.markerIcon()}>
+                <Popup><div align="center"><b>Location {i + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
+            </Marker>
+        }
+        return (
+            <div> {
+
+            }
+            </div>
+        );
     }
 
     renderComplexMap(){
@@ -193,11 +210,15 @@ export default class mapItinerary extends Component {
                         smoothFactor = {1}
                     />
                     {
-                        this.props.markers.map((position, idx) =>
+
+
+                            this.renderMarkers()
+
+                        /*this.props.markers.map((position, idx) =>
                             <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
                                 <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
                             </Marker>
-                        )}
+                        )*/}
 
                 </Map>
             </div>
