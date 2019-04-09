@@ -76,7 +76,8 @@ export default class Application extends Component {
         filterDist: false,
         SQLJson: [] ,
         SQLItineraryInfo: [],
-        boolSQL: true
+        boolSQL: true,
+        showMarkers: true
 
     };
     this.updateServerConfig();

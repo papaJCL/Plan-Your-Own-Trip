@@ -178,11 +178,13 @@ export default class mapItinerary extends Component {
 
     renderMarkers() {
         let content = <div />;
-        let name;
+        let name ='';
         for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
-
+            if (i === 0) name = 'Start';
+            else if (i === this.props.JSONString.body.places.length - 1) name = 'Finish';
+            else name = 'Location: ' + (i + 1);
             content += <Marker key={`marker-${i}`} position={this.props.markers[i]} icon={this.markerIcon()}>
-                <Popup><div align="center"><b>Location {i + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
+                <Popup><div align="center"><b>{name}</b><br />{this.props.JSONString.body.places[i].name}<br />{parseFloat(this.props.JSONString.body.places[i].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[i].longitude).toFixed(5)}</div></Popup>
             </Marker>
         }
         return (
