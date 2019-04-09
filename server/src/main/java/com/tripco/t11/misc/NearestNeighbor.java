@@ -66,14 +66,14 @@ public class NearestNeighbor extends Optimizations {
         return tripDistance;
     }
 
-    private boolean placesAreUnvisited(){
+    protected boolean placesAreUnvisited(){
         if(currentTrip[currentTrip.length - 1] == -1){
             return true;
         }
         return false;
     }
 
-    private int findNextPlace(int index){
+    protected int findNextPlace(int index){
         Long shortest = Long.MAX_VALUE;
         int next = -1;
         for(int i = 0; i < distances[index].length; ++i) {
