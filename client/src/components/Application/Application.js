@@ -78,7 +78,6 @@ export default class Application extends Component {
         SQLItineraryInfo: [],
         boolSQL: true,
         showMarkers: true
-
     };
     this.updateServerConfig();
   }
@@ -208,6 +207,7 @@ export default class Application extends Component {
             updateItinerarySQL = {this.updateItinerarySQL}
             boolSQL = {this.state.boolSQL}
             boolSQLFunc = {this.boolSQLFunc}
+            showMarkers = {this.state.showMarkers}
             ref="child"
             />;
     }
