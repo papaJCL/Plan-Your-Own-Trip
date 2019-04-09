@@ -10,12 +10,6 @@ export default class Calculator extends Component {
     constructor(props) {
         super(props);
         this.calculateDistance = this.calculateDistance.bind(this);
-        this.createInputField = this.createInputField.bind(this);
-        this.checkData = this.checkData.bind(this);
-        this.createDistance = this.createDistance.bind(this);
-        this.createForm = this.createForm.bind(this);
-        this.updateLocationOnChange = this.updateLocationOnChange.bind(this)
-
     }
 
     render() {

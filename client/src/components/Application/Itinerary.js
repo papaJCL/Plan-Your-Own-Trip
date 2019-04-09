@@ -12,7 +12,7 @@ import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
-
+import SQL from './SQL'
 
 
 let order = 'desc';
@@ -30,70 +30,20 @@ export default class Iitnerary extends Component {
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
     }
 
-
-    varBody(){
-        let work = this.props.SQLJson.places
-        var body = work.map((item, idx) =>
-            <tr>
-                <td> {idx + 1} </td>
-                <td> {item.id} </td>
-                <td> {item.name} </td>
-                <td> {item.altitude} </td>
-                <td> {item.latitude} </td>
-                <td> {item.longitude} </td>
-                <td> {item.municipality} </td>
-                <td> {this.buttonSQL(idx)} </td>
-            </tr>
-        )
-        return(body)
-    }
-
-
-    SQLBody(){
-        if (this.props.SQLJson.places == null) return;
-        else{ return( this.varBody());
-        }
-    }
-
-    buttonSQL(idx){
-        let work = this.props.SQLJson.places[idx]
-        return(
-            <button onClick={() => this.callNewItineraryWithSQL(work) }>Add to Itinerary</button>
-        );
-    }
-
-    callNewItineraryWithSQL(work){
-        this.props.addLocation(work.name, work.latitude, work.longitude);
-        return (this.props.updateItinerarySQL(work));
-    }
-
-    SQLMenu(){
-        return(
-            <row>
-                <Pane header = {'SQL Header'}
-                      bodyJSX ={
-                          <div>
-                              <Table>
-                                  <thead>
-                                  <tr>
-                                      <th>#</th>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Altitude</th>
-                                      <th>Latitude</th>
-                                      <th>Longitude</th>
-                                      <th>Municipality</th>
-                                      <th>Add to Itinerary</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  {this.SQLBody()}
-                                  </tbody>
-                              </Table>
-                          </div>
-                      }
-                />
-            </row>
+    callSQL() {
+        return (
+            <SQL
+            SQLMenu = {this.props.SQLMenu}
+            SQLJson = {this.props.SQLJson}
+            updateItinerarySQL = {this.props.updateItinerarySQL}
+            SQLItineraryInfo = {this.props.SQLItineraryInfo}
+            JSONString = {this.props.JSONString}
+            planOptions = {this.props.planOptions}
+            clientSettings = {this.props.clientSettings}
+            liftHomeState = {this.props.liftHomeState}
+            boolSQLFunc = {this.props.boolSQLFunc}
+            ref = "child"
+            />
         )
     }
 
@@ -101,7 +51,6 @@ export default class Iitnerary extends Component {
         if (this.props.boolSQL == true){
             return(
                 <div>
-                    {this.SQLMenu()}
                     <Row>
                         <Col xs={12}>
                             {this.renderItinerary()}
@@ -164,7 +113,6 @@ export default class Iitnerary extends Component {
     }
 
     getTotalDistance(places) {
-
         let distanceArray = this.props.JSONString.body.distances
         var totalDistance = 0
         for (var i = 0; i < places.length; i++) {
@@ -176,18 +124,18 @@ export default class Iitnerary extends Component {
     renderItinerary() {
         // let places = this.getPlaces()
         // var totalDistance = this.getTotalDistance(places)
-        //
-        if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length == 0){
+        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
             return (
                 <div>
                     <Pane header={"Itinerary will load here"}/>
                 </div>
             );
         }
-        else if (this.props.JSONString.length == 0 && this.props.SQLItineraryInfo.length != 0){
+        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
+            console.log("Should land here before breaking SQL info is : " , this.props.SQLItineraryInfo)
             return (this.returnSQLItinerary());
         }
-        else{ return(this.returnMainItinerary())}
+        return(this.returnMainItinerary())
     }
 
     SQLProducts(){
@@ -229,7 +177,7 @@ export default class Iitnerary extends Component {
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.SQLItineraryInfo,
             "distances"      : []
         };
@@ -264,7 +212,7 @@ export default class Iitnerary extends Component {
                                 data={products}
                                 columns={cols}>
                             </BootstrapTable1>
-                    }
+                        }
                 />
             </div>
         );
@@ -283,6 +231,11 @@ export default class Iitnerary extends Component {
                     }
                     bodyJSX={
                         <div>
+                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
+                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
+                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
+                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
+                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
                             <BootstrapTable1
                                 selectRow={{mode: 'checkbox'}}
                                 tabIndexCell
@@ -330,7 +283,7 @@ export default class Iitnerary extends Component {
 
         },{
             dataField: 'latitude',
-            text: 'latitude',
+            text: 'Latitude',
             hidden: this.props.filterLat
 
         }, {
@@ -390,7 +343,6 @@ export default class Iitnerary extends Component {
     changeFunc(e, column, columnIndex, row, rowIndex) {
         let handleSubmit = (event) => {
             event.preventDefault();
-            console.log(this.props.JSONString.body.options.earthRadius)
             let number = document.getElementById(columnIndex);
             this.props.changeOrder(columnIndex, number.value - 1);
         };

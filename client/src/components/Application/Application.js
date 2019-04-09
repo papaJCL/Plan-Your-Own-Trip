@@ -5,6 +5,7 @@ import Options from './Options/Options';
 import About from './About/About';
 import Calculator from './Calculator/Calculator';
 import Settings from './Settings/Settings';
+import SQL from './SQL'
 import {getOriginalServerPort, sendServerRequest, sendServerRequestWithBody} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
 /*import {latitude} from './../../../../node_modules/magellan-coords/magellan';*/
@@ -51,7 +52,15 @@ export default class Application extends Component {
         destination: {latitude: '', longitude: ''},
         distance: 0,
         errorMessage: null,
-        JSONString: [],
+        JSONString: {
+          "body": {
+              "requestType": "itinerary",
+              "requestVersion": 2,
+              "options": {"title": "defaultJSON", "earthRadius": "3959"},
+              "places": [],
+              "distances": []
+          }
+        },
         returnFile: [],
         latitude: [],
         longitude: [],
@@ -163,8 +172,17 @@ export default class Application extends Component {
             config={this.state.serverConfig}
             updateOption={this.updatePlanOption}/>;
 
-      default:
-        return <Home
+        case 'sql':
+            return<SQL
+                markers = {this.state.markers}
+                boolMarker = {this.state.boolMarker}
+                polyLineCoor = {this.state.polyLineCoor}
+                updateSQLState = {this.updateSQLState}
+                clientSettings = {this.state.clientSettings}
+            />;
+
+        default:
+            return <Home
             clientSettings = {this.state.clientSettings}
             clearMapState = {this.clearMapState}
             reRenderNewMapState = {this.reRenderNewMapState}
@@ -262,7 +280,15 @@ export default class Application extends Component {
 
   clearMapState(){
     this.setState({
-      JSONString: [] ,
+      JSONString: {
+          "body": {
+              "requestType": "itinerary",
+              "requestVersion": 2,
+              "options": {"title": "defaultJSON", "earthRadius": "3959"},
+              "places": [],
+              "distances": []
+          }
+      },
       returnFile: [],
       latitude: [],
       longitude: [],
@@ -271,6 +297,9 @@ export default class Application extends Component {
       names: [],
       origUnit: 0,
       errorMessage: null,
+      SQLJson: [] ,
+      SQLItineraryInfo: [],
+      boolSQL: true
     });
   }
 
@@ -287,6 +316,7 @@ export default class Application extends Component {
   }
 
   liftHomeState(response){
+
       this.setState({
           JSONString: response,
           returnFile: response.body,
@@ -302,7 +332,7 @@ export default class Application extends Component {
       var request = {
           "requestType"    : "itinerary",
           "requestVersion" : 3,
-          "options"        : {"earthRadius": "" + Math.round(this.state.JSONString.body.options.earthRadius)},
+          "options"        : {"earthRadius": "" + Math.round(parseFloat(this.state.JSONString.body.options.earthRadius))},
           "places"         : arr,
           "distances"      : []
       };
@@ -337,6 +367,7 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
+        console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
         });

@@ -63,9 +63,6 @@ export default class Home extends Component {
     callItinerary(){
         return (
             <Itinerary
-                clientSettings = {this.props.clientSettings}
-                boolMarker = {this.props.boolMarker}
-                JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
                 changeOrder = {this.changeOrder}
@@ -94,7 +91,10 @@ export default class Home extends Component {
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
                 boolSQLFunc = {this.props.boolSQLFunc}
-
+                clientSettings = {this.props.clientSettings}
+                boolMarker = {this.props.boolMarker}
+                JSONString = {this.props.JSONString}
+                ref="child"
             />
         )
     }
@@ -102,7 +102,6 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
-                { this.props.errorMessage }
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
@@ -121,10 +120,6 @@ export default class Home extends Component {
         }
         if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
             long = magellan(long).longitude().toDD();
-        }
-        if (typeof this.props.JSONString.body === 'undefined') {
-            this.props.createErrorBannerState('Error', '500', 'You Must Upload an Itinerary Before You Can Add a Location');
-            return;
         }
         let newplaces = this.props.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.props.JSONString.body.places.length};

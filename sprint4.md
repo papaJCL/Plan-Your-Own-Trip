@@ -1,9 +1,9 @@
-# Sprint 4 - *your team number* - *your team name*
+# Sprint 4 - *t11* 
 
 ## Goal
 
 ### Worldwide!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: *Jeremy Lesser*
 
 ## Definition of Done
 
@@ -41,21 +41,54 @@
 
 ## Plan
 
+## TFFI SPEC
+ * TIP version has switched to 4 across all protocals. 
+ * TIPConfig: placeAttributes now contains region country and continents, optimizations has option shorter if implemented. Also new element "filters" to aid TIPFind.
+ * TIPDistance: no changes to note in new spec
+ * TIPItinerary: No changes to note outside new place attributes and possible new optimization of specified in TIPConfig
+ * TIPFind: new element narrow from TIPconfig filters to apply to the search on server side as well as now changing non alphanumeric characters to wildcard.
+ * Deficiences: in TIPFind in the case where a limit was specified and the number of elements found was less than the limit an array was returned of size limit with some null values - a fix has been planned but not yet implemented. Also schemas were not fully in working order but will be soon
+
+*Diagrams:*
+- Class Diagram/Heirarchy
+![server](/diagram/xd.jpg)
+
 This sprint will complete the following Epics.
+* #245:User: I would like to highlight certain places on the map:
+A map full of markers isn't useful, don't display them by default.
+Let me select one or more places in the itinerary to highlight on the map with markers.
+Let me clear the markers.
+Provide useful information on the marker labels.
 
-* *#0 epic title: description*
-*
+* #254
+User: Let Me Plan Trips World-Wide:
+TripCo has acquired a worldwide database for trip planning. New tables world, regions, countries, and continents are available. These tables are related.
+Let the user select from destinations worldwide using region, country, and continent information.
+Let the user filter in addition to the matching.
+Allow non alphanumeric characters in the match string, converting all non-alphanumeric characters to a single character wildcard to prevent SQL injections with special characters.
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
+* #261
+User: I want to view my trip in other tools:
+I'd like to view my trip in other tools
+Write the itinerary in CSV file format so the user can open it in a spreadsheet or other tool.
+Write the map in KML or SVG file format so the user can view it in google earth or any tools that renders graphics.
+
+* #262
+User: Can trips be shorter?
+Add the "shorter" option for the user to select.
+Apply the 2-opt improvement algorithm to the nearest neighbor construction algorithm to find the shortest optimized trip.
+The person that implemented nearest neighbor may not implement 2-opt. Similarly for 3-opt on the next sprint.
+
+
 
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Epics | #245 #254 #261 #262| #value|
+| Tasks | #256 #247 #248 #249  #251 #254  #255 #256  #257  #258  260| #value
+| Story Points | 13 | *value* | 
 
 
 ## Scrums

@@ -16,19 +16,6 @@ import { Card, CardImg, CardText, CardBody,
  * Allows the user to set the options used by the application via a set of buttons.
  */
 export default class About extends Component{
-    constructor(props) {
-        super(props);
-        this.getImage = this.getImage.bind(this)
-        this.getBlurb = this.getBlurb.bind(this)
-        this.createFunction = this.createFunction.bind(this)
-        this.getBGilbert = this.getBGilbert.bind(this)
-        this.getBCupit = this.getBCupit.bind(this)
-        this.getBPike = this.getBPike.bind(this)
-        this.getBLesser = this.getBLesser.bind(this)
-
-    }
-
-
     render() {
         return(
             <Container>
