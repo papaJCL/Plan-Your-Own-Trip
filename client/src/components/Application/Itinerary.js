@@ -12,7 +12,7 @@ import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
-
+import SQL from './SQL'
 
 
 let order = 'desc';
@@ -28,72 +28,22 @@ export default class Iitnerary extends Component {
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
+        this.SQL = new SQL(props);
     }
 
-
-    varBody(){
-        let work = this.props.SQLJson.places
-        var body = work.map((item, idx) =>
-            <tr>
-                <td> {idx + 1} </td>
-                <td> {item.id} </td>
-                <td> {item.name} </td>
-                <td> {item.altitude} </td>
-                <td> {item.latitude} </td>
-                <td> {item.longitude} </td>
-                <td> {item.municipality} </td>
-                <td> {this.buttonSQL(idx)} </td>
-            </tr>
-        )
-        return(body)
-    }
-
-
-    SQLBody(){
-        if (this.props.SQLJson.places == null) return;
-        else{ return( this.varBody());
-        }
-    }
-
-    buttonSQL(idx){
-        let work = this.props.SQLJson.places[idx]
-        return(
-            <button onClick={() => this.callNewItineraryWithSQL(work) }>Add to Itinerary</button>
-        );
-    }
-
-    callNewItineraryWithSQL(work){
-        //this.props.addLocation(work.name, work.latitude, work.longitude);
-        return (this.props.updateItinerarySQL(work));
-    }
-
-    SQLMenu(){
-        return(
-            <row>
-                <Pane header = {'SQL Header'}
-                      bodyJSX ={
-                          <div>
-                              <Table>
-                                  <thead>
-                                  <tr>
-                                      <th>#</th>
-                                      <th>ID</th>
-                                      <th>Name</th>
-                                      <th>Altitude</th>
-                                      <th>Latitude</th>
-                                      <th>Longitude</th>
-                                      <th>Municipality</th>
-                                      <th>Add to Itinerary</th>
-                                  </tr>
-                                  </thead>
-                                  <tbody>
-                                  {this.SQLBody()}
-                                  </tbody>
-                              </Table>
-                          </div>
-                      }
-                />
-            </row>
+    callSQL() {
+        return (
+            <SQL
+            SQLMenu = {this.props.SQLMenu}
+            SQLJson = {this.props.SQLJson}
+            updateItinerarySQL = {this.props.updateItinerarySQL}
+            SQLItineraryInfo = {this.props.SQLItineraryInfo}
+            JSONString = {this.props.JSONString}
+            planOptions = {this.props.planOptions}
+            clientSettings = {this.props.clientSettings}
+            liftHomeState = {this.props.liftHomeState}
+            boolSQLFunc = {this.props.boolSQLFunc}
+            />
         )
     }
 
@@ -101,7 +51,9 @@ export default class Iitnerary extends Component {
         if (this.props.boolSQL == true){
             return(
                 <div>
-                    {this.SQLMenu()}
+                    <Container>
+                    {this.callSQL()}
+                    </Container>
                     <Row>
                         <Col xs={12}>
                             {this.renderItinerary()}
@@ -189,7 +141,7 @@ export default class Iitnerary extends Component {
         return(this.returnMainItinerary())
     }
 
-    SQLProducts(){
+    SQLProducts(){ console.log('SQLProducts: ', this.props.SQLItineraryInfo)
         const products = [];
         const startId = products.length;
         for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {

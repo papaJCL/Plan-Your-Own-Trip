@@ -270,7 +270,15 @@ export default class Application extends Component {
 
   clearMapState(){
     this.setState({
-      JSONString: [] ,
+      JSONString: {
+          "body": {
+              "requestType": "itinerary",
+              "requestVersion": 2,
+              "options": {"title": "defaultJSON", "earthRadius": "3959"},
+              "places": [],
+              "distances": []
+          }
+      },
       returnFile: [],
       latitude: [],
       longitude: [],
@@ -279,6 +287,9 @@ export default class Application extends Component {
       names: [],
       origUnit: 0,
       errorMessage: null,
+      SQLJson: [] ,
+      SQLItineraryInfo: [],
+      boolSQL: true
     });
   }
 
@@ -345,7 +356,8 @@ export default class Application extends Component {
         // });
     }
 
-    updateItinerarySQL(sql){
+    updateItinerarySQL(sql){ console.log('updateItinerarySQL: ', sql)
+        console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
         });

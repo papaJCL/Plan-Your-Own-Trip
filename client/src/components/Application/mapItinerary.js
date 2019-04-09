@@ -195,7 +195,7 @@ export default class mapItinerary extends Component {
                     {
                         this.props.markers.map((position, idx) =>
                             <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                <Popup><div align="center"><b>Location {idx + 1}</b><br /><button onClick={() => this.props.changeStartLocation(idx)}>Make Origin</button><br /><button onClick={() => this.props.deleteLocation(idx)}>Delete</button><br /></div></Popup>
+                                <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
                             </Marker>
                         )}
 
