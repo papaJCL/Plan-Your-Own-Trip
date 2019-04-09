@@ -28,7 +28,6 @@ export default class Iitnerary extends Component {
         this.changeFunc = this.changeFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
-        this.SQL = new SQL(props);
     }
 
     callSQL() {
@@ -43,6 +42,7 @@ export default class Iitnerary extends Component {
             clientSettings = {this.props.clientSettings}
             liftHomeState = {this.props.liftHomeState}
             boolSQLFunc = {this.props.boolSQLFunc}
+            ref = "child"
             />
         )
     }
@@ -51,9 +51,6 @@ export default class Iitnerary extends Component {
         if (this.props.boolSQL == true){
             return(
                 <div>
-                    <Container>
-                    {this.callSQL()}
-                    </Container>
                     <Row>
                         <Col xs={12}>
                             {this.renderItinerary()}
@@ -135,13 +132,13 @@ export default class Iitnerary extends Component {
             );
         }
         else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
-
+            console.log("Should land here before breaking SQL info is : " , this.props.SQLItineraryInfo)
             return (this.returnSQLItinerary());
         }
         return(this.returnMainItinerary())
     }
 
-    SQLProducts(){ console.log('SQLProducts: ', this.props.SQLItineraryInfo)
+    SQLProducts(){
         const products = [];
         const startId = products.length;
         for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
@@ -177,9 +174,6 @@ export default class Iitnerary extends Component {
     }
 
     sendSQLRequest(){
-        console.log("sendSQLRequest")
-        console.log(this.props.JSONString.body)
-        console.log(this.props.planOptions.activeUnit)
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
