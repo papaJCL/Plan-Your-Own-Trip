@@ -47,11 +47,11 @@ public class TIPFind extends TIPHeader {
                  Statement stCount = connect.createStatement();
                  Statement stQuery = connect.createStatement();
                  ResultSet rsCount = stCount.executeQuery(buildCountQuery());
-                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery());
+                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery(getPlaceAttributes()));
             )   {
                 rsCount.next();
                 this.found = rsCount.getInt(1);
-                addPlaces(rsQuery);
+                addPlaces(rsQuery, getPlaceAttributes());
             }
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
@@ -59,12 +59,18 @@ public class TIPFind extends TIPHeader {
         log.trace("buildResponse -> {}", this);
     }
 
+    private static String[] getPlaceAttributes(){
+        String[] placeAttributes = new String[] {"world.name", "world.municipality", "world.latitude", "world.longitude",
+                "region.name", "country.name", "continent.name"};
+        return placeAttributes;
+    }
+
     private String buildCountQuery(){
         String countQuery = "select count(*) " + queryEnd() + ";";
         return countQuery;
     }
 
-    private String buildMatchQuery(){
+    private String buildMatchQuery(String[] placeAttributes){
         String matchQuery = "SELECT ";
         matchQuery += queryEnd();
         if(limit != null){
@@ -93,7 +99,7 @@ public class TIPFind extends TIPHeader {
         return " \"%" + this.match + "%\" ";
     }
 
-    private void addPlaces(ResultSet rsQuery) throws SQLException{
+    private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
         initializePlaces();
         int index = 0;
         while(rsQuery.next()){
