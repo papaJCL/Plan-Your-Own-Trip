@@ -79,7 +79,7 @@ export default class Application extends Component {
         SQLJson: [] ,
         SQLItineraryInfo: [],
         boolSQL: true,
-        showMarkers: true
+        showMarkers: false
     };
     this.updateServerConfig();
   }
