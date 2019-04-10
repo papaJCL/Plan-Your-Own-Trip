@@ -13,6 +13,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import {renderBasicMap} from './mapItinerary'
+import ErrorBanner from './ErrorBanner';
 
 
 export default class SQL extends Component {
@@ -59,6 +60,8 @@ export default class SQL extends Component {
     }
 
     sendSQLRequest(){
+
+
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
@@ -192,6 +195,7 @@ export default class SQL extends Component {
         let country = document.getElementById('country').value;
         let continent = document.getElementById('continent').value;
 
+
         var request = {
             'requestType':'find',
             'requestVersion': 3,
@@ -200,8 +204,13 @@ export default class SQL extends Component {
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.body)
-                this.props.updateSQLState(response.body);
+                console.log(response)
+                if(response.statusCode === 400){
+                    this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
+                }else{
+
+                    this.props.updateSQLState(response.body);
+                }
             });
         e.preventDefault();
     }
