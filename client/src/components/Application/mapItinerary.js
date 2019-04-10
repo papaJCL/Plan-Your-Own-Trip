@@ -50,6 +50,7 @@ export default class mapItinerary extends Component {
                                 {this.createUploadButton()}
                                 {this.createResetButton()}
                                 {this.createDownloadButton()}
+                                {this.createMarkerButton()}
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
@@ -71,6 +72,12 @@ export default class mapItinerary extends Component {
         //     return;
         // }
         this.props.addLocation(name, lat, long);
+    }
+
+    createMarkerButton() {
+        return (
+            <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
+        );
     }
 
     createAddDropDown() {

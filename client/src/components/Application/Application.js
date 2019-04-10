@@ -38,6 +38,7 @@ export default class Application extends Component {
     this.updateSQLState = this.updateSQLState.bind(this);
     this.updateItinerarySQL = this.updateItinerarySQL.bind(this);
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
+    this.setShowMarkerState = this.setShowMarkerState.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -205,6 +206,7 @@ export default class Application extends Component {
             polyLineCoor = {this.state.polyLineCoor}
             names = {this.state.names}
             liftHomeState = {this.liftHomeState}
+            setShowMarkerState = {this.setShowMarkerState}
             updatePlacesArray = {this.updatePlacesArray}
             createErrorBannerState = {this.createErrorBannerState}
             deleteError = {this.deleteError}
@@ -414,6 +416,14 @@ export default class Application extends Component {
         polyLine = markers.slice(0)
         polyLine.push(markers[0])
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
+    }
+
+    setShowMarkerState() {
+        let bool = false;
+        (this.state.showMarkers) ? bool = false : bool = true;
+        this.setState({
+            showMarkers: bool
+        })
     }
 
 
