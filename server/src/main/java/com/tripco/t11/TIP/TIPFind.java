@@ -72,6 +72,10 @@ public class TIPFind extends TIPHeader {
 
     private String buildMatchQuery(String[] placeAttributes){
         String matchQuery = "SELECT ";
+        for(int i = 0; i < placeAttributes.length - 1; ++i){
+            matchQuery += placeAttributes[i] + ", ";
+        }
+        matchQuery += placeAttributes[placeAttributes.length - 1] + " ";
         matchQuery += queryEnd();
         if(limit != null){
             if(limit != 0){
@@ -104,6 +108,9 @@ public class TIPFind extends TIPHeader {
         int index = 0;
         while(rsQuery.next()){
             Map<String, Object> newPlace = new HashMap<>();
+            for(int i = 0; i < placeAttributes.length; ++i){
+                newPlace.put(placeAttributes[i], rsQuery.getString(placeAttributes[i]));
+            }
             places[index++] = newPlace;
         }
     }
