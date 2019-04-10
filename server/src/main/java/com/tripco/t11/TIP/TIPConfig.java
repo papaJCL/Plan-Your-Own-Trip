@@ -28,13 +28,13 @@ public class TIPConfig extends TIPHeader {
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 3;
+    this.requestVersion = 4;
   }
 
   @Override
   public void buildResponse() {
     this.serverName = "t11 Ultra Super Team Delta";
-    this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
+    this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
     this.optimizations = Arrays.asList("none", "short");
     log.trace("buildResponse -> {}", this);
   }

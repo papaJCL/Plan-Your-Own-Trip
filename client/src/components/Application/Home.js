@@ -53,8 +53,8 @@ export default class Home extends Component {
                 addLocation = {this.addLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
-                SQLJson = {this.props.SQLJson}
-                updateSQLState = {this.props.updateSQLState}
+                showMarkers = {this.props.showMarkers}
+                setShowMarkerState = {this.props.setShowMarkerState}
                 ref="child"
             />
         )
@@ -63,9 +63,6 @@ export default class Home extends Component {
     callItinerary(){
         return (
             <Itinerary
-                clientSettings = {this.props.clientSettings}
-                boolMarker = {this.props.boolMarker}
-                JSONString = {this.props.JSONString}
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
                 changeOrder = {this.changeOrder}
@@ -94,7 +91,10 @@ export default class Home extends Component {
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
                 boolSQLFunc = {this.props.boolSQLFunc}
-
+                clientSettings = {this.props.clientSettings}
+                boolMarker = {this.props.boolMarker}
+                JSONString = {this.props.JSONString}
+                ref="child"
             />
         )
     }
@@ -102,7 +102,6 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
-
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
