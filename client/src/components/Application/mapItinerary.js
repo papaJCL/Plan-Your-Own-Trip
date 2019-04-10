@@ -109,7 +109,7 @@ export default class mapItinerary extends Component {
 
 
                 });
-        e.preventDefault();disuglg
+        e.preventDefault();
     }
 
     renderMap() {
