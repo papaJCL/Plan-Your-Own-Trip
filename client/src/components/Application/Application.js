@@ -179,6 +179,16 @@ export default class Application extends Component {
                 polyLineCoor = {this.state.polyLineCoor}
                 updateSQLState = {this.updateSQLState}
                 clientSettings = {this.state.clientSettings}
+                SQLMenu = {this.state.SQLMenu}
+                SQLJson = {this.state.SQLJson}
+                updateItinerarySQL = {this.updateItinerarySQL}
+                SQLItineraryInfo = {this.state.SQLItineraryInfo}
+                JSONString = {this.state.JSONString}
+                planOptions = {this.state.planOptions}
+                liftHomeState = {this.liftHomeState}
+                boolSQLFunc = {this.boolSQLFunc}
+                boolSQL = {this.state.boolSQL}
+                reRenderNewMap = {this.reRenderNewMap}
             />;
 
         default:
@@ -322,7 +332,7 @@ export default class Application extends Component {
           returnFile: response.body,
           origUnit : Math.round(response.body.options.earthRadius)
       } , () => {
-          this.refs.child.reRenderNewMap();
+          this.reRenderNewMap();
       });
   }
 
@@ -353,7 +363,7 @@ export default class Application extends Component {
   }
 
     updateSQLState(newJSON){
-        this.setState({
+      this.setState({
             SQLJson: newJSON
         });
 
@@ -377,6 +387,32 @@ export default class Application extends Component {
       this.setState({
           boolSQL: false
       })
+    }
+
+    reRenderNewMap(){
+        let places = this.state.JSONString.body.places
+        const mappingFunction = p => p.latitude;
+        const mappingFunction1 = p => p.longitude;
+        const mappingFunction2 = p => p.name;
+
+        const latitude = places.map(mappingFunction)
+        const longitude = places.map(mappingFunction1)
+        const names = places.map(mappingFunction2)
+
+        var markers = [[]]
+        var polyLine = [[]]
+
+        for (var i = 0; i < latitude.length; i++){
+            var hold = []
+            hold.push(latitude[i])
+            hold.push(longitude[i])
+            markers.push(hold)
+        }
+
+        markers.shift()
+        polyLine = markers.slice(0)
+        polyLine.push(markers[0])
+        this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
 
