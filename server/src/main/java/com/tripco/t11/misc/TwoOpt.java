@@ -11,7 +11,7 @@ public class TwoOpt extends NearestNeighbor{
 
 
 
-        @Override
+
         private Long optimizeCurrentStart(int index) {
                 Long tripDistance = 0L;
                 int placeInTrip = 1;
@@ -43,7 +43,7 @@ public class TwoOpt extends NearestNeighbor{
 
                                 for (int k = i + 2; k < trip.length - 1; k++) {
 
-                                        int delta = (-1*distances[i][i+1]) + (-1*distances[k][((k+1)%trip.length)]) + (distances[i][k]) + (distances[i+1][((k+1)%trip.length)]);
+                                        long delta = (-1*distances[i][i+1]) + (-1*distances[k][((k+1)%trip.length)]) + (distances[i][k]) + (distances[i+1][((k+1)%trip.length)]);
 
 
                                         if (delta < 0) {

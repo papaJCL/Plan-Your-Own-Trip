@@ -8,8 +8,8 @@ public class NearestNeighbor extends Optimizations {
 
     public int[] trip;
     public int[] currentTrip;
-    private Long[][] distances;
-    private boolean[] visited;
+    protected Long[][] distances;
+    protected boolean[] visited;
 
     public NearestNeighbor(Double[][] coords, Double earthRadius){
         this.trip = new int[coords.length];
