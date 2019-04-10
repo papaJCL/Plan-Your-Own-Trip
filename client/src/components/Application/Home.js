@@ -95,6 +95,7 @@ export default class Home extends Component {
                 clientSettings = {this.props.clientSettings}
                 boolMarker = {this.props.boolMarker}
                 JSONString = {this.props.JSONString}
+                ref="child"
             />
         )
     }
@@ -102,7 +103,6 @@ export default class Home extends Component {
     render() {
         return (
             <Container>
-
                 {this.callMapItinerary()}
                 {this.callItinerary()}
             </Container>
