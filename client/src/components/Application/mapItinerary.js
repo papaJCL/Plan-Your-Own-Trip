@@ -17,9 +17,6 @@ export default class mapItinerary extends Component {
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
         this.download = this.download.bind(this)
-        this.createUploadButton = this.createUploadButton.bind(this)
-        this.createResetButton = this.createResetButton.bind(this)
-        this.createDownloadButton = this.createDownloadButton.bind(this)
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
@@ -47,10 +44,10 @@ export default class mapItinerary extends Component {
                           <span>
                               <Card>
                               <CardBody>
-                                {this.createUploadButton()}
-                                {this.createResetButton()}
-                                {this.createDownloadButton()}
-                                {this.createMarkerButton()}
+                                <input type="file"name="myFile" onChange={this.onChange}/>
+                                <Button onClick={this.clearMap}>Reset Map to default</Button>
+                                <Button onClick={this.download}>Download Trip Itinerary</Button>
+                                <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
@@ -74,11 +71,6 @@ export default class mapItinerary extends Component {
         this.props.addLocation(name, lat, long);
     }
 
-    createMarkerButton() {
-        return (
-            <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
-        );
-    }
 
     createAddDropDown() {
         return (
@@ -110,26 +102,6 @@ export default class mapItinerary extends Component {
                 this.props.updateSQLState(response.body);
                 });
         e.preventDefault();
-    }
-
-    createDownloadButton(){
-        return(
-                <Button onClick={this.download}>Download Trip Itinerary</Button>
-        );
-    }
-
-
-    createUploadButton(){
-        return(
-                    <input type="file"name="myFile" onChange={this.onChange}/>
-        );
-
-    }
-
-    createResetButton(){
-        return(
-            <Button onClick={this.clearMap}>Reset Map to default</Button>
-        );
     }
 
     renderMap() {
