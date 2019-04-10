@@ -20,7 +20,6 @@ export default class mapItinerary extends Component {
         this.createUploadButton = this.createUploadButton.bind(this)
         this.createResetButton = this.createResetButton.bind(this)
         this.createDownloadButton = this.createDownloadButton.bind(this)
-        this.createSearchBar = this.createSearchBar.bind(this)
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
@@ -54,7 +53,6 @@ export default class mapItinerary extends Component {
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
-                                {this.createSearchBar()}
                         </span>
                       </div>
                   }
@@ -105,24 +103,6 @@ export default class mapItinerary extends Component {
                 this.props.updateSQLState(response.body);
                 });
         e.preventDefault();
-    }
-
-    createSearchBar(){
-        return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Search for Destination</b></CardTitle>
-                    <row>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                <input type="text" placeholder="Enter Location" ref={(input) => this.input = input} />
-                            </label>
-                        </form>
-
-                    </row>
-                </CardBody>
-            </Card>
-        );
     }
 
     createDownloadButton(){
