@@ -5,6 +5,7 @@ import Options from './Options/Options';
 import About from './About/About';
 import Calculator from './Calculator/Calculator';
 import Settings from './Settings/Settings';
+import SQL from './SQL'
 import {getOriginalServerPort, sendServerRequest, sendServerRequestWithBody} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
 /*import {latitude} from './../../../../node_modules/magellan-coords/magellan';*/
@@ -171,8 +172,27 @@ export default class Application extends Component {
             config={this.state.serverConfig}
             updateOption={this.updatePlanOption}/>;
 
-      default:
-        return <Home
+        case 'sql':
+            return<SQL
+                markers = {this.state.markers}
+                boolMarker = {this.state.boolMarker}
+                polyLineCoor = {this.state.polyLineCoor}
+                updateSQLState = {this.updateSQLState}
+                clientSettings = {this.state.clientSettings}
+                SQLMenu = {this.state.SQLMenu}
+                SQLJson = {this.state.SQLJson}
+                updateItinerarySQL = {this.updateItinerarySQL}
+                SQLItineraryInfo = {this.state.SQLItineraryInfo}
+                JSONString = {this.state.JSONString}
+                planOptions = {this.state.planOptions}
+                liftHomeState = {this.liftHomeState}
+                boolSQLFunc = {this.boolSQLFunc}
+                boolSQL = {this.state.boolSQL}
+                reRenderNewMap = {this.reRenderNewMap}
+            />;
+
+        default:
+            return <Home
             clientSettings = {this.state.clientSettings}
             clearMapState = {this.clearMapState}
             reRenderNewMapState = {this.reRenderNewMapState}
@@ -312,7 +332,7 @@ export default class Application extends Component {
           returnFile: response.body,
           origUnit : Math.round(response.body.options.earthRadius)
       } , () => {
-          this.refs.child.reRenderNewMap();
+          this.reRenderNewMap();
       });
   }
 
@@ -343,7 +363,7 @@ export default class Application extends Component {
   }
 
     updateSQLState(newJSON){
-        this.setState({
+      this.setState({
             SQLJson: newJSON
         });
 
@@ -356,7 +376,7 @@ export default class Application extends Component {
         // });
     }
 
-    updateItinerarySQL(sql){ console.log('updateItinerarySQL: ', sql)
+    updateItinerarySQL(sql){
         console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
@@ -367,6 +387,32 @@ export default class Application extends Component {
       this.setState({
           boolSQL: false
       })
+    }
+
+    reRenderNewMap(){
+        let places = this.state.JSONString.body.places
+        const mappingFunction = p => p.latitude;
+        const mappingFunction1 = p => p.longitude;
+        const mappingFunction2 = p => p.name;
+
+        const latitude = places.map(mappingFunction)
+        const longitude = places.map(mappingFunction1)
+        const names = places.map(mappingFunction2)
+
+        var markers = [[]]
+        var polyLine = [[]]
+
+        for (var i = 0; i < latitude.length; i++){
+            var hold = []
+            hold.push(latitude[i])
+            hold.push(longitude[i])
+            markers.push(hold)
+        }
+
+        markers.shift()
+        polyLine = markers.slice(0)
+        polyLine.push(markers[0])
+        this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
 
