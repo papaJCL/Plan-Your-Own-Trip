@@ -30,43 +30,28 @@ public class TIPFind extends TIPHeader {
 
     public TIPFind(String match, int limit){
         this();
-        this.match = sanatize(match);
+        this.match = match;
         this.limit = limit;
     }
 
     private TIPFind(){
         this.requestType = "find";
-        this.requestVersion = 3;
-    }
-
-    private String sanatize(String match){
-        String sanatized = "";
-        for(int i = 0; i < match.length(); ++i){
-            if(Character.isLetterOrDigit(match.charAt(i)) || Character.isWhitespace(match.charAt(i))){
-                sanatized += match.charAt(i);
-            }
-            else{
-                sanatized += '_';
-            }
-        }
-        return sanatized;
+        this.requestVersion = 4;
     }
 
     @Override
     public void buildResponse(){
-        TIPConfig config = new TIPConfig();
-        config.buildResponse();
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
                  Statement stCount = connect.createStatement();
                  Statement stQuery = connect.createStatement();
                  ResultSet rsCount = stCount.executeQuery(buildCountQuery());
-                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery(config.placeAttributes));
+                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery());
             )   {
                 rsCount.next();
                 this.found = rsCount.getInt(1);
-                addPlaces(rsQuery, config.placeAttributes);
+                addPlaces(rsQuery);
             }
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
@@ -79,12 +64,8 @@ public class TIPFind extends TIPHeader {
         return countQuery;
     }
 
-    private String buildMatchQuery(List<String> attributes){
-        String matchQuery = "select ";
-        for(int i = 0; i < attributes.size() - 1; ++i){
-            matchQuery += attributes.get(i) + ",";
-        }
-        matchQuery += attributes.get(attributes.size() - 1) + " ";
+    private String buildMatchQuery(){
+        String matchQuery = "SELECT ";
         matchQuery += queryEnd();
         if(limit != null){
             if(limit != 0){
@@ -96,21 +77,27 @@ public class TIPFind extends TIPHeader {
     }
 
     private String queryEnd(){
-        String queryEnd = "from colorado where name like '%";
-        queryEnd += match + "%' or type like '%";
-        queryEnd += match + "%' or municipality like '%";
-        queryEnd += match + "%'";
+        String queryEnd = "FROM continent ";
+        queryEnd += "INNER JOIN country ON continent.id = country.continent " +
+                "INNER JOIN region ON country.id = region.iso_country " +
+                "INNER JOIN world ON region.id = world.iso_region ";
+        queryEnd += "WHERE country.name LIKE" + getMatch() +
+                "OR region.name LIKE" + getMatch() +
+                "OR world.name LIKE" + getMatch() +
+                "OR world.municipality LIKE" + getMatch();
+
         return queryEnd;
     }
 
-    private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
+    private String getMatch(){
+        return " \"%" + this.match + "%\" ";
+    }
+
+    private void addPlaces(ResultSet rsQuery) throws SQLException{
         initializePlaces();
         int index = 0;
         while(rsQuery.next()){
             Map<String, Object> newPlace = new HashMap<>();
-            for(int i = 0; i < attributes.size(); ++i){
-                newPlace.put(attributes.get(i), rsQuery.getString(attributes.get(i)));
-            }
             places[index++] = newPlace;
         }
     }
