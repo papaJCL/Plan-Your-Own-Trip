@@ -53,8 +53,6 @@ export default class Home extends Component {
                 addLocation = {this.addLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
-                SQLJson = {this.props.SQLJson}
-                updateSQLState = {this.props.updateSQLState}
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
                 ref="child"
