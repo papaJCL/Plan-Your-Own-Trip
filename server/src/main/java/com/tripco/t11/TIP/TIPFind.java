@@ -25,6 +25,7 @@ public class TIPFind extends TIPHeader {
     private Integer limit;
     private Integer found;
     private Map<String, Object>[] places;
+    private Map<String, Object>[] narrow;
     //logger
     private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
@@ -32,11 +33,18 @@ public class TIPFind extends TIPHeader {
         this();
         this.match = match;
         this.limit = limit;
+        this.narrow = assignNarrow();
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 4;
+    }
+
+    Map<String, Object>[] assignNarrow(){
+        TIPConfig config = new TIPConfig();
+        config.buildResponse();
+        return config.getFilters();
     }
 
     @Override
