@@ -109,10 +109,18 @@ public class TIPFind extends TIPHeader {
         while(rsQuery.next()){
             Map<String, Object> newPlace = new HashMap<>();
             for(int i = 0; i < placeAttributes.length; ++i){
-                newPlace.put(placeAttributes[i], rsQuery.getString(placeAttributes[i]));
+                newPlace.put(setKey(placeAttributes[i]), rsQuery.getString(placeAttributes[i]));
             }
             places[index++] = newPlace;
         }
+    }
+
+    private String setKey(String key){
+        String type = key.substring(0,key.indexOf('.'));
+        if(type.equals("world")){
+            return key.substring(key.indexOf('.') + 1);
+        }
+        return type;
     }
 
     private void initializePlaces(){
