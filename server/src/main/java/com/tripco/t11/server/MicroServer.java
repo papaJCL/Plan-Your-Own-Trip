@@ -219,9 +219,6 @@ class MicroServer {
   }
 
   private static JSONObject parseJsonFile(String path) {
-    // Here, we simply dump the contents of a file into a String (and then an object);
-    // there are other ways of creating a JSONObject, like from an InputStream...
-    // (https://github.com/everit-org/json-schema#quickstart)
     JSONObject parsedObject = null;
     try (InputStream inputStream = MicroServer.class.getResourceAsStream(path)){
       parsedObject = new JSONObject(new JSONTokener(inputStream));
