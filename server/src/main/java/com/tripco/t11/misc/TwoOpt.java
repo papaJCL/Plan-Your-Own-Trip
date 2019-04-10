@@ -11,8 +11,8 @@ public class TwoOpt extends NearestNeighbor{
 
 
 
-
         private Long optimizeCurrentStart(int index) {
+                System.out.println("in 2opt optimize start");
                 Long tripDistance = 0L;
                 int placeInTrip = 1;
                 while (super.placesAreUnvisited()) {
@@ -22,12 +22,11 @@ public class TwoOpt extends NearestNeighbor{
                         tripDistance += distances[index][nextIndex];
                         index = nextIndex;
                 }
-                int[] tripToOptimise = currentTrip;
-                int[] optimisedTrip;
 
-                optimisedTrip = searchForCross(tripToOptimise , index);
 
-                tripDistance += distances[optimisedTrip[0]][optimisedTrip[optimisedTrip.length - 1]];
+                currentTrip = searchForCross(currentTrip , index);
+
+                tripDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
                 return tripDistance;
         }
 
@@ -35,7 +34,7 @@ public class TwoOpt extends NearestNeighbor{
 
 
         public int[] searchForCross(int[] trip, int startIndex){
-
+                System.out.println("in search for cross");
                 boolean improve = true;
                 while (improve) {
                         improve =false;
@@ -68,6 +67,24 @@ public class TwoOpt extends NearestNeighbor{
                         k--;
                 }
                 return route;
+        }
+
+        @Override
+        public int[] getTrip(){
+                return this.trip;
+        }
+
+        @Override
+        public void findOptimalTrip(){
+                Long bestTotal = Long.MAX_VALUE;
+                for(int i = 0; i < distances.length; ++i){
+                        super.assignVisited(i);
+                        Long currentTotal = optimizeCurrentStart(i);
+                        if(currentTotal < bestTotal) {
+                                bestTotal = currentTotal;
+                                trip = currentTrip.clone();
+                        }
+                }
         }
 
 }

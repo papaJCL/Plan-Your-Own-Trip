@@ -43,7 +43,7 @@ public class NearestNeighbor extends Optimizations {
         }
     }
 
-    private void assignVisited(int index){
+    protected void assignVisited(int index){
         for(int j = 0; j < visited.length; ++j){
             visited[j] = false;
             currentTrip[j] = -1;
