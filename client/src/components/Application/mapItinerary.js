@@ -9,6 +9,7 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import ErrorBanner from './ErrorBanner';
 
 export default class mapItinerary extends Component {
 
@@ -99,10 +100,17 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-            console.log(response.body)
+            console.log(response)
+            if(response.statusCode === 400){
+                this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
+            }else{
+
                 this.props.updateSQLState(response.body);
+            }
+
+
                 });
-        e.preventDefault();
+        e.preventDefault();disuglg
     }
 
     createDownloadButton(){
