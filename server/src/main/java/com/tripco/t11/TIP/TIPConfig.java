@@ -53,13 +53,9 @@ public class TIPConfig extends TIPHeader {
     return filters;
   }
 
-  String getServerName() {
-    return this.serverName;
-  }
+  String getServerName() { return this.serverName; }
 
-  List<String> getPlaceAttributes() {
-    return this.placeAttributes;
-  }
+  List<String> getPlaceAttributes() { return this.placeAttributes; }
 
   List<String> getOptimizationOptions() { return this.optimizations; }
 
