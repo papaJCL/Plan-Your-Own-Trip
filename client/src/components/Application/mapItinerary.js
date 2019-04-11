@@ -9,6 +9,7 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import ErrorBanner from './ErrorBanner';
 
 export default class mapItinerary extends Component {
 
@@ -17,10 +18,6 @@ export default class mapItinerary extends Component {
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
         this.download = this.download.bind(this)
-        this.createUploadButton = this.createUploadButton.bind(this)
-        this.createResetButton = this.createResetButton.bind(this)
-        this.createDownloadButton = this.createDownloadButton.bind(this)
-        this.createSearchBar = this.createSearchBar.bind(this)
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
@@ -48,13 +45,13 @@ export default class mapItinerary extends Component {
                           <span>
                               <Card>
                               <CardBody>
-                                {this.createUploadButton()}
-                                {this.createResetButton()}
-                                {this.createDownloadButton()}
+                                <input type="file"name="myFile" onChange={this.onChange}/>
+                                <Button onClick={this.clearMap}>Reset Map to default</Button>
+                                <Button onClick={this.download}>Download Trip Itinerary</Button>
+                                <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
-                                {this.createSearchBar()}
                         </span>
                       </div>
                   }
@@ -74,6 +71,7 @@ export default class mapItinerary extends Component {
         // }
         this.props.addLocation(name, lat, long);
     }
+
 
     createAddDropDown() {
         return (
@@ -101,48 +99,17 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-            console.log(response.body)
+            console.log(response)
+            if(response.statusCode === 400){
+                this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
+            }else{
+
                 this.props.updateSQLState(response.body);
+            }
+
+
                 });
         e.preventDefault();
-    }
-
-    createSearchBar(){
-        return(
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Search for Destination</b></CardTitle>
-                    <row>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                <input type="text" placeholder="Enter Location" ref={(input) => this.input = input} />
-                            </label>
-                        </form>
-
-                    </row>
-                </CardBody>
-            </Card>
-        );
-    }
-
-    createDownloadButton(){
-        return(
-                <Button onClick={this.download}>Download Trip Itinerary</Button>
-        );
-    }
-
-
-    createUploadButton(){
-        return(
-                    <input type="file"name="myFile" onChange={this.onChange}/>
-        );
-
-    }
-
-    createResetButton(){
-        return(
-            <Button onClick={this.clearMap}>Reset Map to default</Button>
-        );
     }
 
     renderMap() {
@@ -173,7 +140,7 @@ export default class mapItinerary extends Component {
                     />
                 </Map>
             </div>
-        )
+        );
     }
 
     renderComplexMap(){
@@ -193,15 +160,25 @@ export default class mapItinerary extends Component {
                         smoothFactor = {1}
                     />
                     {
-                        this.props.markers.map((position, idx) =>
-                            <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
-                                <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
-                            </Marker>
-                        )}
+                        this.props.showMarkers ? this.renderMarkers() : (null)
+                    }
 
                 </Map>
             </div>
 
+        );
+    }
+
+    renderMarkers() {
+        return (
+            <div>
+                {
+                    this.props.markers.map((position, idx) =>
+                        <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
+                            <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
+                        </Marker>
+                    )}
+            </div>
         );
     }
 

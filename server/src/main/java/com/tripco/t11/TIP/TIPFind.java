@@ -25,48 +25,41 @@ public class TIPFind extends TIPHeader {
     private Integer limit;
     private Integer found;
     private Map<String, Object>[] places;
+    private Map<String, Object>[] narrow;
     //logger
     private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
     public TIPFind(String match, int limit){
         this();
-        this.match = sanatize(match);
+        this.match = match;
         this.limit = limit;
+        this.narrow = assignNarrow();
     }
 
     private TIPFind(){
         this.requestType = "find";
-        this.requestVersion = 3;
+        this.requestVersion = 4;
     }
 
-    private String sanatize(String match){
-        String sanatized = "";
-        for(int i = 0; i < match.length(); ++i){
-            if(Character.isLetterOrDigit(match.charAt(i)) || Character.isWhitespace(match.charAt(i))){
-                sanatized += match.charAt(i);
-            }
-            else{
-                sanatized += '_';
-            }
-        }
-        return sanatized;
+    Map<String, Object>[] assignNarrow(){
+        TIPConfig config = new TIPConfig();
+        config.buildResponse();
+        return config.getFilters();
     }
 
     @Override
     public void buildResponse(){
-        TIPConfig config = new TIPConfig();
-        config.buildResponse();
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
                  Statement stCount = connect.createStatement();
                  Statement stQuery = connect.createStatement();
                  ResultSet rsCount = stCount.executeQuery(buildCountQuery());
-                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery(config.placeAttributes));
+                 ResultSet rsQuery = stQuery.executeQuery(buildMatchQuery(getPlaceAttributes()));
             )   {
                 rsCount.next();
                 this.found = rsCount.getInt(1);
-                addPlaces(rsQuery, config.placeAttributes);
+                addPlaces(rsQuery, getPlaceAttributes());
             }
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
@@ -74,17 +67,23 @@ public class TIPFind extends TIPHeader {
         log.trace("buildResponse -> {}", this);
     }
 
+    private static String[] getPlaceAttributes(){
+        String[] placeAttributes = new String[] {"world.name", "world.municipality", "world.latitude", "world.longitude",
+                "region.name", "country.name", "continent.name"};
+        return placeAttributes;
+    }
+
     private String buildCountQuery(){
         String countQuery = "select count(*) " + queryEnd() + ";";
         return countQuery;
     }
 
-    private String buildMatchQuery(List<String> attributes){
-        String matchQuery = "select ";
-        for(int i = 0; i < attributes.size() - 1; ++i){
-            matchQuery += attributes.get(i) + ",";
+    private String buildMatchQuery(String[] placeAttributes){
+        String matchQuery = "SELECT ";
+        for(int i = 0; i < placeAttributes.length - 1; ++i){
+            matchQuery += placeAttributes[i] + ", ";
         }
-        matchQuery += attributes.get(attributes.size() - 1) + " ";
+        matchQuery += placeAttributes[placeAttributes.length - 1] + " ";
         matchQuery += queryEnd();
         if(limit != null){
             if(limit != 0){
@@ -96,23 +95,40 @@ public class TIPFind extends TIPHeader {
     }
 
     private String queryEnd(){
-        String queryEnd = "from colorado where name like '%";
-        queryEnd += match + "%' or type like '%";
-        queryEnd += match + "%' or municipality like '%";
-        queryEnd += match + "%'";
+        String queryEnd = "FROM continent ";
+        queryEnd += "INNER JOIN country ON continent.id = country.continent " +
+                "INNER JOIN region ON country.id = region.iso_country " +
+                "INNER JOIN world ON region.id = world.iso_region ";
+        queryEnd += "WHERE country.name LIKE" + getMatch() +
+                "OR region.name LIKE" + getMatch() +
+                "OR world.name LIKE" + getMatch() +
+                "OR world.municipality LIKE" + getMatch();
+
         return queryEnd;
     }
 
-    private void addPlaces(ResultSet rsQuery, List<String> attributes) throws SQLException{
+    private String getMatch(){
+        return " \"%" + this.match + "%\" ";
+    }
+
+    private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
         initializePlaces();
         int index = 0;
         while(rsQuery.next()){
             Map<String, Object> newPlace = new HashMap<>();
-            for(int i = 0; i < attributes.size(); ++i){
-                newPlace.put(attributes.get(i), rsQuery.getString(attributes.get(i)));
+            for(int i = 0; i < placeAttributes.length; ++i){
+                newPlace.put(setKey(placeAttributes[i]), rsQuery.getString(placeAttributes[i]));
             }
             places[index++] = newPlace;
         }
+    }
+
+    private String setKey(String key){
+        String type = key.substring(0,key.indexOf('.'));
+        if(type.equals("world")){
+            return key.substring(key.indexOf('.') + 1);
+        }
+        return type;
     }
 
     private void initializePlaces(){

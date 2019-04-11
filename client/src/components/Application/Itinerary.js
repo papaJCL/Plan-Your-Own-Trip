@@ -10,12 +10,6 @@ import { Card, CardImg, CardText, CardBody,
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
-import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
-import { sendServerRequestWithBody } from '../../api/restfulAPI'
-import SQL from './SQL'
-
-
-let order = 'desc';
 
 export default class Iitnerary extends Component {
 
@@ -30,22 +24,6 @@ export default class Iitnerary extends Component {
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
     }
 
-    callSQL() {
-        return (
-            <SQL
-            SQLMenu = {this.props.SQLMenu}
-            SQLJson = {this.props.SQLJson}
-            updateItinerarySQL = {this.props.updateItinerarySQL}
-            SQLItineraryInfo = {this.props.SQLItineraryInfo}
-            JSONString = {this.props.JSONString}
-            planOptions = {this.props.planOptions}
-            clientSettings = {this.props.clientSettings}
-            liftHomeState = {this.props.liftHomeState}
-            boolSQLFunc = {this.props.boolSQLFunc}
-            ref = "child"
-            />
-        )
-    }
 
     render() {
         if (this.props.boolSQL == true){
@@ -122,37 +100,11 @@ export default class Iitnerary extends Component {
     }
 
     renderItinerary() {
-        // let places = this.getPlaces()
-        // var totalDistance = this.getTotalDistance(places)
-        if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length == 0){
-            return (
-                <div>
-                    <Pane header={"Itinerary will load here"}/>
-                </div>
-            );
-        }
-        else if (this.props.JSONString.body.places.length === 0 && this.props.SQLItineraryInfo.length != 0){
-            console.log("Should land here before breaking SQL info is : " , this.props.SQLItineraryInfo)
-            return (this.returnSQLItinerary());
-        }
+        if (this.props.JSONString.body.places.length === 0) {
+            return (<div><Pane header={"Itinerary will load here"}/></div>);}
         return(this.returnMainItinerary())
     }
 
-    SQLProducts(){
-        const products = [];
-        const startId = products.length;
-        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-            const id = startId + i;
-            products[i] = ({
-                id: id + 1,
-                name: this.props.SQLItineraryInfo[i].name,
-                latitude: this.props.SQLItineraryInfo[i].latitude ,
-                longitude: this.props.SQLItineraryInfo[i].longitude,
-                municipality: this.props.SQLItineraryInfo[i].municipality
-            });
-        }
-        return products
-    }
 
     addProducts() {
         var products = [];
@@ -171,51 +123,6 @@ export default class Iitnerary extends Component {
             });
         }
         return products
-    }
-
-    sendSQLRequest(){
-        var request = {
-            "requestType"    : "itinerary",
-            "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.SQLItineraryInfo,
-            "distances"      : []
-        };
-        sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
-            .then((response) => {
-                console.log(response.body)
-                this.props.liftHomeState(response);
-                this.props.boolSQLFunc();
-            });
-
-    }
-
-    finalizeSQLItinerary(){
-        return (
-            <button onClick={() => this.sendSQLRequest()}>Click this when SQL Itinerary is done</button>
-        );
-    }
-
-    returnSQLItinerary(){
-        var products = this.SQLProducts();
-        var cols = this.SQLColumns();
-        return (
-            <div>
-                <Pane
-                    header={this.finalizeSQLItinerary()}
-                    bodyJSX={
-                            <BootstrapTable1
-                                selectRow={{mode: 'checkbox'}}
-                                tabIndexCell
-                                bootstrap4
-                                keyField="id"
-                                data={products}
-                                columns={cols}>
-                            </BootstrapTable1>
-                        }
-                />
-            </div>
-        );
     }
 
     returnMainItinerary(){
@@ -314,29 +221,6 @@ export default class Iitnerary extends Component {
 
         }];
 
-        return columns
-    }
-
-    SQLColumns(){
-        var columns = [{
-            dataField: 'id',
-            text: 'ID',
-
-        },{
-            dataField: 'name',
-            text: 'Name',
-
-        },{
-            dataField: 'latitude',
-            text: 'latitude',
-
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude',
-        },{
-            dataField: 'municipality',
-            text: 'Municipality'
-        }];
         return columns
     }
 
