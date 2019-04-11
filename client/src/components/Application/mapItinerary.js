@@ -21,6 +21,7 @@ export default class mapItinerary extends Component {
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
+        this.NNButon = this.NNButon.bind(this)
     }
 
     render(){
@@ -31,11 +32,11 @@ export default class mapItinerary extends Component {
                 </Col>
                 <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                     {this.renderIntro()}
-
                 </Col>
             </Row>
         )
     }
+
 
     renderIntro(){
         return(
@@ -84,12 +85,27 @@ export default class mapItinerary extends Component {
                             <input id="long" type="text" placeholder="Enter Longitude"/>
                             <input type="submit" value="Submit"/>
                         </form>
+                    <Button onClick={this.NNButon}>Shorten Trip</Button>
                 </CardBody>
             </Card>
                     );
     }
-    // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
 
+    NNButon(){
+        console.log("NNButton " , this.props.JSONString.body.places)
+        var request = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 3,
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius)) , "optimization":"short"},
+            "places"         : this.props.JSONString.body.places,
+            "distances"      : []
+        };
+        sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
+            .then((response) => {
+                this.props.liftHomeState(response);
+            });
+    }
+    // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
     handleSubmit(e) {
         var request = {
             'requestType':'find',
@@ -222,6 +238,7 @@ export default class mapItinerary extends Component {
 
 
     clearMap(){
+        console.log("CLEARS")
         this.props.clearMapState();
     }
 
