@@ -52,7 +52,7 @@ export default class mapItinerary extends Component {
                                 <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
                               </CardBody>
                               </Card>
-                                {this.createAddDropDown()}
+                              {this.createAddDropDown()}
                         </span>
                       </div>
                   }
@@ -79,16 +79,16 @@ export default class mapItinerary extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Add a New Location</b></CardTitle>
-                        <form onSubmit={this.handleAddSubmit}>
-                            <input id="name" type="text" placeholder="Enter Name"/>
-                            <input id="lat" type="text" placeholder="Enter Latitude"/>
-                            <input id="long" type="text" placeholder="Enter Longitude"/>
-                            <input type="submit" value="Submit"/>
-                        </form>
+                    <form onSubmit={this.handleAddSubmit}>
+                        <input id="name" type="text" placeholder="Enter Name"/>
+                        <input id="lat" type="text" placeholder="Enter Latitude"/>
+                        <input id="long" type="text" placeholder="Enter Longitude"/>
+                        <input type="submit" value="Submit"/>
+                    </form>
                     <Button onClick={this.NNButon}>Shorten Trip</Button>
                 </CardBody>
             </Card>
-                    );
+        );
     }
 
     NNButon(){
@@ -115,16 +115,16 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-            console.log(response)
-            if(response.statusCode === 400){
-                this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
-            }else{
+                console.log(response)
+                if(response.statusCode === 400){
+                    this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
+                }else{
 
-                this.props.updateSQLState(response.body);
-            }
+                    this.props.updateSQLState(response.body);
+                }
 
 
-                });
+            });
         e.preventDefault();
     }
 
