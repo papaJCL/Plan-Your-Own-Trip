@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** This class defines the Config response that provides the client
  * with server specific configuration information.
@@ -23,6 +25,7 @@ public class TIPConfig extends TIPHeader {
   private String serverName;
   protected List<String> placeAttributes;
   private List<String> optimizations;
+  private Map<String, Object>[] filters;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
@@ -36,18 +39,27 @@ public class TIPConfig extends TIPHeader {
     this.serverName = "t11 Ultra Super Team Delta";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
     this.optimizations = Arrays.asList("none", "short");
+    this.filters = assignFilters();
     log.trace("buildResponse -> {}", this);
   }
 
-  String getServerName() {
-    return this.serverName;
+  Map<String,Object>[] assignFilters(){
+    Map<String, Object>[] filters = new HashMap[1];
+    Map<String, Object> filter = new HashMap<>();
+    filter.put("name", "none");
+    String[] values = new String[0];
+    filter.put("values", values);
+    filters[0] = filter;
+    return filters;
   }
 
-  List<String> getPlaceAttributes() {
-    return this.placeAttributes;
-  }
+  String getServerName() { return this.serverName; }
+
+  List<String> getPlaceAttributes() { return this.placeAttributes; }
 
   List<String> getOptimizationOptions() { return this.optimizations; }
+
+  Map<String, Object>[] getFilters() { return this.filters; }
 
   public String toString() {
     String ret = "Variables - serverName: " + serverName + "\n";
