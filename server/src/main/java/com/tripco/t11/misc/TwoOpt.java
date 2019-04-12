@@ -33,6 +33,7 @@ public class TwoOpt extends NearestNeighbor{
 
 
 
+
         public int[] searchForCross(int[] trip, int startIndex){
                 System.out.println("in search for cross");
                 boolean improve = true;
@@ -43,12 +44,12 @@ public class TwoOpt extends NearestNeighbor{
 
                                 for (int k = i + 2; k < trip.length - 1; k++) {
 
-                                        long delta = (-1*distances[i][i+1]) + (-1*distances[k][((k+1)%trip.length)]) + (distances[i][k]) + (distances[i+1][((k+1)%trip.length)]);
+                                        long delta = (-1*distances[trip[i]][trip[i+1]]) + (-1*distances[trip[k]][trip[((k+1)%trip.length)]]) + (distances[trip[i]][trip[k]]) + (distances[trip[i+1]][trip[((k+1)%trip.length)]]);
 
 
                                         if (delta < 0) {
                                                 System.out.println("Delta = " + delta);
-                                                System.out.println("i+1  " + i+1 + " k " + k);
+                                                System.out.println("i+1  " + (i+1) + " k " + k);
                                                 trip = uncross(trip, i + 1, k);
                                                         improve = true;
                                         }
