@@ -29,7 +29,6 @@ export default class Home extends Component {
         this.changeStartLocation = this.changeStartLocation.bind(this)
         this.changeOrder = this.changeOrder.bind(this)
         this.addLocation = this.addLocation.bind(this)
-        this.reRenderNewMap = this.reRenderNewMap.bind(this)
     }
 
     callMapItinerary(){
@@ -66,7 +65,6 @@ export default class Home extends Component {
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
                 changeOrder = {this.changeOrder}
-                addLocation = {this.addLocation}
                 planOptions = {this.props.planOptions}
                 oldUnits = {this.props.oldUnits}
                 origUnit = {this.props.origUnit}
@@ -83,18 +81,9 @@ export default class Home extends Component {
                 renderFilterLatitude = {this.props.renderFilterLatitude}
                 renderFilterLongitude = {this.props.renderFilterLongitude}
                 renderFilterDistance = {this.props.renderFilterDistance}
-                SQLJson = {this.props.SQLJson}
-                updateSQLState = {this.props.updateSQLState}
-                SQLItineraryInfo = {this.props.SQLItineraryInfo}
-                updateItinerarySQL = {this.props.updateItinerarySQL}
-                sendItineraryRequest = {this.props.sendItineraryRequest}
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
-                boolSQLFunc = {this.props.boolSQLFunc}
-                clientSettings = {this.props.clientSettings}
-                boolMarker = {this.props.boolMarker}
                 JSONString = {this.props.JSONString}
-                ref="child"
             />
         )
     }
@@ -169,33 +158,4 @@ export default class Home extends Component {
                 }
             });
     }
-
-    reRenderNewMap(){
-        let places = this.props.JSONString.body.places
-        const mappingFunction = p => p.latitude;
-        const mappingFunction1 = p => p.longitude;
-        const mappingFunction2 = p => p.name;
-
-        const latitude = places.map(mappingFunction)
-        const longitude = places.map(mappingFunction1)
-        const names = places.map(mappingFunction2)
-
-        var markers = [[]]
-        var polyLine = [[]]
-
-        for (var i = 0; i < latitude.length; i++){
-            var hold = []
-            hold.push(latitude[i])
-            hold.push(longitude[i])
-            markers.push(hold)
-        }
-
-        markers.shift()
-        polyLine = markers.slice(0)
-        polyLine.push(markers[0])
-        this.props.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
-    }
-
-
-
 }
