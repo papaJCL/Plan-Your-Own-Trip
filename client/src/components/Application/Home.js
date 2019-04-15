@@ -60,8 +60,7 @@ export default class Home extends Component {
     }
 
     callItinerary(){
-        return (
-            <Itinerary
+        return (<Itinerary
                 changeStartLocation = {this.changeStartLocation}
                 deleteLocation = {this.deleteLocation}
                 changeOrder = {this.changeOrder}
@@ -83,9 +82,7 @@ export default class Home extends Component {
                 renderFilterDistance = {this.props.renderFilterDistance}
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
-                JSONString = {this.props.JSONString}
-            />
-        )
+                JSONString = {this.props.JSONString}/>)
     }
 
     render() {
