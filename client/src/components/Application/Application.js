@@ -190,6 +190,8 @@ export default class Application extends Component {
                 boolSQLFunc = {this.boolSQLFunc}
                 boolSQL = {this.state.boolSQL}
                 reRenderNewMap = {this.reRenderNewMap}
+                createErrorBanner={this.createErrorBanner}
+                createErrorBannerState={this.createErrorBannerState}
             />;
 
         default:
@@ -367,6 +369,7 @@ export default class Application extends Component {
 
     updateSQLState(newJSON){
       this.setState({
+          errorMessage: null,
             SQLJson: newJSON
         });
 
