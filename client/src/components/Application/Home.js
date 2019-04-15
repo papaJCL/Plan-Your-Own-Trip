@@ -110,7 +110,6 @@ export default class Home extends Component {
 
     addLocation(name, lat, long) {
         var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        //console.log(magellan(lat).latitude())
         if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
             this.props.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
             return;
@@ -153,6 +152,7 @@ export default class Home extends Component {
             return;
         }
         places.splice(idx, 1);
+        (this.props.markers).splice(idx, 1);
         this.props.updatePlacesArray(places);
     }
 

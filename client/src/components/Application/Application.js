@@ -349,7 +349,7 @@ export default class Application extends Component {
           "requestVersion" : 3,
           "options"        : {"earthRadius": "" + Math.round(parseFloat(this.state.JSONString.body.options.earthRadius))},
           "places"         : arr,
-          "distances"      : []
+          "distances"      : [],
       };
 
       console.log("UPDATE PLACES ARRAY " , request)
@@ -383,7 +383,6 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
-        console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
         });
