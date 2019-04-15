@@ -14,7 +14,6 @@ public class OptimizationsFactory {
             return new NearestNeighbor(coords, earthRadius);
 
         }else if(optType.equals("shorter")){
-            System.out.println("got 2opt in factory");
             return new TwoOpt(coords, earthRadius);
         }
         return new None(coords);
