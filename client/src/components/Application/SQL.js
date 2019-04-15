@@ -60,13 +60,11 @@ export default class SQL extends Component {
     }
 
     sendSQLRequest(){
-
-
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.SQLItineraryInfo,
+            "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
