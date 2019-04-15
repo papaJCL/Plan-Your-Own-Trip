@@ -383,7 +383,6 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
-        console.log('updateItinerarySQL --- what is getting set in state: ', this.state.SQLItineraryInfo.concat(sql))
       this.setState({
           SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
         });
@@ -421,7 +420,7 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState() { console.log('setShowMarkerState: ', this.state.JSONString.body)
+    setShowMarkerState() {
         let bool = false;
         (this.state.showMarkers) ? bool = false : bool = true;
         this.setState({
