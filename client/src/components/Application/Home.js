@@ -146,13 +146,14 @@ export default class Home extends Component {
         this.props.updatePlacesArray(newplaces);
     }
 
-    deleteLocation(idx) {
+    deleteLocation(idx) { console.log('deleteLocation: ', this.props.JSONString.body)
         let places = this.props.JSONString.body.places;
         if (places.length === 2) {
             this.props.createErrorBannerState('Error', '500', `You Must Have At least Two Locations For the Itinerary`);
             return;
         }
         places.splice(idx, 1);
+        (this.props.markers).splice(idx, 1);
         this.props.updatePlacesArray(places);
     }
 

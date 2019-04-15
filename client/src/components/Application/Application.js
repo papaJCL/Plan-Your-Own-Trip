@@ -349,7 +349,7 @@ export default class Application extends Component {
           "requestVersion" : 3,
           "options"        : {"earthRadius": "" + Math.round(parseFloat(this.state.JSONString.body.options.earthRadius))},
           "places"         : arr,
-          "distances"      : []
+          "distances"      : [],
       };
 
       console.log("UPDATE PLACES ARRAY " , request)
@@ -421,7 +421,7 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState() {
+    setShowMarkerState() { console.log('setShowMarkerState: ', this.state.JSONString.body)
         let bool = false;
         (this.state.showMarkers) ? bool = false : bool = true;
         this.setState({
