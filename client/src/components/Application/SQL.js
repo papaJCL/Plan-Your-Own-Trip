@@ -175,7 +175,7 @@ export default class SQL extends Component {
         var request = {
             'requestType':'find',
             'requestVersion': 3,
-            'match': location,
+            'match': this.sanatizeMatch(location),
             'limit': 5
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
@@ -189,6 +189,15 @@ export default class SQL extends Component {
                 }
             });
         e.preventDefault();
+    }
+
+    sanatizeMatch(location){
+        const alphaNum = /^[0-9a-zA-Z]+$/;
+        for(let i = 0; i < location.length; ++i){
+            if(!(location.charAt(i).match(alphaNum))){
+                location = location.substr(0, i) + '_' + location.substr(i+1);
+            }
+        } return location;
     }
 
     renderLeafletMap() {
