@@ -90,32 +90,40 @@ public class TIPFind extends TIPHeader {
 
     private String queryEnd(){
         String queryEnd = "FROM continent ";
-        queryEnd += mapJoin();
-        queryEnd += findMatches();
-
+        queryEnd += concatMapJoin() + concatMatchSearch();
+        if(narrow != null) queryEnd += concatFilterSearch();
         return queryEnd;
     }
 
-    private String mapJoin(){
-        String mapJoin = "INNER JOIN country ON continent.id = country.continent " +
-                "INNER JOIN region ON country.id = region.iso_country " +
-                "INNER JOIN world ON region.id = world.iso_region ";
+    private String concatMapJoin(){
+        String mapJoin = "INNER JOIN country ON continent.id = country.continent "
+                + "INNER JOIN region ON country.id = region.iso_country "
+                + "INNER JOIN world ON region.id = world.iso_region ";
         return mapJoin;
     }
 
-    private String findMatches(){
-        String findMatches = "WHERE country.name LIKE" + getMatchString() +
-                "OR region.name LIKE" + getMatchString() +
-                "OR world.name LIKE" + getMatchString() +
-                "OR world.municipality LIKE" + getMatchString();
-        return findMatches;
+    private String concatMatchSearch(){
+        String matchSearch = "WHERE country.name LIKE" + getSearchString(this.match)
+                + "OR region.name LIKE" + getSearchString(this.match)
+                + "OR world.name LIKE" + getSearchString(this.match)
+                + "OR world.municipality LIKE" + getSearchString(this.match);
+        return matchSearch;
     }
 
-    private String getMatchString(){
-        return " \"%" + this.match + "%\" ";
+    private String getSearchString(String search){
+        return " \"%" + search + "%\" ";
     }
 
-
+    private String concatFilterSearch(){
+        String filterSearch = "";
+        for(int i = 0; i < narrow.length; ++i){
+            if ( ((String)narrow[i].get("name")).equals("ports") ) {
+                filterSearch += "AND world.type LIKE"
+                        + getSearchString((String) narrow[i].get("values"));
+            }
+        }
+        return filterSearch;
+    }
 
     private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
         initializePlaces();
