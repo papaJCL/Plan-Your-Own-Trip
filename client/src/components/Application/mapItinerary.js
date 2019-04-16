@@ -116,14 +116,10 @@ export default class mapItinerary extends Component {
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
             if(response.statusCode === 400){
-                this.props.createErrorBannerState("Error", '400' , " Invalid search parameters.");
+                this.props.createErrorBannerState(" Error", '400' , " Invalid search parameters.");
             }else{
-
                 this.props.updateSQLState(response.body);
-            }
-
-
-                });
+            }});
         e.preventDefault();
     }
 
