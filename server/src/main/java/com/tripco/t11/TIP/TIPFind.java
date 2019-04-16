@@ -29,22 +29,16 @@ public class TIPFind extends TIPHeader {
     //logger
     private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
-    public TIPFind(String match, int limit){
+    public TIPFind(String match, int limit, Map<String, Object>[] narrow){
         this();
         this.match = match;
         this.limit = limit;
-        this.narrow = assignNarrow();
+        this.narrow = narrow;
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 4;
-    }
-
-    Map<String, Object>[] assignNarrow(){
-        TIPConfig config = new TIPConfig();
-        config.buildResponse();
-        return config.getFilters();
     }
 
     @Override
@@ -96,20 +90,32 @@ public class TIPFind extends TIPHeader {
 
     private String queryEnd(){
         String queryEnd = "FROM continent ";
-        queryEnd += "INNER JOIN country ON continent.id = country.continent " +
-                "INNER JOIN region ON country.id = region.iso_country " +
-                "INNER JOIN world ON region.id = world.iso_region ";
-        queryEnd += "WHERE country.name LIKE" + getMatch() +
-                "OR region.name LIKE" + getMatch() +
-                "OR world.name LIKE" + getMatch() +
-                "OR world.municipality LIKE" + getMatch();
+        queryEnd += mapJoin();
+        queryEnd += findMatches();
 
         return queryEnd;
     }
 
-    private String getMatch(){
+    private String mapJoin(){
+        String mapJoin = "INNER JOIN country ON continent.id = country.continent " +
+                "INNER JOIN region ON country.id = region.iso_country " +
+                "INNER JOIN world ON region.id = world.iso_region ";
+        return mapJoin;
+    }
+
+    private String findMatches(){
+        String findMatches = "WHERE country.name LIKE" + getMatchString() +
+                "OR region.name LIKE" + getMatchString() +
+                "OR world.name LIKE" + getMatchString() +
+                "OR world.municipality LIKE" + getMatchString();
+        return findMatches;
+    }
+
+    private String getMatchString(){
         return " \"%" + this.match + "%\" ";
     }
+
+
 
     private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
         initializePlaces();
