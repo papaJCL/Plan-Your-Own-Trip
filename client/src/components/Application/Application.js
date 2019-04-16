@@ -79,7 +79,8 @@ export default class Application extends Component {
         SQLJson: [] ,
         SQLItineraryInfo: [],
         boolSQL: true,
-        showMarkers: false
+        showMarkers: [false]
+
     };
     this.updateServerConfig();
   }
@@ -330,12 +331,15 @@ export default class Application extends Component {
       });
   }
 
-  liftHomeState(response){
-
+  liftHomeState(response){ console.log('liftHomeState; ', response.body.places, this.props.showMarkers)
+      let markers = [false];
+      if (this.state.showMarkers.length !== response.body.places.length + 1)
+          for (let i = 0; i < response.body.places.length; i++) markers.push(false);
       this.setState({
           JSONString: response,
           returnFile: response.body,
-          origUnit : Math.round(response.body.options.earthRadius)
+          origUnit: Math.round(response.body.options.earthRadius),
+          showMarkers: markers
       } , () => {
           this.reRenderNewMap();
       });
@@ -420,9 +424,10 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState() {
+    setShowMarkerState(idx) {
         let bool = false;
-        (this.state.showMarkers) ? bool = false : bool = true;
+
+        (this.state.showMarkers[idx]) ? bool = false : bool = true;
         this.setState({
             showMarkers: bool
         })
