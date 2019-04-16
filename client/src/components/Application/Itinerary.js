@@ -219,6 +219,10 @@ export default class Iitnerary extends Component {
             text: 'Switch Order',
             formatter: this.changeFunc
 
+        },{
+            dataField: 'show/hide',
+            text: 'Show/Hide Marker',
+            formatter: this.changeShowMarker
         }];
 
         return columns
@@ -236,6 +240,12 @@ export default class Iitnerary extends Component {
                 <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
+        );
+    }
+
+    changeShowMarker(e, column, columnIndex, row, rowIndex) {
+        return (
+            <button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</button>
         );
     }
 
