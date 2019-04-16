@@ -216,6 +216,7 @@ export default class mapItinerary extends Component {
     }
 
     onChange(event) {
+        this.props.clearMapState();
         var file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = (event) =>  {
