@@ -418,7 +418,7 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState(idx) {
+    checkMarkers() {
         let countTrue = 0;
         let countFalse = 0;
         let newarr = this.state.showMarkers
@@ -427,7 +427,11 @@ export default class Application extends Component {
         }
         if (countTrue === this.state.showMarkers.length - 1) newarr[0] = true;
         else if (countFalse === this.state.showMarkers.length - 1) newarr[0] = false;
+        return newarr;
+    }
 
+    setShowMarkerState(idx) {
+        let newarr = this.checkMarkers();
         let bool = false;
         (this.state.showMarkers[idx]) ? bool = false : bool = true;
         newarr[idx] = bool;
