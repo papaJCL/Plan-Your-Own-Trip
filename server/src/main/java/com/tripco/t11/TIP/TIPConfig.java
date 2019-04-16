@@ -45,9 +45,11 @@ public class TIPConfig extends TIPHeader {
 
   Map<String,Object>[] assignFilters(){
     Map<String, Object>[] filters = new HashMap[1];
-    filters[0].put("name", "ports");
+    Map<String, Object> filter = new HashMap<>();
+    filter.put("name", "ports");
     String[] values = new String[] {"airport"};
-    filters[0].put("values", values);
+    filter.put("values", values);
+    filters[0] = filter;
     return filters;
   }
 
