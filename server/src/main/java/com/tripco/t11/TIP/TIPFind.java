@@ -29,22 +29,16 @@ public class TIPFind extends TIPHeader {
     //logger
     private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
-    public TIPFind(String match, int limit){
+    public TIPFind(String match, int limit, Map<String, Object>[] narrow){
         this();
         this.match = match;
         this.limit = limit;
-        this.narrow = assignNarrow();
+        this.narrow = narrow;
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 4;
-    }
-
-    Map<String, Object>[] assignNarrow(){
-        TIPConfig config = new TIPConfig();
-        config.buildResponse();
-        return config.getFilters();
     }
 
     @Override
@@ -96,19 +90,39 @@ public class TIPFind extends TIPHeader {
 
     private String queryEnd(){
         String queryEnd = "FROM continent ";
-        queryEnd += "INNER JOIN country ON continent.id = country.continent " +
-                "INNER JOIN region ON country.id = region.iso_country " +
-                "INNER JOIN world ON region.id = world.iso_region ";
-        queryEnd += "WHERE country.name LIKE" + getMatch() +
-                "OR region.name LIKE" + getMatch() +
-                "OR world.name LIKE" + getMatch() +
-                "OR world.municipality LIKE" + getMatch();
-
+        queryEnd += concatMapJoin() + concatMatchSearch();
+        if(narrow != null) queryEnd += concatFilterSearch();
         return queryEnd;
     }
 
-    private String getMatch(){
-        return " \"%" + this.match + "%\" ";
+    private String concatMapJoin(){
+        String mapJoin = "INNER JOIN country ON continent.id = country.continent "
+                + "INNER JOIN region ON country.id = region.iso_country "
+                + "INNER JOIN world ON region.id = world.iso_region ";
+        return mapJoin;
+    }
+
+    private String concatMatchSearch(){
+        String matchSearch = "WHERE country.name LIKE" + getSearchString(this.match)
+                + "OR region.name LIKE" + getSearchString(this.match)
+                + "OR world.name LIKE" + getSearchString(this.match)
+                + "OR world.municipality LIKE" + getSearchString(this.match);
+        return matchSearch;
+    }
+
+    private String getSearchString(String search){
+        return " \"%" + search + "%\" ";
+    }
+
+    private String concatFilterSearch(){
+        String filterSearch = "";
+        for(int i = 0; i < narrow.length; ++i){
+            if ( ((String)narrow[i].get("name")).equals("ports") ) {
+                filterSearch += "AND world.type LIKE"
+                        + getSearchString((String) narrow[i].get("values"));
+            }
+        }
+        return filterSearch;
     }
 
     private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
