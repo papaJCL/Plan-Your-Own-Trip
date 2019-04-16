@@ -49,7 +49,7 @@ export default class mapItinerary extends Component {
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                                 <Button onClick={this.download}>Download Trip Itinerary</Button>
-                                <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide Markers</Button>
+                                <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
