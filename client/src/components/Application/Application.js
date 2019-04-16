@@ -419,11 +419,23 @@ export default class Application extends Component {
     }
 
     setShowMarkerState(idx) {
+        let countTrue = 0;
+        let countFalse = 0;
         let newarr = this.state.showMarkers
+        for (let i = 1; i < this.state.showMarkers.length; i++) {
+            (newarr[i]) ? countTrue++ : countFalse++;
+        }
+        if (countTrue === this.state.showMarkers.length - 1) newarr[0] = true;
+        else if (countFalse === this.state.showMarkers.length - 1) newarr[0] = false;
+
         let bool = false;
         (this.state.showMarkers[idx]) ? bool = false : bool = true;
-            newarr[idx] = bool;
-        console.log('showMarkerState: ', newarr)
+        newarr[idx] = bool;
+        if (idx === 0) {
+            for (let i = 1; i < this.state.showMarkers.length; i++) {
+                (newarr[0]) ? newarr[i] = true : newarr[i] = false;
+            }
+        }
         this.setState({
             showMarkers: newarr
         })

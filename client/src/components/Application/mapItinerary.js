@@ -177,7 +177,7 @@ export default class mapItinerary extends Component {
                         smoothFactor = {1}
                     />
                     {
-                        this.renderMarkers
+                        this.renderMarkers()
                     }
 
                 </Map>
@@ -186,16 +186,12 @@ export default class mapItinerary extends Component {
         );
     }
 
-    renderMarkers() { console.log('renderMarkers', this.props.showMarkers)
-        let newarr = this.props.showMarkers;
-            for (let i = 1; i < this.props.JSONString.body.places.length + 1; i++) {
-                (this.props.showMarkers[0]) ? newarr[i] = true : newarr[i] = false;
-            }
+    renderMarkers() {
         return (
             <div>
                 {
                     this.props.markers.map((position, idx) =>
-                        (newarr[idx + 1]) ?
+                        (this.props.showMarkers[idx + 1]) ?
                         <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
                             <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
                         </Marker> : (null)
