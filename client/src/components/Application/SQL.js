@@ -20,6 +20,7 @@ export default class SQL extends Component {
     constructor(props) {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.buttonSQL = this.buttonSQL.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -30,18 +31,23 @@ export default class SQL extends Component {
     render() {
         return (
             <div>
-                {this.renderBasic()}
+                {<div>
+                    {<div>
+                        <CardTitle><b>Search for Destination</b></CardTitle>
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                <input id="location" type="text" placeholder="Enter Location"  />
+                                <input id="region" type="text" placeholder="Enter Region"  />
+                                <input id="country" type="text" placeholder="Enter Country"  />
+                                <input id="continent" type="text" placeholder="Enter Continent"  />
+                                <input id="name" type="submit" value="Submit"/>
+                            </label>
+                        </form>
+                    </div>}
+                    <Pane header = {'World map'} bodyJSX={this.renderLeafletMap()} />
+                </div>}
                 {this.renderSQLTable()}
                 {this.renderTableB4Itinerary()}
-            </div>
-        );
-    }
-
-    renderBasic(){
-        return (
-            <div>
-                {this.createSearchBar()}
-                <Pane header = {'World map'} bodyJSX={this.renderLeafletMap()} />
             </div>
         );
     }
@@ -55,18 +61,12 @@ export default class SQL extends Component {
         return(this.returnSQLItinerary());
     }
 
-    finalizeSQLItinerary(){
-        return (<button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</button> );
-    }
-
     sendSQLRequest(){
-
-
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.SQLItineraryInfo,
+            "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
@@ -80,12 +80,21 @@ export default class SQL extends Component {
 
 
     returnSQLItinerary(){
-        var products = this.SQLProducts();
+        const products = [];
+        const startId = products.length;
+        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
+            const id = startId + i;
+            products[i] = ({
+                id: id + 1,
+                name: this.props.SQLItineraryInfo[i].name,
+                latitude: this.props.SQLItineraryInfo[i].latitude ,
+                longitude: this.props.SQLItineraryInfo[i].longitude,
+                municipality: this.props.SQLItineraryInfo[i].municipality});}
         var cols = this.SQLColumns();
         return (
             <div>
                 <Pane
-                    header={this.finalizeSQLItinerary()}
+                    header={<button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</button>}
                     bodyJSX={<BootstrapTable1
                             selectRow={{mode: 'checkbox'}}
                             tabIndexCell
@@ -110,7 +119,7 @@ export default class SQL extends Component {
     buttonSQL(idx){
         let JSONPlaces = this.props.SQLJson.places[idx]
         return(
-            <button onClick={() => this.callNewItineraryWithSQL(JSONPlaces) }>Add Location</button>
+            <button onClick={() => this.props.updateItinerarySQL(JSONPlaces) }>Add Location</button>
         );
     }
 
@@ -132,39 +141,6 @@ export default class SQL extends Component {
             long : longitude
             });
         }
-
-
-    callNewItineraryWithSQL(JSONPlaces){
-        return (this.props.updateItinerarySQL(JSONPlaces));
-    }
-
-
-    varBody(){
-        let work = this.props.SQLJson.places
-        var body = work.map((item, idx) =>
-            <tr>
-                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.altitude} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
-                <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
-            </tr>)
-        return(body)
-    }
-
-
-    SQLProducts(){
-        const products = [];
-        const startId = products.length;
-        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-            const id = startId + i;
-            products[i] = ({
-                id: id + 1,
-                name: this.props.SQLItineraryInfo[i].name,
-                latitude: this.props.SQLItineraryInfo[i].latitude ,
-                longitude: this.props.SQLItineraryInfo[i].longitude,
-                municipality: this.props.SQLItineraryInfo[i].municipality
-            });
-        }
-        return products
-    }
 
     SQLColumns(){
         var columns = [{
@@ -199,7 +175,7 @@ export default class SQL extends Component {
         var request = {
             'requestType':'find',
             'requestVersion': 3,
-            'match': location,
+            'match': this.sanatizeMatch(location),
             'limit': 5
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
@@ -215,21 +191,13 @@ export default class SQL extends Component {
         e.preventDefault();
     }
 
-    createSearchBar(){
-        return(
-            <div>
-            <CardTitle><b>Search for Destination</b></CardTitle>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                <input id="location" type="text" placeholder="Enter Location"  />
-                                <input id="region" type="text" placeholder="Enter Region"  />
-                                <input id="country" type="text" placeholder="Enter Country"  />
-                                <input id="continent" type="text" placeholder="Enter Continent"  />
-                                <input id="name" type="submit" value="Submit"/>
-                            </label>
-                        </form>
-            </div>
-        );
+    sanatizeMatch(location){
+        const alphaNum = /^[0-9a-zA-Z]+$/;
+        for(let i = 0; i < location.length; ++i){
+            if(!(location.charAt(i).match(alphaNum))){
+                location = location.substr(0, i) + '_' + location.substr(i+1);
+            }
+        } return location;
     }
 
     renderLeafletMap() {
@@ -244,7 +212,11 @@ export default class SQL extends Component {
                 <Map zoom = {13} center = {[long,lat]} animate = {true} style={{height: 500, maxwidth: 700}}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors" />
-                    <Marker position = {[long,lat]} icon={this.markerIcon()}/>
+                    <Marker position = {[long,lat]} icon={L.icon({
+                        iconUrl: icon,
+                        shadowUrl: iconShadow,
+                        iconAnchor: [12,40]  // for proper placement
+                    })}/>
                 </Map>
             </div>
         )
@@ -262,23 +234,20 @@ export default class SQL extends Component {
     }
 
     SQLTable() {
+        let work = this.props.SQLJson.places
+        var body = work.map((item, idx) =>
+            <tr>
+                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.altitude} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
+                <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
+            </tr>)
         return (
             <Pane header = {"5 Locations were found! "} bodyJSX = {
                 <Table>
                     <thead><tr>
                         <th>#</th><th>Name</th><th>Altitude</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
                     </tr></thead>
-                <tbody> {this.varBody()} </tbody>
+                <tbody> {body} </tbody>
                 </Table>}/>
         )
     }
-
-    markerIcon() {
-        return L.icon({
-            iconUrl: icon,
-            shadowUrl: iconShadow,
-            iconAnchor: [12,40]  // for proper placement
-        })
-    }
-
 }
