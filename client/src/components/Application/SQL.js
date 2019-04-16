@@ -232,16 +232,18 @@ export default class SQL extends Component {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.altitude} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
+                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
                 <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
             </tr>)
         return (
             <Pane header = {"5 Locations were found! "} bodyJSX = {
                 <Table>
-                    <thead><tr>
-                        <th>#</th><th>Name</th><th>Altitude</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
-                    </tr></thead>
-                <tbody> {body} </tbody>
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody> {body} </tbody>
                 </Table>}/>
         )
     }
