@@ -94,6 +94,7 @@ export default class Home extends Component {
                 clientSettings = {this.props.clientSettings}
                 boolMarker = {this.props.boolMarker}
                 JSONString = {this.props.JSONString}
+                setShowMarkerState = {this.props.setShowMarkerState}
                 ref="child"
             />
         )

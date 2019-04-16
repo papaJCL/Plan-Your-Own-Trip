@@ -315,7 +315,8 @@ export default class Application extends Component {
       errorMessage: null,
       SQLJson: [] ,
       SQLItineraryInfo: [],
-      boolSQL: true
+      boolSQL: true,
+      showMarkers: [false]
     });
   }
 
@@ -327,7 +328,8 @@ export default class Application extends Component {
           markers: markers,
           boolMarker: true ,
           polyLineCoor : polyLine,
-          names : names
+          names : names,
+
       });
   }
 
@@ -424,7 +426,7 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState(idx) {
+    setShowMarkerState(idx) { console.log('setShowMarkerState: ', idx)
         let bool = false;
         let markers = this.state.showMarkers;
         (this.state.showMarkers[idx]) ? bool = false : bool = true;

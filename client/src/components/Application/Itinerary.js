@@ -20,6 +20,7 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
+        this.changeShowMarkerFunc = this.changeShowMarkerFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
     }
@@ -222,7 +223,7 @@ export default class Iitnerary extends Component {
         },{
             dataField: 'show/hide',
             text: 'Show/Hide Marker',
-            formatter: this.changeShowMarker
+            formatter: this.changeShowMarkerFunc
         }];
 
         return columns
@@ -243,7 +244,7 @@ export default class Iitnerary extends Component {
         );
     }
 
-    changeShowMarker(e, column, columnIndex, row, rowIndex) {
+    changeShowMarkerFunc(e, column, columnIndex, row, rowIndex) {
         return (
             <button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</button>
         );
