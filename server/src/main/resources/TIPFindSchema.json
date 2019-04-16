@@ -37,9 +37,10 @@
         "name": {"type":"string"},
         "values": {
           "type": "array",
-          "minItems": 0,
-          "items": {"type":"string"}
-        }
+          "items": {"type":"string"},
+          "minItems": 0
+        },
+        "minItems": 2
       }
     },
     "places": {
