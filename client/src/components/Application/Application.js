@@ -418,13 +418,14 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState(idx) { console.log('setShowMarkerState: ', idx)
+    setShowMarkerState(idx) {
+        let newarr = this.state.showMarkers
         let bool = false;
-        let markers = this.state.showMarkers;
         (this.state.showMarkers[idx]) ? bool = false : bool = true;
-        markers[idx] = bool;
+            newarr[idx] = bool;
+        console.log('showMarkerState: ', newarr)
         this.setState({
-            showMarkers: markers
+            showMarkers: newarr
         })
     }
 
