@@ -82,7 +82,10 @@ export default class Home extends Component {
                 renderFilterDistance = {this.props.renderFilterDistance}
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
-                JSONString = {this.props.JSONString}/>)
+                JSONString = {this.props.JSONString}
+                setShowMarkerState = {this.props.setShowMarkerState}
+            />
+        )
     }
 
     render() {

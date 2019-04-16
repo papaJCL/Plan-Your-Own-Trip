@@ -49,7 +49,7 @@ export default class mapItinerary extends Component {
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                                 <Button onClick={this.download}>Download Trip Itinerary</Button>
-                                <Button onClick={this.props.setShowMarkerState}>Show/Hide Markers</Button>
+                                <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
                               </CardBody>
                               </Card>
                                 {this.createAddDropDown()}
@@ -155,6 +155,7 @@ export default class mapItinerary extends Component {
     }
 
     renderComplexMap(){
+
         return (
             <div>
                 <Map bounds = {this.props.markers} animate = {true}
@@ -171,7 +172,7 @@ export default class mapItinerary extends Component {
                         smoothFactor = {1}
                     />
                     {
-                        this.props.showMarkers ? this.renderMarkers() : (null)
+                        this.renderMarkers()
                     }
 
                 </Map>
@@ -180,14 +181,15 @@ export default class mapItinerary extends Component {
         );
     }
 
-    renderMarkers() { console.log('renderMarkers: ', this.props.JSONString); console.log('markers: ', this.props.markers)
+    renderMarkers() {
         return (
             <div>
-                { //(this.props.showMarkers) ?
+                {
                     this.props.markers.map((position, idx) =>
+                        (this.props.showMarkers[idx + 1]) ?
                         <Marker key={`marker-${idx}`} position={position} icon={this.markerIcon()}>
                             <Popup><div align="center"><b>Location {idx + 1}: </b><br />{this.props.JSONString.body.places[idx].name}<br />{parseFloat(this.props.JSONString.body.places[idx].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[idx].longitude).toFixed(5)}</div></Popup>
-                        </Marker>
+                        </Marker> : (null)
                     )}
             </div>
         );
@@ -209,6 +211,7 @@ export default class mapItinerary extends Component {
     }
 
     onChange(event) {
+        this.props.clearMapState();
         var file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = (event) =>  {

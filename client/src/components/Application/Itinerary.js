@@ -20,6 +20,7 @@ export default class Iitnerary extends Component {
         this.deleteFunc = this.deleteFunc.bind(this)
         this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
+        this.changeShowMarkerFunc = this.changeShowMarkerFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
     }
@@ -219,6 +220,10 @@ export default class Iitnerary extends Component {
             text: 'Switch Order',
             formatter: this.changeFunc
 
+        },{
+            dataField: 'show/hide',
+            text: 'Show/Hide Marker',
+            formatter: this.changeShowMarkerFunc
         }];
 
         return columns
@@ -236,6 +241,12 @@ export default class Iitnerary extends Component {
                 <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
                 <input type="submit" value="Enter"/>
             </form>
+        );
+    }
+
+    changeShowMarkerFunc(e, column, columnIndex, row, rowIndex) {
+        return (
+            <button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</button>
         );
     }
 
