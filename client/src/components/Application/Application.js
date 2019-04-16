@@ -363,7 +363,7 @@ export default class Application extends Component {
         JSONString: newJSON,
         errorMessage: null
       } , () => {
-          this.refs.child.reRenderNewMap();
+          this.reRenderNewMap();
       });
   }
 
@@ -372,14 +372,6 @@ export default class Application extends Component {
           errorMessage: null,
             SQLJson: newJSON
         });
-
-        // this.setState({
-        //     JSONString: response,
-        //     returnFile: response.body,
-        //     origUnit : Math.round(response.body.options.earthRadius)
-        // } , () => {
-        //     this.refs.child.reRenderNewMap();
-        // });
     }
 
     updateItinerarySQL(sql){
