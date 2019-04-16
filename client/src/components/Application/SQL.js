@@ -5,14 +5,13 @@ import Pane from './Pane';
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import { sendServerRequestWithBody } from '../../api/restfulAPI'
-import {renderBasicMap} from './mapItinerary'
+import { sendServerRequestWithBody } from '../../api/restfulAPI';
+import {renderBasicMap} from './mapItinerary';
 import ErrorBanner from './ErrorBanner';
 
 
@@ -64,7 +63,7 @@ export default class SQL extends Component {
     sendSQLRequest(){
         var request = {
             "requestType"    : "itinerary",
-            "requestVersion" : 3,
+            "requestVersion" : 4,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
@@ -130,8 +129,7 @@ export default class SQL extends Component {
     }
 
     reverseState(boolB){
-        if (boolB == true) return false
-        return true
+        return !boolB;
     }
 
     callNewMapState(latitude,longitude){
@@ -143,26 +141,24 @@ export default class SQL extends Component {
         }
 
     SQLColumns(){
-        var columns = [{
+        return (
+        [{
             dataField: 'id',
-            text: 'ID',
-
+            text: 'ID'
         },{
             dataField: 'name',
-            text: 'Name',
-
+            text: 'Name'
         },{
             dataField: 'latitude',
-            text: 'latitude',
-
+            text: 'Latitude'
         }, {
             dataField: 'longitude',
-            text: 'Longitude',
+            text: 'Longitude'
         },{
             dataField: 'municipality',
             text: 'Municipality'
-        }];
-        return columns
+        }]
+        )
     }
 
     handleSubmit(e) {
@@ -171,10 +167,9 @@ export default class SQL extends Component {
         let country = document.getElementById('country').value;
         let continent = document.getElementById('continent').value;
 
-
         var request = {
             'requestType':'find',
-            'requestVersion': 3,
+            'requestVersion': 4,
             'match': this.sanatizeMatch(location),
             'limit': 5
         };
@@ -237,16 +232,18 @@ export default class SQL extends Component {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.altitude} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
+                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
                 <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
             </tr>)
         return (
             <Pane header = {"5 Locations were found! "} bodyJSX = {
                 <Table>
-                    <thead><tr>
-                        <th>#</th><th>Name</th><th>Altitude</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
-                    </tr></thead>
-                <tbody> {body} </tbody>
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody> {body} </tbody>
                 </Table>}/>
         )
     }
