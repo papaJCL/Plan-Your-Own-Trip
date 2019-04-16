@@ -426,10 +426,11 @@ export default class Application extends Component {
 
     setShowMarkerState(idx) {
         let bool = false;
-
+        let markers = this.state.showMarkers;
         (this.state.showMarkers[idx]) ? bool = false : bool = true;
+        markers[idx] = bool;
         this.setState({
-            showMarkers: bool
+            showMarkers: markers
         })
     }
 
