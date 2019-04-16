@@ -238,7 +238,6 @@ export default class mapItinerary extends Component {
 
 
     clearMap(){
-        console.log("CLEARS")
         this.props.clearMapState();
     }
 
