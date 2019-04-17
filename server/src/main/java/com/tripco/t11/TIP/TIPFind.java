@@ -38,7 +38,7 @@ public class TIPFind extends TIPHeader {
     }
 
     private TIPFind(){
-        this.requestType = "find"; 6
+        this.requestType = "find";
         this.requestVersion = 4;
     }
 
