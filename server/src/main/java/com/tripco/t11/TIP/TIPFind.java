@@ -91,7 +91,7 @@ public class TIPFind extends TIPHeader {
     private String queryEnd(){
         String queryEnd = "FROM continent ";
         queryEnd += concatMapJoin() + concatMatchSearch();
-        if(narrow != null) queryEnd += concatFilterSearch();
+        //if(narrow != null) queryEnd += concatFilterSearch();
         return queryEnd;
     }
 
