@@ -23,7 +23,7 @@ export default class Convert extends Component {
     }
 
     buttonCSV() {
-        let csv = this.convertToCSV(JSON.stringify(this.props.JSONString.body));
+        let csv = this.convertToCSV(JSON.stringify(this.props.JSONString.body.places));
         this.download(csv);
     }
 
@@ -37,7 +37,9 @@ export default class Convert extends Component {
         a.click();
     }
 
+    // From Hemant Metalia on Stack Overflow
     convertToCSV(objArray) {
+        console.log('convertToCSV - begin: ', )
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
         var str = '';
 
@@ -51,7 +53,7 @@ export default class Convert extends Component {
 
             str += line + '\r\n';
         }
-
+        console.log('convertToCSV - end: ', str)
         return str;
     }
 }
