@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import Units from './Units'
-import CustomUnits from "./CustomUnits";
 import Convert from "./Convert";
 
 /* Options allows the user to change the parameters for planning
