@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +34,21 @@ public class TIPFind extends TIPHeader {
         this();
         this.match = match;
         this.limit = limit;
-        this.narrow = narrow;
+        this.narrow = getNarrow(narrow);
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 4;
+    }
+
+    private Map<String,Object>[] getNarrow(Map<String,Object>[] filters){
+        if(filters != null){
+            TIPConfig config = new TIPConfig();
+            config.buildResponse();
+            return config.getFilters();
+        }
+        return filters;
     }
 
     @Override
@@ -91,7 +101,7 @@ public class TIPFind extends TIPHeader {
     private String queryEnd(){
         String queryEnd = "FROM continent ";
         queryEnd += concatMapJoin() + concatMatchSearch();
-        //if(narrow != null) queryEnd += concatFilterSearch();
+        if(narrow != null) queryEnd += concatFilterSearch();
         return queryEnd;
     }
 
@@ -118,8 +128,11 @@ public class TIPFind extends TIPHeader {
         String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
             if ( ((String)narrow[i].get("name")).equals("ports") ) {
-                filterSearch += "AND world.type LIKE"
-                        + getSearchString((String) narrow[i].get("values"));
+                ArrayList<String> filters = ((ArrayList<String>)narrow[i].get("values"));
+                for(int j = 0; j < filters.size(); ++j){
+                    filterSearch += "AND world.type LIKE"
+                            + getSearchString(filters.get(j));
+                }
             }
         }
         return filterSearch;
