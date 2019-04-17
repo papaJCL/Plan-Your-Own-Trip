@@ -14,8 +14,6 @@ import 'leaflet/dist/leaflet.css';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import {renderBasicMap} from './mapItinerary'
 import ErrorBanner from './ErrorBanner';
-import findSchema from 'client/src/Schemaresourcesclient/TIPFindResponseSchema.json'
-import ItinSchema from 'client/src/Schemaresourcesclient/TIPFindResponseSchema.json'
 
 
 
@@ -79,8 +77,9 @@ export default class SQL extends Component {
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response.body)
-                //var schema = JSON.parse("client/src/Schemaresourcesclient/TIPItineraryResponseSchema.json")
-                var valid = ajv.validate( ItinSchema ,response.body);
+                let datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
+                var schema = json.parse(datafile)
+                var valid = ajv.validate(schema ,response.body);
                 console.log("this is a schema " + schema)
                 if(!valid){
                     this.props.createErrorBannerState("Error", '500' , "Something went wrong, please try again");
