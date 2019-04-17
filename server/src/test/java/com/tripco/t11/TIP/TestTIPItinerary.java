@@ -118,6 +118,43 @@ public class TestTIPItinerary {
     }
 
     @Test
+    public void testTwoOpt(){
+        Map<String, Object>[] trip =  new Map[5];
+        options.replace("optimization","short");
+        Map<String,Object> topMid = new HashMap<>();
+        topMid.put("latitude","30.0");
+        topMid.put("longitude","0.0");
+        trip[0] = topMid;
+        Map<String,Object> topLeft = new HashMap<>();
+        topLeft.put("latitude","0.0");
+        topLeft.put("longitude","-30.0");
+        trip[3] = topLeft;
+        Map<String,Object> topRight = new HashMap<>();
+        topRight.put("latitude","0.0");
+        topRight.put("longitude","30.0");
+        trip[2] = topRight;
+        Map<String,Object> botLeft = new HashMap<>();
+        botLeft.put("latitude","-10.0");
+        botLeft.put("longitude","-30.0");
+        trip[1] = botLeft;
+        Map<String,Object> botRight = new HashMap<>();
+        botRight.put("latitude","-10.0");
+        botRight.put("longitude","30.0");
+        trip[4] = botRight;
+        TIPItinerary Trip = new TIPItinerary(version, options, trip);
+        Trip.buildResponse();
+
+        Map<String,Object>[] expect = new Map[5];
+        expect[4] = topLeft;
+        expect[3] = botLeft;
+        expect[0] = topMid;
+        expect[1] = topRight;
+        expect[2] = botRight;
+
+        assertEquals("optimized trip is computed", expect, Trip.places);
+    }
+
+    @Test
     public void testToString(){
         TIPItinerary trip = new TIPItinerary(version, options, places);
         Object toString = trip.toString();
