@@ -38,7 +38,7 @@ public class TIPFind extends TIPHeader {
     }
 
     private TIPFind(){
-        this.requestType = "find";
+        this.requestType = "find"; 6
         this.requestVersion = 4;
     }
 
@@ -129,11 +129,17 @@ public class TIPFind extends TIPHeader {
         for(int i = 0; i < narrow.length; ++i){
             if ( ((String)narrow[i].get("name")).equals("ports") ) {
                 ArrayList<String> filters = ((ArrayList<String>)narrow[i].get("values"));
-                for(int j = 0; j < filters.size(); ++j){
-                    filterSearch += "AND world.type LIKE"
-                            + getSearchString(filters.get(j));
-                }
+                filterSearch += extractSearchStrings(filters);
             }
+        }
+        return filterSearch;
+    }
+
+    private String extractSearchStrings(ArrayList<String> filters){
+        String filterSearch = "";
+        for(int j = 0; j < filters.size(); ++j){
+            filterSearch += "AND world.type LIKE"
+                    + getSearchString(filters.get(j));
         }
         return filterSearch;
     }
