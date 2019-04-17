@@ -30,6 +30,19 @@
       "type":"integer",
       "minimum":0
     },
+    "narrow": {
+      "description":"list of filters to apply to SQL query",
+      "type": "array",
+      "items": {
+        "name": {"type":"string"},
+        "values": {
+          "type": "array",
+          "items": {"type":"string"},
+          "minItems": 0
+        },
+        "minItems": 2
+      }
+    },
     "places": {
       "description": "list of places places found",
       "type":"array",
