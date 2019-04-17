@@ -2,7 +2,7 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | ** |
+| Subject | *Application.JS The whole file* |
 | Meeting | *04/017/19, 4:30PM, Computer Science Building 315* |
 | Checklist | *Indentation, Complexity, Duplication, Works and Simplicity* |
 
