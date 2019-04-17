@@ -2,16 +2,22 @@ import React, {Component} from 'react'
 import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import {Button, ButtonGroup } from 'reactstrap'
+import { Card, CardHeader, CardBody } from 'reactstrap'
 
 export default class Convert extends Component {
+    constructor(props) {
+        super(props);
+        this.buttonCSV = this.buttonCSV.bind(this);
+    }
 
     render() {
         return (
-        <div>
-            <row>
+        <Card className='text-center'>
+            <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Download Itinerary</CardHeader>
+            <CardBody>
                 <Button onClick={this.buttonCSV}>Download Itinerary in CSV Format</Button>
-            </row>
-        </div>
+            </CardBody>
+        </Card>
         );
 
     }
