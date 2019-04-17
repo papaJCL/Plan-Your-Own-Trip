@@ -52,18 +52,13 @@ function testConvertDistance() {
 
 test('Double checking validity of our distance conversion', testConvertDistance);
 
-/*
-function testTotalDistance(){
-    const testTotal = mount(<Itinerary
-        JSONString = {startProperties.JSONString}
-    />);
-    let actualTotal = testTotal.instance().getTotalDistance([{"id":"dnvr", "name":"Denver",       "latitude": "39.7392",   "longitude": "-104.9903"},
-        {"id":"bldr", "name":"Boulder",      "latitude": "40.01499",  "longitude": "-105.27055"},
-        {"id":"foco", "name":"Fort Collins", "latitude": "40.585258", "longitude": "-105.084419"}])
-    expect (actualTotal).toEqual(139)
 
+function testRenderitin(){
+    const Itinerary = shallow(<Itinerary
+        JSONstring={startProperties.JSONString.body.places.length}
+    />);
+    expect(Itinerary.contains(<renderItinerary/>)).toEqual(true);
 
 }
 
-test('Making sure the itinerary boxes render', testTotalDistance);
-*/
+test('Testing to see if renderItn is rendered with Itinerary', testRenderitin());

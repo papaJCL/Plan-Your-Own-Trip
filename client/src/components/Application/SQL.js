@@ -14,6 +14,9 @@ import 'leaflet/dist/leaflet.css';
 import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import {renderBasicMap} from './mapItinerary'
 import ErrorBanner from './ErrorBanner';
+import findSchema from 'client/src/Schemaresourcesclient/TIPFindResponseSchema.json'
+import ItinSchema from 'client/src/Schemaresourcesclient/TIPFindResponseSchema.json'
+
 
 
 export default class SQL extends Component {
@@ -69,11 +72,23 @@ export default class SQL extends Component {
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
         };
+
+
+
+
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response.body)
-                this.props.liftHomeState(response);
-                this.props.boolSQLFunc();
+                //var schema = JSON.parse("client/src/Schemaresourcesclient/TIPItineraryResponseSchema.json")
+                var valid = ajv.validate( ItinSchema ,response.body);
+                console.log("this is a schema " + schema)
+                if(!valid){
+                    this.props.createErrorBannerState("Error", '500' , "Something went wrong, please try again");
+                }else{
+                    this.props.liftHomeState(response);
+                    this.props.boolSQLFunc();
+                }
+
             });
 
     }
@@ -178,6 +193,7 @@ export default class SQL extends Component {
             'match': this.sanatizeMatch(location),
             'limit': 5
         };
+
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response)

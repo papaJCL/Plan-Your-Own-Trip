@@ -136,6 +136,7 @@ export default class Iitnerary extends Component {
                         `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
                         ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                     }
+
                     bodyJSX={
                         <div>
                             <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
