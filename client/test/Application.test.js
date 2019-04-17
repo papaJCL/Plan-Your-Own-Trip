@@ -201,6 +201,18 @@ function testChangingState(){
     app.instance().updatePlacesArray(app.state().JSONString.body.places);
     expect(app.state().distance).toEqual(10);
 
+    app.instance().updateSQLState(20);
+    app.instance().updateItinerarySQL(10);
+    expect(app.state().SQLJson).toEqual(20);
+    expect(app.state().SQLItineraryInfo).toEqual([10]);
+    app.instance().boolSQLFunc()
+    expect(app.state().boolSQL).toEqual(false)
+    app.instance().clearMapState();
+    app.update();
+
+    expect(app.instance().checkMarkers()).toEqual([true])
+    app.instance().setShowMarkerState(1);
+    expect(app.state().showMarkers).toEqual([true,true])
 
 
 
