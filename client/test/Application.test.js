@@ -175,10 +175,37 @@ function testChangingState(){
         .then((response) => {
             app.instance().updateIfGoodCalculator(response);
             app.update();
-            expect(app.state().distance).toEqual(10)
         });
 
+    const ItineraryRequest =
+    {
+        "requestType"    : "itinerary",
+        "requestVersion" : 4,
+        "options"        : { "title":"My Trip",
+        "earthRadius":"3958.8",
+        "optimization":"none" },
+        "places"         : [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},
+        {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},
+        {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}],
+        "distances"      : [24, 41, 59]
+    }
 
+    sendServerRequestWithBody('itinerary' , ItineraryRequest, finalStartProperties.settings)
+        .then((response) => {
+            app.instance().liftHomeState(response);
+            app.update();
+            expect(app.state().distance).toEqual(45);
+        });
+    expect(app.state().distance).toEqual(10);
+
+    app.instance().updatePlacesArray(app.state().JSONString.body.places);
+    expect(app.state().distance).toEqual(10);
+
+
+
+
+
+    //app.instace().liftHomeState()
 
 
 
