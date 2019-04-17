@@ -2,7 +2,7 @@ import './enzyme.config.js'
 import React from 'react'
 import {shallow} from 'enzyme'
 import Application from '../src/components/Application/Application'
-import {getOriginalServerPort} from "../src/api/restfulAPI";
+import {getOriginalServerPort, sendServerRequestWithBody} from "../src/api/restfulAPI";
 import ErrorBanner from '../src/components/Application/ErrorBanner';
 
 
@@ -130,6 +130,7 @@ function testChangingState(){
         SQLItineraryInfo = {finalStartProperties.SQLItineraryInfo}
         boolSQL = {finalStartProperties.boolSQL}
         showMarkers = {finalStartProperties.showMarkers}
+        settings={finalStartProperties.clientSettings}
     />);
 
     app.instance().updateOldUnit();
@@ -137,8 +138,53 @@ function testChangingState(){
     expect(app.state().oldUnits).toEqual('miles')
 
     app.instance().createErrorBannerState("Error", "400" , "Testing to make sure error is set")
+    expect(app.instance().createErrorBanner("Error", "400" , "Testing to make sure error is set")).toEqual(<ErrorBanner message="Testing to make sure error is set" statusCode="400" statusText="Error" />)
     app.update();
     expect(app.state().errorMessage).toEqual(<ErrorBanner message="Testing to make sure error is set" statusCode="400" statusText="Error" />)
+
+    app.instance().renderFilterID();
+    app.instance().renderFilterLatitude();
+    app.instance().renderFilterDistance();
+    app.instance().renderFilterLongitude();
+    app.instance().renderFilterName();
+    app.update();
+    expect(app.state().filterID).toEqual(false);
+    expect(app.state().filterLat).toEqual(true);
+    expect(app.state().filterLong).toEqual(true);
+    expect(app.state().filterName).toEqual(true);
+    expect(app.state().filterDist).toEqual(true);
+
+    app.instance().clearMapState();
+    app.update();
+    expect(app.state().distance).toEqual(0);
+
+    app.setState({ distance: 10 });
+    app.instance().reRenderNewMap();
+    app.update();
+    expect(app.state().distance).toEqual(10);
+
+    const calcRequest = {
+        "requestType"    : "distance",
+        "requestVersion" : 4,
+        "origin"         : {"latitude":  "40.6", "longitude": "-105.1", "name":"Fort Collins, Colorado, USA"},
+        "destination"    : {"latitude": "-33.9", "longitude":  "151.2", "name":"Sydney, New South Wales, Australia"},
+        "earthRadius"    : 3958.8,
+        "distance"       : 10
+    }
+    sendServerRequestWithBody('calculator',calcRequest,finalStartProperties.settings)
+        .then((response) => {
+            app.instance().updateIfGoodCalculator(response);
+            app.update();
+            expect(app.state().distance).toEqual(10)
+        });
+
+
+
+
+
+
+
+
 
 }
 
