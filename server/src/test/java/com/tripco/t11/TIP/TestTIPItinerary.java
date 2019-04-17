@@ -120,7 +120,7 @@ public class TestTIPItinerary {
     @Test
     public void testTwoOpt(){
         Map<String, Object>[] trip =  new Map[5];
-        options.replace("optimization","short");
+        options.replace("optimization","shorter");
         Map<String,Object> topMid = new HashMap<>();
         topMid.put("latitude","30.0");
         topMid.put("longitude","0.0");
