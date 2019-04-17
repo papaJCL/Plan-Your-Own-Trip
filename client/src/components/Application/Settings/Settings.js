@@ -32,7 +32,6 @@ export default class Settings extends Component {
     );
   }
 
-
   heading() {
     return (
         <Pane header={'Settings'}

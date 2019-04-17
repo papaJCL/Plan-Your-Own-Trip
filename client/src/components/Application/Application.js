@@ -160,6 +160,7 @@ export default class Application extends Component {
             options={this.state.planOptions}
             config={this.state.serverConfig}
             oldUnits = {this.state.oldUnits}
+            JSONString = {this.state.JSONString}
             updateOldUnit = {this.updateOldUnit}
             updateOption={this.updatePlanOption}/>;
       case 'settings':
