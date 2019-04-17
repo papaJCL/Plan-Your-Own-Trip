@@ -7,9 +7,6 @@ public class OptimizationsFactory {
         if(optType == null){
             return new None(coords);
         }
-        else if(optType.equals("none")){
-            return new None(coords);
-        }
         else if(optType.equals("short")){
             return new NearestNeighbor(coords, earthRadius);
         }
