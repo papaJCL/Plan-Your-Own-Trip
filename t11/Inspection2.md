@@ -19,7 +19,7 @@
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-| Application.js: 395-419 |Bad variable names, function does more than one thing|med|Jeremy||
+| Application.js: 395-419 |Bad variable names, function does more than one thing|med|Jeremy|#313|
 |  |   ||||
 |  | ||||
 |  |||||
