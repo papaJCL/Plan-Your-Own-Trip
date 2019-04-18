@@ -28,11 +28,11 @@ export default class Convert extends Component {
         this.download(csv, '.csv');
     }
 
-    download(csv, strFileType) {
+    download(object, strFileType) {
         var fileName = 'my Trip' + strFileType;
         var contentType = 'text/plain';
         var a = document.createElement("a");
-        var file = new Blob([csv], {type: contentType});
+        var file = new Blob([object], {type: contentType, endings: 'native'});
         a.href = URL.createObjectURL(file);
         a.download = fileName;
         a.click();
@@ -56,13 +56,17 @@ export default class Convert extends Component {
     }
 
     addHeaderAndDistance(str) {
-        console.log(str);
-        let newstr = 'Name, ID, Latitude, Longitude' + ((Object.keys(this.props.JSONString.body.places[0]).length === 5) ? ', Altitude' : '') + 'Leg Distance\n' + str;
+        let newstr = 'Name,ID,Latitude,Longitude' + ((Object.keys(this.props.JSONString.body.places[0]).length === 5) ? ',Altitude' : '') + ',Leg Distance\n' + str;
         let lines = newstr.split('\n');
+        lines.splice(-1, 1)
         for (let i = 1; i < lines.length; i++) {
-                lines[i] += ', ' + this.props.JSONString.body.distances[i -1];
+            lines[i] = lines[i].substring(0, lines[i].length - 1)
+            lines[i] += ',' + this.props.JSONString.body.distances[i - 1] + '\n';
         }
-        newstr = lines.join();
+        newstr = '';
+        lines[0] += '\n';
+        for (let i = 0; i < lines.length; i++)
+           newstr += lines[i];
         return newstr;
     }
 
