@@ -215,6 +215,12 @@ function testChangingState(){
     app.instance().setShowMarkerState(1);
     expect(app.state().showMarkers).toEqual([true,true])
 
+    app.instance().checkServerResponse(400, 'no' , 'find1')
+    app.instance().checkServerResponse(0, 'no' , 'find')
+    app.instance().checkServerResponse(0, 'no' , 'itinerary')
+    app.instance().checkServerResponse(0, 'no' , 'config')
+    app.instance().checkServerResponse(0, 'no' , 'distance')
+
 
 
 
