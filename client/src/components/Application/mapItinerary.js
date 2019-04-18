@@ -17,7 +17,6 @@ export default class mapItinerary extends Component {
         super(props)
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
-        this.download = this.download.bind(this)
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
@@ -48,7 +47,6 @@ export default class mapItinerary extends Component {
                               <CardBody>
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
-                                <Button onClick={this.download}>Download Trip Itinerary</Button>
                                 <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
                               </CardBody>
                               </Card>
@@ -193,21 +191,6 @@ export default class mapItinerary extends Component {
                     )}
             </div>
         );
-    }
-
-
-
-    /*download(jsonData, 'json.txt', 'text/plain');*/
-    /*Modified code beloning to Rafał Łużyński on www.stackoverflow.com*/
-    download() {
-        var content = JSON.stringify(this.props.returnFile);
-        var fileName = 'my Trip';
-        var contentType = 'text/plain';
-        var a = document.createElement("a");
-        var file = new Blob([content], {type: contentType});
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
     }
 
     onChange(event) {
