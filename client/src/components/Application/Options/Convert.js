@@ -65,7 +65,8 @@ export default class Convert extends Component {
             "        <width>4</width>\n" +
             "      </LineStyle>\n" +
             "    </Style>";
-        for (let i = 0; i < objArray.length - 1; i++) {
+        for (let i = 0; i < this.props.JSONString.body.places.length - 1; i++) {
+            console.log(this.props.JSONString.body.places[i].longitude)
             kml += "<Placemark>\n" +
                 "      <name>Cross-corner line</name>\n" +
                 "      <styleUrl>#CrossStyle</styleUrl>\n" +
