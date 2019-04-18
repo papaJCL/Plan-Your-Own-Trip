@@ -160,6 +160,7 @@ export default class Application extends Component {
             options={this.state.planOptions}
             config={this.state.serverConfig}
             oldUnits = {this.state.oldUnits}
+            JSONString = {this.state.JSONString}
             updateOldUnit = {this.updateOldUnit}
             updateOption={this.updatePlanOption}/>;
       case 'settings':
@@ -393,6 +394,7 @@ export default class Application extends Component {
     }
 
     reRenderNewMap(){
+
         let places = this.state.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
@@ -404,6 +406,7 @@ export default class Application extends Component {
 
         var markers = [[]]
         var polyLine = [[]]
+
 
         for (var i = 0; i < latitude.length; i++){
             var hold = []
