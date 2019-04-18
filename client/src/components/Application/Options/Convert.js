@@ -40,10 +40,8 @@ export default class Convert extends Component {
 
     // From Hemant Metalia on Stack Overflow
     convertToCSV(objArray) {
-        console.log('convertToCSV - begin: ', )
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
         var str = '';
-        console.log('convertToCSV - begin: ', this.props.JSONString.body.distances);
         for (var i = 0; i < array.length; i++) {
             var line = '';
             for (var index in array[i]) {
@@ -53,8 +51,19 @@ export default class Convert extends Component {
             }
             str += line + '\r\n';
         }
-        str = 'Name, ID, Latitude, Longitude, Altitude, Leg Distance\n' + str;
+        str = this.addHeaderAndDistance(str);
         return str;
+    }
+
+    addHeaderAndDistance(str) {
+        console.log(str);
+        let newstr = 'Name, ID, Latitude, Longitude' + ((Object.keys(this.props.JSONString.body.places[0]).length === 5) ? ', Altitude' : '') + 'Leg Distance\n' + str;
+        let lines = newstr.split('\n');
+        for (let i = 1; i < lines.length; i++) {
+                lines[i] += ', ' + this.props.JSONString.body.distances[i -1];
+        }
+        newstr = lines.join();
+        return newstr;
     }
 
 }
