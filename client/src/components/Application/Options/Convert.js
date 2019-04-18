@@ -16,10 +16,8 @@ export default class Convert extends Component {
         <Card className='text-center'>
             <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Download Itinerary</CardHeader>
             <CardBody>
-                <ButtonGroup>
-                    <Button onClick={this.buttonJSON}>Download Itinerary in JSON Format</Button>
-                    <Button onClick={this.buttonCSV}>Download Itinerary in CSV Format</Button>
-                </ButtonGroup>
+                <Button onClick={this.buttonJSON}>Download Itinerary in JSON Format </Button>
+                <Button onClick={this.buttonCSV}>Download Itinerary in CSV Format</Button>
             </CardBody>
         </Card>
         );
@@ -27,7 +25,7 @@ export default class Convert extends Component {
     }
 
     buttonJSON() {
-        this.download(JSON.stringify(this.props.returnFile), '.json');
+        this.download(JSON.stringify(this.props.JSONString.body), '.json');
     }
 
     buttonCSV() {
@@ -47,7 +45,7 @@ export default class Convert extends Component {
 
     // From Hemant Metalia on Stack Overflow
     convertToCSV(objArray) {
-        var array = JSON.parse(objArray);
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
         var str = '';
         for (var i = 0; i < array.length; i++) {
             var line = '';
