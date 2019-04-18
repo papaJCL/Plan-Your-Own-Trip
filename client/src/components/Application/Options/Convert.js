@@ -47,7 +47,7 @@ export default class Convert extends Component {
 
     // From Hemant Metalia on Stack Overflow
     convertToCSV(objArray) {
-        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var array = JSON.parse(objArray);
         var str = '';
         for (var i = 0; i < array.length; i++) {
             var line = '';
