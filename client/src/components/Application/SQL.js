@@ -36,9 +36,7 @@ export default class SQL extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <label>
                                 <input id="location" type="text" placeholder="Enter Location"  />
-                                <input id="region" type="text" placeholder="Enter Region"  />
-                                <input id="country" type="text" placeholder="Enter Country"  />
-                                <input id="continent" type="text" placeholder="Enter Continent"  />
+                                <input id="airports" type="checkbox"/>
                                 <input id="name" type="submit" value="Submit"/>
                             </label>
                         </form>
@@ -109,7 +107,7 @@ export default class SQL extends Component {
     SQLTable(){
         return(
             <div>
-                <Pane header={"5 Locations found!"}
+                <Pane header={" Locations found!"}
                       bodyJSX = {this.SQLTable()} />
             </div>
         );
@@ -163,14 +161,16 @@ export default class SQL extends Component {
 
     handleSubmit(e) {
         let location = document.getElementById('location').value;
-        let region = document.getElementById('region').value;
-        let country = document.getElementById('country').value;
-        let continent = document.getElementById('continent').value;
+        let narrow = [];
+        if(document.getElementById('airports').checked){
+            narrow = [{"name":"ports", "values":["airport"]}]
+        }
 
         var request = {
             'requestType':'find',
             'requestVersion': 4,
             'match': this.sanatizeMatch(location),
+            'narrow': narrow,
             'limit': 5
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)

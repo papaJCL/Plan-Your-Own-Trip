@@ -47,7 +47,7 @@ function testBasic(){
     />);
 
     let basicTest = basicSQLTest.find('input').length;
-    expect(basicTest).toEqual(5);
+    expect(basicTest).toEqual(3);
 
     //    let milesNotOrigional = testConvert.instance().convertDistance(10, 'miles', 'kilometers');
     basicSQLTest.instance().sendSQLRequest()
