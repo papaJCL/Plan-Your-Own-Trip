@@ -127,36 +127,37 @@ export default class Iitnerary extends Component {
     }
 
     returnMainItinerary(){
-        var products = this.addProducts();
-        var cols = this.addCols();
         let totalDistance = this.getTotalDistance(this.props.JSONString.body.places);
         return (
             <div>
                 <Pane
-                    header={
-                        `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
-                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
-                    }
-
-                    bodyJSX={
-                        <div>
-                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
-                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
-                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
-                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
-                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
-                            <BootstrapTable1
-                                selectRow={{mode: 'checkbox'}}
-                                tabIndexCell
-                                bootstrap4
-                                keyField="id"
-                                data={products}
-                                columns={cols}>
-                            </BootstrapTable1>
+                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
+                    bodyJSX={<div>
+                                <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
+                                <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
+                                <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
+                                <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
+                                <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
+                        {this.returnBootStrapTable1()}
                         </div>
                     }
                 />
             </div>
+        );
+    }
+
+    returnBootStrapTable1(){
+        var products = this.addProducts();
+        var cols = this.addCols();
+        return(
+            <BootstrapTable1
+                selectRow={{mode: 'checkbox'}}
+                tabIndexCell
+                bootstrap4
+                keyField="id"
+                data={products}
+                columns={cols}>
+            </BootstrapTable1>
         );
     }
 
@@ -178,55 +179,16 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{
-            dataField: 'id',
-            text: 'ID',
-            sort: true,
-            hidden: this.props.filterID,
-            headerFormatter: this.returnIDInfo
-
-        },{
-            dataField: 'name',
-            text: 'Name',
-            hidden: this.props.filterName
-
-        },{
-            dataField: 'latitude',
-            text: 'Latitude',
-            hidden: this.props.filterLat
-
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude',
-            hidden: this.props.filterLong
-        },{
-
-            dataField: 'distance',
-            text: 'Leg Distance',
-            hidden: this.props.filterDist
-
-        },{
-            dataField: 'delete',
-            text: 'Delete',
-            formatter: this.deleteFunc
-
-
-        },{
-            dataField: 'origin',
-            text: 'Make Origin',
-            formatter: this.makeOriginFunc
-
-        },{
-            dataField: 'change',
-            text: 'Switch Order',
-            formatter: this.changeFunc
-
-        },{
-            dataField: 'show/hide',
-            text: 'Show/Hide Marker',
-            formatter: this.changeShowMarkerFunc
+        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, headerFormatter: this.returnIDInfo
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName
+        },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
+        }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
+        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
+        },{dataField: 'delete', text: 'Delete', formatter: this.deleteFunc
+        },{dataField: 'origin', text: 'Make Origin', formatter: this.makeOriginFunc
+        },{dataField: 'change', text: 'Switch Order', formatter: this.changeFunc
+        },{dataField: 'show/hide', text: 'Show/Hide Marker', formatter: this.changeShowMarkerFunc
         }];
-
         return columns
     }
 
