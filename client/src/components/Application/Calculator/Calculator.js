@@ -101,10 +101,10 @@ export default class Calculator extends Component {
 
         sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
-            if(response.statusCode >= 200 && response.statusCode <= 299) {
-            this.props.updateIfGoodCalculator(response)
-        }
-    else {
+            var valid = this.props.checkServerResponse(response.statusCode,response.body, 'distance')
+                if(valid) {
+             this.props.updateIfGoodCalculator(response)
+                } else {
             this.props.createErrorBannerState(response.statusText, response.statusCode, `Request to ${ this.state.clientSettings.serverPort } failed.`);
         }
     });
