@@ -92,8 +92,8 @@ export default class Calculator extends Component {
         if (this.checkData() === false) return;
         var magellan = require('./../../../../../node_modules/magellan-coords/magellan');
         const tipConfigRequest = {
-            'type'        : 'distance',
-            'version'     : 1,
+            'requestType'        : 'distance',
+            'requestVersion'     : 1,
             'origin'      : {latitude: magellan(this.props.origin.latitude).latitude().toDD(), longitude: magellan(this.props.origin.longitude).longitude().toDD()},
             'destination' : {latitude: magellan(this.props.destination.latitude).latitude().toDD(), longitude: magellan(this.props.destination.longitude).longitude().toDD()},
             'earthRadius' : this.props.options.units[this.props.options.activeUnit]
@@ -101,11 +101,12 @@ export default class Calculator extends Component {
 
         sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
-            var valid = this.props.checkServerResponse(response.statusCode,response.body, 'distance')
-                if(valid) {
-             this.props.updateIfGoodCalculator(response)
-                } else {
-            this.props.createErrorBannerState(response.statusText, response.statusCode, `Request to ${ this.state.clientSettings.serverPort } failed.`);
+
+            if(response.statusCode >= 200 && response.statusCode <= 299) {
+            this.props.updateIfGoodCalculator(response)
+        }
+    else {
+            this.props.createErrorBannerState(response.statusText, response.statusCode, `Request to ${ this.props.settings.serverPort } failed.`);
         }
     });
     }
