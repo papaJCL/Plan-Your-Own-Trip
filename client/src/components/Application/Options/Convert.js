@@ -16,8 +16,10 @@ export default class Convert extends Component {
         <Card className='text-center'>
             <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Download Itinerary</CardHeader>
             <CardBody>
-                <Button onClick={this.buttonJSON}>Download Itinerary in JSON Format </Button>
-                <Button onClick={this.buttonCSV}>Download Itinerary in CSV Format</Button>
+                <ButtonGroup vertical>
+                    <Button onClick={this.buttonJSON}>JSON Format </Button>
+                    <Button onClick={this.buttonCSV}>CSV Format</Button>
+                </ButtonGroup>
             </CardBody>
         </Card>
         );
