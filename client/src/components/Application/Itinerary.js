@@ -178,55 +178,16 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{
-            dataField: 'id',
-            text: 'ID',
-            sort: true,
-            hidden: this.props.filterID,
-            headerFormatter: this.returnIDInfo
-
-        },{
-            dataField: 'name',
-            text: 'Name',
-            hidden: this.props.filterName
-
-        },{
-            dataField: 'latitude',
-            text: 'Latitude',
-            hidden: this.props.filterLat
-
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude',
-            hidden: this.props.filterLong
-        },{
-
-            dataField: 'distance',
-            text: 'Leg Distance',
-            hidden: this.props.filterDist
-
-        },{
-            dataField: 'delete',
-            text: 'Delete',
-            formatter: this.deleteFunc
-
-
-        },{
-            dataField: 'origin',
-            text: 'Make Origin',
-            formatter: this.makeOriginFunc
-
-        },{
-            dataField: 'change',
-            text: 'Switch Order',
-            formatter: this.changeFunc
-
-        },{
-            dataField: 'show/hide',
-            text: 'Show/Hide Marker',
-            formatter: this.changeShowMarkerFunc
+        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, headerFormatter: this.returnIDInfo
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName
+        },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
+        }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
+        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
+        },{dataField: 'delete', text: 'Delete', formatter: this.deleteFunc
+        },{dataField: 'origin', text: 'Make Origin', formatter: this.makeOriginFunc
+        },{dataField: 'change', text: 'Switch Order', formatter: this.changeFunc
+        },{dataField: 'show/hide', text: 'Show/Hide Marker', formatter: this.changeShowMarkerFunc
         }];
-
         return columns
     }
 
