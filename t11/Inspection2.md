@@ -22,6 +22,6 @@
 | Application.js: 395-419 |Bad variable names, function does more than one thing|med|Jeremy|#313|
 | Application.js: 142-239 | Function at 97 lines, must be way to refactor |hi|Edward|#316|
 | Application.js: 461 | Application.js is far over the 250 line limit with 401 lines of code |hi|Griffin|#317|
-|  |||||
+| Application.js: 1-461 |Has 27 functions|med|Griffin|#317|
 |  |||||
 
