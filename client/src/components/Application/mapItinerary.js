@@ -16,9 +16,11 @@ export default class mapItinerary extends Component {
     constructor(props){
         super(props)
         this.onChange = this.onChange.bind(this);
+        this.clearMap = this.clearMap.bind(this)
+        this.createAddDropDown = this.createAddDropDown.bind(this)
+        this.handleAddSubmit = this.handleAddSubmit.bind(this)
         this.clearMap = this.clearMap.bind(this);
         this.createAddDropDown = this.createAddDropDown.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.algorithmButton = this.algorithmButton.bind(this);
     }
@@ -102,23 +104,6 @@ export default class mapItinerary extends Component {
             .then((response) => {
                 this.props.liftHomeState(response);
             });
-    }
-    // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
-    handleSubmit(e) {
-        var request = {
-            'requestType':'find',
-            'requestVersion': 3,
-            'match': this.input.value,
-            'limit': 5
-        };
-        sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
-            .then((response) => {
-            if(response.statusCode === 400){
-                this.props.createErrorBannerState(" Error", '400' , " Invalid search parameters.");
-            }else{
-                this.props.updateSQLState(response.body);
-            }});
-        e.preventDefault();
     }
 
     renderMap() {

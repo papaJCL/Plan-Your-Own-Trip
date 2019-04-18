@@ -117,6 +117,10 @@ export default class Home extends Component {
     }
 
     changeOrder(idx0, idx) {
+        if (idx >= this.props.JSONString.body.places.length) {
+            this.props.createErrorBannerState('Error', '500', 'Attempted to Swap Out of Bounds Index.')
+            return;
+        }
         let newplaces = this.props.JSONString.body.places;
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[idx0];
