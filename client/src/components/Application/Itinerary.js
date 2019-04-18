@@ -238,7 +238,7 @@ export default class Iitnerary extends Component {
 
         return (
             <form onSubmit={handleSubmit}>
-                <input id={columnIndex} type="number" min="1" max={this.props.JSONString.body.places.length} />
+                <input id={columnIndex} type="number" min="1" style={{width: "45px"}} />
                 <input type="submit" value="Enter"/>
             </form>
         );
