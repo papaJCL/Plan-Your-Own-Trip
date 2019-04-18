@@ -9,6 +9,7 @@ export default class Convert extends Component {
         super(props);
         this.buttonCSV = this.buttonCSV.bind(this);
         this.buttonJSON = this.buttonJSON.bind(this);
+        this.buttonKML = this.buttonKML.bind(this);
     }
 
     render() {
@@ -19,6 +20,7 @@ export default class Convert extends Component {
                 <ButtonGroup vertical>
                     <Button onClick={this.buttonJSON}>JSON Format </Button>
                     <Button onClick={this.buttonCSV}>CSV Format</Button>
+                    <Button onClick={this.buttonKML}>KML Format</Button>
                 </ButtonGroup>
             </CardBody>
         </Card>
@@ -35,6 +37,11 @@ export default class Convert extends Component {
         this.download(csv, '.csv');
     }
 
+    buttonKML() {
+        let kml = this.convertToKML(JSON.stringify(this.props.JSONString.body.places))
+        this.download(kml, '.kml');
+    }
+
     download(object, strFileType) {
         var fileName = 'my Trip' + strFileType;
         var contentType = 'text/plain';
@@ -43,6 +50,28 @@ export default class Convert extends Component {
         a.href = URL.createObjectURL(file);
         a.download = fileName;
         a.click();
+    }
+
+    convertToKML(objArray) {
+        let kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
+            "  <Document>\n" + "    <name>My Trip</name>\n" + "    <open>1</open>\n" + "    <description>You're Itinerary</description>\n" +
+            "    <Style id=\"CrossStyle\">\n" + "      <LineStyle>\n" + "        <color>ffffffb6</color>\n" + "        <width>4</width>\n" + "      </LineStyle>\n" + "    </Style>";
+        for (let i = 0; i < this.props.JSONString.body.places.length - 1; i++) {
+            kml += "<Placemark>\n" +
+                "      <name>" + this.props.JSONString.body.places[i].name + " to " + this.props.JSONString.body.places[i + 1].name + "</name>\n" + "      <styleUrl>#CrossStyle</styleUrl>\n" + "      <LineString>\n" +
+                "        <coordinates>" + this.props.JSONString.body.places[i].longitude + "," + this.props.JSONString.body.places[i].latitude + "\n" +
+                this.props.JSONString.body.places[i + 1].longitude + "," + this.props.JSONString.body.places[i + 1].latitude + "</coordinates>\n" +
+                "      </LineString>\n" + "    </Placemark>";
+        }
+
+        kml += "<Placemark>\n" +
+            "      <name>" + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].name + " to " + this.props.JSONString.body.places[0].name + "</name>\n" + "      <styleUrl>#CrossStyle</styleUrl>\n" + "      <LineString>\n" +
+            "        <coordinates>" + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].longitude + "," + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].latitude + "\n" +
+            this.props.JSONString.body.places[0].longitude + "," + this.props.JSONString.body.places[0].latitude + "</coordinates>\n" +
+            "      </LineString>\n" + "    </Placemark>" + "  </Document>\n" + "</kml>";
+    return kml;
+
     }
 
     // From Hemant Metalia on Stack Overflow
