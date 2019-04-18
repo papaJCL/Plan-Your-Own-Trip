@@ -91,7 +91,6 @@ export default class mapItinerary extends Component {
     }
 
     algorithmButton(shortType){
-        console.log("NNButton " , shortType)
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
