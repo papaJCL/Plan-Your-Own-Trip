@@ -19,7 +19,10 @@ export default class mapItinerary extends Component {
         this.clearMap = this.clearMap.bind(this)
         this.createAddDropDown = this.createAddDropDown.bind(this)
         this.handleAddSubmit = this.handleAddSubmit.bind(this)
-        this.NNButon = this.NNButon.bind(this)
+        this.clearMap = this.clearMap.bind(this);
+        this.createAddDropDown = this.createAddDropDown.bind(this);
+        this.handleAddSubmit = this.handleAddSubmit.bind(this);
+        this.algorithmButton = this.algorithmButton.bind(this);
     }
 
     render(){
@@ -82,18 +85,18 @@ export default class mapItinerary extends Component {
                             <input id="long" type="text" placeholder="Enter Longitude"/>
                             <input type="submit" value="Submit"/>
                         </form>
-                    <Button onClick={this.NNButon}>Shorten Trip</Button>
+                    <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
+                    <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
                 </CardBody>
             </Card>
                     );
     }
 
-    NNButon(){
-        console.log("NNButton " , this.props.JSONString.body.places)
+    algorithmButton(shortType){
         var request = {
             "requestType"    : "itinerary",
             "requestVersion" : 3,
-            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius)) , "optimization":"short"},
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius)) , "optimization": shortType},
             "places"         : this.props.JSONString.body.places,
             "distances"      : []
         };
