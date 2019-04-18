@@ -38,7 +38,7 @@ export default class Convert extends Component {
     }
 
     buttonKML() {
-        let kml = this.convertToKML(JSON.stringify(this.props.JSONString.body.places))
+        let kml = this.convertToKML();
         this.download(kml, '.kml');
     }
 
@@ -52,11 +52,17 @@ export default class Convert extends Component {
         a.click();
     }
 
-    convertToKML(objArray) {
+    convertToKML() {
         let kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "  <Document>\n" + "    <name>My Trip</name>\n" + "    <open>1</open>\n" + "    <description>You're Itinerary</description>\n" +
             "    <Style id=\"CrossStyle\">\n" + "      <LineStyle>\n" + "        <color>ffffffb6</color>\n" + "        <width>4</width>\n" + "      </LineStyle>\n" + "    </Style>";
+        for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
+            kml += "<Placemark> \n" +
+                " <name> " + this.props.JSONString.body.places[i].name + "</name> \n" + " <Point>\n" + "  <coordinates>\n" +
+                 this.props.JSONString.body.places[i].longitude + ","+ this.props.JSONString.body.places[i].latitude + "\n" +
+                "  </coordinates>\n" + " </Point> \n" + "</Placemark>"
+        }
         for (let i = 0; i < this.props.JSONString.body.places.length - 1; i++) {
             kml += "<Placemark>\n" +
                 "      <name>" + this.props.JSONString.body.places[i].name + " to " + this.props.JSONString.body.places[i + 1].name + "</name>\n" + "      <styleUrl>#CrossStyle</styleUrl>\n" + "      <LineString>\n" +
