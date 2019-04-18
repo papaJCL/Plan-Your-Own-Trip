@@ -55,30 +55,21 @@ export default class Convert extends Component {
     convertToKML(objArray) {
         let kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
-            "  <Document>\n" +
-            "    <name>My Trip</name>\n" +
-            "    <open>1</open>\n" +
-            "    <description>You're Itinerary</description>\n" +
-            "    <Style id=\"CrossStyle\">\n" +
-            "      <LineStyle>\n" +
-            "        <color>ffffffb6</color>\n" +
-            "        <width>4</width>\n" +
-            "      </LineStyle>\n" +
-            "    </Style>";
+            "  <Document>\n" + "    <name>My Trip</name>\n" + "    <open>1</open>\n" + "    <description>You're Itinerary</description>\n" +
+            "    <Style id=\"CrossStyle\">\n" + "      <LineStyle>\n" + "        <color>ffffffb6</color>\n" + "        <width>4</width>\n" + "      </LineStyle>\n" + "    </Style>";
         for (let i = 0; i < this.props.JSONString.body.places.length - 1; i++) {
-            console.log(this.props.JSONString.body.places[i].longitude)
             kml += "<Placemark>\n" +
-                "      <name>Cross-corner line</name>\n" +
-                "      <styleUrl>#CrossStyle</styleUrl>\n" +
-                "      <LineString>\n" +
+                "      <name>" + this.props.JSONString.body.places[i].name + " to " + this.props.JSONString.body.places[i + 1].name + "</name>\n" + "      <styleUrl>#CrossStyle</styleUrl>\n" + "      <LineString>\n" +
                 "        <coordinates>" + this.props.JSONString.body.places[i].longitude + "," + this.props.JSONString.body.places[i].latitude + "\n" +
                 this.props.JSONString.body.places[i + 1].longitude + "," + this.props.JSONString.body.places[i + 1].latitude + "</coordinates>\n" +
-                "      </LineString>\n" +
-                "    </Placemark>";
+                "      </LineString>\n" + "    </Placemark>";
         }
 
-        kml += "  </Document>\n" +
-            "</kml>";
+        kml += "<Placemark>\n" +
+            "      <name>" + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].name + " to " + this.props.JSONString.body.places[0].name + "</name>\n" + "      <styleUrl>#CrossStyle</styleUrl>\n" + "      <LineString>\n" +
+            "        <coordinates>" + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].longitude + "," + this.props.JSONString.body.places[this.props.JSONString.body.places.length - 1].latitude + "\n" +
+            this.props.JSONString.body.places[0].longitude + "," + this.props.JSONString.body.places[0].latitude + "</coordinates>\n" +
+            "      </LineString>\n" + "    </Placemark>" + "  </Document>\n" + "</kml>";
     return kml;
 
     }
