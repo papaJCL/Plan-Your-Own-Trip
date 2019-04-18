@@ -53,3 +53,15 @@ function testUpdateOption() {
 }
 
 test("Testing Application's updatePlanOption function", testUpdateOption);
+
+/*
+function testCheckServerResponse(){
+    const app = shallow(<application/>);
+
+    app.checkServerResponse()
+
+}
+
+test("testing to make sure client schemas work properly", testCheckServerResponse);
+
+*/

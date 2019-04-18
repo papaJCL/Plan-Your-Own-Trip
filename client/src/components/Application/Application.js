@@ -394,7 +394,7 @@ export default class Application extends Component {
       console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
-              var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+              var valid = this.checkServerResponse(response.statusCode,response.body, 'itinerary')
 
               console.log("What the server sends back" , response.body)
                   if(valid) {
