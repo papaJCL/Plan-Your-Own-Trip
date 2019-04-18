@@ -17,7 +17,7 @@ export default class Convert extends Component {
             <CardHeader className='bg-csu-gold text-white font-weight-semibold'>Download Itinerary</CardHeader>
             <CardBody>
                 <ButtonGroup>
-                    <Button onClick={this.buttonJSON}>Download Trip Itinerary</Button>
+                    <Button onClick={this.buttonJSON}>Download Itinerary in JSON Format</Button>
                     <Button onClick={this.buttonCSV}>Download Itinerary in CSV Format</Button>
                 </ButtonGroup>
             </CardBody>
@@ -27,7 +27,7 @@ export default class Convert extends Component {
     }
 
     buttonJSON() {
-        this.download(JSON.stringify(this.props.returnFile));
+        this.download(JSON.stringify(this.props.returnFile), '.json');
     }
 
     buttonCSV() {
