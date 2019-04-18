@@ -16,6 +16,9 @@ export default class mapItinerary extends Component {
     constructor(props){
         super(props)
         this.onChange = this.onChange.bind(this);
+        this.clearMap = this.clearMap.bind(this)
+        this.createAddDropDown = this.createAddDropDown.bind(this)
+        this.handleAddSubmit = this.handleAddSubmit.bind(this)
         this.clearMap = this.clearMap.bind(this);
         this.createAddDropDown = this.createAddDropDown.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
@@ -107,7 +110,6 @@ export default class mapItinerary extends Component {
                 }
             });
     }
-    // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
 
     renderMap() {
         return (

@@ -48,6 +48,7 @@ const finalStartProperties = {
     boolSQL: true,
     showMarkers: [false] ,
     'updatePlacesArray': () => {},
+    'createErrorBannerState': () => {},
 
 
 };
@@ -83,6 +84,7 @@ function testBasicCompileForChildrenComponents(){
         showMarkers = {finalStartProperties.showMarkers}
         settings={finalStartProperties.clientSettings}
         updatePlacesArray = {finalStartProperties.updatePlacesArray}
+        createErrorBannerState = {finalStartProperties.createErrorBannerState}
     />);
 
     home.setState({JSONString: finalStartProperties.JSONString});
