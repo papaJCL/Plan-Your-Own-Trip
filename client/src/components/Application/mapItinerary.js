@@ -100,8 +100,9 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
+                console.log(response)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
-                if(valid) {
+                if(valid){
                     this.props.liftHomeState(response);
                 }
             });
