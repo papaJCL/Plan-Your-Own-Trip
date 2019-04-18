@@ -78,11 +78,12 @@ export default class SQL extends Component {
             .then((response) => {
                 console.log(response.body)
                 let datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
-                var schema = json.parse(datafile)
-                var valid = ajv.validate(schema ,response.body);
-                console.log("this is a schema " + schema)
+                var Ajv = require('ajv');
+                var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+                var validate = ajv.compile(datafile);
+                var valid = validate(response.body);
                 if(!valid){
-                    this.props.createErrorBannerState("Error", '500' , "Something went wrong, please try again");
+                   this.props.createErrorBannerState("Error", '500' , "Something went wrong, please try again");
                 }else{
                     this.props.liftHomeState(response);
                     this.props.boolSQLFunc();
