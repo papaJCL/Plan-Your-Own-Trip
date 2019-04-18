@@ -42,6 +42,7 @@ export default class Convert extends Component {
         this.download(kml, '.kml');
     }
 
+    /*Modified code beloning to Rafał Łużyński on www.stackoverflow.com*/
     download(object, strFileType) {
         var fileName = 'my Trip' + strFileType;
         var contentType = 'text/plain';
