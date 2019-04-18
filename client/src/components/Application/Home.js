@@ -54,6 +54,7 @@ export default class Home extends Component {
                 changeStartLocation = {this.changeStartLocation}
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
+                checkServerResponse= {this.props.checkServerResponse}
                 ref="child"
             />
         )
@@ -84,6 +85,7 @@ export default class Home extends Component {
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
                 setShowMarkerState = {this.props.setShowMarkerState}
+                checkServerResponse ={this.props.checkServerResponse}
             />
         )
     }

@@ -142,7 +142,8 @@ export default class Application extends Component {
 
     checkServerResponse(code ,response , type){
       if (code === 400){
-          this.createErrorBannerState("Error", '400' , "Invalid input parameters. Please try agin");
+          this.createErrorBannerState("Error", '400' , "Invalid input parameters. Please try agin")
+          return false;
       }
     var datafile
       if(type === "find") {
@@ -401,6 +402,7 @@ export default class Application extends Component {
       console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
+          console.log(response.statusCode)
               var valid = this.checkServerResponse(response.statusCode,response.body, 'itinerary')
 
               console.log("What the server sends back" , response.body)
