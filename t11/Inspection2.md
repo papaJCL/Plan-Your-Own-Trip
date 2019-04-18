@@ -2,8 +2,8 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | ** |
-| Meeting | *04/015/19, 3:00PM, Stadium 1205* |
+| Subject | *Application.JS The whole file* |
+| Meeting | *04/017/19, 4:30PM, Computer Science Building 315* |
 | Checklist | *Indentation, Complexity, Duplication, Works and Simplicity* |
 
 ### Roles
@@ -19,7 +19,7 @@
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-|  |||||
+| Application.js: 395-419 |Bad variable names, function does more than one thing|med|Jeremy|#313|
 |  |   ||||
 |  | ||||
 |  |||||
