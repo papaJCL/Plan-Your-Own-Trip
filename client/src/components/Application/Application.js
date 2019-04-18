@@ -80,7 +80,8 @@ export default class Application extends Component {
         SQLJson: [] ,
         SQLItineraryInfo: [],
         boolSQL: true,
-        showMarkers: false
+        showMarkers: [false]
+
     };
     this.updateServerConfig();
   }
@@ -196,6 +197,7 @@ export default class Application extends Component {
             options={this.state.planOptions}
             config={this.state.serverConfig}
             oldUnits = {this.state.oldUnits}
+            JSONString = {this.state.JSONString}
             updateOldUnit = {this.updateOldUnit}
             updateOption={this.updatePlanOption}/>;
       case 'settings':
@@ -353,7 +355,8 @@ export default class Application extends Component {
       errorMessage: null,
       SQLJson: [] ,
       SQLItineraryInfo: [],
-      boolSQL: true
+      boolSQL: true,
+      showMarkers: [false]
     });
   }
 
@@ -365,16 +368,20 @@ export default class Application extends Component {
           markers: markers,
           boolMarker: true ,
           polyLineCoor : polyLine,
-          names : names
+          names : names,
+
       });
   }
 
   liftHomeState(response){
-
+      let markers = this.state.showMarkers;
+      if (this.state.showMarkers.length === 1)
+          for (let i = 0; i < response.body.places.length; i++) markers.push(false);
       this.setState({
           JSONString: response,
           returnFile: response.body,
-          origUnit : Math.round(response.body.options.earthRadius)
+          origUnit: Math.round(response.body.options.earthRadius),
+          showMarkers: markers
       } , () => {
           this.reRenderNewMap();
       });
@@ -430,6 +437,7 @@ export default class Application extends Component {
     }
 
     reRenderNewMap(){
+
         let places = this.state.JSONString.body.places
         const mappingFunction = p => p.latitude;
         const mappingFunction1 = p => p.longitude;
@@ -441,6 +449,7 @@ export default class Application extends Component {
 
         var markers = [[]]
         var polyLine = [[]]
+
 
         for (var i = 0; i < latitude.length; i++){
             var hold = []
@@ -455,11 +464,30 @@ export default class Application extends Component {
         this.reRenderNewMapState(latitude, longitude, names, polyLine, markers)
     }
 
-    setShowMarkerState() {
+    checkMarkers() {
+        let countTrue = 0;
+        let countFalse = 0;
+        let newarr = this.state.showMarkers
+        for (let i = 1; i < this.state.showMarkers.length; i++) {
+            (newarr[i]) ? countTrue++ : countFalse++;
+        }
+        if (countTrue === this.state.showMarkers.length - 1) newarr[0] = true;
+        else if (countFalse === this.state.showMarkers.length - 1) newarr[0] = false;
+        return newarr;
+    }
+
+    setShowMarkerState(idx) {
+        let newarr = this.checkMarkers();
         let bool = false;
-        (this.state.showMarkers) ? bool = false : bool = true;
+        (this.state.showMarkers[idx]) ? bool = false : bool = true;
+        newarr[idx] = bool;
+        if (idx === 0) {
+            for (let i = 1; i < this.state.showMarkers.length; i++) {
+                (newarr[0]) ? newarr[i] = true : newarr[i] = false;
+            }
+        }
         this.setState({
-            showMarkers: bool
+            showMarkers: newarr
         })
     }
 

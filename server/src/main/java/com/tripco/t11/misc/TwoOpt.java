@@ -3,87 +3,68 @@ package com.tripco.t11.misc;
 
 public class TwoOpt extends NearestNeighbor{
 
+    TwoOpt(Double[][] coords, Double earthRadius){
+        super(coords,earthRadius);
+    }
 
+    @Override
+    public void findOptimalTrip(){
+        super.findOptimalTrip();
+    }
 
-        public TwoOpt(Double[][] coords, Double earthRadius){
-                super(coords,earthRadius);
+    void calcBestDistance(int index) {
+        super.calcBestDistance(index);
+        calcTwoOptDistance();
+    }
+
+    private void calcTwoOptDistance(){
+        boolean canImprove = true;
+        while (canImprove) {
+            canImprove = false;
+            Long twoOptDistance = calcCurrentTwoOpt(bestDistance);
+            if(twoOptDistance < bestDistance){
+                bestDistance = twoOptDistance;
+                canImprove = true;
+            }
         }
+    }
 
-
-
-        private Long optimizeCurrentStart(int index) {
-                Long tripDistance = 0L;
-                int placeInTrip = 1;
-                while (super.placesAreUnvisited()) {
-                        int nextIndex = super.findNextPlace(index);
-                        currentTrip[placeInTrip++] = nextIndex;
-                        visited[nextIndex] = true;
-                        tripDistance += distances[index][nextIndex];
-                        index = nextIndex;
-                }
-
-
-                currentTrip = searchForCross(currentTrip , index);
-
-                tripDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
-                return tripDistance;
+    private Long calcCurrentTwoOpt(Long distance){
+        for (int i = 0; i < (currentTrip.length - 3); ++i) {
+            for (int k = i + 2; k < currentTrip.length - 1; ++k) {
+                distance += addDelta(i, k);
+            }
         }
+        return distance;
+    }
 
-
-
-
-
-        public int[] searchForCross(int[] trip, int startIndex){
-                boolean improve = true;
-                while (improve) {
-                        improve =false;
-                        for (int i = 0; i < (trip.length - 3); i++) {
-
-                                for (int k = i + 2; k < trip.length - 1; k++) {
-
-                                        long delta = (-1*distances[trip[i]][trip[i+1]]) + (-1*distances[trip[k]][trip[((k+1)%trip.length)]]) + (distances[trip[i]][trip[k]]) + (distances[trip[i+1]][trip[((k+1)%trip.length)]]);
-
-
-                                        if (delta < 0) {
-                                                trip = uncross(trip, i + 1, k);
-                                                        improve = true;
-                                        }
-                                }
-                        }
-                }
-
-
-
-                return  trip;
+    private Long addDelta(int start, int end){
+        Long delta = calcDelta(start, end);
+        if (delta < 0) {
+            uncrossTrip(start + 1, end);
+            return delta;
         }
+        return 0L;
+    }
 
-        private int[] uncross(int[] route, int i1, int k ){
-                while(i1 < k) {
-                        int temp = route[i1];
-                        route[i1] = route[k];
-                        route[k] = temp;
-                        i1++;
-                        k--;
-                }
-                return route;
-        }
+    private Long calcDelta(int start, int end){
+        return    (-1*distances[currentTrip[start]][currentTrip[start+1]])
+                + (-1*distances[currentTrip[end]][currentTrip[((end+1)%currentTrip.length)]])
+                + (distances[currentTrip[start]][currentTrip[end]])
+                + (distances[currentTrip[start+1]][currentTrip[((end+1)%currentTrip.length)]]);
+    }
 
-        @Override
-        public int[] getTrip(){
-                return this.trip;
+    private void uncrossTrip(int start, int end){
+        while(start < end) {
+            int temp = currentTrip[start];
+            currentTrip[start++] = currentTrip[end];
+            currentTrip[end--] = temp;
         }
+    }
 
-        @Override
-        public void findOptimalTrip(){
-                Long bestTotal = Long.MAX_VALUE;
-                for(int i = 0; i < distances.length; ++i){
-                        super.assignVisited(i);
-                        Long currentTotal = optimizeCurrentStart(i);
-                        if(currentTotal < bestTotal) {
-                                bestTotal = currentTotal;
-                                trip = currentTrip.clone();
-                        }
-                }
-        }
+    @Override
+    public int[] getTrip(){
+        return this.trip;
+    }
 
 }

@@ -6,12 +6,14 @@ package com.tripco.t11.misc;
 
 public class NearestNeighbor extends Optimizations {
 
-    public int[] trip;
-    public int[] currentTrip;
-    protected Long[][] distances;
-    protected boolean[] visited;
 
-    public NearestNeighbor(Double[][] coords, Double earthRadius){
+    int[] trip;
+    int[] currentTrip;
+    Long[][] distances;
+    Long bestDistance;
+    private boolean[] visited;
+
+    NearestNeighbor(Double[][] coords, Double earthRadius){
         this.trip = new int[coords.length];
         this.currentTrip = new int[coords.length];
         generateDistances(coords, earthRadius);
@@ -32,13 +34,13 @@ public class NearestNeighbor extends Optimizations {
 
     @Override
     public void findOptimalTrip(){
-        Long bestTotal = Long.MAX_VALUE;
+        Long currentBest = Long.MAX_VALUE;
         for(int i = 0; i < distances.length; ++i){
             assignVisited(i);
-            Long currentTotal = optimizeCurrentStart(i);
-            if(currentTotal < bestTotal) {
-                bestTotal = currentTotal;
-                trip = currentTrip.clone();
+            calcBestDistance(i);
+            if(bestDistance < currentBest) {
+                currentBest = bestDistance;
+                System.arraycopy(currentTrip, 0, trip, 0, trip.length);
             }
         }
     }
@@ -52,25 +54,23 @@ public class NearestNeighbor extends Optimizations {
         currentTrip[0] = index;
     }
 
-    private Long optimizeCurrentStart(int index){
-        Long tripDistance = 0L;
+    void calcBestDistance(int index){
+        bestDistance = 0L;
         int placeInTrip = 1;
         while(placesAreUnvisited()){
             int nextIndex = findNextPlace(index);
             currentTrip[placeInTrip++] = nextIndex;
             visited[nextIndex] = true;
-            tripDistance += distances[index][nextIndex];
+            bestDistance += distances[index][nextIndex];
             index = nextIndex;
         }
-        tripDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
-        return tripDistance;
+        bestDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
     }
 
-    protected boolean placesAreUnvisited(){
-        if(currentTrip[currentTrip.length - 1] == -1){
-            return true;
-        }
-        return false;
+
+    private boolean placesAreUnvisited(){
+        return (currentTrip[currentTrip.length - 1] == -1);
+
     }
 
     protected int findNextPlace(int index){
