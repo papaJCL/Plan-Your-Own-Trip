@@ -376,24 +376,24 @@ export default class Application extends Component {
       });
   }
 
-  convertDMS(JSON, idx) {
+  convertDMS(places, idx) {
       var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-      let lat = JSON.body.places[idx].latitude;
-      let long = JSON.body.places[idx].longitude;
+      let lat = places[idx].latitude;
+      let long = places[idx].longitude;
       if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
           lat = magellan(lat).latitude().toDD();
       }
       if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
           long = magellan(long).longitude().toDD();
       }
-      JSON.body.places[idx].latitude = lat;
-      JSON.body.places[idx].longitude = long;
-      return JSON;
+      places[idx].latitude = lat;
+      places[idx].longitude = long;
+      return places;
   }
 
   liftHomeState(response) {
       for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
-          this.convertDMS(this.props.JSONString, i);
+         response.body.places = this.convertDMS(this.props.JSONString.body.places, i);
       }
 
       let markers = this.state.showMarkers;
