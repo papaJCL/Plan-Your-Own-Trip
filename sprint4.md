@@ -86,62 +86,73 @@ The person that implemented nearest neighbor may not implement 2-opt. Similarly 
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | #245 #254 #261 #262| #value|
-| Tasks | #256 #247 #248 #249  #251 #254  #255 #256  #257  #258  260| #value
-| Story Points | 13 | *value* | 
+| Epics | #245 #254 #261 #262| #245 #254 #261 #262|
+| Tasks | #256 #247 #248 #249  #251 #254  #255 #256  #257  #258 #268  #260 #259 #252 #250 #276 #246 #277 #307 #303 #292 #311 #321 #278 #258 #296 #281 #284| #256 #247 #248 #249  #251 #254  #255 #256  #257  #258 #268  #259 #252 #250 #276 #246 #277 #307 #303 #292 #311 #321 #278 #258 #296 #281
+| Story Points | 28 | 29 | 
 
 
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| *April 3* | *#252, #259* | *#257 #250* | *none* | 
+| *April 5* | *#257, #250* | *#251, #249, #255* | *none* | 
+| *April 8* | *#251, #249, #255* | *#276 , #246, #277*| *Refactoring SQL is alot more work than previously thought* | 
+| *April 10* | *#276 , #246, #277* | *#248, #293* | *none* | 
+| *April 12* | *#248, #293* | *#268, #245, #247, #307, #256* | *Needed more tasks* | 
+| *April 17* | *#268, #245, #247, #307, #256* | *#303, #262, #292, #311, #321, #278, #261, #258 , #296, #281* | *Needed more tasks* | 
+| *April 18* | *#303, #262, #292, #311, #321, #278, #261, #258 , #296, #281* | *none* | *none* | 
+
+
 
 
 ## Review (focus on solution and technology)
 
-In this sprint, ...
+In this sprint, we didn't learn about many technologies compared to other sprints. This sprint was more about refining our skills and added small new components. The only thing that was completley new was saving the itinerary as a KML or CSV file. The rest was just further adding smaller components in REACT. On the server side 2-opt was about the same difficulty as nearest neighbor and didn't add anything new. 
 
 #### Completed epics in Sprint Backlog 
 
 These Epics were completed.
 
-* *## epic title: comments*
-* 
+*  #245:User: I would like to highlight certain places on the map:*
+*  #254:User: Let Me Plan Trips World-Wide:*
+*  #261:User: I want to view my trip in other tools:*
+*  #262:User: Can trips be shorter?*
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
 
-* *## epic title: explanation*
+* None*
 *
 
 #### What went well
 
-The ...
+This sprint went alot better than last time. Although we started from a poor plan in the beginning(we started with a good plan with sprint 3 however), we were able to fix it task by task and ended up with finishing all the epics. Additionally we didn't start with enough tasks so as the sprint went on we realized we needed to add alot more, which in turn made us more productive aswell. Overall this was the best sprint so far even though we had a rocky start.  
 
 
 #### Problems encountered and resolutions
 
-The ...
+Many of the problems that were encountered from this sprint were quite small. The only major issue was not having enough tasks and we fixed that halfway through the sprint. The small problems that we encountered were finding new bugs on master after each pull request , and some people not testing their changes enough. 
 
 
 ## Retrospective (focus on people, process, tools)
 
-In this sprint, ...
+In this sprint, we focused on refining our skills and expanding our knowledge. We also focused on fixing many small client-side bugs that were introduced from the last sprint and making the code more cleaner overall. Additionally we made the process alot better by working in the lab as a group the majority of the time so we could all be there helpful.
+Jeremy focused on cleaning the majority of the client side stuff and adding the extra SQL features. Darien worked on implementing the marker epic and the new tools epic. Edward worked on the SQL side of server and eventually 2-opt. Griffin worked on schemas. 
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+For this sprint we changed how we conquered the problems. Instead of working solo at home, 90% of the work was done in the labs as a group. We also had a much higher focus for clean code and test coverage aswell. 
 
 #### What we did well
 
-We ...
+Alot of things went this sprint. Working as a group meant that we alot less bugs because before each pull request we would test as a gruop to see if anything was broken. 
 
 #### What we need to work on
 
-We could improve ...
+We could improve on doing even more testing. Although we wrote alot of tests we didn't test on the actual website to see if these changes broke anything else, and they did alot more than we thought they would. So after each pull request we need to really test all the features not just some to make sure we dont introduce new bugs. 
 
 #### What we will change next sprint 
 
-We will change ...
+We will change by adding more tasks in the beginning and doing more thorough testing for both client side and server side when new features are added. 
