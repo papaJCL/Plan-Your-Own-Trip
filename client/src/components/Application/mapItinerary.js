@@ -102,7 +102,10 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                this.props.liftHomeState(response);
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+                if(valid) {
+                    this.props.liftHomeState(response);
+                }
             });
     }
     // code from: https://www.codementor.io/blizzerand/building-forms-using-react-everything-you-need-to-know-iz3eyoq4y
@@ -111,14 +114,13 @@ export default class mapItinerary extends Component {
             'requestType':'find',
             'requestVersion': 3,
             'match': this.input.value,
-            'limit': 5
+            'limit': 10
         };
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response)
-                if(response.statusCode === 400){
-                    this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
-                }else{
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'find')
+                if(valid){
 
                     this.props.updateSQLState(response.body);
                 }

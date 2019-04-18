@@ -77,14 +77,9 @@ export default class SQL extends Component {
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response.body)
-                let datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
-                var Ajv = require('ajv');
-                var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
-                var validate = ajv.compile(datafile);
-                var valid = validate(response.body);
-                if(!valid){
-                   this.props.createErrorBannerState("Error", '500' , "Something went wrong, please try again");
-                }else{
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+
+                if(valid) {
                     this.props.liftHomeState(response);
                     this.props.boolSQLFunc();
                 }
@@ -182,27 +177,25 @@ export default class SQL extends Component {
 
     handleSubmit(e) {
         let location = document.getElementById('location').value;
-        let region = document.getElementById('region').value;
-        let country = document.getElementById('country').value;
-        let continent = document.getElementById('continent').value;
+
 
 
         var request = {
             'requestType':'find',
             'requestVersion': 3,
             'match': this.sanatizeMatch(location),
-            'limit': 5
+            'limit': 10
         };
 
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response)
-                if(response.statusCode === 400){
-                    this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
-                }else{
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'find')
 
+                if (valid) {
                     this.props.updateSQLState(response.body);
                 }
+
             });
         e.preventDefault();
     }

@@ -39,6 +39,7 @@ export default class Application extends Component {
     this.updateItinerarySQL = this.updateItinerarySQL.bind(this);
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
+    this.checkServerResponse = this.checkServerResponse.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -138,6 +139,41 @@ export default class Application extends Component {
     });
     }
 
+    checkServerResponse(code ,response , type){
+      if (code === 400){
+          this.createErrorBannerState("Error", '400' , "Invalid input parameters. Please try agin");
+      }
+    var datafile
+      if(type === "find") {
+         datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
+          console.log("find")
+      }else if(type === "itinerary"){
+          datafile = require('../../Schemaresourcesclient/TIPItineraryResponseSchema.json')
+          console.log("Itin")
+      }else if(type === "config"){
+          datafile = require('../../Schemaresourcesclient/TIPConfigResponseSchema.json')
+          console.log("config")
+      }else if(type === "distance"){
+          datafile = require('../../Schemaresourcesclient/TIPDistanceResponseSchema.json')
+          console.log("dis")
+      }else{
+          this.createErrorBannerState("Error", '500', "Something went wrong, please try again");
+          return false;
+      }
+    var Ajv = require('ajv');
+    var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+    var validate = ajv.compile(datafile);
+    var valid = validate(response);
+        if(!valid) {
+            this.createErrorBannerState("Error", '500', "Something went wrong, please try again");
+            return false;
+        }
+
+        return true;
+
+    }
+
+
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
       case 'calc':
@@ -152,6 +188,7 @@ export default class Application extends Component {
             createErrorBannerState={this.createErrorBannerState}
             updateLocationOnChange = {this.updateLocationOnChange}
             updateIfGoodCalculator = {this.updateIfGoodCalculator}
+            checkServerResponse = {this.checkServerResponse}
             setValue = {this.setValue}
             />;
       case 'options':
@@ -192,6 +229,7 @@ export default class Application extends Component {
                 reRenderNewMap = {this.reRenderNewMap}
                 createErrorBanner={this.createErrorBanner}
                 createErrorBannerState={this.createErrorBannerState}
+                checkServerResponse = {this.checkServerResponse}
             />;
 
         default:
@@ -232,6 +270,7 @@ export default class Application extends Component {
             boolSQL = {this.state.boolSQL}
             boolSQLFunc = {this.boolSQLFunc}
             showMarkers = {this.state.showMarkers}
+            checkServerResponse = {this.checkServerResponse}
             ref="child"
             />;
     }
@@ -355,8 +394,12 @@ export default class Application extends Component {
       console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
+              var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+
               console.log("What the server sends back" , response.body)
-              this.liftHomeState(response);
+                  if(valid) {
+                      this.liftHomeState(response);
+                  }
           });
       this.setState({
         //JSONString: this.state.JSONString
