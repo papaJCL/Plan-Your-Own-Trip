@@ -3,7 +3,6 @@ import {Container, Row, Col} from 'reactstrap'
 import Pane from '../Pane';
 import {Button, ButtonGroup } from 'reactstrap'
 import { Card, CardHeader, CardBody } from 'reactstrap'
-import {converter} from 'json-2-csv'
 
 export default class Convert extends Component {
     constructor(props) {
