@@ -20,8 +20,8 @@
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
 | Application.js: 395-419 |Bad variable names, function does more than one thing|med|Jeremy|#313|
-|  |   ||||
-|  | ||||
-|  |||||
-|  |||||
+| Application.js: 142-239 | Function at 97 lines, must be way to refactor |hi|Edward|#316|
+| Application.js: 461 | Application.js is far over the 250 line limit with 401 lines of code |hi|Griffin|#317|
+| Application.js: 377-394 |These SQL functions can be put into SQL.js once it has its state variables are moved|med|Darien|#318|
+| Application.js: 79-81 |SQL state should be moved to SQL.js|med|darien|#319|
 
