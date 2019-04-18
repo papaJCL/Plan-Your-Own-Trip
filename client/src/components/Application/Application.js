@@ -40,6 +40,7 @@ export default class Application extends Component {
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
     this.checkServerResponse = this.checkServerResponse.bind(this);
+    this.convertDMS = this.convertDMS.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -274,6 +275,7 @@ export default class Application extends Component {
             boolSQLFunc = {this.boolSQLFunc}
             showMarkers = {this.state.showMarkers}
             checkServerResponse = {this.checkServerResponse}
+            convertDMS = {this.convertDMS}
             ref="child"
             />;
     }
@@ -375,23 +377,24 @@ export default class Application extends Component {
   }
 
   convertDMS(JSON, idx) {
+      var magellan = require('./../../../../node_modules/magellan-coords/magellan');
       let lat = JSON.body.places[idx].latitude;
       let long = JSON.body.places[idx].longitude;
-      var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-      if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-          this.props.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
-          return;
-      }
       if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
           lat = magellan(lat).latitude().toDD();
       }
       if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
           long = magellan(long).longitude().toDD();
       }
+      JSON.body.places[idx].latitude = lat;
+      JSON.body.places[idx].longitude = long;
+      return JSON;
   }
 
-  liftHomeState(response){
-
+  liftHomeState(response) {
+      for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
+          this.convertDMS(this.props.JSONString, i);
+      }
 
       let markers = this.state.showMarkers;
       if (this.state.showMarkers.length === 1)
