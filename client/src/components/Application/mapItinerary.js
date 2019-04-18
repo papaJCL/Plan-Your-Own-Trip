@@ -52,7 +52,7 @@ export default class mapItinerary extends Component {
                                 <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
                               </CardBody>
                               </Card>
-                                {this.createAddDropDown()}
+                              {this.createAddDropDown()}
                         </span>
                       </div>
                   }
@@ -79,6 +79,7 @@ export default class mapItinerary extends Component {
             <Card>
                 <CardBody>
                     <CardTitle><b>Add a New Location</b></CardTitle>
+
                         <form onSubmit={this.handleAddSubmit}>
                             <input id="name" type="text" placeholder="Enter Name"/>
                             <input id="lat" type="text" placeholder="Enter Latitude"/>
@@ -89,7 +90,7 @@ export default class mapItinerary extends Component {
                     <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
                 </CardBody>
             </Card>
-                    );
+        );
     }
 
     algorithmButton(shortType){
@@ -102,7 +103,11 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                this.props.liftHomeState(response);
+                console.log(response)
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+                if(valid){
+                    this.props.liftHomeState(response);
+                }
             });
     }
 

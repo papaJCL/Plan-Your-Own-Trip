@@ -6,6 +6,7 @@ package com.tripco.t11.misc;
 
 public class NearestNeighbor extends Optimizations {
 
+
     int[] trip;
     int[] currentTrip;
     Long[][] distances;
@@ -44,7 +45,7 @@ public class NearestNeighbor extends Optimizations {
         }
     }
 
-    private void assignVisited(int index){
+    protected void assignVisited(int index){
         for(int j = 0; j < visited.length; ++j){
             visited[j] = false;
             currentTrip[j] = -1;
@@ -66,11 +67,13 @@ public class NearestNeighbor extends Optimizations {
         bestDistance += distances[currentTrip[0]][currentTrip[currentTrip.length - 1]];
     }
 
+
     private boolean placesAreUnvisited(){
         return (currentTrip[currentTrip.length - 1] == -1);
+
     }
 
-    private int findNextPlace(int index){
+    protected int findNextPlace(int index){
         Long shortest = Long.MAX_VALUE;
         int next = -1;
         for(int i = 0; i < distances[index].length; ++i) {

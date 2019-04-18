@@ -15,6 +15,7 @@ import {renderBasicMap} from './mapItinerary';
 import ErrorBanner from './ErrorBanner';
 
 
+
 export default class SQL extends Component {
     constructor(props) {
         super(props)
@@ -66,11 +67,20 @@ export default class SQL extends Component {
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
         };
+
+
+
+
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response.body)
-                this.props.liftHomeState(response);
-                this.props.boolSQLFunc();
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+
+                if(valid) {
+                    this.props.liftHomeState(response);
+                    this.props.boolSQLFunc();
+                }
+
             });
 
     }
@@ -161,6 +171,7 @@ export default class SQL extends Component {
 
     handleSubmit(e) {
         let location = document.getElementById('location').value;
+
         let narrow = [];
         if(document.getElementById('airports').checked){
             narrow = [{"name":"ports", "values":["airport"]}]
@@ -170,18 +181,21 @@ export default class SQL extends Component {
             'requestType':'find',
             'requestVersion': 4,
             'match': this.sanatizeMatch(location),
+
             'narrow': narrow,
-            'limit': 5
+            'limit': 10
+
         };
+
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response)
-                if(response.statusCode === 400){
-                    this.props.createErrorBannerState("Error", '400' , "Invalid search parameters.");
-                }else{
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'find')
 
+                if (valid) {
                     this.props.updateSQLState(response.body);
                 }
+
             });
         e.preventDefault();
     }

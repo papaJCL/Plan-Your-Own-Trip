@@ -54,6 +54,7 @@ export default class Home extends Component {
                 changeStartLocation = {this.changeStartLocation}
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
+                checkServerResponse= {this.props.checkServerResponse}
                 ref="child"
             />
         )
@@ -84,6 +85,7 @@ export default class Home extends Component {
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
                 setShowMarkerState = {this.props.setShowMarkerState}
+                checkServerResponse ={this.props.checkServerResponse}
             />
         )
     }
@@ -154,9 +156,8 @@ export default class Home extends Component {
         console.log("Request body is " , requestBody)
         sendServerRequestWithBody('itinerary', requestBody, this.props.clientSettings.serverPort)
             .then((response) => {
-                if(response.statusCode === 400){
-                    this.props.createErrorBannerState("Error", '400' , "Invalid JSON file.");
-                }else{
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+                if(valid){
 
                     this.props.liftHomeState(response);
                 }

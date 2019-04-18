@@ -57,6 +57,7 @@ function testUpdateOption() {
 
 test("Testing Application's updatePlanOption function", testUpdateOption);
 
+
 const finalStartProperties = {
     serverConfig: null,
     planOptions: {

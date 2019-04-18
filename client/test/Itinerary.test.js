@@ -55,6 +55,7 @@ function testConvertDistance() {
 
 test('Double checking validity of our distance conversion', testConvertDistance);
 
+
 const placesStartProperties = {
     'origUnit': 3959,
     'planOptions': {
