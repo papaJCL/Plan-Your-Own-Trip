@@ -27,28 +27,15 @@ export default class Iitnerary extends Component {
 
 
     render() {
-        if (this.props.boolSQL == true){
-            return(
-                <div>
-                    <Row>
-                        <Col xs={12}>
-                            {this.renderItinerary()}
-                        </Col>
-                    </Row>
-                </div>
-            );
-        }
-        else{
-            return(
-                <div>
-                    <Row>
-                        <Col xs={12}>
-                            {this.renderItinerary()}
-                        </Col>
-                    </Row>
-                </div>
-            );
-        }
+        return(
+            <div>
+                <Row>
+                    <Col xs={12}>
+                        {this.renderItinerary()}
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     convertUnitsToNum(unit) {
