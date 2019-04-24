@@ -33,14 +33,18 @@ export default class SQL extends Component {
             <div>
                 {<div>
                     {<div>
-                        <CardTitle><b>Search for Destination</b></CardTitle>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                <input id="location" type="text" placeholder="Enter Location"  />
-                                <input id="airports" type="checkbox"/>
-                                <input id="name" type="submit" value="Submit"/>
-                            </label>
-                        </form>
+                        <Pane header={'Search for Destination'}
+                              bodyJSX={
+                                  <form onSubmit={this.handleSubmit}>
+                                      <label>
+                                          <input id="location" type="text" placeholder="Enter Location"/>
+                                          {`Check to Filter by Airport`}
+                                          <input id="airports" type="checkbox"/>
+                                          <input id="name" type="submit" value="Submit"/>
+                                      </label>
+                                  </form>
+                              }
+                        />
                     </div>}
                     <Pane header = {'World map'} bodyJSX={this.renderLeafletMap()} />
                 </div>}
@@ -250,7 +254,8 @@ export default class SQL extends Component {
                 <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
             </tr>)
         return (
-            <Pane header = {"5 Locations were found! "} bodyJSX = {
+            <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
+                  bodyJSX = {
                 <Table>
                     <thead>
                         <tr>

@@ -38,7 +38,7 @@ public class TIPConfig extends TIPHeader {
   public void buildResponse() {
     this.serverName = "t11 Ultra Super Team Delta";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
-    this.optimizations = Arrays.asList("none", "short");
+    this.optimizations = Arrays.asList("none", "short", "shorter");
     this.filters = assignFilters();
     log.trace("buildResponse -> {}", this);
   }

@@ -27,28 +27,15 @@ export default class Iitnerary extends Component {
 
 
     render() {
-        if (this.props.boolSQL == true){
-            return(
-                <div>
-                    <Row>
-                        <Col xs={12}>
-                            {this.renderItinerary()}
-                        </Col>
-                    </Row>
-                </div>
-            );
-        }
-        else{
-            return(
-                <div>
-                    <Row>
-                        <Col xs={12}>
-                            {this.renderItinerary()}
-                        </Col>
-                    </Row>
-                </div>
-            );
-        }
+        return(
+            <div>
+                <Row>
+                    <Col xs={12}>
+                        {this.renderItinerary()}
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     convertUnitsToNum(unit) {
@@ -127,8 +114,6 @@ export default class Iitnerary extends Component {
     }
 
     returnMainItinerary(){
-        var products = this.addProducts();
-        var cols = this.addCols();
         let totalDistance = this.getTotalDistance(this.props.JSONString.body.places);
         return (
             <div>
@@ -145,18 +130,26 @@ export default class Iitnerary extends Component {
                             <Button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</Button>
                             <Button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</Button>
                             <Button onClick={() => this.props.renderFilterDistance()}>Filter Distance</Button>
-                            <BootstrapTable1
-                                selectRow={{mode: 'checkbox'}}
-                                tabIndexCell
-                                bootstrap4
-                                keyField="id"
-                                data={products}
-                                columns={cols}>
-                            </BootstrapTable1>
+                            {this.returnBootStrapTable1()}
                         </div>
                     }
                 />
             </div>
+        );
+    }
+
+    returnBootStrapTable1(){
+        var products = this.addProducts();
+        var cols = this.addCols();
+        return(
+            <BootstrapTable1
+                selectRow={{mode: 'checkbox'}}
+                tabIndexCell
+                bootstrap4
+                keyField="id"
+                data={products}
+                columns={cols}>
+            </BootstrapTable1>
         );
     }
 
@@ -178,55 +171,16 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{
-            dataField: 'id',
-            text: 'ID',
-            sort: true,
-            hidden: this.props.filterID,
-            headerFormatter: this.returnIDInfo
-
-        },{
-            dataField: 'name',
-            text: 'Name',
-            hidden: this.props.filterName
-
-        },{
-            dataField: 'latitude',
-            text: 'Latitude',
-            hidden: this.props.filterLat
-
-        }, {
-            dataField: 'longitude',
-            text: 'Longitude',
-            hidden: this.props.filterLong
-        },{
-
-            dataField: 'distance',
-            text: 'Leg Distance',
-            hidden: this.props.filterDist
-
-        },{
-            dataField: 'delete',
-            text: 'Delete',
-            formatter: this.deleteFunc
-
-
-        },{
-            dataField: 'origin',
-            text: 'Make Origin',
-            formatter: this.makeOriginFunc
-
-        },{
-            dataField: 'change',
-            text: 'Switch Order',
-            formatter: this.changeFunc
-
-        },{
-            dataField: 'show/hide',
-            text: 'Show/Hide Marker',
-            formatter: this.changeShowMarkerFunc
+        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, headerFormatter: this.returnIDInfo
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName
+        },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
+        }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
+        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
+        },{dataField: 'delete', text: 'Delete', formatter: this.deleteFunc
+        },{dataField: 'origin', text: 'Make Origin', formatter: this.makeOriginFunc
+        },{dataField: 'change', text: 'Switch Order', formatter: this.changeFunc
+        },{dataField: 'show/hide', text: 'Show/Hide Marker', formatter: this.changeShowMarkerFunc
         }];
-
         return columns
     }
 

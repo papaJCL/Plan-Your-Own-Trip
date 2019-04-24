@@ -44,6 +44,7 @@ function testBasic(){
         liftHomeState = {startProperties.liftHomeState}
         boolSQLFunc = {startProperties.boolSQLFunc}
 
+
     />);
 
     let basicTest = basicSQLTest.find('input').length;
@@ -52,8 +53,26 @@ function testBasic(){
     //    let milesNotOrigional = testConvert.instance().convertDistance(10, 'miles', 'kilometers');
     basicSQLTest.instance().sendSQLRequest()
     basicSQLTest.update();
+    basicSQLTest.instance().renderBasicMap();
+    basicSQLTest.instance().renderCondensedMap();
     //basicSQLTest.setProps({ JSONString: startProperties.SQLItineraryInfo.concat(startProperties.JSONString) });
+
+    basicSQLTest.instance().renderSQLTable();
+    basicSQLTest.instance().renderTableB4Itinerary();
+
     expect(basicSQLTest.props().JSONString).toEqual(startProperties.JSONString)
+
+    let sanitizeTest = basicSQLTest.instance().sanatizeMatch('xd5a');
+    expect(sanitizeTest).toEqual("xd5a")
+
+    basicSQLTest.instance().SQLColumns;
+    basicSQLTest.instance().callNewMapState(55, 43);
+    basicSQLTest.instance().returnSQLItinerary();
+
+
+
+
+
 
 
 }
