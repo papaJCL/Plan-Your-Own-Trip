@@ -101,7 +101,7 @@ export default class SQL extends Component {
         return (
             <div>
                 <Pane
-                    header={<button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</button>}
+                    header={<Button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</Button>}
                     bodyJSX={<BootstrapTable1
                             selectRow={{mode: 'checkbox'}}
                             tabIndexCell
@@ -126,13 +126,13 @@ export default class SQL extends Component {
     buttonSQL(idx){
         let JSONPlaces = this.props.SQLJson.places[idx]
         return(
-            <button onClick={() => this.props.updateItinerarySQL(JSONPlaces) }>Add Location</button>
+            <Button onClick={() => this.props.updateItinerarySQL(JSONPlaces) }>Add Location</Button>
         );
     }
 
     buttonSeeMap(latitude, longitude){
         return(
-            <button onClick={() => this.callNewMapState(latitude,longitude) }>See on map</button>
+            <Button onClick={() => this.callNewMapState(latitude,longitude) }>See on map</Button>
         );
     }
 

@@ -377,14 +377,29 @@ export default class Application extends Component {
   }
 
   convertDMS(places, idx) {
+
       var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+      console.log(magellan('39°N').latitude().toDD(), magellan('104°W').longitude().toDD())
       let lat = places[idx].latitude;
       let long = places[idx].longitude;
+      let latarr = []
+      let longarr = []
+      if (lat.includes('°')) {
+          latarr = lat.split('°');
+          longarr = long.split('°');
+          latarr[0] = parseInt(latarr[0]);
+          longarr[0] = parseInt(longarr[0]);
+          lat = '' + latarr[0] + '°' + latarr[1];
+          long = '' + longarr[0] + '°' + longarr[1];
+      }
+      console.log('lat, long: ', lat, long)
       if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
           lat = magellan(lat).latitude().toDD();
+          console.log('lat: ', lat)
       }
       if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
           long = magellan(long).longitude().toDD();
+          console.log('long: ', long)
       }
       places[idx].latitude = lat;
       places[idx].longitude = long;
@@ -392,9 +407,6 @@ export default class Application extends Component {
   }
 
   liftHomeState(response) {
-      for (let i = 0; i < this.props.JSONString.body.places.length; i++) {
-         response.body.places = this.convertDMS(this.props.JSONString.body.places, i);
-      }
 
       let markers = this.state.showMarkers;
       if (this.state.showMarkers.length === 1)

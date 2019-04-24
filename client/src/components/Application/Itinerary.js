@@ -140,11 +140,11 @@ export default class Iitnerary extends Component {
 
                     bodyJSX={
                         <div>
-                            <button onClick={() => this.props.renderFilterID()}>Filter ID</button>
-                            <button onClick={() => this.props.renderFilterName()}>Filter Name</button>
-                            <button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</button>
-                            <button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</button>
-                            <button onClick={() => this.props.renderFilterDistance()}>Filter Distance</button>
+                            <Button onClick={() => this.props.renderFilterID()}>Filter ID</Button>
+                            <Button onClick={() => this.props.renderFilterName()}>Filter Name</Button>
+                            <Button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</Button>
+                            <Button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</Button>
+                            <Button onClick={() => this.props.renderFilterDistance()}>Filter Distance</Button>
                             <BootstrapTable1
                                 selectRow={{mode: 'checkbox'}}
                                 tabIndexCell
@@ -172,7 +172,7 @@ export default class Iitnerary extends Component {
         return(
             <div>
                 ID
-                <button>Reverse</button>
+                <Button>Reverse</Button>
             </div>
         );
     }
@@ -247,19 +247,19 @@ export default class Iitnerary extends Component {
 
     changeShowMarkerFunc(e, column, columnIndex, row, rowIndex) {
         return (
-            <button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</button>
+            <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</Button>
         );
     }
 
     deleteFunc(e, column, columnIndex, row, rowIndex){
         return (
-            <button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</button>
+            <Button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</Button>
         );
     }
 
     makeOriginFunc(e, column, columnIndex, row, rowIndex){
         return (
-            <button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</button>
+            <Button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</Button>
         );
     }
 

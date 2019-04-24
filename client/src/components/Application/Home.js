@@ -55,6 +55,7 @@ export default class Home extends Component {
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
                 checkServerResponse= {this.props.checkServerResponse}
+                convertDMS = {this.props.convertDMS}
                 ref="child"
             />
         )
