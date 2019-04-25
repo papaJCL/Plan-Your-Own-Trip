@@ -40,6 +40,12 @@
 
 ## Plan
 
+### TFFI
+* Add another optimization level for 3opt in TIPItinrary requests
+* TIPConfig needs to have a country filter
+* Update version #'s
+* No other changes of note
+
 This sprint, we plan to work almost exclusively on the client side. We need to get feedback from other people both in our class and outside of it, preferably non-CS people. We already have some ideas about what needs to be done and if those prove easy to implement we will attempt to get to some of the issues in our backlog/icebox. 
 
 Diagrams for server - hasn't changed
@@ -87,7 +93,7 @@ Other potential epics---
 | --- | ---: | ---: |
 |Epics|	4 epics |	|
 |Tasks|	6 Tasks 10 points	|value|
-|Story| 6	|value	|
+|Story| 30|value	|
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
