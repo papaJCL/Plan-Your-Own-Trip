@@ -138,25 +138,23 @@ export default class Iitnerary extends Component {
         var products = this.addProducts();
         var cols = this.addCols();
         return(
-            <BootstrapTable1
-                tabIndexCell
-                condensed
-                bootstrap4
-                keyField="id"
-                data={products}
-                columns={cols}
-                pagination={ paginationFactory({showTotal: true,
-                    firstPageText: 'First',
-                    prePageText: 'Back',
-                    nextPageText: 'Next',
-                    lastPageText: 'Last',
-                    nextPageTitle: 'First page',
-                    prePageTitle: 'Pre page',
-                    firstPageTitle: 'Next page',
-                    lastPageTitle: 'Last page'}) }>
-            </BootstrapTable1>
-        );
-    }
+            <table class="table-responsive">
+                <tbody>
+                    <BootstrapTable1
+                        tabIndexCell
+                        condensed
+                        bootstrap4
+                        keyField="id"
+                        data={products}
+                        columns={cols}
+                        pagination={ paginationFactory({showTotal: true, firstPageText: 'First', prePageText: 'Back', nextPageText: 'Next',
+                            lastPageText: 'Last', nextPageTitle: 'First page', prePageTitle: 'Pre page', firstPageTitle: 'Next page', lastPageTitle: 'Last page'}) }>
+                    </BootstrapTable1>
+                </tbody>
+            </table>
+            );
+        }
+
 
     makeCheckbox(){
         return(
