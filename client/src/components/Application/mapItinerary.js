@@ -190,7 +190,8 @@ export default class mapItinerary extends Component {
         reader.onload = (event) =>  {
             // The file's text will be printed here
             var inputData = event.target.result
-            this.props.sendItineraryRequest(JSON.parse(inputData))
+            let json = JSON.parse(inputData);
+            this.props.sendItineraryRequest(json)
 
         };
         reader.readAsText(file);

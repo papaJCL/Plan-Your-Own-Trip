@@ -374,10 +374,12 @@ export default class Application extends Component {
       });
   }
 
-  liftHomeState(response){
+  liftHomeState(response) {
+
       let markers = this.state.showMarkers;
       if (this.state.showMarkers.length === 1)
           for (let i = 0; i < response.body.places.length; i++) markers.push(false);
+
       this.setState({
           JSONString: response,
           returnFile: response.body,
