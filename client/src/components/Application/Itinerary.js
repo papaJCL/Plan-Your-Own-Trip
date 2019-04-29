@@ -10,6 +10,7 @@ import { Card, CardImg, CardText, CardBody,
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Form, Label, Input  } from 'reactstrap';
 import BootstrapTable1 from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 export default class Iitnerary extends Component {
 
@@ -22,7 +23,7 @@ export default class Iitnerary extends Component {
         this.changeFunc = this.changeFunc.bind(this)
         this.changeShowMarkerFunc = this.changeShowMarkerFunc.bind(this)
         this.addCols =this.addCols.bind(this)
-        this.convertUnitsToNum = this.convertUnitsToNum.bind(this)
+        this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
     }
 
 
@@ -30,7 +31,7 @@ export default class Iitnerary extends Component {
         return(
             <div>
                 <Row>
-                    <Col xs={12}>
+                    <Col  xs={12}>
                         {this.renderItinerary()}
                     </Col>
                 </Row>
@@ -138,17 +139,24 @@ export default class Iitnerary extends Component {
         var cols = this.addCols();
         return(
             <BootstrapTable1
-                selectRow={{mode: 'checkbox'}}
                 tabIndexCell
+                condensed
                 bootstrap4
                 keyField="id"
                 data={products}
-                columns={cols}>
+                columns={cols}
+                pagination={ paginationFactory({showTotal: true,
+                    firstPageText: 'First',
+                    prePageText: 'Back',
+                    nextPageText: 'Next',
+                    lastPageText: 'Last',
+                    nextPageTitle: 'First page',
+                    prePageTitle: 'Pre page',
+                    firstPageTitle: 'Next page',
+                    lastPageTitle: 'Last page'}) }>
             </BootstrapTable1>
         );
     }
-
-
 
     makeCheckbox(){
         return(
