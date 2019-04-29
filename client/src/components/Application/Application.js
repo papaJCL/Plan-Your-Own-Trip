@@ -40,7 +40,6 @@ export default class Application extends Component {
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
     this.checkServerResponse = this.checkServerResponse.bind(this);
-    this.convertDMS = this.convertDMS.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -275,7 +274,6 @@ export default class Application extends Component {
             boolSQLFunc = {this.boolSQLFunc}
             showMarkers = {this.state.showMarkers}
             checkServerResponse = {this.checkServerResponse}
-            convertDMS = {this.convertDMS}
             ref="child"
             />;
     }
@@ -374,36 +372,6 @@ export default class Application extends Component {
           names : names,
 
       });
-  }
-
-  convertDMS(places, idx) {
-
-      var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-      console.log(magellan('39°N').latitude().toDD(), magellan('104°W').longitude().toDD())
-      let lat = places[idx].latitude;
-      let long = places[idx].longitude;
-      let latarr = []
-      let longarr = []
-      if (lat.includes('°')) {
-          latarr = lat.split('°');
-          longarr = long.split('°');
-          latarr[0] = parseInt(latarr[0]);
-          longarr[0] = parseInt(longarr[0]);
-          lat = '' + latarr[0] + '°' + latarr[1];
-          long = '' + longarr[0] + '°' + longarr[1];
-      }
-      console.log('lat, long: ', lat, long)
-      if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
-          lat = magellan(lat).latitude().toDD();
-          console.log('lat: ', lat)
-      }
-      if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
-          long = magellan(long).longitude().toDD();
-          console.log('long: ', long)
-      }
-      places[idx].latitude = lat;
-      places[idx].longitude = long;
-      return places;
   }
 
   liftHomeState(response) {
