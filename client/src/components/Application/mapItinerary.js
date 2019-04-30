@@ -81,7 +81,7 @@ export default class mapItinerary extends Component {
                     <CardTitle><b>Add a New Location</b></CardTitle>
 
                         <form onSubmit={this.handleAddSubmit}>
-                            <input id="name" type="text" placeholder="Enter Name"/>
+                            <input id="name" type="text" placeholder="console."/>
                             <input id="lat" type="text" placeholder="Enter Latitude"/>
                             <input id="long" type="text" placeholder="Enter Longitude"/>
                             <input type="submit" value="Submit"/>

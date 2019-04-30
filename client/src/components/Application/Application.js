@@ -148,16 +148,12 @@ export default class Application extends Component {
     var datafile
       if(type === "find") {
          datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
-          console.log("find")
       }else if(type === "itinerary"){
           datafile = require('../../Schemaresourcesclient/TIPItineraryResponseSchema.json')
-          console.log("Itin")
       }else if(type === "config"){
           datafile = require('../../Schemaresourcesclient/TIPConfigResponseSchema.json')
-          console.log("config")
       }else if(type === "distance"){
           datafile = require('../../Schemaresourcesclient/TIPDistanceResponseSchema.json')
-          console.log("dis")
       }else{
           this.createErrorBannerState("Error", '500', "Something went wrong, please try again");
           return false;
@@ -401,7 +397,6 @@ export default class Application extends Component {
           "distances"      : [],
       };
 
-      console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
           console.log(response.statusCode)
