@@ -149,9 +149,9 @@ function testChangingState(){
     app.instance().renderFilterLongitude();
     app.instance().renderFilterName();
     app.update();
-    expect(app.state().filterID).toEqual(false);
-    expect(app.state().filterLat).toEqual(true);
-    expect(app.state().filterLong).toEqual(true);
+    expect(app.state().filterID).toEqual(true);
+    expect(app.state().filterLat).toEqual(false);
+    expect(app.state().filterLong).toEqual(false);
     expect(app.state().filterName).toEqual(true);
     expect(app.state().filterDist).toEqual(true);
 
