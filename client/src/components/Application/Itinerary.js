@@ -8,7 +8,9 @@ import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import { Form, Label, Input  } from 'reactstrap';
+import { Form, Label, Input} from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
+
 import BootstrapTable1 from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
@@ -123,14 +125,14 @@ export default class Iitnerary extends Component {
                         `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
                         ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
                     }
-
                     bodyJSX={
                         <div>
-                            <Button onClick={() => this.props.renderFilterID()}>Filter ID</Button>
-                            <Button onClick={() => this.props.renderFilterName()}>Filter Name</Button>
-                            <Button onClick={() => this.props.renderFilterLatitude()}>Filter Latitude</Button>
-                            <Button onClick={() => this.props.renderFilterLongitude()}>Filter Longitude</Button>
-                            <Button onClick={() => this.props.renderFilterDistance()}>Filter Distance</Button>
+                            <DropdownButton id="dropdown-basic-button" title="Filter">
+                                <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
+                            </DropdownButton>
                             {this.returnBootStrapTable1()}
                         </div>
                     }
@@ -167,17 +169,8 @@ export default class Iitnerary extends Component {
         );
     }
 
-    returnIDInfo(){
-        return(
-            <div>
-                ID
-                <Button>Reverse</Button>
-            </div>
-        );
-    }
-
     addCols(){
-        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, headerFormatter: this.returnIDInfo
+        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID
         },{dataField: 'name', text: 'Name', hidden: this.props.filterName
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
         }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
