@@ -34,21 +34,12 @@ public class TIPFind extends TIPHeader {
         this();
         this.match = match;
         this.limit = limit;
-        this.narrow = getNarrow(narrow);
+        this.narrow = narrow;
     }
 
     private TIPFind(){
         this.requestType = "find";
         this.requestVersion = 4;
-    }
-
-    private Map<String,Object>[] getNarrow(Map<String,Object>[] filters){
-        if(filters != null){
-            TIPConfig config = new TIPConfig();
-            config.buildResponse();
-            return config.getFilters();
-        }
-        return filters;
     }
 
     @Override
@@ -128,20 +119,19 @@ public class TIPFind extends TIPHeader {
         String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
             if ( ((String)narrow[i].get("name")).equals("ports") ) {
-                ArrayList<String> filters = ((ArrayList<String>)narrow[i].get("values"));
-                filterSearch += extractSearchStrings(filters);
+                filterSearch += extractSearchStrings((ArrayList<String>)narrow[i].get("values"));
             }
         }
         return filterSearch;
     }
 
     private String extractSearchStrings(ArrayList<String> filters){
-        String filterSearch = "";
-        for(int j = 0; j < filters.size(); ++j){
-            filterSearch += "AND world.type LIKE"
-                    + getSearchString(filters.get(j));
+        String filterSearch = "AND ( world.type LIKE";
+        for(int j = 0; j < filters.size() - 1; ++j){
+            filterSearch += getSearchString(filters.get(j))
+                    + "OR world.type LIKE";
         }
-        return filterSearch;
+        return filterSearch += getSearchString(filters.get(filters.size() - 1)) + " ) ";
     }
 
     private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
@@ -156,14 +146,6 @@ public class TIPFind extends TIPHeader {
         }
     }
 
-    private String setKey(String key){
-        String type = key.substring(0,key.indexOf('.'));
-        if(type.equals("world")){
-            return key.substring(key.indexOf('.') + 1);
-        }
-        return type;
-    }
-
     private void initializePlaces(){
         if(limit != null){
             if(found < limit){
@@ -176,6 +158,14 @@ public class TIPFind extends TIPHeader {
             }
         }
         this.places = new Map[found];
+    }
+
+    private String setKey(String key){
+        String type = key.substring(0,key.indexOf('.'));
+        if(type.equals("world")){
+            return key.substring(key.indexOf('.') + 1);
+        }
+        return type;
     }
 
     @Override
