@@ -142,7 +142,14 @@ export default class Iitnerary extends Component {
     }
 
     reverseList(){
-        this.props.sendItineraryRequest("xd");
+        var requestString = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 4,
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+            "places"         : this.props.JSONString.body.places.reverse(),
+            "distances"      : []
+        }
+        this.props.sendItineraryRequest(requestString);
     }
 
     returnBootStrapTable1(){
