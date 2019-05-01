@@ -188,6 +188,10 @@ export default class Iitnerary extends Component {
         let handleSubmit = (event) => {
             event.preventDefault();
             let number = document.getElementById(columnIndex);
+            if (number.value === "" || number.value > this.props.JSONString.body.places.length) {
+                alert("Please enter a valid integer from " + 1 + " to " + this.props.JSONString.body.places.length);
+                return;
+            }
             this.props.changeOrder(columnIndex, number.value - 1);
         };
 
