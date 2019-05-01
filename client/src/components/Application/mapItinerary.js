@@ -44,14 +44,17 @@ export default class mapItinerary extends Component {
                           <span>
                               <Card>
                               <CardBody>
+                                <Row>
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                                 <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
-                              </CardBody>
-                              <CardBody>
-                                  <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                                  <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
-                              </CardBody>
+                                </Row>
+                                <Row><b>Shorten Trip</b></Row>
+                                <Row>
+                                <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
+                                <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
+                                </Row>
+                                </CardBody>
                               </Card>
                         </span>
                       </div>
