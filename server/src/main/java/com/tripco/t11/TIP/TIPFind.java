@@ -118,7 +118,7 @@ public class TIPFind extends TIPHeader {
     private String concatFilterSearch(){
         String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
-            if ( ((String)narrow[i].get("name")).equals("ports") ) {
+            if ( ((String)narrow[i].get("name")).equals("type") ) {
                 filterSearch += extractSearchStrings((ArrayList<String>)narrow[i].get("values"));
             }
         }
