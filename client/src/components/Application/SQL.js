@@ -234,8 +234,6 @@ export default class SQL extends Component {
                         <input id="long" type="text" placeholder="Enter Longitude"/>
                         <input type="submit" value="Submit"/>
                     </form>
-                    <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                    <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
                 </CardBody>
             </Card>
         );
