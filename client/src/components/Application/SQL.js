@@ -31,9 +31,7 @@ export default class SQL extends Component {
     render() {
         return (
             <div>
-                {<div>
-                    {<div>
-                        <Pane header={'Search for Destination'}
+                <Pane header={'Search for Destination'}
                               bodyJSX={
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
@@ -44,10 +42,7 @@ export default class SQL extends Component {
                                       </label>
                                   </form>
                               }
-                        />
-                    </div>}
-                    <Pane header = {'World map'} bodyJSX={this.renderLeafletMap()} />
-                </div>}
+                />
                 {this.renderSQLTable()}
                 {this.renderTableB4Itinerary()}
             </div>
@@ -213,38 +208,6 @@ export default class SQL extends Component {
         } return location;
     }
 
-    renderLeafletMap() {
-        if (this.state.boolShowCondensedMap == true) {return ( this.renderCondensedMap(this.state.long, this.state.lat));}
-        return (this.renderBasicMap());
-    }
-
-
-    renderCondensedMap(lat, long){
-        return(
-            <div>
-                <Map zoom = {13} center = {[long,lat]} animate = {true} style={{height: 500, maxwidth: 700}}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors" />
-                    <Marker position = {[long,lat]} icon={L.icon({
-                        iconUrl: icon,
-                        shadowUrl: iconShadow,
-                        iconAnchor: [12,40]  // for proper placement
-                    })}/>
-                </Map>
-            </div>
-        )
-    }
-
-    renderBasicMap(){
-        return(
-            <div>
-                <Map center={[0,0]} zoom={2} style={{height: 500, maxwidth: 700}}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
-                </Map>
-            </div>
-        )
-    }
 
     SQLTable() {
         let work = this.props.SQLJson.places
