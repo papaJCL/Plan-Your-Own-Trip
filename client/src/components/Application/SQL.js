@@ -21,6 +21,8 @@ export default class SQL extends Component {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.buttonSQL = this.buttonSQL.bind(this);
+        this.handleAddSubmit = this.handleAddSubmit.bind(this);
+        this.createAddDropDown = this.createAddDropDown.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -44,6 +46,7 @@ export default class SQL extends Component {
                               }
                 />
                 {this.renderSQLTable()}
+                {this.createAddDropDown()}
             </div>
         );
     }
@@ -205,5 +208,37 @@ export default class SQL extends Component {
                     <tbody> {body} </tbody>
                 </table>}/>
         )
+    }
+
+    handleAddSubmit(event) {
+        event.preventDefault();
+        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        let name = document.getElementById('nameAdd').value;
+        let lat = document.getElementById('lat').value;
+        let long = document.getElementById('long').value;
+        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
+        //     return;
+        // }
+        console.log(name, lat, long)
+        this.props.addLocation(name, lat, long);
+    }
+
+
+    createAddDropDown() {
+        return (
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Add a New Location</b></CardTitle>
+
+                    <form onSubmit={this.handleAddSubmit}>
+                        <input id="nameAdd" type="text" placeholder="Enter Name"/>
+                        <input id="lat" type="text" placeholder="Enter Latitude"/>
+                        <input id="long" type="text" placeholder="Enter Longitude"/>
+                        <input type="submit" value="Submit"/>
+                    </form>
+                </CardBody>
+            </Card>
+        );
     }
 }
