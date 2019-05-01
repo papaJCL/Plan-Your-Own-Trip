@@ -131,7 +131,7 @@ export default class Iitnerary extends Component {
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
-                            {<Button onClick={() => this.sendSQLRequest()}>Reverse List</Button>}
+                            {<Button onClick={() => this.reverseList()}>Reverse List</Button>}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
@@ -139,6 +139,10 @@ export default class Iitnerary extends Component {
                 />
             </div>
         );
+    }
+
+    reverseList(){
+        this.props.sendItineraryRequest("xd");
     }
 
     returnBootStrapTable1(){
