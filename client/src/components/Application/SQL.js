@@ -21,6 +21,8 @@ export default class SQL extends Component {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.buttonSQL = this.buttonSQL.bind(this);
+        this.handleAddSubmit = this.handleAddSubmit.bind(this);
+        this.createAddDropDown = this.createAddDropDown.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
