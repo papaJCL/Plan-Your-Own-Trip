@@ -20,10 +20,7 @@ export default class Iitnerary extends Component {
         super(props)
         this.renderItinerary = this.renderItinerary.bind(this)
         this.basicItinerary = this.basicItinerary.bind(this)
-        this.deleteFunc = this.deleteFunc.bind(this)
-        this.makeOriginFunc = this.makeOriginFunc.bind(this)
         this.changeFunc = this.changeFunc.bind(this)
-        this.changeShowMarkerFunc = this.changeShowMarkerFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
     }
@@ -172,13 +169,10 @@ export default class Iitnerary extends Component {
     addCols(){
         var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID
         },{dataField: 'name', text: 'Name', hidden: this.props.filterName
+        },{dataField: 'options', text: 'Options', formatter: this.changeFunc
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
         }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
         },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
-        },{dataField: 'delete', text: 'Delete', formatter: this.deleteFunc
-        },{dataField: 'origin', text: 'Make Origin', formatter: this.makeOriginFunc
-        },{dataField: 'change', text: 'Switch Order', formatter: this.changeFunc
-        },{dataField: 'show/hide', text: 'Show/Hide Marker', formatter: this.changeShowMarkerFunc
         }];
         return columns
     }
@@ -191,28 +185,22 @@ export default class Iitnerary extends Component {
         };
 
         return (
-            <form onSubmit={handleSubmit}>
-                <input id={columnIndex} type="number" min="1" style={{width: "45px"}} />
-                <input type="submit" value="Enter"/>
-            </form>
-        );
-    }
+            <div>
+                <row>
 
-    changeShowMarkerFunc(e, column, columnIndex, row, rowIndex) {
-        return (
-            <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}>Show/Hide</Button>
-        );
-    }
 
-    deleteFunc(e, column, columnIndex, row, rowIndex){
-        return (
-            <Button onClick={() => this.props.deleteLocation(columnIndex)}>Delete</Button>
-        );
-    }
+                    <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span fontsize = "40" role="img">👁</span></Button>
+                    <Button onClick={() => this.props.deleteLocation(columnIndex)}><span fontsize = "40" role="img">❌</span></Button>
+                    <Button onClick={() => this.props.changeStartLocation(columnIndex)}><span fontsize = "40" role="img">⭱</span></Button>
+                </row>
 
-    makeOriginFunc(e, column, columnIndex, row, rowIndex){
-        return (
-            <Button onClick={() => this.props.changeStartLocation(columnIndex)}>Make Origin</Button>
+                <form onSubmit={handleSubmit}>
+                    <input id={columnIndex} type="number" min="1" style={{width: "45px"}} />
+                    <input type="submit" value="Enter"/>
+                </form>
+
+            </div>
+
         );
     }
 
