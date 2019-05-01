@@ -17,7 +17,6 @@ export default class mapItinerary extends Component {
         super(props)
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
-        this.clearMap = this.clearMap.bind(this);
         this.algorithmButton = this.algorithmButton.bind(this);
     }
 
