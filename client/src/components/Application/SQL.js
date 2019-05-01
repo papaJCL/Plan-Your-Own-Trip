@@ -191,8 +191,7 @@ export default class SQL extends Component {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td> <td> {item.name} </td><td> {item.latitude} </td> <td> {item.longitude} </td>
-                <td> {item.municipality} </td>
+                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td> <td> {item.name} </td><td> {item.municipality} </td><td> {Math.round(item.latitude)} </td> <td> {Math.round(item.longitude)} </td>
             </tr>)
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
@@ -200,7 +199,7 @@ export default class SQL extends Component {
                 <table class="table-responsive">
                     <thead>
                         <tr>
-                            <th>+</th><th>#</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Municipality</th>
+                            <th>Add</th><th>#</th><th>Name</th><th>Municipality</th><th>Latitude</th><th>Longitude</th>
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
