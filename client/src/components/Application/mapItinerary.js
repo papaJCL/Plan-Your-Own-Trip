@@ -17,11 +17,7 @@ export default class mapItinerary extends Component {
         super(props)
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
-        this.createAddDropDown = this.createAddDropDown.bind(this)
-        this.handleAddSubmit = this.handleAddSubmit.bind(this)
         this.clearMap = this.clearMap.bind(this);
-        this.createAddDropDown = this.createAddDropDown.bind(this);
-        this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.algorithmButton = this.algorithmButton.bind(this);
     }
 
@@ -52,44 +48,10 @@ export default class mapItinerary extends Component {
                                 <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
                               </CardBody>
                               </Card>
-                              {this.createAddDropDown()}
                         </span>
                       </div>
                   }
             />
-        );
-    }
-
-    handleAddSubmit(event) {
-        event.preventDefault();
-        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        let name = document.getElementById('name').value;
-        let lat = document.getElementById('lat').value;
-        let long = document.getElementById('long').value;
-        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
-        //     return;
-        // }
-        this.props.addLocation(name, lat, long);
-    }
-
-
-    createAddDropDown() {
-        return (
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Add a New Location</b></CardTitle>
-
-                        <form onSubmit={this.handleAddSubmit}>
-                            <input id="name" type="text" placeholder="Enter Name"/>
-                            <input id="lat" type="text" placeholder="Enter Latitude"/>
-                            <input id="long" type="text" placeholder="Enter Longitude"/>
-                            <input type="submit" value="Submit"/>
-                        </form>
-                    <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                    <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
-                </CardBody>
-            </Card>
         );
     }
 
