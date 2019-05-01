@@ -213,13 +213,14 @@ export default class SQL extends Component {
     handleAddSubmit(event) {
         event.preventDefault();
         //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        let name = document.getElementById('name').value;
+        let name = document.getElementById('nameAdd').value;
         let lat = document.getElementById('lat').value;
         let long = document.getElementById('long').value;
         // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
         //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
         //     return;
         // }
+        console.log(name, lat, long)
         this.props.addLocation(name, lat, long);
     }
 
@@ -231,7 +232,7 @@ export default class SQL extends Component {
                     <CardTitle><b>Add a New Location</b></CardTitle>
 
                     <form onSubmit={this.handleAddSubmit}>
-                        <input id="name" type="text" placeholder="Enter Name"/>
+                        <input id="nameAdd" type="text" placeholder="Enter Name"/>
                         <input id="lat" type="text" placeholder="Enter Latitude"/>
                         <input id="long" type="text" placeholder="Enter Longitude"/>
                         <input type="submit" value="Submit"/>
