@@ -124,7 +124,7 @@ export default class Iitnerary extends Component {
                     }
                     bodyJSX={
                         <div>
-                            <DropdownButton id="dropdown-basic-button" title="Filter">
+                            <DropdownButton id="dropdown-basic-button" title="Filter Results">
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
