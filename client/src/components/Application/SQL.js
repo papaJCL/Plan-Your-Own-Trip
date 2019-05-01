@@ -44,7 +44,6 @@ export default class SQL extends Component {
                               }
                 />
                 {this.renderSQLTable()}
-                {this.renderTableB4Itinerary()}
             </div>
         );
     }
@@ -53,10 +52,6 @@ export default class SQL extends Component {
         if (this.props.SQLJson.length != 0){return(this.SQLTable());}
     }
 
-    renderTableB4Itinerary(){
-        if (this.props.SQLItineraryInfo.length == 0)return( <Pane header = {"Your added locations will pop up here"} />);
-        return(this.returnSQLItinerary());
-    }
 
     sendSQLRequest(){
         var request = {
@@ -67,9 +62,6 @@ export default class SQL extends Component {
             "distances"      : []
         };
 
-
-
-
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
                 console.log(response.body)
@@ -79,38 +71,36 @@ export default class SQL extends Component {
                     this.props.liftHomeState(response);
                     this.props.boolSQLFunc();
                 }
-
             });
-
     }
 
 
-    returnSQLItinerary(){
-        const products = [];
-        const startId = products.length;
-        for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-            const id = startId + i;
-            products[i] = ({
-                id: id + 1,
-                name: this.props.SQLItineraryInfo[i].name,
-                latitude: this.props.SQLItineraryInfo[i].latitude ,
-                longitude: this.props.SQLItineraryInfo[i].longitude,
-                municipality: this.props.SQLItineraryInfo[i].municipality});}
-        var cols = this.SQLColumns();
-        return (
-            <div>
-                <Pane
-                    header={<Button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</Button>}
-                    bodyJSX={<BootstrapTable1
-                            selectRow={{mode: 'checkbox'}}
-                            tabIndexCell
-                            bootstrap4
-                            keyField="id"
-                            data={products}
-                            columns={cols}> </BootstrapTable1> } />
-            </div>
-        );
-    }
+    // returnSQLItinerary(){
+    //     const products = [];
+    //     const startId = products.length;
+    //     for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
+    //         const id = startId + i;
+    //         products[i] = ({
+    //             id: id + 1,
+    //             name: this.props.SQLItineraryInfo[i].name,
+    //             latitude: this.props.SQLItineraryInfo[i].latitude ,
+    //             longitude: this.props.SQLItineraryInfo[i].longitude,
+    //             municipality: this.props.SQLItineraryInfo[i].municipality});}
+    //     var cols = this.SQLColumns();
+    //     return (
+    //         <div>
+    //             <Pane
+    //                 header={<Button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</Button>}
+    //                 bodyJSX={<BootstrapTable1
+    //                         selectRow={{mode: 'checkbox'}}
+    //                         tabIndexCell
+    //                         bootstrap4
+    //                         keyField="id"
+    //                         data={products}
+    //                         columns={cols}> </BootstrapTable1> } />
+    //         </div>
+    //     );
+    // }
 
 
     SQLTable(){
@@ -125,27 +115,15 @@ export default class SQL extends Component {
     buttonSQL(idx){
         let JSONPlaces = this.props.SQLJson.places[idx]
         return(
-            <Button onClick={() => this.props.updateItinerarySQL(JSONPlaces) }>Add Location</Button>
+            <Button onClick={() => this.props.updateItinerarySQL(JSONPlaces) }>+</Button>
         );
     }
 
-    buttonSeeMap(latitude, longitude){
-        return(
-            <Button onClick={() => this.callNewMapState(latitude,longitude) }>See on map</Button>
-        );
-    }
 
     reverseState(boolB){
         return !boolB;
     }
 
-    callNewMapState(latitude,longitude){
-        this.setState({
-            boolShowCondensedMap : this.reverseState(this.state.boolShowCondensedMap),
-            lat : latitude,
-            long : longitude
-            });
-        }
 
     SQLColumns(){
         return (
@@ -213,20 +191,20 @@ export default class SQL extends Component {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {idx + 1} </td> <td> {item.name} </td> <td> {item.latitude} </td> <td> {item.longitude} </td>
-                <td> {item.municipality} </td> <td> {this.buttonSQL(idx)} </td> <td> {this.buttonSeeMap(item.latitude, item.longitude)}</td>
+                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td> <td> {item.name} </td><td> {item.latitude} </td> <td> {item.longitude} </td>
+                <td> {item.municipality} </td>
             </tr>)
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
                   bodyJSX = {
-                <Table>
+                <table class="table-responsive">
                     <thead>
                         <tr>
-                            <th>#</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Municipality</th><th>Add to Itinerary</th><th></th>
+                            <th>+</th><th>#</th><th>Name</th><th>Latitude</th><th>Longitude</th><th>Municipality</th>
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
-                </Table>}/>
+                </table>}/>
         )
     }
 }
