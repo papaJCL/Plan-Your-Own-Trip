@@ -124,13 +124,16 @@ export default class Iitnerary extends Component {
                     }
                     bodyJSX={
                         <div>
+                            <Row>
                             <DropdownButton id="dropdown-basic-button" title="Filter Results">
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
+                            {<Button onClick={() => this.sendSQLRequest()}>Reverse List</Button>}
                             {this.returnBootStrapTable1()}
+                            </Row>
                         </div>
                     }
                 />
@@ -187,8 +190,6 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <row>
-
-
                     <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span fontsize = "40" role="img">👁</span></Button>
                     <Button onClick={() => this.props.deleteLocation(columnIndex)}><span fontsize = "40" role="img">❌</span></Button>
                     <Button onClick={() => this.props.changeStartLocation(columnIndex)}><span fontsize = "40" role="img">⭱</span></Button>
