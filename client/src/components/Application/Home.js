@@ -28,7 +28,7 @@ export default class Home extends Component {
         this.deleteLocation = this.deleteLocation.bind(this)
         this.changeStartLocation = this.changeStartLocation.bind(this)
         this.changeOrder = this.changeOrder.bind(this)
-        this.addLocation = this.addLocation.bind(this)
+
     }
 
     callMapItinerary(){
@@ -49,7 +49,6 @@ export default class Home extends Component {
                 updatePlacesArray = {this.props.updatePlacesArray}
                 createErrorBannerState = {this.props.createErrorBannerState}
                 deleteLocation = {this.deleteLocation}
-                addLocation = {this.addLocation}
                 sendItineraryRequest = {this.sendItineraryRequest}
                 changeStartLocation = {this.changeStartLocation}
                 showMarkers = {this.props.showMarkers}
@@ -85,7 +84,7 @@ export default class Home extends Component {
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
                 setShowMarkerState = {this.props.setShowMarkerState}
-                checkServerResponse ={this.props.checkServerResponse}
+                checkServerResponse ={this.props.checkServerResponse} sendItineraryRequest = {this.sendItineraryRequest}
             />
         )
     }
@@ -97,25 +96,6 @@ export default class Home extends Component {
                 {this.callItinerary()}
             </Container>
         );
-    }
-
-    addLocation(name, lat, long) {
-        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-            this.props.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
-            return;
-        }
-        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
-            lat = magellan(lat).latitude().toDD();
-        }
-        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
-            long = magellan(long).longitude().toDD();
-        }
-        let newplaces = this.props.JSONString.body.places;
-        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.props.JSONString.body.places.length};
-        newplaces.push(newloc);
-        this.props.updatePlacesArray(newplaces);
-
     }
 
     changeOrder(idx0, idx) {

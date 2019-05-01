@@ -40,6 +40,7 @@ export default class Application extends Component {
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
     this.checkServerResponse = this.checkServerResponse.bind(this);
+    this.addLocation = this.addLocation.bind(this)
 
     this.state = {
       serverConfig: null,
@@ -148,16 +149,12 @@ export default class Application extends Component {
     var datafile
       if(type === "find") {
          datafile = require('../../Schemaresourcesclient/TIPFindResponseSchema.json')
-          console.log("find")
       }else if(type === "itinerary"){
           datafile = require('../../Schemaresourcesclient/TIPItineraryResponseSchema.json')
-          console.log("Itin")
       }else if(type === "config"){
           datafile = require('../../Schemaresourcesclient/TIPConfigResponseSchema.json')
-          console.log("config")
       }else if(type === "distance"){
           datafile = require('../../Schemaresourcesclient/TIPDistanceResponseSchema.json')
-          console.log("dis")
       }else{
           this.createErrorBannerState("Error", '500', "Something went wrong, please try again");
           return false;
@@ -233,6 +230,7 @@ export default class Application extends Component {
                 createErrorBanner={this.createErrorBanner}
                 createErrorBannerState={this.createErrorBannerState}
                 checkServerResponse = {this.checkServerResponse}
+                addLocation = {this.addLocation}
             />;
 
         default:
@@ -401,7 +399,6 @@ export default class Application extends Component {
           "distances"      : [],
       };
 
-      console.log("UPDATE PLACES ARRAY " , request)
       sendServerRequestWithBody('itinerary',request,this.state.clientSettings.serverPort)
           .then((response) => {
           console.log(response.statusCode)
@@ -493,6 +490,25 @@ export default class Application extends Component {
         this.setState({
             showMarkers: newarr
         })
+    }
+
+    addLocation(name, lat, long) { console.log(name, lat, long)
+        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+            this.state.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
+            return;
+        }
+        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
+            lat = magellan(lat).latitude().toDD();
+        }
+        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
+            long = magellan(long).longitude().toDD();
+        }
+        let newplaces = this.state.JSONString.body.places;
+        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
+        newplaces.push(newloc);
+        this.updatePlacesArray(newplaces);
+
     }
 
 
