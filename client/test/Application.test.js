@@ -205,7 +205,7 @@ function testChangingState(){
     app.instance().updateSQLState(20);
     app.instance().updateItinerarySQL(10);
     expect(app.state().SQLJson).toEqual(20);
-    expect(app.state().SQLItineraryInfo).toEqual([10]);
+    expect(app.state().SQLItineraryInfo).toEqual([]);
     app.instance().boolSQLFunc()
     expect(app.state().boolSQL).toEqual(false)
     app.instance().clearMapState();
