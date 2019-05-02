@@ -44,7 +44,6 @@ public class TIPFind extends TIPHeader {
 
     @Override
     public void buildResponse(){
-        System.out.println(buildMatchQuery(getPlaceAttributes()));
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
