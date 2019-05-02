@@ -40,7 +40,7 @@ export default class SQL extends Component {
                                           <Input id="location" type="text" placeholder="Enter Location"/>
                                           {`Check to Filter by Airport`}
                                           <Input id="airports" type="checkbox"/>
-                                          <Input id="name" type="submit" value="Submit"/>
+                                          <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
                               }
@@ -232,7 +232,7 @@ export default class SQL extends Component {
                         <Input id="nameAdd" type="text" placeholder="Enter Name"/>
                         <Input id="lat" type="text" placeholder="Enter Latitude"/>
                         <Input id="long" type="text" placeholder="Enter Longitude"/>
-                        <Input type="submit" value="Submit"/>
+                        <Input className='btn-csu w-100 text-left' type="submit" value="Submit"/>
                     </form>
                 </CardBody>
             </Card>
