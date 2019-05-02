@@ -76,9 +76,7 @@ public class TIPConfig extends TIPHeader {
         countries[i++] = scan.nextLine();
       }
       scan.close();
-    } catch(IOException e){
-      System.out.println("File not Found FUCK");
-    }
+    } catch(IOException e){ }
     countryFilter.put("values", countries);
     return countryFilter;
   }
