@@ -3,10 +3,14 @@ package com.tripco.t11.TIP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /** This class defines the Config response that provides the client
  * with server specific configuration information.
@@ -25,7 +29,7 @@ public class TIPConfig extends TIPHeader {
   private String serverName;
   protected List<String> placeAttributes;
   private List<String> optimizations;
-  private Map<String, Object>[] filters;
+  protected Map<String, Object>[] filters;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
@@ -44,13 +48,39 @@ public class TIPConfig extends TIPHeader {
   }
 
   Map<String,Object>[] assignFilters(){
-    Map<String, Object>[] filters = new HashMap[1];
-    Map<String, Object> filter = new HashMap<>();
-    filter.put("name", "type");
-    String[] values = new String[] {"airport","heliport","balloonport"};
-    filter.put("values", values);
+    Map<String, Object>[] filters = new HashMap[2];
+    Map<String, Object> filter = createTypeFilter();
     filters[0] = filter;
+    filter.clear();
+    filter = createCountryFilter();
+    filters[1] = filter;
     return filters;
+  }
+
+  Map<String,Object> createTypeFilter(){
+    Map<String,Object> typeFilter = new HashMap<>();
+    typeFilter.put("name","type");
+    String[] types = new String[] {"airport", "heliport", "balloonport"};
+    typeFilter.put("values",types);
+    return typeFilter;
+  }
+
+  Map<String,Object> createCountryFilter(){
+    Map<String,Object> countryFilter = new HashMap<>();
+    countryFilter.put("name", "country");
+    String[] countries = new String[246];
+    int i = 0;
+    try {
+      Scanner scan = new Scanner(new File("./server/src/main/resources/countries.txt"));
+      while (scan.hasNextLine()) {
+        countries[i++] = scan.nextLine();
+      }
+      scan.close();
+    } catch(IOException e){
+      System.out.println("File not Found FUCK");
+    }
+    countryFilter.put("values", countries);
+    return countryFilter;
   }
 
   String getServerName() { return this.serverName; }
