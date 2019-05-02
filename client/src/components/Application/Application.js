@@ -40,7 +40,8 @@ export default class Application extends Component {
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
     this.checkServerResponse = this.checkServerResponse.bind(this);
-    this.addLocation = this.addLocation.bind(this)
+    this.addLocation = this.addLocation.bind(this);
+    this.clearSQLState = this.clearSQLState.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -231,6 +232,7 @@ export default class Application extends Component {
                 createErrorBannerState={this.createErrorBannerState}
                 checkServerResponse = {this.checkServerResponse}
                 addLocation = {this.addLocation}
+                clearSQLState = {this.clearSQLState}
             />;
 
         default:
@@ -358,6 +360,14 @@ export default class Application extends Component {
       showMarkers: [false]
     });
   }
+
+    clearSQLState(){
+        this.setState({
+            SQLJson: [] ,
+            SQLItineraryInfo: [],
+            boolSQL: true,
+        });
+    }
 
   reRenderNewMapState(latitude, longitude, names, polyLine, markers){
       this.setState({

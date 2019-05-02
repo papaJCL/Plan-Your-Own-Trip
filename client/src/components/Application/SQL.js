@@ -35,6 +35,7 @@ export default class SQL extends Component {
             <div>
                 <Pane header={'Search for Destination'}
                               bodyJSX={
+                                  <div>
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
                                           <input id="location" type="text" placeholder="Enter Location"/>
@@ -43,13 +44,15 @@ export default class SQL extends Component {
                                           <input id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
-                              }
+                                      {<Button size="sm" onClick={() => this.props.clearSQLState()}>Clear</Button>}
+                                  </div>}
                 />
                 {this.renderSQLTable()}
                 {this.createAddDropDown()}
             </div>
         );
     }
+
 
     renderSQLTable(){
         if (this.props.SQLJson.length != 0){return(this.SQLTable());}

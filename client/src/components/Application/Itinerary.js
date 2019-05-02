@@ -205,9 +205,9 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <row>
-                    <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span fontsize = "40" role="img">👁</span></Button>
-                    <Button onClick={() => this.props.deleteLocation(columnIndex)}><span fontsize = "40" role="img">❌</span></Button>
-                    <Button onClick={() => this.props.changeStartLocation(columnIndex)}><span fontsize = "40" role="img">⭱</span></Button>
+                    <Button size="sm" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+                    <Button size="sm" onClick={() => this.props.deleteLocation(columnIndex)}><span role="img">❌</span></Button>
+                    <Button size="sm" onClick={() => this.props.changeStartLocation(columnIndex)}><span role="img">⭱</span></Button>
                 </row>
 
                 <form onSubmit={handleSubmit}>
