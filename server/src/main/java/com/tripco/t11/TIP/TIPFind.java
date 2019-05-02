@@ -39,12 +39,11 @@ public class TIPFind extends TIPHeader {
 
     private TIPFind(){
         this.requestType = "find";
-        this.requestVersion = 4;
+        this.requestVersion = 5;
     }
 
     @Override
     public void buildResponse(){
-        System.out.println(buildMatchQuery(getPlaceAttributes()));
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
