@@ -403,9 +403,7 @@ export default class Application extends Component {
           .then((response) => {
           console.log(response.statusCode)
               var valid = this.checkServerResponse(response.statusCode,response.body, 'itinerary')
-
-              console.log("What the server sends back" , response.body)
-                  if(valid) {
+               if(valid) {
                       this.liftHomeState(response);
                   }
           });
@@ -426,9 +424,7 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
-      this.setState({
-          SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
-        });
+      this.addLocation(sql.name, sql.latitude, sql.longitude);
     }
 
     boolSQLFunc(){
@@ -492,7 +488,7 @@ export default class Application extends Component {
         })
     }
 
-    addLocation(name, lat, long) { console.log(name, lat, long)
+    addLocation(name, lat, long) {
         var magellan = require('./../../../../node_modules/magellan-coords/magellan');
         if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
             this.state.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
