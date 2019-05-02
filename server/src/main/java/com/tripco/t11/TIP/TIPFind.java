@@ -119,12 +119,7 @@ public class TIPFind extends TIPHeader {
     private String concatFilterSearch(){
         String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
-            if(i == 0){
-                filterSearch += " ( ";
-            }
-            else if(i > 0){
-                filterSearch += "AND ( ";
-            }
+            filterSearch += (i > 0) ? "AND ( " : " ( ";
             filterSearch += extractFilterSearch(((String)narrow[i].get("name")),
                     (ArrayList<String>)narrow[i].get("values"));
         }
