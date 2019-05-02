@@ -44,6 +44,7 @@ public class TIPFind extends TIPHeader {
 
     @Override
     public void buildResponse(){
+        System.out.println(buildMatchQuery(getPlaceAttributes()));
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
@@ -92,7 +93,7 @@ public class TIPFind extends TIPHeader {
     private String queryEnd(){
         String queryEnd = "\nFROM ( continent ";
         queryEnd += concatMapJoin() + " ) " + concatMatchSearch();
-        if(narrow != null) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
+        if(narrow != null && narrow.length > 0) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
         return queryEnd += ") ";
     }
 
@@ -116,9 +117,12 @@ public class TIPFind extends TIPHeader {
     }
 
     private String concatFilterSearch(){
-        String filterSearch = " ( ";
+        String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
-            if(i > 0){
+            if(i == 0){
+                filterSearch += " ( ";
+            }
+            else if(i > 0){
                 filterSearch += "AND ( ";
             }
             filterSearch += extractFilterSearch(((String)narrow[i].get("name")),
