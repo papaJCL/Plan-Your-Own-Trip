@@ -44,6 +44,7 @@ public class TIPFind extends TIPHeader {
 
     @Override
     public void buildResponse(){
+        System.out.println(buildMatchQuery(getPlaceAttributes()));
         try {
             Class.forName(myDriver);
             try (Connection connect = DriverManager.getConnection(myUrl, user, pass);
@@ -90,10 +91,10 @@ public class TIPFind extends TIPHeader {
     }
 
     private String queryEnd(){
-        String queryEnd = "FROM continent ";
-        queryEnd += concatMapJoin() + concatMatchSearch();
-        if(narrow != null) queryEnd += concatFilterSearch();
-        return queryEnd;
+        String queryEnd = "\nFROM ( continent ";
+        queryEnd += concatMapJoin() + " ) " + concatMatchSearch();
+        if(narrow != null) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
+        return queryEnd += ") ";
     }
 
     private String concatMapJoin(){
@@ -104,10 +105,10 @@ public class TIPFind extends TIPHeader {
     }
 
     private String concatMatchSearch(){
-        String matchSearch = "WHERE country.name LIKE" + getSearchString(this.match)
-                + "OR region.name LIKE" + getSearchString(this.match)
-                + "OR world.name LIKE" + getSearchString(this.match)
-                + "OR world.municipality LIKE" + getSearchString(this.match);
+        String matchSearch = "\nWHERE (\n( ( country.name LIKE" + getSearchString(this.match) + ") "
+                + "OR ( region.name LIKE" + getSearchString(this.match) + ") "
+                + "OR ( world.name LIKE" + getSearchString(this.match) + ") "
+                + "OR ( world.municipality LIKE" + getSearchString(this.match) + ") ) ";
         return matchSearch;
     }
 
@@ -116,22 +117,36 @@ public class TIPFind extends TIPHeader {
     }
 
     private String concatFilterSearch(){
-        String filterSearch = "";
+        String filterSearch = " ( ";
         for(int i = 0; i < narrow.length; ++i){
-            if ( ((String)narrow[i].get("name")).equals("type") ) {
-                filterSearch += extractSearchStrings((ArrayList<String>)narrow[i].get("values"));
+            if(i > 0){
+                filterSearch += "AND ( ";
             }
+            filterSearch += extractFilterSearch(((String)narrow[i].get("name")),
+                    (ArrayList<String>)narrow[i].get("values"));
         }
         return filterSearch;
     }
 
-    private String extractSearchStrings(ArrayList<String> filters){
-        String filterSearch = "AND ( world.type LIKE";
+    private String extractFilterSearch(String filter, ArrayList<String> filters){
+        String filterMatch = filterMatch(filter);
+        String filterSearch = filterMatch + " LIKE";
         for(int j = 0; j < filters.size() - 1; ++j){
             filterSearch += getSearchString(filters.get(j))
-                    + "OR world.type LIKE";
+                    + "OR " + filterMatch + " LIKE";
         }
         return filterSearch += getSearchString(filters.get(filters.size() - 1)) + " ) ";
+    }
+
+    private String filterMatch(String filter){
+        String filterMatch = "";
+        if(filter.equals("type")){
+            filterMatch += "world.type";
+        }
+        else if(filter.equals("country")){
+            filterMatch += "country.name";
+        }
+        return filterMatch;
     }
 
     private void addPlaces(ResultSet rsQuery, String[] placeAttributes) throws SQLException{
