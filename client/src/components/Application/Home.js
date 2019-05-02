@@ -127,7 +127,7 @@ export default class Home extends Component {
             return;
         }
         places.splice(idx, 1);
-        (this.props.markers).splice(idx, 1);
+        this.props.markers.splice(idx, 1);
         this.props.updatePlacesArray(places);
     }
 

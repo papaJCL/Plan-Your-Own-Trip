@@ -138,7 +138,7 @@ export default class mapItinerary extends Component {
         );
     }
 
-    renderMarkers() {
+    renderMarkers() { console.log(this.props.showMarkers)
         return (
             <div>
                 {
