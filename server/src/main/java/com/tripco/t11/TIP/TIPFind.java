@@ -92,7 +92,7 @@ public class TIPFind extends TIPHeader {
     private String queryEnd(){
         String queryEnd = "\nFROM ( continent ";
         queryEnd += concatMapJoin() + " ) " + concatMatchSearch();
-        if(narrow != null) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
+        if(narrow != null && narrow.length > 0) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
         return queryEnd += ") ";
     }
 
@@ -116,11 +116,9 @@ public class TIPFind extends TIPHeader {
     }
 
     private String concatFilterSearch(){
-        String filterSearch = " ( ";
+        String filterSearch = "";
         for(int i = 0; i < narrow.length; ++i){
-            if(i > 0){
-                filterSearch += "AND ( ";
-            }
+            filterSearch += (i > 0) ? "AND ( " : " ( ";
             filterSearch += extractFilterSearch(((String)narrow[i].get("name")),
                     (ArrayList<String>)narrow[i].get("values"));
         }
