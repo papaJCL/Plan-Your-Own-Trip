@@ -67,9 +67,7 @@ export default class SQL extends Component {
 
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.body)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
-
                 if(valid) {
                     this.props.liftHomeState(response);
                     this.props.boolSQLFunc();
@@ -169,7 +167,7 @@ export default class SQL extends Component {
 
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response)
+                console.log('find return ' , response)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'find')
 
                 if (valid) {
@@ -220,7 +218,6 @@ export default class SQL extends Component {
         //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
         //     return;
         // }
-        console.log(name, lat, long)
         this.props.addLocation(name, lat, long);
     }
 
