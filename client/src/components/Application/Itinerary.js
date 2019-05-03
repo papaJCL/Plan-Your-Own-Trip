@@ -125,13 +125,13 @@ export default class Iitnerary extends Component {
                     bodyJSX={
                         <div>
                             <Row>
-                            <DropdownButton id="dropdown-basic-button" title="Filter Results" caret>
+                            <DropdownButton size="sm" color="primary" id="dropdown-basic-button" title="Filter Results" caret>
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
-                            {<Button onClick={() => this.reverseList()}>Reverse List</Button>}
+                                {<Button size="sm" onClick={() => this.reverseList()}>Reverse List</Button>}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
