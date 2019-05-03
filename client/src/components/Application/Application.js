@@ -383,7 +383,7 @@ export default class Application extends Component {
   }
 
   liftHomeState(response) {
-
+        console.log("liftHomeState " , response)
       let markers = this.state.showMarkers;
       if (this.state.showMarkers.length === 1)
           for (let i = 0; i < response.body.places.length; i++) markers.push(false);
