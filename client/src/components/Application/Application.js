@@ -513,6 +513,7 @@ export default class Application extends Component {
         let newplaces = this.state.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
         newplaces.push(newloc);
+        (this.state.showMarkers[0]) ? this.state.showMarkers.push(true) : this.state.showMarkers.push(false);
         this.updatePlacesArray(newplaces);
 
     }
