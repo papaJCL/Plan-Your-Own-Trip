@@ -35,6 +35,7 @@ export default class SQL extends Component {
             <div>
                 <Pane header={'Search for Destination'}
                               bodyJSX={
+                                  <div>
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
                                           <Input id="location" type="text" placeholder="Enter Location"/>
@@ -43,13 +44,14 @@ export default class SQL extends Component {
                                           <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
-                              }
+                                  </div>}
                 />
                 {this.renderSQLTable()}
                 {this.createAddDropDown()}
             </div>
         );
     }
+
 
     renderSQLTable(){
         if (this.props.SQLJson.length != 0){return(this.SQLTable());}
@@ -74,35 +76,6 @@ export default class SQL extends Component {
                 }
             });
     }
-
-
-    // returnSQLItinerary(){
-    //     const products = [];
-    //     const startId = products.length;
-    //     for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-    //         const id = startId + i;
-    //         products[i] = ({
-    //             id: id + 1,
-    //             name: this.props.SQLItineraryInfo[i].name,
-    //             latitude: this.props.SQLItineraryInfo[i].latitude ,
-    //             longitude: this.props.SQLItineraryInfo[i].longitude,
-    //             municipality: this.props.SQLItineraryInfo[i].municipality});}
-    //     var cols = this.SQLColumns();
-    //     return (
-    //         <div>
-    //             <Pane
-    //                 header={<Button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</Button>}
-    //                 bodyJSX={<BootstrapTable1
-    //                         selectRow={{mode: 'checkbox'}}
-    //                         tabIndexCell
-    //                         bootstrap4
-    //                         keyField="id"
-    //                         data={products}
-    //                         columns={cols}> </BootstrapTable1> } />
-    //         </div>
-    //     );
-    // }
-
 
     SQLTable(){
         return(
@@ -197,6 +170,9 @@ export default class SQL extends Component {
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
                   bodyJSX = {
+                      <div>
+                      {<Button size="sm" onClick={() => this.addAllButton()}>Add all locations</Button>}
+                      {<Button size="sm" onClick={() => this.props.clearSQLState()}>Clear</Button>}
                 <table class="table-responsive">
                     <thead>
                         <tr>
@@ -204,8 +180,26 @@ export default class SQL extends Component {
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
-                </table>}/>
+                      </table>
+                      </div>
+                  }
+            />
         )
+    }
+
+    addAllButton(){
+        var requestAll = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 4,
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+            "places"         : this.props.JSONString.body.places.concat(this.props.SQLJson.places),
+            "distances"      : []
+        }
+        sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
+            .then((response) => {
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+                    this.props.liftHomeState(response);
+            });
     }
 
     handleAddSubmit(event) {
