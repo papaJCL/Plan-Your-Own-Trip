@@ -10,6 +10,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
 import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import ErrorBanner from './ErrorBanner';
+import {geolocated} from 'react-geolocated';
 
 export default class mapItinerary extends Component {
 
@@ -23,6 +24,7 @@ export default class mapItinerary extends Component {
         this.createAddDropDown = this.createAddDropDown.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.algorithmButton = this.algorithmButton.bind(this);
+        this.getUserLocation =this.getUserLocation.bind(this);
     }
 
     render(){
@@ -136,10 +138,26 @@ export default class mapItinerary extends Component {
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                        {this.getUserLocation()}
+
+
+
                     />
                 </Map>
             </div>
         );
+    }
+
+    getUserLocation(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(displayLocationInfo);
+        }
+
+
+        return(
+
+        );
+
     }
 
     renderComplexMap(){
