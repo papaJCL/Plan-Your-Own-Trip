@@ -52,11 +52,9 @@ export default class SQL extends Component {
         );
     }
 
-
     renderSQLTable(){
         if (this.props.SQLJson.length != 0){return(this.SQLTableBody());}
     }
-
 
     sendSQLRequest(){
         var request = {
@@ -77,15 +75,6 @@ export default class SQL extends Component {
             });
     }
 
-    SQLTable(){
-        return(
-            <div>
-                <Pane header={" Locations found!"}
-                      bodyJSX = {this.SQLTableBody()} />
-            </div>
-        );
-    }
-
     buttonSQL(idx){
         let JSONPlaces = this.props.SQLJson.places[idx]
         return(
@@ -93,11 +82,9 @@ export default class SQL extends Component {
         );
     }
 
-
     reverseState(boolB){
         return !boolB;
     }
-
 
     SQLColumns(){
         return (
@@ -160,7 +147,6 @@ export default class SQL extends Component {
         } return location;
     }
 
-
     SQLTableBody() {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
@@ -209,7 +195,6 @@ export default class SQL extends Component {
         let long = document.getElementById('long').value;
         this.props.addLocation(name, lat, long);
     }
-
 
     createAddDropDown() {
         return (
