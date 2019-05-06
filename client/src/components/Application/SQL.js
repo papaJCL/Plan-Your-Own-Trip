@@ -21,6 +21,8 @@ export default class SQL extends Component {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.buttonSQL = this.buttonSQL.bind(this);
+        this.handleAddSubmit = this.handleAddSubmit.bind(this);
+        this.createAddDropDown = this.createAddDropDown.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -33,6 +35,7 @@ export default class SQL extends Component {
             <div>
                 <Pane header={'Search for Destination'}
                               bodyJSX={
+                                  <div>
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
                                           <input id="location" type="text" placeholder="Enter Location"/>
@@ -41,12 +44,14 @@ export default class SQL extends Component {
                                           <input id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
-                              }
+                                  </div>}
                 />
                 {this.renderSQLTable()}
+                {this.createAddDropDown()}
             </div>
         );
     }
+
 
     renderSQLTable(){
         if (this.props.SQLJson.length != 0){return(this.SQLTable());}
@@ -64,44 +69,13 @@ export default class SQL extends Component {
 
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.body)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
-
                 if(valid) {
                     this.props.liftHomeState(response);
                     this.props.boolSQLFunc();
                 }
             });
     }
-
-
-    // returnSQLItinerary(){
-    //     const products = [];
-    //     const startId = products.length;
-    //     for (let i = 0; i < this.props.SQLItineraryInfo.length; i++) {
-    //         const id = startId + i;
-    //         products[i] = ({
-    //             id: id + 1,
-    //             name: this.props.SQLItineraryInfo[i].name,
-    //             latitude: this.props.SQLItineraryInfo[i].latitude ,
-    //             longitude: this.props.SQLItineraryInfo[i].longitude,
-    //             municipality: this.props.SQLItineraryInfo[i].municipality});}
-    //     var cols = this.SQLColumns();
-    //     return (
-    //         <div>
-    //             <Pane
-    //                 header={<Button onClick={() => this.sendSQLRequest()}>Click this to add to Itinerary</Button>}
-    //                 bodyJSX={<BootstrapTable1
-    //                         selectRow={{mode: 'checkbox'}}
-    //                         tabIndexCell
-    //                         bootstrap4
-    //                         keyField="id"
-    //                         data={products}
-    //                         columns={cols}> </BootstrapTable1> } />
-    //         </div>
-    //     );
-    // }
-
 
     SQLTable(){
         return(
@@ -166,7 +140,7 @@ export default class SQL extends Component {
 
         sendServerRequestWithBody('find',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response)
+                console.log('find return ' , response)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'find')
 
                 if (valid) {
@@ -196,6 +170,9 @@ export default class SQL extends Component {
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
                   bodyJSX = {
+                      <div>
+                      {<Button size="sm" onClick={() => this.addAllButton()}>Add all locations</Button>}
+                      {<Button size="sm" onClick={() => this.props.clearSQLState()}>Clear</Button>}
                 <table class="table-responsive">
                     <thead>
                         <tr>
@@ -203,7 +180,56 @@ export default class SQL extends Component {
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
-                </table>}/>
+                      </table>
+                      </div>
+                  }
+            />
         )
+    }
+
+    addAllButton(){
+        var requestAll = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 4,
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+            "places"         : this.props.JSONString.body.places.concat(this.props.SQLJson.places),
+            "distances"      : []
+        }
+        sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
+            .then((response) => {
+                var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
+                    this.props.liftHomeState(response);
+            });
+    }
+
+    handleAddSubmit(event) {
+        event.preventDefault();
+        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        let name = document.getElementById('nameAdd').value;
+        let lat = document.getElementById('lat').value;
+        let long = document.getElementById('long').value;
+        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
+        //     return;
+        // }
+        this.props.addLocation(name, lat, long);
+    }
+
+
+    createAddDropDown() {
+        return (
+            <Card>
+                <CardBody>
+                    <CardTitle><b>Add a New Location</b></CardTitle>
+
+                    <form onSubmit={this.handleAddSubmit}>
+                        <input id="nameAdd" type="text" placeholder="Enter Name"/>
+                        <input id="lat" type="text" placeholder="Enter Latitude"/>
+                        <input id="long" type="text" placeholder="Enter Longitude"/>
+                        <input type="submit" value="Submit"/>
+                    </form>
+                </CardBody>
+            </Card>
+        );
     }
 }

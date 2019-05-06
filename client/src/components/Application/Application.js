@@ -40,6 +40,8 @@ export default class Application extends Component {
     this.boolSQLFunc = this.boolSQLFunc.bind(this);
     this.setShowMarkerState = this.setShowMarkerState.bind(this);
     this.checkServerResponse = this.checkServerResponse.bind(this);
+    this.addLocation = this.addLocation.bind(this);
+    this.clearSQLState = this.clearSQLState.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -229,6 +231,8 @@ export default class Application extends Component {
                 createErrorBanner={this.createErrorBanner}
                 createErrorBannerState={this.createErrorBannerState}
                 checkServerResponse = {this.checkServerResponse}
+                addLocation = {this.addLocation}
+                clearSQLState = {this.clearSQLState}
             />;
 
         default:
@@ -357,6 +361,14 @@ export default class Application extends Component {
     });
   }
 
+    clearSQLState(){
+        this.setState({
+            SQLJson: [] ,
+            SQLItineraryInfo: [],
+            boolSQL: true,
+        });
+    }
+
   reRenderNewMapState(latitude, longitude, names, polyLine, markers){
       this.setState({
           errorMessage: null,
@@ -371,7 +383,7 @@ export default class Application extends Component {
   }
 
   liftHomeState(response) {
-
+        console.log("liftHomeState " , response)
       let markers = this.state.showMarkers;
       if (this.state.showMarkers.length === 1)
           for (let i = 0; i < response.body.places.length; i++) markers.push(false);
@@ -401,9 +413,7 @@ export default class Application extends Component {
           .then((response) => {
           console.log(response.statusCode)
               var valid = this.checkServerResponse(response.statusCode,response.body, 'itinerary')
-
-              console.log("What the server sends back" , response.body)
-                  if(valid) {
+               if(valid) {
                       this.liftHomeState(response);
                   }
           });
@@ -424,9 +434,7 @@ export default class Application extends Component {
     }
 
     updateItinerarySQL(sql){
-      this.setState({
-          SQLItineraryInfo: this.state.SQLItineraryInfo.concat(sql)
-        });
+      this.addLocation(sql.name, sql.latitude, sql.longitude);
     }
 
     boolSQLFunc(){
@@ -488,6 +496,26 @@ export default class Application extends Component {
         this.setState({
             showMarkers: newarr
         })
+    }
+
+    addLocation(name, lat, long) {
+        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
+        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
+            this.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
+            return;
+        }
+        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
+            lat = magellan(lat).latitude().toDD();
+        }
+        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
+            long = magellan(long).longitude().toDD();
+        }
+        let newplaces = this.state.JSONString.body.places;
+        let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
+        newplaces.push(newloc);
+        (this.state.showMarkers[0]) ? this.state.showMarkers.push(true) : this.state.showMarkers.push(false);
+        this.updatePlacesArray(newplaces);
+
     }
 
 

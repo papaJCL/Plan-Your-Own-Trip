@@ -18,11 +18,6 @@ export default class mapItinerary extends Component {
         super(props)
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
-        this.createAddDropDown = this.createAddDropDown.bind(this)
-        this.handleAddSubmit = this.handleAddSubmit.bind(this)
-        this.clearMap = this.clearMap.bind(this);
-        this.createAddDropDown = this.createAddDropDown.bind(this);
-        this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.algorithmButton = this.algorithmButton.bind(this);
         this.getUserLocation =this.getUserLocation.bind(this);
     }
@@ -36,6 +31,7 @@ export default class mapItinerary extends Component {
                 <Col xs={12} sm={12} md={5} lg={4} xl={3}>
                     {this.renderIntro()}
                 </Col>
+
             </Row>
         )
     }
@@ -49,49 +45,22 @@ export default class mapItinerary extends Component {
                           <span>
                               <Card>
                               <CardBody>
+                                <Row>
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 <Button onClick={this.clearMap}>Reset Map to default</Button>
                                 <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
-                              </CardBody>
+                                </Row>
+                                <Row><b>Shorten Trip</b></Row>
+                                <Row>
+                                <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
+                                <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
+                                </Row>
+                                </CardBody>
                               </Card>
-                              {this.createAddDropDown()}
                         </span>
                       </div>
                   }
             />
-        );
-    }
-
-    handleAddSubmit(event) {
-        event.preventDefault();
-        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        let name = document.getElementById('name').value;
-        let lat = document.getElementById('lat').value;
-        let long = document.getElementById('long').value;
-        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
-        //     return;
-        // }
-        this.props.addLocation(name, lat, long);
-    }
-
-
-    createAddDropDown() {
-        return (
-            <Card>
-                <CardBody>
-                    <CardTitle><b>Add a New Location</b></CardTitle>
-
-                        <form onSubmit={this.handleAddSubmit}>
-                            <input id="name" type="text" placeholder="Enter Name"/>
-                            <input id="lat" type="text" placeholder="Enter Latitude"/>
-                            <input id="long" type="text" placeholder="Enter Longitude"/>
-                            <input type="submit" value="Submit"/>
-                        </form>
-                    <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                    <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
-                </CardBody>
-            </Card>
         );
     }
 
@@ -122,12 +91,33 @@ export default class mapItinerary extends Component {
     }
 
     renderLeafletMap() {
-        if (this.props.boolMarker == false) {
+        if ((this.props.boolMarker == false) || (this.props.JSONString.body.places.length < 1)) {
             return ( this.renderBasicMap());
+        }
+        else if (this.props.JSONString.body.places.length <2){
+            return (this.renderSingleLocation());
         }
         else {
             return (this.renderComplexMap());
         }
+    }
+
+    renderSingleLocation(){
+        return(
+            <div>
+                <Map center={[this.props.latitude[0],this.props.longitude[0]]} zoom={10} animate = {true}
+                     style={{height: 500, maxwidth: 700}}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    />
+                    <Marker position={[this.props.latitude[0],this.props.longitude[0]]}
+                            icon={this.markerIcon()}>
+                        <Popup><div align="center"><b>Location: 1: </b><br />{this.props.JSONString.body.places[0].name}<br />{parseFloat(this.props.JSONString.body.places[0].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[0].longitude).toFixed(5)}</div></Popup>
+                    </Marker>
+                </Map>
+            </div>
+        );
     }
 
     renderBasicMap(){
@@ -161,7 +151,6 @@ export default class mapItinerary extends Component {
     }
 
     renderComplexMap(){
-
         return (
             <div>
                 <Map bounds = {this.props.markers} animate = {true}

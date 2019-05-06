@@ -12,7 +12,7 @@ export default class App extends Component {
     super(props);
     this.pages = [
       { title: 't11 Ultra Super Team Delta', page: ''},
-        {title: 'SQL', page: 'sql'},
+        {title: 'Search/Add Location', page: 'sql'},
       { title: 'Calculator', page: 'calc'},
       { title: 'Options', page: 'options'},
         { title: 'About', page: 'about'},
