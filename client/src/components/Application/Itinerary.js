@@ -125,13 +125,13 @@ export default class Iitnerary extends Component {
                     bodyJSX={
                         <div>
                             <Row>
-                            <DropdownButton id="dropdown-basic-button" title="Filter Results" caret>
+                            <DropdownButton size="sm" color="primary" id="dropdown-basic-button" title="Filter Results" caret>
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
-                            {<Button onClick={() => this.reverseList()}>Reverse List</Button>}
+                                {<Button size="sm" onClick={() => this.reverseList()}>Reverse List</Button>}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
@@ -205,9 +205,9 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <row>
-                    <Button onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span fontsize = "40" role="img">👁</span></Button>
-                    <Button onClick={() => this.props.deleteLocation(columnIndex)}><span fontsize = "40" role="img">❌</span></Button>
-                    <Button onClick={() => this.props.changeStartLocation(columnIndex)}><span fontsize = "40" role="img">⭱</span></Button>
+                    <Button size="sm" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+                    <Button size="sm" onClick={() => this.props.deleteLocation(columnIndex)}><span role="img">❌</span></Button>
+                    <Button size="sm" onClick={() => this.props.changeStartLocation(columnIndex)}><span role="img">⭱</span></Button>
                 </row>
 
                 <form onSubmit={handleSubmit}>
