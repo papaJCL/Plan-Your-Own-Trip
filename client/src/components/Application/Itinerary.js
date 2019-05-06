@@ -212,7 +212,7 @@ export default class Iitnerary extends Component {
 
                 <form onSubmit={handleSubmit}>
                     <Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />
-                    <Input className='btn-csu w-100 text-left' type="submit" value="Enter"/>
+                    <Input type="submit" value="Enter"/>
                 </form>
 
             </div>
