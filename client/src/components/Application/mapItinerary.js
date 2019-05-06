@@ -92,9 +92,30 @@ export default class mapItinerary extends Component {
         if (this.props.boolMarker == false) {
             return ( this.renderBasicMap());
         }
+        if (this.props.JSONString.body.places.length <2){
+            return (this.renderSingleLocation());
+        }
         else {
             return (this.renderComplexMap());
         }
+    }
+
+    renderSingleLocation(){
+        return(
+            <div>
+                <Map center={[this.props.latitude[0],this.props.longitude[0]]} zoom={10} animate = {true}
+                     style={{height: 500, maxwidth: 700}}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                    />
+                    <Marker position={[this.props.latitude[0],this.props.longitude[0]]}
+                            icon={this.markerIcon()}>
+                        <Popup><div align="center"><b>Location: 1: </b><br />{this.props.JSONString.body.places[0].name}<br />{parseFloat(this.props.JSONString.body.places[0].latitude).toFixed(5)}, {parseFloat(this.props.JSONString.body.places[0].longitude).toFixed(5)}</div></Popup>
+                    </Marker>
+                </Map>
+            </div>
+        );
     }
 
     renderBasicMap(){
@@ -112,7 +133,6 @@ export default class mapItinerary extends Component {
     }
 
     renderComplexMap(){
-
         return (
             <div>
                 <Map bounds = {this.props.markers} animate = {true}
