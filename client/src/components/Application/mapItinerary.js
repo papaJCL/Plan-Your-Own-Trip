@@ -89,10 +89,10 @@ export default class mapItinerary extends Component {
     }
 
     renderLeafletMap() {
-        if (this.props.boolMarker == false) {
+        if ((this.props.boolMarker == false) || (this.props.JSONString.body.places.length < 1)) {
             return ( this.renderBasicMap());
         }
-        if (this.props.JSONString.body.places.length <2){
+        else if (this.props.JSONString.body.places.length <2){
             return (this.renderSingleLocation());
         }
         else {
