@@ -54,14 +54,14 @@ export default class SQL extends Component {
 
 
     renderSQLTable(){
-        if (this.props.SQLJson.length != 0){return(this.SQLTable());}
+        if (this.props.SQLJson.length != 0){return(this.SQLTableBody());}
     }
 
 
     sendSQLRequest(){
         var request = {
             "requestType"    : "itinerary",
-            "requestVersion" : 4,
+            "requestVersion" : 5,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
@@ -81,7 +81,7 @@ export default class SQL extends Component {
         return(
             <div>
                 <Pane header={" Locations found!"}
-                      bodyJSX = {this.SQLTable()} />
+                      bodyJSX = {this.SQLTableBody()} />
             </div>
         );
     }
@@ -130,7 +130,7 @@ export default class SQL extends Component {
 
         var request = {
             'requestType':'find',
-            'requestVersion': 4,
+            'requestVersion': 5,
             'match': this.sanatizeMatch(location),
 
             'narrow': narrow,
@@ -161,11 +161,11 @@ export default class SQL extends Component {
     }
 
 
-    SQLTable() {
+    SQLTableBody() {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td> <td> {item.name} </td><td> {item.municipality} </td><td> {Math.round(item.latitude)} </td> <td> {Math.round(item.longitude)} </td>
+                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td><td> {item.name} </td><td> {item.municipality} </td><td> {item.region} </td><td> {item.country} </td> <td> {item.continent} </td>
             </tr>)
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
@@ -176,7 +176,7 @@ export default class SQL extends Component {
                 <table class="table-responsive">
                     <thead>
                         <tr>
-                            <th>Add</th><th>#</th><th>Name</th><th>Municipality</th><th>Latitude</th><th>Longitude</th>
+                            <th>Add</th><th>#</th><th>Name</th><th>Municipality</th><th>Region</th><th>Country</th><th>Continent</th>
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
@@ -190,7 +190,7 @@ export default class SQL extends Component {
     addAllButton(){
         var requestAll = {
             "requestType"    : "itinerary",
-            "requestVersion" : 4,
+            "requestVersion" : 5,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLJson.places),
             "distances"      : []
@@ -204,14 +204,9 @@ export default class SQL extends Component {
 
     handleAddSubmit(event) {
         event.preventDefault();
-        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
         let name = document.getElementById('nameAdd').value;
         let lat = document.getElementById('lat').value;
         let long = document.getElementById('long').value;
-        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
-        //     return;
-        // }
         this.props.addLocation(name, lat, long);
     }
 
