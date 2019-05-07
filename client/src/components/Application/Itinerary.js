@@ -131,7 +131,6 @@ export default class Iitnerary extends Component {
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
-                                {<Button size="sm" onClick={() => this.reverseList()}>Reverse List</Button>}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
@@ -139,17 +138,6 @@ export default class Iitnerary extends Component {
                 />
             </div>
         );
-    }
-
-    reverseList(){
-        var requestString = {
-            "requestType"    : "itinerary",
-            "requestVersion" : 4,
-            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.JSONString.body.places.reverse(),
-            "distances"      : []
-        }
-        this.props.sendItineraryRequest(requestString);
     }
 
     returnBootStrapTable1(){
@@ -181,8 +169,8 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID
-        },{dataField: 'name', text: 'Name', hidden: this.props.filterName
+        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc
         },{dataField: 'options', text: 'Options', formatter: this.changeFunc
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
         }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
@@ -191,29 +179,33 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-    changeFunc(e, column, columnIndex, row, rowIndex) {
-        let handleSubmit = (event) => {
-            event.preventDefault();
-            let number = document.getElementById(columnIndex);
-            if (number.value === "" || number.value > this.props.JSONString.body.places.length) {
-                alert("Please enter a valid integer from " + 1 + " to " + this.props.JSONString.body.places.length);
-                return;
-            }
-            this.props.changeOrder(columnIndex, number.value - 1);
-        };
+    showFunc(e, column, columnIndex, row, rowIndex) {
+
+    }
+
+    deleteFunc(e, column, columnIndex, row, rowIndex) {
+        // let handleSubmit = (event) => {
+        //     event.preventDefault();
+        //     let number = document.getElementById(columnIndex);
+        //     if (number.value === "" || number.value > this.props.JSONString.body.places.length) {
+        //         alert("Please enter a valid integer from " + 1 + " to " + this.props.JSONString.body.places.length);
+        //         return;
+        //     }
+        //     this.props.changeOrder(columnIndex, number.value - 1);
+        // };
 
         return (
             <div>
                 <row>
                     <Button size="sm" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
                     <Button size="sm" onClick={() => this.props.deleteLocation(columnIndex)}><span role="img">❌</span></Button>
-                    <Button size="sm" onClick={() => this.props.changeStartLocation(columnIndex)}><span role="img">⭱</span></Button>
+                    { columnIndex + 1}
                 </row>
 
-                <form onSubmit={handleSubmit}>
-                    <Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />
-                    <Input type="submit" value="Enter"/>
-                </form>
+                {/*<form onSubmit={handleSubmit}>*/}
+                    {/*<Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />*/}
+                    {/*<Input type="submit" value="Enter"/>*/}
+                {/*</form>*/}
 
             </div>
 

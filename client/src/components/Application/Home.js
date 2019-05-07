@@ -28,6 +28,7 @@ export default class Home extends Component {
         this.deleteLocation = this.deleteLocation.bind(this)
         this.changeStartLocation = this.changeStartLocation.bind(this)
         this.changeOrder = this.changeOrder.bind(this)
+        this.reverseList = this.reverseList.bind(this)
 
     }
 
@@ -54,6 +55,7 @@ export default class Home extends Component {
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
                 checkServerResponse= {this.props.checkServerResponse}
+                reverseList = {this.reverseList}
                 ref="child"
             />
         )
@@ -130,6 +132,17 @@ export default class Home extends Component {
         this.props.markers.splice(idx, 1);
         this.props.showMarkers.splice(idx, 1);
         this.props.updatePlacesArray(places);
+    }
+
+    reverseList(){
+        var requestString = {
+            "requestType"    : "itinerary",
+            "requestVersion" : 4,
+            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+            "places"         : this.props.JSONString.body.places.reverse(),
+            "distances"      : []
+        }
+        this.sendItineraryRequest(requestString);
     }
 
 

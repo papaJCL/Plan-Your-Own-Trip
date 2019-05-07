@@ -39,6 +39,7 @@ export default class mapItinerary extends Component {
             <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Options" caret>
                 <Dropdown.Item onClick={this.clearMap}>Reset Map to Default</Dropdown.Item>
                 <Dropdown.Item onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.reverseList()}>Reverse Itinerary</Dropdown.Item>
             </DropdownButton>
         );
     }
