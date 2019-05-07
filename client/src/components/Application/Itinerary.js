@@ -172,9 +172,8 @@ export default class Iitnerary extends Component {
     addCols(){
         var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc
         },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc
-        },{dataField: 'options', text: 'Options', formatter: this.changeFunc
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
-        }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
+        },{dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
         },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
         }];
         return columns
