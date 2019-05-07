@@ -214,6 +214,7 @@ export default class SQL extends Component {
     }
 
     addAllButton(){
+        for (let i = 0; i < 10; i++) (this.props.showMarkers[0]) ? this.props.showMarkers.push(true) : this.props.showMarkers.push(false);
         var requestAll = {
             "requestType"    : "itinerary",
             "requestVersion" : 5,
