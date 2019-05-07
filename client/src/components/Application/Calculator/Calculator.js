@@ -87,7 +87,8 @@ export default class Calculator extends Component {
        // else return true;
         var Coordinates = require('coordinate-parser');
         try {
-            Coordinates(this.props.origin.latitude + ' ' + this.props.origin.longitude);
+            let ocoords = new Coordinates(this.props.origin.latitude + ' ' + this.props.origin.longitude);
+            let dcoords = new Coordinates(this.props.destination.latitude + ' ' + this.props.destination.longitude);
         }
         catch (error) {
             this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`);
@@ -104,8 +105,8 @@ export default class Calculator extends Component {
        const tipConfigRequest = {
        'requestType'        : 'distance',
        'requestVersion'     : 1,
-       'origin'      : {latitude: originCoords.getLatitude(), longitude: originCoords.getLongitude()},
-       'destination' : {latitude: destinationCoords.getLatitude(), longitude: destinationCoords.getLongitude()},
+       'origin'      : {latitude: originCoords.getLatitude() + '', longitude: originCoords.getLongitude() + ''},
+       'destination' : {latitude: destinationCoords.getLatitude() + '', longitude: destinationCoords.getLongitude() + ''},
        'earthRadius' : this.props.options.units[this.props.options.activeUnit]
        };
 
