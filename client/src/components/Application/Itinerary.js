@@ -20,7 +20,8 @@ export default class Iitnerary extends Component {
         super(props)
         this.renderItinerary = this.renderItinerary.bind(this)
         this.basicItinerary = this.basicItinerary.bind(this)
-        this.changeFunc = this.changeFunc.bind(this)
+        this.deleteFunc = this.deleteFunc.bind(this)
+        this.showFunc = this.showFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
     }
@@ -180,7 +181,9 @@ export default class Iitnerary extends Component {
     }
 
     showFunc(e, column, columnIndex, row, rowIndex) {
-
+        return (
+        <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+        );
     }
 
     deleteFunc(e, column, columnIndex, row, rowIndex) {
@@ -197,8 +200,7 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <row>
-                    <Button size="sm" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
-                    <Button size="sm" onClick={() => this.props.deleteLocation(columnIndex)}><span role="img">❌</span></Button>
+                    <Button size="sm" color="red" onClick={() => this.props.deleteLocation(columnIndex)}>❌</Button>
                     { columnIndex + 1}
                 </row>
 
