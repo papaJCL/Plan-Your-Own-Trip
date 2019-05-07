@@ -105,8 +105,6 @@ export default class mapItinerary extends Component {
     }
 
     renderLeafletMap() {
-        console.log("geobool" , this.props.geoBool)
-        console.log("render leaflet map" ,this.props.JSONString.body)
         if(this.props.geoBool == false){
             return( this.getUserLocation());
 
@@ -122,8 +120,6 @@ export default class mapItinerary extends Component {
     }
 
     renderSingleLocation(){
-        console.log("single" , this.props.JSONString.body.places.length )
-        console.log("lat" ,this.props.latitude[0])
         return(
             <div>
                 <Map center={[this.props.latitude[0],this.props.longitude[0]]} zoom={10} animate = {true}
@@ -142,8 +138,6 @@ export default class mapItinerary extends Component {
     }
 
     renderBasicMap(){
-        console.log("basic" , this.props.JSONString.body.places.length)
-
         return(
             <div>
                 <Map center={[0,0]} zoom={2}
@@ -161,7 +155,6 @@ export default class mapItinerary extends Component {
 
      // code from
     getUserLocation(){
-        console.log("getting user location")
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -176,6 +169,7 @@ export default class mapItinerary extends Component {
                     sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
                         .then((response) => {
                             this.props.liftHomeState(response,position.coords.latitude,position.coords.longitude);
+                            console.log("body" , this.props.JSONString.body)
 
                         });
                 },(error) => console.log("didn't get the users location")
