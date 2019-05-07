@@ -224,6 +224,7 @@ export default class Application extends Component {
                 SQLItineraryInfo = {this.state.SQLItineraryInfo}
                 JSONString = {this.state.JSONString}
                 planOptions = {this.state.planOptions}
+                showMarkers = {this.state.showMarkers}
                 liftHomeState = {this.liftHomeState}
                 boolSQLFunc = {this.boolSQLFunc}
                 boolSQL = {this.state.boolSQL}
