@@ -499,17 +499,10 @@ export default class Application extends Component {
     }
 
     addLocation(name, lat, long) {
-        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-            this.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
-            return;
-        }
-        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
-            lat = magellan(lat).latitude().toDD();
-        }
-        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
-            long = magellan(long).longitude().toDD();
-        }
+        var Coordinates = require('coordinate-parser');
+        let coords = new Coordinates(lat + ' ' + long);
+        console.log(coords.getLatitude());
+
         let newplaces = this.state.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
         newplaces.push(newloc);
