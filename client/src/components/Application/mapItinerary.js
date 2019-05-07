@@ -8,7 +8,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
-import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
 
 export default class mapItinerary extends Component {
@@ -34,6 +34,22 @@ export default class mapItinerary extends Component {
         )
     }
 
+    optionsDropDown() {
+        return (
+            <DropdownButton size="sm" color="primary" id="dropdown-basic-button" title="Options" caret>
+                <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
+            </DropdownButton>
+        );
+    }
+
+    //shortenDropDown() {
+    //    return (
+
+    //    );
+    //}
 
     renderIntro(){
         return(
