@@ -6,14 +6,10 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import { Form, Label, Input  } from 'reactstrap';
-import BootstrapTable1 from 'react-bootstrap-table-next';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
+import Select from 'react-select';
 import { sendServerRequestWithBody } from '../../api/restfulAPI';
 import {renderBasicMap} from './mapItinerary';
-import ErrorBanner from './ErrorBanner';
-
 
 
 export default class SQL extends Component {
@@ -23,6 +19,7 @@ export default class SQL extends Component {
         this.buttonSQL = this.buttonSQL.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.createAddDropDown = this.createAddDropDown.bind(this);
+        this.filters = this.filters.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -39,8 +36,7 @@ export default class SQL extends Component {
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
                                           <Input id="location" type="text" placeholder="Enter Location"/>
-                                          {`Check to Filter by Airport`}
-                                          <Input id="airports" type="checkbox"/>
+                                          {this.filters()}
                                           <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
@@ -49,6 +45,23 @@ export default class SQL extends Component {
                 {this.renderSQLTable()}
                 {this.createAddDropDown()}
             </div>
+        );
+    }
+
+    filters(){
+        return(
+            <Select
+                isMulti
+                name="countries"
+                placeholder="Search Countries"
+                options={ [
+                    {value: 'greatestCountry', label: 'Murica'},
+                    {value: 'bestCountry', label: 'US of A'},
+                    {value: 'motherLand', label: 'Gulag'}
+                ] }
+                className="basic-multi-select"
+                classNamePrefix="select"
+            />
         );
     }
 
@@ -111,9 +124,6 @@ export default class SQL extends Component {
         let location = document.getElementById('location').value;
 
         let narrow = [];
-        if(document.getElementById('airports').checked){
-            narrow = [{"name":"ports", "values":["airport"]}]
-        }
 
         var request = {
             'requestType':'find',

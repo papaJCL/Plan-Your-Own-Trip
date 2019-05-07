@@ -25,6 +25,7 @@
     "react-bootstrap-table2-toolkit": "^1.4.0",
     "react-dom": "^16.7.0",
     "react-leaflet": "^2.2.0",
+    "react-select": "^2.4.3",
     "react-table": "^6.9.2",
     "reactstrap": "^7.0.2",
     "save": "^2.3.3",
