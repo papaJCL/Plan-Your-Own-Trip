@@ -43,11 +43,14 @@ export default class mapItinerary extends Component {
         );
     }
 
-    //shortenDropDown() {
-    //    return (
-
-    //    );
-    //}
+    shortenDropDown() {
+       return (
+           <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Shorten Trip" caret>
+               <Dropdown.Item onClick={() => this.algorithmButton('short')}>Short Trip</Dropdown.Item>
+               <Dropdown.Item onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Dropdown.Item>
+           </DropdownButton>
+       );
+    }
 
     renderIntro(){
         return(
@@ -61,10 +64,8 @@ export default class mapItinerary extends Component {
                                 <input type="file"name="myFile" onChange={this.onChange}/>
                                 {this.optionsDropDown()}
                                 </Row>
-                                <Row><b>Shorten Trip</b></Row>
                                 <Row>
-                                <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                                <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
+                                    {this.shortenDropDown()}
                                 </Row>
                                 </CardBody>
                               </Card>
