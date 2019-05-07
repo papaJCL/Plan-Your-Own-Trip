@@ -500,8 +500,16 @@ export default class Application extends Component {
 
     addLocation(name, lat, long) {
         var Coordinates = require('coordinate-parser');
-        let coords = new Coordinates(lat + ' ' + long);
-        console.log(coords.getLatitude());
+        try {
+            let coords = new Coordinates(lat + ' ' + long);
+            lat = coords.getLatitude() + '';
+            long = coords.getLongitude() + '';
+            console.log(lat + ' ' + long);
+        }
+        catch (error) {
+            this.state.createErrorBannerState('Error', '500', `Invalid Coordinates Entered Into Add Location`);
+            return;
+        }
 
         let newplaces = this.state.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
