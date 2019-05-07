@@ -125,7 +125,7 @@ export default class Iitnerary extends Component {
                     bodyJSX={
                         <div>
                             <Row>
-                            <DropdownButton size="sm" color="primary" id="dropdown-basic-button" title="Filter Results" caret>
+                            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Filter Results" caret>
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
@@ -211,8 +211,8 @@ export default class Iitnerary extends Component {
                 </row>
 
                 <form onSubmit={handleSubmit}>
-                    <input id={columnIndex} type="number" min="1" style={{width: "45px"}} />
-                    <input type="submit" value="Enter"/>
+                    <Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />
+                    <Input type="submit" value="Enter"/>
                 </form>
 
             </div>

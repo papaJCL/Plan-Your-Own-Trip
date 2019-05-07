@@ -8,7 +8,7 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle } from 'reactstrap';
-import {UncontrolledButtonDropdown, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
 
 export default class mapItinerary extends Component {
@@ -34,6 +34,23 @@ export default class mapItinerary extends Component {
         )
     }
 
+    optionsDropDown() {
+        return (
+            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Options" caret>
+                <Dropdown.Item onClick={this.clearMap}>Reset Map to Default</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Dropdown.Item>
+            </DropdownButton>
+        );
+    }
+
+    shortenDropDown() {
+       return (
+           <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Shorten Trip" caret>
+               <Dropdown.Item onClick={() => this.algorithmButton('short')}>Short Trip</Dropdown.Item>
+               <Dropdown.Item onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Dropdown.Item>
+           </DropdownButton>
+       );
+    }
 
     renderIntro(){
         return(
@@ -45,13 +62,10 @@ export default class mapItinerary extends Component {
                               <CardBody>
                                 <Row>
                                 <input type="file"name="myFile" onChange={this.onChange}/>
-                                <Button onClick={this.clearMap}>Reset Map to default</Button>
-                                <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
+                                {this.optionsDropDown()}
                                 </Row>
-                                <Row><b>Shorten Trip</b></Row>
                                 <Row>
-                                <Button onClick={() => this.algorithmButton('short')}>Short trip</Button>
-                                <Button onClick={() => this.algorithmButton('shorter')}>Shorter Trip</Button>
+                                    {this.shortenDropDown()}
                                 </Row>
                                 </CardBody>
                               </Card>
@@ -172,6 +186,21 @@ export default class mapItinerary extends Component {
         );
     }
 
+    parseCoords(json) {
+        var Coordinates = require('coordinate-parser');
+        for (let i = 0; i < json.places.length; i++) {
+            try {
+                let coords = new Coordinates(json.places[i].latitude + ' ' + json.places[i].longitude);
+                json.places[i].latitude = coords.getLatitude() + '';
+                json.places[i].longitude = coords.getLongitude() + '';
+            }
+            catch (error) {
+                this.props.createErrorBannerState("Error", '500', "Invalid Coordinates Detected in Itinerary");
+            }
+        }
+        return json;
+    }
+
     onChange(event) {
         this.props.clearMapState();
         var file = event.target.files[0];
@@ -179,8 +208,16 @@ export default class mapItinerary extends Component {
         reader.onload = (event) =>  {
             // The file's text will be printed here
             var inputData = event.target.result
-            let json = JSON.parse(inputData);
-            this.props.sendItineraryRequest(json)
+            try {
+                let json = JSON.parse(inputData);
+                json = this.parseCoords(json);
+                console.log(json)
+                this.props.sendItineraryRequest(json)
+            }
+            catch (error) {
+                this.props.createErrorBannerState("Error", "500", "Problem Parsing Itinerary File ( " + error.message + ")");
+                return;
+            }
 
         };
         reader.readAsText(file);
