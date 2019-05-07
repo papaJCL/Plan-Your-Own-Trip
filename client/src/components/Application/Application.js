@@ -443,17 +443,6 @@ export default class Application extends Component {
       })
     }
 
-    parseCoords(lat, long) {
-        try {
-            var Coordinates = require('coordinate-parser');
-            let coords = new Coordinates(lat + ' ' + long);
-            return coords;
-        }
-        catch (error) {
-            this.state.createErrorBannerState("Error", '500', "Invalid Coordinates Detected in Itinerary");
-        }
-    }
-
     reRenderNewMap(){
 
         let places = this.state.JSONString.body.places
@@ -465,9 +454,6 @@ export default class Application extends Component {
         let longitude = places.map(mappingFunction1)
         let names = places.map(mappingFunction2)
 
-        let coords = this.parseCoords(latitude, longitude);
-        latitude = coords.getLatitude();
-        longitude = coords.getLongitude();
 
         var markers = [[]]
         var polyLine = [[]]
@@ -522,7 +508,7 @@ export default class Application extends Component {
             console.log(lat + ' ' + long);
         }
         catch (error) {
-            this.state.createErrorBannerState('Error', '500', `Invalid Coordinates Entered Into Add Location`);
+            this.createErrorBannerState('Error', '500', `Invalid Coordinates Entered Into Add Location`);
             return;
         }
 

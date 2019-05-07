@@ -172,6 +172,21 @@ export default class mapItinerary extends Component {
         );
     }
 
+    parseCoords(json) {
+        var Coordinates = require('coordinate-parser');
+        for (let i = 0; i < json.places.length; i++) {
+            try {
+                let coords = new Coordinates(json.places[i].latitude + ' ' + json.places[i].longitude);
+                json.places[i].latitude = coords.getLatitude() + '';
+                json.places[i].longitude = coords.getLongitude() + '';
+            }
+            catch (error) {
+                this.props.createErrorBannerState("Error", '500', "Invalid Coordinates Detected in Itinerary");
+            }
+        }
+        return json;
+    }
+
     onChange(event) {
         this.props.clearMapState();
         var file = event.target.files[0];
@@ -181,10 +196,13 @@ export default class mapItinerary extends Component {
             var inputData = event.target.result
             try {
                 let json = JSON.parse(inputData);
+                json = this.parseCoords(json);
+                console.log(json)
                 this.props.sendItineraryRequest(json)
             }
             catch (error) {
                 this.props.createErrorBannerState("Error", "500", "Problem Parsing Itinerary File ( " + error.message + ")");
+                return;
             }
 
         };
