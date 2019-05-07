@@ -38,10 +38,10 @@ export default class SQL extends Component {
                                   <div>
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
-                                          <input id="location" type="text" placeholder="Enter Location"/>
+                                          <Input id="location" type="text" placeholder="Enter Location"/>
                                           {`Check to Filter by Airport`}
-                                          <input id="airports" type="checkbox"/>
-                                          <input id="name" type="submit" value="Submit"/>
+                                          <Input id="airports" type="checkbox"/>
+                                          <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
                                   </div>}
@@ -203,10 +203,10 @@ export default class SQL extends Component {
                     <CardTitle><b>Add a New Location</b></CardTitle>
 
                     <form onSubmit={this.handleAddSubmit}>
-                        <input id="nameAdd" type="text" placeholder="Enter Name"/>
-                        <input id="lat" type="text" placeholder="Enter Latitude"/>
-                        <input id="long" type="text" placeholder="Enter Longitude"/>
-                        <input type="submit" value="Submit"/>
+                        <Input id="nameAdd" type="text" placeholder="Enter Name"/>
+                        <Input id="lat" type="text" placeholder="Enter Latitude"/>
+                        <Input id="long" type="text" placeholder="Enter Longitude"/>
+                        <Input className='btn-csu w-100 text-left' type="submit" value="Submit"/>
                     </form>
                 </CardBody>
             </Card>

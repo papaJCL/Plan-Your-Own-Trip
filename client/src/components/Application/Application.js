@@ -450,9 +450,10 @@ export default class Application extends Component {
         const mappingFunction1 = p => p.longitude;
         const mappingFunction2 = p => p.name;
 
-        const latitude = places.map(mappingFunction)
-        const longitude = places.map(mappingFunction1)
-        const names = places.map(mappingFunction2)
+        let latitude = places.map(mappingFunction)
+        let longitude = places.map(mappingFunction1)
+        let names = places.map(mappingFunction2)
+
 
         var markers = [[]]
         var polyLine = [[]]
@@ -499,17 +500,18 @@ export default class Application extends Component {
     }
 
     addLocation(name, lat, long) {
-        var magellan = require('./../../../../node_modules/magellan-coords/magellan');
-        if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-            this.createErrorBannerState('Error', '500', 'Invalid Latitude or Longitude Entered Into Add a New Location');
+        var Coordinates = require('coordinate-parser');
+        try {
+            let coords = new Coordinates(lat + ' ' + long);
+            lat = coords.getLatitude() + '';
+            long = coords.getLongitude() + '';
+            console.log(lat + ' ' + long);
+        }
+        catch (error) {
+            this.createErrorBannerState('Error', '500', `Invalid Coordinates Entered Into Add Location`);
             return;
         }
-        if ((lat.includes('N') || lat.includes('W') || lat.includes('E') || lat.includes('S') || lat.includes('°'))) {
-            lat = magellan(lat).latitude().toDD();
-        }
-        if ((long.includes('N') || long.includes('W') || long.includes('E') || long.includes('S') || long.includes('°'))) {
-            long = magellan(long).longitude().toDD();
-        }
+
         let newplaces = this.state.JSONString.body.places;
         let newloc = {"name": name, "latitude": lat, "longitude": long, "id": "" + this.state.JSONString.body.places.length};
         newplaces.push(newloc);

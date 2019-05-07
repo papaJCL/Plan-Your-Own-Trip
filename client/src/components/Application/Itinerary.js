@@ -211,8 +211,8 @@ export default class Iitnerary extends Component {
                 </row>
 
                 <form onSubmit={handleSubmit}>
-                    <input id={columnIndex} type="number" min="1" style={{width: "45px"}} />
-                    <input type="submit" value="Enter"/>
+                    <Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />
+                    <Input type="submit" value="Enter"/>
                 </form>
 
             </div>
