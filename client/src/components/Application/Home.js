@@ -54,6 +54,9 @@ export default class Home extends Component {
                 showMarkers = {this.props.showMarkers}
                 setShowMarkerState = {this.props.setShowMarkerState}
                 checkServerResponse= {this.props.checkServerResponse}
+                addLocation = {this.props.addLocation}
+                updateLatLongState = {this.props.updateLatLongState}
+                geoBool =  {this.props.geoBool}
                 ref="child"
             />
         )
