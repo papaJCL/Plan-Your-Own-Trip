@@ -91,18 +91,25 @@ export default class mapItinerary extends Component {
     }
 
     renderLeafletMap() {
-        if ((this.props.boolMarker == false) || (this.props.JSONString.body.places.length < 1)) {
+        console.log("geobool" , this.props.geoBool)
+        console.log("render leaflet map" ,this.props.JSONString.body)
+        if(this.props.geoBool == false){
+            return( this.getUserLocation());
+
+        } else if ((this.props.boolMarker == false)||(this.props.JSONString.body.places.length == 0)) {
             return ( this.renderBasicMap());
-        }
-        else if (this.props.JSONString.body.places.length <2){
+
+        } else if (this.props.JSONString.body.places.length ==1) {
             return (this.renderSingleLocation());
-        }
-        else {
+
+        } else {
             return (this.renderComplexMap());
         }
     }
 
     renderSingleLocation(){
+        console.log("single" , this.props.JSONString.body.places.length )
+        console.log("lat" ,this.props.latitude[0])
         return(
             <div>
                 <Map center={[this.props.latitude[0],this.props.longitude[0]]} zoom={10} animate = {true}
@@ -121,6 +128,8 @@ export default class mapItinerary extends Component {
     }
 
     renderBasicMap(){
+        console.log("basic" , this.props.JSONString.body.places.length)
+
         return(
             <div>
                 <Map center={[0,0]} zoom={2}
@@ -128,9 +137,6 @@ export default class mapItinerary extends Component {
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                        {this.getUserLocation()}
-
-
 
                     />
                 </Map>
@@ -138,19 +144,39 @@ export default class mapItinerary extends Component {
         );
     }
 
+
+     // code from
     getUserLocation(){
+        console.log("getting user location")
+
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(displayLocationInfo);
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    var requestAll = {
+                        "requestType"    : "itinerary",
+                        "requestVersion" : 4,
+                        "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+                        "places"         : [ { name:"Your Location", latitude: String(position.coords.latitude), longitude: String(position.coords.longitude),id:"0"}],
+                        "distances"      : [0]
+                    }
+                    sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
+                        .then((response) => {
+                            this.props.liftHomeState(response,position.coords.latitude,position.coords.longitude);
+
+                        });
+                },(error) => console.log("didn't get the users location")
+
+            );
+
         }
 
 
-        return(
-
-        );
-
     }
 
+
     renderComplexMap(){
+        console.log("complex", this.props.JSONString.body.places.length)
+        console.log("markers", this.props.markers)
         return (
             <div>
                 <Map bounds = {this.props.markers} animate = {true}
@@ -191,6 +217,7 @@ export default class mapItinerary extends Component {
     }
 
     onChange(event) {
+        console.log("change")
         this.props.clearMapState();
         var file = event.target.files[0];
         var reader = new FileReader();
