@@ -6,14 +6,10 @@ import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle , Table} from 'reactstrap';
 import { Form, Label, Input  } from 'reactstrap';
-import BootstrapTable1 from 'react-bootstrap-table-next';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
+import Select from 'react-select';
 import { sendServerRequestWithBody } from '../../api/restfulAPI';
 import {renderBasicMap} from './mapItinerary';
-import ErrorBanner from './ErrorBanner';
-
 
 
 export default class SQL extends Component {
@@ -23,6 +19,7 @@ export default class SQL extends Component {
         this.buttonSQL = this.buttonSQL.bind(this);
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.createAddDropDown = this.createAddDropDown.bind(this);
+        this.filters = this.filters.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -38,10 +35,9 @@ export default class SQL extends Component {
                                   <div>
                                   <form onSubmit={this.handleSubmit}>
                                       <label>
-                                          <input id="location" type="text" placeholder="Enter Location"/>
-                                          {`Check to Filter by Airport`}
-                                          <input id="airports" type="checkbox"/>
-                                          <input id="name" type="submit" value="Submit"/>
+                                          <Input id="location" type="text" placeholder="Enter Location"/>
+                                          {this.filters()}
+                                          <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
                                       </label>
                                   </form>
                                   </div>}
@@ -52,16 +48,31 @@ export default class SQL extends Component {
         );
     }
 
-
-    renderSQLTable(){
-        if (this.props.SQLJson.length != 0){return(this.SQLTable());}
+    filters(){
+        return(
+            <Select
+                isMulti
+                name="countries"
+                placeholder="Search Countries"
+                options={ [
+                    {value: 'greatestCountry', label: 'Murica'},
+                    {value: 'bestCountry', label: 'US of A'},
+                    {value: 'motherLand', label: 'Gulag'}
+                ] }
+                className="basic-multi-select"
+                classNamePrefix="select"
+            />
+        );
     }
 
+    renderSQLTable(){
+        if (this.props.SQLJson.length != 0){return(this.SQLTableBody());}
+    }
 
     sendSQLRequest(){
         var request = {
             "requestType"    : "itinerary",
-            "requestVersion" : 4,
+            "requestVersion" : 5,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLItineraryInfo),
             "distances"      : []
@@ -77,15 +88,6 @@ export default class SQL extends Component {
             });
     }
 
-    SQLTable(){
-        return(
-            <div>
-                <Pane header={" Locations found!"}
-                      bodyJSX = {this.SQLTable()} />
-            </div>
-        );
-    }
-
     buttonSQL(idx){
         let JSONPlaces = this.props.SQLJson.places[idx]
         return(
@@ -93,11 +95,9 @@ export default class SQL extends Component {
         );
     }
 
-
     reverseState(boolB){
         return !boolB;
     }
-
 
     SQLColumns(){
         return (
@@ -124,13 +124,10 @@ export default class SQL extends Component {
         let location = document.getElementById('location').value;
 
         let narrow = [];
-        if(document.getElementById('airports').checked){
-            narrow = [{"name":"ports", "values":["airport"]}]
-        }
 
         var request = {
             'requestType':'find',
-            'requestVersion': 4,
+            'requestVersion': 5,
             'match': this.sanatizeMatch(location),
 
             'narrow': narrow,
@@ -160,12 +157,11 @@ export default class SQL extends Component {
         } return location;
     }
 
-
-    SQLTable() {
+    SQLTableBody() {
         let work = this.props.SQLJson.places
         var body = work.map((item, idx) =>
             <tr>
-                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td> <td> {item.name} </td><td> {item.municipality} </td><td> {Math.round(item.latitude)} </td> <td> {Math.round(item.longitude)} </td>
+                <td> {this.buttonSQL(idx)} </td><td> {idx + 1} </td><td> {item.name} </td><td> {item.municipality} </td><td> {item.region} </td><td> {item.country} </td> <td> {item.continent} </td>
             </tr>)
         return (
             <Pane header = {this.props.SQLJson.found + " Locations were found! Will only display as many as 10"}
@@ -176,7 +172,7 @@ export default class SQL extends Component {
                 <table class="table-responsive">
                     <thead>
                         <tr>
-                            <th>Add</th><th>#</th><th>Name</th><th>Municipality</th><th>Latitude</th><th>Longitude</th>
+                            <th>Add</th><th>#</th><th>Name</th><th>Municipality</th><th>Region</th><th>Country</th><th>Continent</th>
                         </tr>
                     </thead>
                     <tbody> {body} </tbody>
@@ -188,9 +184,10 @@ export default class SQL extends Component {
     }
 
     addAllButton(){
+        for (let i = 0; i < 10; i++) (this.props.showMarkers[0]) ? this.props.showMarkers.push(true) : this.props.showMarkers.push(false);
         var requestAll = {
             "requestType"    : "itinerary",
-            "requestVersion" : 4,
+            "requestVersion" : 5,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLJson.places),
             "distances"      : []
@@ -204,17 +201,11 @@ export default class SQL extends Component {
 
     handleAddSubmit(event) {
         event.preventDefault();
-        //var magellan = require('./../../../../node_modules/magellan-coords/magellan');
         let name = document.getElementById('nameAdd').value;
         let lat = document.getElementById('lat').value;
         let long = document.getElementById('long').value;
-        // if (magellan(lat).latitude() === null || magellan(long).longitude() === null) {
-        //     this.props.createErrorBannerState('Error', '500', 'The Added Location Contains an invalid Latitude or Longitude');
-        //     return;
-        // }
         this.props.addLocation(name, lat, long);
     }
-
 
     createAddDropDown() {
         return (
@@ -223,10 +214,10 @@ export default class SQL extends Component {
                     <CardTitle><b>Add a New Location</b></CardTitle>
 
                     <form onSubmit={this.handleAddSubmit}>
-                        <input id="nameAdd" type="text" placeholder="Enter Name"/>
-                        <input id="lat" type="text" placeholder="Enter Latitude"/>
-                        <input id="long" type="text" placeholder="Enter Longitude"/>
-                        <input type="submit" value="Submit"/>
+                        <Input id="nameAdd" type="text" placeholder="Enter Name"/>
+                        <Input id="lat" type="text" placeholder="Enter Latitude"/>
+                        <Input id="long" type="text" placeholder="Enter Longitude"/>
+                        <Input className='btn-csu w-100 text-left' type="submit" value="Submit"/>
                     </form>
                 </CardBody>
             </Card>

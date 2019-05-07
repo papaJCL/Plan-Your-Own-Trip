@@ -71,33 +71,30 @@ export default class Calculator extends Component {
     }
 
     checkData() {
-        var magellan = require('./../../../../../node_modules/magellan-coords/magellan');
-        if (
-            magellan(this.props.origin.latitude).latitude() === null ||
-            magellan(this.props.origin.longitude).longitude() === null ||
-            magellan(this.props.destination.latitude).latitude() === null ||
-            magellan(this.props.destination.longitude).longitude() === null
-        ) {
-            {
-                /* Error: Invalid Input */
-                this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`);
-                return false;
-            }
+        var Coordinates = require('coordinate-parser');
+        try {
+            let ocoords = new Coordinates(this.props.origin.latitude + ' ' + this.props.origin.longitude);
+            let dcoords = new Coordinates(this.props.destination.latitude + ' ' + this.props.destination.longitude);
         }
-        else return true;
+        catch (error) {
+            this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`);
+            return false;
+        }
     }
 
 
     calculateDistance() {
         if (this.checkData() === false) return;
-        var magellan = require('./../../../../../node_modules/magellan-coords/magellan');
-        const tipConfigRequest = {
-            'requestType'        : 'distance',
-            'requestVersion'     : 1,
-            'origin'      : {latitude: magellan(this.props.origin.latitude).latitude().toDD(), longitude: magellan(this.props.origin.longitude).longitude().toDD()},
-            'destination' : {latitude: magellan(this.props.destination.latitude).latitude().toDD(), longitude: magellan(this.props.destination.longitude).longitude().toDD()},
-            'earthRadius' : this.props.options.units[this.props.options.activeUnit]
-        };
+       var Coordinates = require('coordinate-parser');
+        let originCoords = new Coordinates(this.props.origin.latitude + ' ' + this.props.origin.longitude);
+        let destinationCoords = new Coordinates(this.props.destination.latitude + ' ' + this.props.destination.longitude);
+       const tipConfigRequest = {
+       'requestType'        : 'distance',
+       'requestVersion'     : 1,
+       'origin'      : {latitude: originCoords.getLatitude() + '', longitude: originCoords.getLongitude() + ''},
+       'destination' : {latitude: destinationCoords.getLatitude() + '', longitude: destinationCoords.getLongitude() + ''},
+       'earthRadius' : this.props.options.units[this.props.options.activeUnit]
+       };
 
         sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
