@@ -48,14 +48,12 @@ export default class Home extends Component {
                 names = {this.props.names}
                 liftHomeState = {this.props.liftHomeState}
                 updatePlacesArray = {this.props.updatePlacesArray}
-                createErrorBannerState = {this.props.createErrorBannerState}
-                deleteLocation = {this.deleteLocation}
-                sendItineraryRequest = {this.sendItineraryRequest}
-                changeStartLocation = {this.changeStartLocation}
-                showMarkers = {this.props.showMarkers}
-                setShowMarkerState = {this.props.setShowMarkerState}
-                checkServerResponse= {this.props.checkServerResponse}
                 reverseList = {this.reverseList}
+                createErrorBannerState = {this.props.createErrorBannerState} deleteLocation = {this.deleteLocation}
+                sendItineraryRequest = {this.sendItineraryRequest} changeStartLocation = {this.changeStartLocation}
+                showMarkers = {this.props.showMarkers} setShowMarkerState = {this.props.setShowMarkerState}
+                checkServerResponse= {this.props.checkServerResponse} addLocation = {this.props.addLocation}
+                updateLatLongState = {this.props.updateLatLongState} geoBool =  {this.props.geoBool}
                 ref="child"
             />
         )

@@ -103,7 +103,7 @@ export default class Iitnerary extends Component {
             products[i] = ({
                 id: id + 1,
                 name: this.props.names[i],
-                latitude: this.props.latitude[i] ,
+                latitude: this.props.latitude[i],
                 longitude: this.props.longitude[i],
                 distance: this.convertDistance(this.props.JSONString.body.distances[i], this.props.planOptions.activeUnit,
                     this.props.oldUnits ) + ' ' +  this.props.planOptions.activeUnit,
@@ -181,7 +181,10 @@ export default class Iitnerary extends Component {
 
     showFunc(e, column, columnIndex, row, rowIndex) {
         return (
-        <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+            <row>
+                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+                {this.props.JSONString.body.places[columnIndex].name}
+            </row>
         );
     }
 
@@ -198,10 +201,10 @@ export default class Iitnerary extends Component {
 
         return (
             <div>
-                <row>
+                <Row>
                     <Button size="sm" color="red" onClick={() => this.props.deleteLocation(columnIndex)}>❌</Button>
                     { columnIndex + 1}
-                </row>
+                </Row>
 
                 {/*<form onSubmit={handleSubmit}>*/}
                     {/*<Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />*/}
