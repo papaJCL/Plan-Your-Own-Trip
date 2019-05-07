@@ -11,6 +11,7 @@ import { Card, CardImg, CardText, CardBody,
 import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
 
+
 export default class mapItinerary extends Component {
 
     constructor(props){
@@ -18,6 +19,7 @@ export default class mapItinerary extends Component {
         this.onChange = this.onChange.bind(this);
         this.clearMap = this.clearMap.bind(this)
         this.algorithmButton = this.algorithmButton.bind(this);
+        this.getUserLocation =this.getUserLocation.bind(this);
     }
 
     render(){
@@ -103,13 +105,16 @@ export default class mapItinerary extends Component {
     }
 
     renderLeafletMap() {
-        if ((this.props.boolMarker == false) || (this.props.JSONString.body.places.length < 1)) {
+        if(this.props.geoBool == false){
+            return( this.getUserLocation());
+
+        } else if ((this.props.boolMarker == false)||(this.props.JSONString.body.places.length == 0)) {
             return ( this.renderBasicMap());
-        }
-        else if (this.props.JSONString.body.places.length <2){
+
+        } else if (this.props.JSONString.body.places.length ==1) {
             return (this.renderSingleLocation());
-        }
-        else {
+
+        } else {
             return (this.renderComplexMap());
         }
     }
@@ -140,11 +145,42 @@ export default class mapItinerary extends Component {
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+
                     />
                 </Map>
             </div>
         );
     }
+
+
+     // code from https://hackernoon.com/react-native-basics-geolocation-adf3c0d10112
+    getUserLocation(){
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    var requestAll = {
+                        "requestType"    : "itinerary",
+                        "requestVersion" : 4,
+                        "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
+                        "places"         : [ { name:"Your Location", latitude: String(position.coords.latitude), longitude: String(position.coords.longitude),id:"0"}],
+                        "distances"      : [0]
+                    }
+                    sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
+                        .then((response) => {
+                            this.props.liftHomeState(response,position.coords.latitude,position.coords.longitude);
+                            console.log("body" , this.props.JSONString.body)
+
+                        });
+                },(error) => console.log("didn't get the users location")
+
+            );
+
+        }
+
+
+    }
+
 
     renderComplexMap(){
         return (
