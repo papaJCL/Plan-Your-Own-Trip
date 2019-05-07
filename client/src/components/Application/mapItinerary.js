@@ -36,11 +36,9 @@ export default class mapItinerary extends Component {
 
     optionsDropDown() {
         return (
-            <DropdownButton size="sm" color="primary" id="dropdown-basic-button" title="Options" caret>
-                <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
-                <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
-                <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
-                <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
+            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Options" caret>
+                <Dropdown.Item onClick={this.clearMap}>Reset Map to Default</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Dropdown.Item>
             </DropdownButton>
         );
     }
@@ -61,8 +59,7 @@ export default class mapItinerary extends Component {
                               <CardBody>
                                 <Row>
                                 <input type="file"name="myFile" onChange={this.onChange}/>
-                                <Button onClick={this.clearMap}>Reset Map to default</Button>
-                                <Button onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Button>
+                                {this.optionsDropDown()}
                                 </Row>
                                 <Row><b>Shorten Trip</b></Row>
                                 <Row>
