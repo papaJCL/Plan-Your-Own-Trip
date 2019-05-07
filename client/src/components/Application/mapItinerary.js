@@ -183,8 +183,6 @@ export default class mapItinerary extends Component {
 
 
     renderComplexMap(){
-        console.log("complex", this.props.JSONString.body.places.length)
-        console.log("markers", this.props.markers)
         return (
             <div>
                 <Map bounds = {this.props.markers} animate = {true}
@@ -240,7 +238,6 @@ export default class mapItinerary extends Component {
     }
 
     onChange(event) {
-        console.log("change")
         this.props.clearMapState();
         var file = event.target.files[0];
         var reader = new FileReader();
