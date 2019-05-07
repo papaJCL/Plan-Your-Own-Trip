@@ -71,20 +71,6 @@ export default class Calculator extends Component {
     }
 
     checkData() {
-        //var magellan = require('./../../../../../node_modules/magellan-coords/magellan');
-      //  if (
-            //magellan(this.props.origin.latitude).latitude() === null ||
-            //magellan(this.props.origin.longitude).longitude() === null ||
-            //magellan(this.props.destination.latitude).latitude() === null ||
-            //magellan(this.props.destination.longitude).longitude() === null
-       // ) {
-        //    {
-        //        /* Error: Invalid Input */
-        //        this.props.createErrorBannerState('Error', '500', `Invalid Input Entered Into Origin or Destination`);
-        //        return false;
-        //    }
-       // }
-       // else return true;
         var Coordinates = require('coordinate-parser');
         try {
             let ocoords = new Coordinates(this.props.origin.latitude + ' ' + this.props.origin.longitude);
