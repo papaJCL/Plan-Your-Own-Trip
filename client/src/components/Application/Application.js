@@ -328,6 +328,7 @@ export default class Application extends Component {
                 errorMessage: null
             });
         }
+       /*
         else {
             this.setState({
                 serverConfig: null,
@@ -337,7 +338,9 @@ export default class Application extends Component {
                             `Failed to fetch config from ${ this.state.clientSettings.serverPort}. Please choose a valid server.`)}
                     </Container>
             });
+
         }
+        */
     }
 
     updateIfGoodCalculator(response) {
@@ -409,8 +412,6 @@ export default class Application extends Component {
             returnFile: response.body,
             origUnit: Math.round(response.body.options.earthRadius),
             showMarkers: markers,
-           // latitude:[lat],
-           // longitude:[long]
             geoBool: true
         }, () => {
             this.reRenderNewMap();
@@ -437,7 +438,6 @@ export default class Application extends Component {
                 }
             });
         this.setState({
-            //JSONString: this.state.JSONString
             JSONString: newJSON,
             errorMessage: null
         }, () => {

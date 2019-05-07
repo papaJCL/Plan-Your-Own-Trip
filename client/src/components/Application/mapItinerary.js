@@ -153,7 +153,7 @@ export default class mapItinerary extends Component {
     }
 
 
-     // code from
+     // code from https://hackernoon.com/react-native-basics-geolocation-adf3c0d10112
     getUserLocation(){
 
         if (navigator.geolocation) {
