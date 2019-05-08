@@ -110,7 +110,7 @@ export default class Home extends Component {
     }
 
 
-    changeStartLocation(string) { console.log(string)
+    changeStartLocation(string) {
         let newplaces = this.props.JSONString.body.places;
         let idx = - 1;
         for (var i = 0; i < newplaces.length; i++) {
@@ -125,7 +125,6 @@ export default class Home extends Component {
         let temp = newplaces[idx];
         newplaces[idx] = newplaces[0];
         newplaces[0] = temp;
-        console.log("newplaces: ", newplaces)
         this.props.updatePlacesArray(newplaces);
     }
 

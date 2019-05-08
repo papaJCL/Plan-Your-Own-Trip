@@ -201,10 +201,10 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-    showFunc(e, column, columnIndex, row, rowIndex) { console.log("e ", e, " column ", column," row ", row, " rowIndex ", rowIndex)
+    showFunc(e, column, columnIndex, row, rowIndex) {
         return (
             <div>
-                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
+                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(column.id - 1)}><span role="img">👁</span></Button>
                 {column.name}
             </div>
         );
