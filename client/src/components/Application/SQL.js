@@ -21,6 +21,7 @@ export default class SQL extends Component {
         this.handleAddSubmit = this.handleAddSubmit.bind(this);
         this.createAddDropDown = this.createAddDropDown.bind(this);
         this.filters = this.filters.bind(this);
+        this.addAllButton = this.addAllButton.bind(this);
         this.state = {
             boolShowCondensedMap : false,
             lat: 0,
@@ -215,14 +216,17 @@ export default class SQL extends Component {
 
     addAllButton(){
         for (let i = 0; i < 10; i++) (this.props.showMarkers[0]) ? this.props.showMarkers.push(true) : this.props.showMarkers.push(false);
-        var requestAll = {
+        var requestAllButton = {
             "requestType"    : "itinerary",
             "requestVersion" : 5,
             "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
             "places"         : this.props.JSONString.body.places.concat(this.props.SQLJson.places),
             "distances"      : []
         };
-        sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
+        console.log('land here')
+        console.log('requestAllButton' , requestAllButton)
+
+        sendServerRequestWithBody('itinerary',requestAllButton,this.props.clientSettings.serverPort)
             .then((response) => {
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
                     this.props.liftHomeState(response);

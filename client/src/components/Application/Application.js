@@ -236,7 +236,7 @@ export default class Application extends Component {
                     checkServerResponse={this.checkServerResponse}
                     addLocation={this.addLocation}
                     clearSQLState={this.clearSQLState}
-
+                    showMarkers = {this.state.showMarkers}
             />;
 
             default:
