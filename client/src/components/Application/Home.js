@@ -33,8 +33,7 @@ export default class Home extends Component {
     }
 
     callMapItinerary(){
-        return (
-            <MapItinerary
+        return (<MapItinerary
                 clientSettings = {this.props.clientSettings}
                 clearMapState = {this.props.clearMapState}
                 reRenderNewMapState = {this.props.reRenderNewMapState}
@@ -74,16 +73,22 @@ export default class Home extends Component {
                 filterLat = {this.props.filterLat}
                 filterLong = {this.props.filterLong}
                 filterDist = {this.props.filterDist}
+                filterCountry = {this.props.filterCountry}
+                filterContinent = {this.props.filterContinent}
                 renderFilterID = {this.props.renderFilterID}
                 renderFilterName = {this.props.renderFilterName}
                 renderFilterLatitude = {this.props.renderFilterLatitude}
                 renderFilterLongitude = {this.props.renderFilterLongitude}
                 renderFilterDistance = {this.props.renderFilterDistance}
+                renderFilterCountry = {this.props.renderFilterCountry}
+                renderFilterContinent = {this.props.renderFilterContinent}
                 reverseList = {this.reverseList}
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
                 setShowMarkerState = {this.props.setShowMarkerState} checkServerResponse ={this.props.checkServerResponse} sendItineraryRequest = {this.sendItineraryRequest}
+                renderFilterMunicipality = {this.props.renderFilterMunicipality}
+                filterMunicipality = {this.props.filterMunicipality}
             />
         )
     }
