@@ -328,7 +328,6 @@ export default class Application extends Component {
                 errorMessage: null
             });
         }
-       /*
         else {
             this.setState({
                 serverConfig: null,
@@ -340,7 +339,6 @@ export default class Application extends Component {
             });
 
         }
-        */
     }
 
     updateIfGoodCalculator(response) {
