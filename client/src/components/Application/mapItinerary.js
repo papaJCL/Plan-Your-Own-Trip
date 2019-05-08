@@ -88,7 +88,6 @@ export default class mapItinerary extends Component {
         };
         sendServerRequestWithBody('itinerary',request,this.props.clientSettings.serverPort)
             .then((response) => {
-                console.log(response)
                 var valid = this.props.checkServerResponse(response.statusCode,response.body, 'itinerary')
                 if(valid){
                     this.props.liftHomeState(response);
@@ -155,7 +154,6 @@ export default class mapItinerary extends Component {
 
      // code from https://hackernoon.com/react-native-basics-geolocation-adf3c0d10112
     getUserLocation(){
-
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -168,17 +166,13 @@ export default class mapItinerary extends Component {
                     }
                     sendServerRequestWithBody('itinerary',requestAll,this.props.clientSettings.serverPort)
                         .then((response) => {
-                            this.props.liftHomeState(response,position.coords.latitude,position.coords.longitude);
-                            console.log("body" , this.props.JSONString.body)
-
+                            this.props.liftHomeState(response);
                         });
-                },(error) => console.log("didn't get the users location")
-
-            );
-
+                },(error) => {
+                    this.props.updateGEOBoolState();
+                }
+        );
         }
-
-
     }
 
 
@@ -247,7 +241,6 @@ export default class mapItinerary extends Component {
             try {
                 let json = JSON.parse(inputData);
                 json = this.parseCoords(json);
-                console.log(json)
                 this.props.sendItineraryRequest(json)
             }
             catch (error) {

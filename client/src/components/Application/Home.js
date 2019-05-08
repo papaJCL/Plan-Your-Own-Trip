@@ -52,7 +52,7 @@ export default class Home extends Component {
                 sendItineraryRequest = {this.sendItineraryRequest} changeStartLocation = {this.changeStartLocation}
                 showMarkers = {this.props.showMarkers} setShowMarkerState = {this.props.setShowMarkerState}
                 checkServerResponse= {this.props.checkServerResponse} addLocation = {this.props.addLocation}
-                updateLatLongState = {this.props.updateLatLongState} geoBool =  {this.props.geoBool}
+                updateLatLongState = {this.props.updateLatLongState} geoBool =  {this.props.geoBool} updateGEOBoolState={this.props.updateGEOBoolState}
                 ref="child"
             />
         )
