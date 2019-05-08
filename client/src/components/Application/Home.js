@@ -48,7 +48,6 @@ export default class Home extends Component {
                 names = {this.props.names}
                 liftHomeState = {this.props.liftHomeState}
                 updatePlacesArray = {this.props.updatePlacesArray}
-                reverseList = {this.reverseList}
                 createErrorBannerState = {this.props.createErrorBannerState} deleteLocation = {this.deleteLocation}
                 sendItineraryRequest = {this.sendItineraryRequest} changeStartLocation = {this.changeStartLocation}
                 showMarkers = {this.props.showMarkers} setShowMarkerState = {this.props.setShowMarkerState}
@@ -80,11 +79,11 @@ export default class Home extends Component {
                 renderFilterLatitude = {this.props.renderFilterLatitude}
                 renderFilterLongitude = {this.props.renderFilterLongitude}
                 renderFilterDistance = {this.props.renderFilterDistance}
+                reverseList = {this.reverseList}
                 liftHomeState = {this.props.liftHomeState}
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
-                setShowMarkerState = {this.props.setShowMarkerState}
-                checkServerResponse ={this.props.checkServerResponse} sendItineraryRequest = {this.sendItineraryRequest}
+                setShowMarkerState = {this.props.setShowMarkerState} checkServerResponse ={this.props.checkServerResponse} sendItineraryRequest = {this.sendItineraryRequest}
             />
         )
     }

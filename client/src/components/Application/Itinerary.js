@@ -126,7 +126,7 @@ export default class Iitnerary extends Component {
                   <Input id="changeStart" type="text" placeholder="Change Start Loc"/>
                   <Input type="submit" value="Enter"/>
                   </form>
-                  <DropdownItem></DropdownItem>
+                  <DropdownItem onClick={() => this.props.reverseList()}>Reverse Itinerary</DropdownItem>
               </Dropdown.Menu>
           </Dropdown>
         );
