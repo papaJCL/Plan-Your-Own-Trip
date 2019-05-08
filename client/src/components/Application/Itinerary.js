@@ -142,10 +142,7 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <Pane
-                    header={
-                        `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
-                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
-                    }
+                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
                     bodyJSX={
                         <div>
                             <Row>
@@ -158,15 +155,9 @@ export default class Iitnerary extends Component {
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
-                            </DropdownButton>
-                            {this.optionsDropDown()}
-                            {this.returnBootStrapTable1()}
+                            </DropdownButton>{this.optionsDropDown()}{this.returnBootStrapTable1()}
                             </Row>
-                        </div>
-                    }
-                />
-            </div>
-        );
+                        </div>} /></div>);
     }
 
     returnBootStrapTable1(){
