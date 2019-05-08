@@ -213,7 +213,7 @@ export default class Iitnerary extends Component {
     deleteFunc(e, column, columnIndex, row, rowIndex) {
         return (
             <div>
-                    <Button size="sm" color="red" onClick={() => this.props.deleteLocation(columnIndex)}>❌</Button>
+                    <Button size="sm" color="red" onClick={() => this.props.deleteLocation(column.id - 1)}>❌</Button>
                     {column.id}
             </div>
         );
