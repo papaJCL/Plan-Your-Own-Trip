@@ -201,38 +201,21 @@ export default class Iitnerary extends Component {
         return columns
     }
 
-    showFunc(e, column, columnIndex, row, rowIndex) {
+    showFunc(e, column, columnIndex, row, rowIndex) { console.log("e ", e, " column ", column," row ", row, " rowIndex ", rowIndex)
         return (
             <div>
                 <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
-                {this.props.JSONString.body.places[columnIndex].name}
+                {column.name}
             </div>
         );
     }
 
     deleteFunc(e, column, columnIndex, row, rowIndex) {
-        // let handleSubmit = (event) => {
-        //     event.preventDefault();
-        //     let number = document.getElementById(columnIndex);
-        //     if (number.value === "" || number.value > this.props.JSONString.body.places.length) {
-        //         alert("Please enter a valid integer from " + 1 + " to " + this.props.JSONString.body.places.length);
-        //         return;
-        //     }
-        //     this.props.changeOrder(columnIndex, number.value - 1);
-        // };
-
         return (
             <div>
                     <Button size="sm" color="red" onClick={() => this.props.deleteLocation(columnIndex)}>❌</Button>
-                    {columnIndex + 1}
-
-                {/*<form onSubmit={handleSubmit}>*/}
-                    {/*<Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />*/}
-                    {/*<Input type="submit" value="Enter"/>*/}
-                {/*</form>*/}
-
+                    {column.id}
             </div>
-
         );
     }
 
