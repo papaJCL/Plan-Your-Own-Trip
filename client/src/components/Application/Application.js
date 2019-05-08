@@ -43,6 +43,7 @@ export default class Application extends Component {
         this.addLocation = this.addLocation.bind(this);
         this.clearSQLState = this.clearSQLState.bind(this);
         this.updateLatLongState = this.updateLatLongState.bind(this);
+        this.updateGEOBoolState = this.updateGEOBoolState.bind(this);
 
         this.state = {
             serverConfig: null,
@@ -235,7 +236,8 @@ export default class Application extends Component {
                     checkServerResponse={this.checkServerResponse}
                     addLocation={this.addLocation}
                     clearSQLState={this.clearSQLState}
-                />;
+
+            />;
 
             default:
                 return <Home
@@ -279,6 +281,7 @@ export default class Application extends Component {
                     addLocation={this.addLocation}
                     updateLatLongState={this.updateLatLongState}
                     geoBool = {this.state.geoBool}
+                    updateGEOBoolState={this.updateGEOBoolState}
                     ref="child"
                 />;
         }
@@ -328,7 +331,6 @@ export default class Application extends Component {
                 errorMessage: null
             });
         }
-       /*
         else {
             this.setState({
                 serverConfig: null,
@@ -340,7 +342,6 @@ export default class Application extends Component {
             });
 
         }
-        */
     }
 
     updateIfGoodCalculator(response) {
@@ -552,5 +553,11 @@ export default class Application extends Component {
             latitude: [lat],
             longitude: [long]
         })
+    }
+
+    updateGEOBoolState(){
+        this.setState({
+            geoBool: true
+        });
     }
 }
