@@ -110,12 +110,19 @@ export default class Home extends Component {
     }
 
 
-    changeStartLocation(idx) {
+    changeStartLocation(string) {
         let places = this.props.JSONString.body.places;
         let newplaces = [];
+        let idx;
         for (var i = 0; i < places.length; i++) {
-            newplaces[i] = places[(idx + i) % places.length];
+            if (places[i].name.toLowerCase().includes(string.toString().toLowerCase())) {
+                idx = i;
+                idx = i;
+            }
         }
+        let temp = newplaces[idx];
+        newplaces[idx] = newplaces[0];
+        newplaces[0] = temp;
         this.props.updatePlacesArray(newplaces);
     }
 
