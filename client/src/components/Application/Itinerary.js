@@ -117,7 +117,7 @@ export default class Iitnerary extends Component {
     optionsDropDown() {
         let handleSubmit = (event) => {
             event.preventDefault();
-            let string = document.getElementById("changeStart");
+            let string = document.getElementById('changeStart').value;
             this.props.changeStartLocation(string);
         };
         return (
