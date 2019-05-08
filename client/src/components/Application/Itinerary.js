@@ -114,6 +114,24 @@ export default class Iitnerary extends Component {
         return products
     }
 
+    optionsDropDown() {
+        let handleSubmit = (event) => {
+            event.preventDefault();
+        };
+        return (
+          <Dropdown>
+              <Dropdown.Toggle size="sm" variant="Secondary" caret>Options</Dropdown.Toggle>
+              <Dropdown.Menu>
+                  <form onSubmit={handleSubmit}>
+                  <Input id="changeStart" type="text" placeholder="Change Start Loc"/>
+                  <Input type="submit" value="Enter"/>
+                  </form>
+                  <DropdownItem></DropdownItem>
+              </Dropdown.Menu>
+          </Dropdown>
+        );
+    }
+
     returnMainItinerary(){
         let totalDistance = this.getTotalDistance(this.props.JSONString.body.places);
         return (
@@ -132,6 +150,7 @@ export default class Iitnerary extends Component {
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
+                            {this.optionsDropDown()}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
