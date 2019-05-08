@@ -84,7 +84,7 @@ export default class Application extends Component {
             SQLJson: [],
             SQLItineraryInfo: [],
             boolSQL: true,
-            showMarkers: [false],
+            showMarkers: [false], // 0th element in array represents show/hide all
             geoBool: false
 
         };

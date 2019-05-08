@@ -20,7 +20,8 @@ export default class Iitnerary extends Component {
         super(props)
         this.renderItinerary = this.renderItinerary.bind(this)
         this.basicItinerary = this.basicItinerary.bind(this)
-        this.changeFunc = this.changeFunc.bind(this)
+        this.deleteFunc = this.deleteFunc.bind(this)
+        this.showFunc = this.showFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
     }
@@ -102,7 +103,7 @@ export default class Iitnerary extends Component {
             products[i] = ({
                 id: id + 1,
                 name: this.props.names[i],
-                latitude: this.props.latitude[i] ,
+                latitude: this.props.latitude[i],
                 longitude: this.props.longitude[i],
                 distance: this.convertDistance(this.props.JSONString.body.distances[i], this.props.planOptions.activeUnit,
                     this.props.oldUnits ) + ' ' +  this.props.planOptions.activeUnit,
@@ -111,6 +112,26 @@ export default class Iitnerary extends Component {
             });
         }
         return products
+    }
+
+    optionsDropDown() {
+        let handleSubmit = (event) => {
+            event.preventDefault();
+            let string = document.getElementById('changeStart').value;
+            this.props.changeStartLocation(string);
+        };
+        return (
+          <Dropdown>
+              <Dropdown.Toggle size="sm" variant="Secondary" caret>Options</Dropdown.Toggle>
+              <Dropdown.Menu>
+                  <form onSubmit={handleSubmit}>
+                  <Input id="changeStart" type="text" placeholder="Change Start Loc"/>
+                  <Input type="submit" value="Enter"/>
+                  </form>
+                  <DropdownItem onClick={() => this.props.reverseList()}>Reverse Itinerary</DropdownItem>
+              </Dropdown.Menu>
+          </Dropdown>
+        );
     }
 
     returnMainItinerary(){
@@ -131,7 +152,7 @@ export default class Iitnerary extends Component {
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
                             </DropdownButton>
-                                {<Button size="sm" onClick={() => this.reverseList()}>Reverse List</Button>}
+                            {this.optionsDropDown()}
                             {this.returnBootStrapTable1()}
                             </Row>
                         </div>
@@ -139,17 +160,6 @@ export default class Iitnerary extends Component {
                 />
             </div>
         );
-    }
-
-    reverseList(){
-        var requestString = {
-            "requestType"    : "itinerary",
-            "requestVersion" : 4,
-            "options"        : {"earthRadius": "" + Math.round(parseFloat(this.props.JSONString.body.options.earthRadius))},
-            "places"         : this.props.JSONString.body.places.reverse(),
-            "distances"      : []
-        }
-        this.props.sendItineraryRequest(requestString);
     }
 
     returnBootStrapTable1(){
@@ -181,42 +191,31 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID
-        },{dataField: 'name', text: 'Name', hidden: this.props.filterName
-        },{dataField: 'options', text: 'Options', formatter: this.changeFunc
+        var columns = [
+        {dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc, headerStyle: (colum, colIndex) => {return { width: '300px', textAlign: 'center' };}
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
-        }, {dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
-        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
+        },{dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
+        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
         }];
         return columns
     }
 
-    changeFunc(e, column, columnIndex, row, rowIndex) {
-        let handleSubmit = (event) => {
-            event.preventDefault();
-            let number = document.getElementById(columnIndex);
-            if (number.value === "" || number.value > this.props.JSONString.body.places.length) {
-                alert("Please enter a valid integer from " + 1 + " to " + this.props.JSONString.body.places.length);
-                return;
-            }
-            this.props.changeOrder(columnIndex, number.value - 1);
-        };
-
+    showFunc(e, column, columnIndex, row, rowIndex) {
         return (
             <div>
-                <row>
-                    <Button size="sm" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
-                    <Button size="sm" onClick={() => this.props.deleteLocation(columnIndex)}><span role="img">❌</span></Button>
-                    <Button size="sm" onClick={() => this.props.changeStartLocation(columnIndex)}><span role="img">⭱</span></Button>
-                </row>
-
-                <form onSubmit={handleSubmit}>
-                    <Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />
-                    <Input type="submit" value="Enter"/>
-                </form>
-
+                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(column.id)}><span role="img">👁</span></Button>
+                {column.name}
             </div>
+        );
+    }
 
+    deleteFunc(e, column, columnIndex, row, rowIndex) {
+        return (
+            <div>
+                    <Button size="sm" color="red" onClick={() => this.props.deleteLocation(column.id - 1)}>❌</Button>
+                    {column.id}
+            </div>
         );
     }
 
