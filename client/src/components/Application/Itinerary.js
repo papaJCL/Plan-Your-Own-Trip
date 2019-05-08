@@ -202,9 +202,10 @@ export default class Iitnerary extends Component {
     }
 
     showFunc(e, column, columnIndex, row, rowIndex) {
+
         return (
             <div>
-                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(column.id)}><span role="img">👁</span></Button>
+                <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(column.id)}><span role="img" style={{color: "blue"}}>👁</span></Button>
                 {column.name}
             </div>
         );
@@ -213,7 +214,7 @@ export default class Iitnerary extends Component {
     deleteFunc(e, column, columnIndex, row, rowIndex) {
         return (
             <div>
-                    <Button size="sm" color="red" onClick={() => this.props.deleteLocation(column.id - 1)}>❌</Button>
+                <Button size="sm" color="white" onClick={() => this.props.deleteLocation(column.id - 1)}><span role="img" style={{color: "red"}}>❌</span></Button>
                     {column.id}
             </div>
         );
