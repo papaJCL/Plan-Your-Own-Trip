@@ -170,21 +170,22 @@ export default class Iitnerary extends Component {
     }
 
     addCols(){
-        var columns = [{dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc
-        },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc
+        var columns = [
+        {dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
+        },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc, headerStyle: (colum, colIndex) => {return { width: '300px', textAlign: 'center' };}
         },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
         },{dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
-        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist
+        },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
         }];
         return columns
     }
 
     showFunc(e, column, columnIndex, row, rowIndex) {
         return (
-            <row>
+            <div>
                 <Button size="sm" color="white" onClick={() => this.props.setShowMarkerState(columnIndex + 1)}><span role="img">👁</span></Button>
                 {this.props.JSONString.body.places[columnIndex].name}
-            </row>
+            </div>
         );
     }
 
@@ -201,10 +202,8 @@ export default class Iitnerary extends Component {
 
         return (
             <div>
-                <Row>
                     <Button size="sm" color="red" onClick={() => this.props.deleteLocation(columnIndex)}>❌</Button>
-                    { columnIndex + 1}
-                </Row>
+                    {columnIndex + 1}
 
                 {/*<form onSubmit={handleSubmit}>*/}
                     {/*<Input id={columnIndex} type="number" min="1" style={{width: "60px"}} />*/}
