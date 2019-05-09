@@ -89,10 +89,8 @@ public class TIPItinerary extends TIPHeader {
     @Override
     public String toString(){
         String ret = "options: " + options.toString() + "\n";
-        ret += "places:\n" + places.toString();
-        for(int i = 0; i < places.length; ++i){
-            ret += "\t" + places[i].toString() + "\n";
-        }
+        ret += "places:\n";
+        ret += toStringHelper(places);
         ret += "distances: " + Arrays.toString(distances) + "\n";
         return ret;
     }
