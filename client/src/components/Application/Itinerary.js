@@ -180,7 +180,7 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <Pane
-                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
+                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
                     bodyJSX={
                         <div>
                             <Row>

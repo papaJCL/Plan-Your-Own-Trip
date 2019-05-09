@@ -10,7 +10,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, CardHeader } from 'reactstrap';
 import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
-
+import {Input, CustomInput, FormGroup, Label} from 'reactstrap';
 
 export default class mapItinerary extends Component {
 
@@ -25,13 +25,12 @@ export default class mapItinerary extends Component {
     render(){
         return(
             <Row>
-                <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+                <Col xs={18} sm={18} md={10} lg={12} xl={12}>
                     {this.renderMap()}
+                    <FormGroup>
+                        <CustomInput type="file" id="FileBrowser" name="File" label="Upload Itinerary" onChange={this.onChange} />
+                    </FormGroup>
                 </Col>
-                <Col xs={12} sm={12} md={5} lg={4} xl={3}>
-                    {this.renderIntro()}
-                </Col>
-
             </Row>
         )
     }
@@ -54,29 +53,6 @@ export default class mapItinerary extends Component {
        );
     }
 
-    renderIntro(){
-        return(
-            <Pane header={'Itinerary Menu'}
-                  bodyJSX={
-                      <div>
-                          <span>
-                              <Card>
-                              <CardBody>
-                                <Row>
-                                <input type="file"name="myFile" onChange={this.onChange}/>
-                                {this.optionsDropDown()}
-                                </Row>
-                                <Row>
-                                    {this.shortenDropDown()}
-                                </Row>
-                                </CardBody>
-                              </Card>
-                        </span>
-                      </div>
-                  }
-            />
-        );
-    }
 
     algorithmButton(shortType){
         var request = {
@@ -103,10 +79,12 @@ export default class mapItinerary extends Component {
                 </CardHeader>
                 <CardBody>
                     {this.renderLeafletMap()}
-                    <Row>
-                    {this.optionsDropDown()}
-                    {this.shortenDropDown()}
-                    </Row>
+                    <Col>
+                        <Row>
+                            {this.optionsDropDown()}
+                            {this.shortenDropDown()}
+                        </Row>
+                    </Col>
                 </CardBody>
             </Card>
         );
