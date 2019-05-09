@@ -217,9 +217,7 @@ public class TIPFind extends TIPHeader {
         ret += "limit: " + limit.toString() + "\n";
         ret += "found: " + found.toString() + "\n";
         ret += "places:\n";
-        for(int i = 0; i < places.length; ++i){
-            ret += "\t" + places[i].toString() + "\n";
-        }
+        ret += toStringHelper(places);
         return ret;
     }
 }
