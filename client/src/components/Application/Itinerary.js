@@ -139,8 +139,6 @@ export default class Iitnerary extends Component {
             alert("Please Enter a Valid Location Name");
             return;
         }
-
-
         this.props.changeOrder(idx0, idx);
     };
 
@@ -167,7 +165,7 @@ export default class Iitnerary extends Component {
                       <Dropdown.Toggle variant="white" caret> Swap Locations </Dropdown.Toggle>
                       <Dropdown.Menu>
                           <form onSubmit={this.handleSwapSubmit}>
-                              <Input id="swap1" type="text" placeholder="Enter 1st Location"/><Input id="swap2" type="text" placeholder="Enter 2nd Location"/><Input type="submit" value="Enter"/>
+                          <Input id="swap1" type="text" placeholder="Enter 1st Location"/><Input id="swap2" type="text" placeholder="Enter 2nd Location"/><Input type="submit" value="Enter"/>
                           </form>
                       </Dropdown.Menu>
                   </Dropdown>

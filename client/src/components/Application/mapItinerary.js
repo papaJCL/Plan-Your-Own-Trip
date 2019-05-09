@@ -7,7 +7,7 @@ import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle } from 'reactstrap';
+    CardTitle, CardSubtitle, CardHeader } from 'reactstrap';
 import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
 
@@ -38,7 +38,7 @@ export default class mapItinerary extends Component {
 
     optionsDropDown() {
         return (
-            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Options" caret>
+            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Map Menu" caret>
                 <Dropdown.Item onClick={this.clearMap}>Reset Map to Default</Dropdown.Item>
                 <Dropdown.Item onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Dropdown.Item>
             </DropdownButton>
@@ -97,9 +97,18 @@ export default class mapItinerary extends Component {
 
     renderMap() {
         return (
-            <Pane header={'World Map'}
-                  bodyJSX={this.renderLeafletMap()}
-            />
+            <Card>
+                <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
+                    World Map
+                </CardHeader>
+                <CardBody>
+                    {this.renderLeafletMap()}
+                    <Row>
+                    {this.optionsDropDown()}
+                    {this.shortenDropDown()}
+                    </Row>
+                </CardBody>
+            </Card>
         );
     }
 
