@@ -35,6 +35,7 @@ export default class SQL extends Component {
                 <Pane header={'Search for Destination'}
                     bodyJSX={
                         <div>
+                            {<div>Search for a location below from the database and click the plus button to add to itinerary, or enter a custom location below. After either adding a custom location or a location from the database go back to the <b>Itinerary</b> page to see the updated itinerary. </div>}
                             <Card>
                                 <CardBody>
                                     <CardTitle><b>Search For a Location</b></CardTitle>
