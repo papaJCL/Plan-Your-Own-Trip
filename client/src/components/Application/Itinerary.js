@@ -108,8 +108,8 @@ export default class Iitnerary extends Component {
                 municipality: this.props.JSONString.body.places[i].municipality,
                 country: this.props.JSONString.body.places[i].country,
                 continent: this.props.JSONString.body.places[i].continent,
-                latitude: this.props.latitude[i],
-                longitude: this.props.longitude[i],
+                latitude: parseFloat(this.props.latitude[i]).toFixed(4) + '',
+                longitude: parseFloat(this.props.longitude[i]).toFixed(4) + '',
                 distance: this.convertDistance(this.props.JSONString.body.distances[i], this.props.planOptions.activeUnit,
                     this.props.oldUnits ) + ' ' +  this.props.planOptions.activeUnit,
                 delete: '',
@@ -139,8 +139,6 @@ export default class Iitnerary extends Component {
             alert("Please Enter a Valid Location Name");
             return;
         }
-
-
         this.props.changeOrder(idx0, idx);
     };
 
@@ -167,7 +165,7 @@ export default class Iitnerary extends Component {
                       <Dropdown.Toggle variant="white" caret> Swap Locations </Dropdown.Toggle>
                       <Dropdown.Menu>
                           <form onSubmit={this.handleSwapSubmit}>
-                              <Input id="swap1" type="text" placeholder="Enter 1st Location"/><Input id="swap2" type="text" placeholder="Enter 2nd Location"/><Input type="submit" value="Enter"/>
+                          <Input id="swap1" type="text" placeholder="Enter 1st Location"/><Input id="swap2" type="text" placeholder="Enter 2nd Location"/><Input type="submit" value="Enter"/>
                           </form>
                       </Dropdown.Menu>
                   </Dropdown>
@@ -182,7 +180,7 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <Pane
-                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
+                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
                     bodyJSX={
                         <div>
                             <Row>

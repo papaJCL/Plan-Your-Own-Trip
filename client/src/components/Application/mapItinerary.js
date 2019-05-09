@@ -7,10 +7,10 @@ import { sendServerRequestWithBody } from '../../api/restfulAPI'
 import { Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import Pane from './Pane'
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle } from 'reactstrap';
+    CardTitle, CardSubtitle, CardHeader } from 'reactstrap';
 import { Dropdown, DropdownItem, DropdownButton} from 'react-bootstrap';
 import ErrorBanner from './ErrorBanner';
-
+import {Input, CustomInput, FormGroup, Label} from 'reactstrap';
 
 export default class mapItinerary extends Component {
 
@@ -25,20 +25,19 @@ export default class mapItinerary extends Component {
     render(){
         return(
             <Row>
-                <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+                <Col xs={18} sm={18} md={10} lg={12} xl={12}>
                     {this.renderMap()}
+                    <FormGroup>
+                        <CustomInput type="file" id="FileBrowser" name="File" label="Upload Itinerary" onChange={this.onChange} />
+                    </FormGroup>
                 </Col>
-                <Col xs={12} sm={12} md={5} lg={4} xl={3}>
-                    {this.renderIntro()}
-                </Col>
-
             </Row>
         )
     }
 
     optionsDropDown() {
         return (
-            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Options" caret>
+            <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Map Menu" caret>
                 <Dropdown.Item onClick={this.clearMap}>Reset Map to Default</Dropdown.Item>
                 <Dropdown.Item onClick={() => this.props.setShowMarkerState(0)}>Show/Hide All Markers</Dropdown.Item>
             </DropdownButton>
@@ -54,29 +53,6 @@ export default class mapItinerary extends Component {
        );
     }
 
-    renderIntro(){
-        return(
-            <Pane header={'Itinerary Menu'}
-                  bodyJSX={
-                      <div>
-                          <span>
-                              <Card>
-                              <CardBody>
-                                <Row>
-                                <input type="file"name="myFile" onChange={this.onChange}/>
-                                {this.optionsDropDown()}
-                                </Row>
-                                <Row>
-                                    {this.shortenDropDown()}
-                                </Row>
-                                </CardBody>
-                              </Card>
-                        </span>
-                      </div>
-                  }
-            />
-        );
-    }
 
     algorithmButton(shortType){
         var request = {
@@ -97,9 +73,20 @@ export default class mapItinerary extends Component {
 
     renderMap() {
         return (
-            <Pane header={'World Map'}
-                  bodyJSX={this.renderLeafletMap()}
-            />
+            <Card>
+                <CardHeader className='bg-csu-gold text-white font-weight-semibold'>
+                    World Map
+                </CardHeader>
+                <CardBody>
+                    {this.renderLeafletMap()}
+                    <Col>
+                        <Row>
+                            {this.optionsDropDown()}
+                            {this.shortenDropDown()}
+                        </Row>
+                    </Col>
+                </CardBody>
+            </Card>
         );
     }
 

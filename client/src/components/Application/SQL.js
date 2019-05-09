@@ -35,17 +35,20 @@ export default class SQL extends Component {
                 <Pane header={'Search for Destination'}
                     bodyJSX={
                         <div>
+                            <Card>
+                                <CardBody>
+                                    <CardTitle><b>Search For a Location</b></CardTitle>
                             <form onSubmit={this.handleSubmit}>
-                                <label>
                                     <Input id="location" type="text" placeholder="Enter Location"/>
                                     {this.filters()}
                                     <Input className='btn-csu w-100 text-left' id="name" type="submit" value="Submit"/>
-                                </label>
                             </form>
+                                </CardBody>
+                            </Card>
+                            {this.createAddDropDown()}
                         </div>}
                 />
                 {this.renderSQLTable()}
-                {this.createAddDropDown()}
             </div>
         );
     }
