@@ -38,12 +38,6 @@ export default class Options extends Component{
                      updateOldUnit = {this.props.updateOldUnit}
                      updateOption={this.props.updateOption}/>
             </Col>
-
-              {/* Insert here <- different column, same row.*/}
-              {/*<Col xs="12" sm="12" md="6" lg="4" xl="3">
-                <CustomUnits/>
-            </Col> */}
-
           </Row>
             <Row>
             <Col xs="12" sm="12" md="6" lg="4" xl="3">
