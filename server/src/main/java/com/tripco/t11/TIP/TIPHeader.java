@@ -16,4 +16,13 @@ public abstract class TIPHeader {
   public abstract String toString();
 
   public abstract void buildResponse();
+
+  protected String toStringHelper(Map<String,Object>[] stuff){
+    String str = "";
+    for(int i = 0; i < stuff.length; ++i){
+      str += "\t" + stuff[i].toString() + "\n";
+    }
+    return str;
+  }
+
 }
