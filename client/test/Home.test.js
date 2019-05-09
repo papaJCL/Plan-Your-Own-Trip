@@ -51,6 +51,7 @@ const finalStartProperties = {
     'createErrorBannerState': () => {},
 
 
+
 };
 
 
@@ -134,7 +135,18 @@ function testRender(){
         showMarkers = {finalStartProperties.showMarkers}
         settings={finalStartProperties.clientSettings}
         updatePlacesArray = {finalStartProperties.updatePlacesArray}
+        createErrorBannerState = {finalStartProperties.createErrorBannerState}
     />);
     let numberOfInputs = home.find('Container').length;
-    expect(numberOfInputs).toEqual(2)
+    expect(numberOfInputs).toEqual(1)
+
+    home.instance().callMapItinerary();
+    home.instance().callItinerary();
+    home.instance().changeOrder(1,2);
+    home.instance().sendItineraryRequest('should not compile');
+    home.instance().reverseList();
+    home.instance().deleteLocation(1);
+    home.instance().changeStartLocation("no")
 }
+
+test("Basic Render Test for Home" , testRender)
