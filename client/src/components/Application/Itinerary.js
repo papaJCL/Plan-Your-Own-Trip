@@ -24,10 +24,8 @@ export default class Iitnerary extends Component {
         this.showFunc = this.showFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
-
-        this.state = {
-            isOpen: false
-        }
+        this.handleStartSubmit = this.handleStartSubmit.bind(this)
+        this.handleSwapSubmit = this.handleSwapSubmit.bind(this)
     }
 
 
@@ -121,31 +119,56 @@ export default class Iitnerary extends Component {
         return products
     }
 
-    toggle() { console.log("here")
-        let newToggle;
-        (this.state.isOpen) ? newToggle = false : newToggle = true;
-        this.setState({
-            isOpen: newToggle
-        });
-    }
+
+    handleSwapSubmit(event) {
+        event.preventDefault();
+        let swap1 = document.getElementById('swap1').value;
+        let swap2 = document.getElementById('swap2').value; console.log("swap1", swap1, " swap2", swap2)
+        let places = this.props.JSONString.body.places;
+        let idx = - 1;
+        let idx0 = - 1;
+        for (var i = 0; i < places.length; i++) {
+            if (places[i].name.toLowerCase().includes(swap1.toString().toLowerCase())) {
+                idx = i;
+            }
+            else if (places[i].name.toLowerCase().includes(swap2.toString().toLowerCase())) {
+                idx0 = i;
+            }
+        }
+        if (idx === - 1 || idx0 === -1) {
+            alert("Please Enter a Valid Location Name");
+            return;
+        }
+
+
+        this.props.changeOrder(idx0, idx);
+    };
+
+    handleStartSubmit(event) {
+        event.preventDefault();
+        let string = document.getElementById('changeStart').value;
+        this.props.changeStartLocation(string);
+    };
 
     optionsDropDown() {
-        let handleSubmit = (event) => {
-            event.preventDefault();
-            let string = document.getElementById('changeStart').value;
-            this.props.changeStartLocation(string);
-        };
         return (
           <Dropdown>
               <Dropdown.Toggle size="sm" variant="Secondary" caret>Options</Dropdown.Toggle>
-              <Dropdown.Menu alignRight={true}>
+              <Dropdown.Menu>
                   <Dropdown>
-                      <Dropdown.Toggle variant="white" caret> Change Starting Location </Dropdown.Toggle>
-                      <Dropdown.Menu alignRight={true}>
-                  <form onSubmit={handleSubmit}>
-                  <Input id="changeStart" type="text" placeholder="Enter Location Name"/>
-                  <Input type="submit" value="Enter"/>
+                      <Dropdown.Toggle variant="white" caret> Change Start Location </Dropdown.Toggle>
+                      <Dropdown.Menu >
+                  <form onSubmit={this.handleStartSubmit}>
+                  <Input id="changeStart" type="text" placeholder="Enter Location Name"/> <Input type="submit" value="Enter"/>
                   </form>
+                      </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown>
+                      <Dropdown.Toggle variant="white" caret> Swap Locations </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                          <form onSubmit={this.handleSwapSubmit}>
+                              <Input id="swap1" type="text" placeholder="Enter 1st Location"/><Input id="swap2" type="text" placeholder="Enter 2nd Location"/><Input type="submit" value="Enter"/>
+                          </form>
                       </Dropdown.Menu>
                   </Dropdown>
                   <DropdownItem as="button" onClick={() => {this.props.reverseList(); }}>Reverse Itinerary</DropdownItem>
