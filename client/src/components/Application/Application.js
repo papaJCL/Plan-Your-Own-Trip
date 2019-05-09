@@ -44,6 +44,9 @@ export default class Application extends Component {
         this.clearSQLState = this.clearSQLState.bind(this);
         this.updateLatLongState = this.updateLatLongState.bind(this);
         this.updateGEOBoolState = this.updateGEOBoolState.bind(this);
+        this.renderFilterMunicipality = this.renderFilterMunicipality.bind(this);
+        this.renderFilterCountry = this.renderFilterCountry.bind(this);
+        this.renderFilterContinent = this.renderFilterContinent.bind(this);
 
         this.state = {
             serverConfig: null,
@@ -81,6 +84,9 @@ export default class Application extends Component {
             filterLat: true,
             filterLong: true,
             filterDist: false,
+            filterMunicipality: false,
+            filterCountry: true,
+            filterContinent: true,
             SQLJson: [],
             SQLItineraryInfo: [],
             boolSQL: true,
@@ -265,11 +271,17 @@ export default class Application extends Component {
                     filterLat={this.state.filterLat}
                     filterLong={this.state.filterLong}
                     filterDist={this.state.filterDist}
+                    filterMunicipality = {this.state.filterMunicipality}
+                    filterCountry = {this.state.filterCountry}
+                    filterContinent = {this.state.filterContinent}
                     renderFilterID={this.renderFilterID}
                     renderFilterName={this.renderFilterName}
                     renderFilterLatitude={this.renderFilterLatitude}
                     renderFilterLongitude={this.renderFilterLongitude}
                     renderFilterDistance={this.renderFilterDistance}
+                    renderFilterMunicipality={this.renderFilterMunicipality}
+                    renderFilterCountry = {this.renderFilterCountry}
+                    renderFilterContinent = {this.renderFilterContinent}
                     SQLJson={this.state.SQLJson}
                     updateSQLState={this.updateSQLState}
                     SQLItineraryInfo={this.state.SQLItineraryInfo}
@@ -320,6 +332,27 @@ export default class Application extends Component {
         if (this.state.filterDist == true) this.setState({filterDist: false})
         else {
             this.setState({filterDist: true})
+        }
+    }
+
+    renderFilterMunicipality(){
+        if (this.state.filterMunicipality == true) this.setState({filterMunicipality: false})
+        else {
+            this.setState({filterMunicipality: true})
+        }
+    }
+
+    renderFilterCountry(){
+        if (this.state.filterCountry == true) this.setState({filterCountry: false})
+        else {
+            this.setState({filterCountry: true})
+        }
+    }
+
+    renderFilterContinent(){
+        if (this.state.filterContinent == true) this.setState({filterContinent: false})
+        else {
+            this.setState({filterContinent: true})
         }
     }
 

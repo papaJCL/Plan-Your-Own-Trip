@@ -107,6 +107,9 @@ export default class Iitnerary extends Component {
             products[i] = ({
                 id: id + 1,
                 name: this.props.names[i],
+                municipality: this.props.JSONString.body.places[i].municipality,
+                country: this.props.JSONString.body.places[i].country,
+                continent: this.props.JSONString.body.places[i].continent,
                 latitude: this.props.latitude[i],
                 longitude: this.props.longitude[i],
                 distance: this.convertDistance(this.props.JSONString.body.distances[i], this.props.planOptions.activeUnit,
@@ -156,27 +159,22 @@ export default class Iitnerary extends Component {
         return (
             <div>
                 <Pane
-                    header={
-                        `  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling
-                        ${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`
-                    }
+                    header={`  You have  ${this.props.JSONString.body.places.length}  stops on your trip totalling${this.convertDistance(totalDistance, this.props.planOptions.activeUnit, this.props.oldUnits)} ${this.props.planOptions.activeUnit}.`}
                     bodyJSX={
                         <div>
                             <Row>
                             <DropdownButton size="sm" variant="Secondary" id="dropdown-basic-button" title="Filter Results" caret>
+                                <Dropdown.Item onClick={() => this.props.renderFilterID()}>ID</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterName()}>Name</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterMunicipality()}>Municipality</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterCountry()}>Country</Dropdown.Item>
+                                <Dropdown.Item onClick={() => this.props.renderFilterContinent()}>Continent</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLatitude()}>Latitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterLongitude()}>Longitude</Dropdown.Item>
                                 <Dropdown.Item onClick={() => this.props.renderFilterDistance()}>Leg Distance</Dropdown.Item>
-                            </DropdownButton>
-                            {this.optionsDropDown()}
-                            {this.returnBootStrapTable1()}
+                            </DropdownButton>{this.optionsDropDown()}{this.returnBootStrapTable1()}
                             </Row>
-                        </div>
-                    }
-                />
-            </div>
-        );
+                        </div>} /></div>);
     }
 
     returnBootStrapTable1(){
@@ -211,7 +209,10 @@ export default class Iitnerary extends Component {
         var columns = [
         {dataField: 'id', text: 'ID', sort: true, hidden: this.props.filterID, formatter: this.deleteFunc, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
         },{dataField: 'name', text: 'Name', hidden: this.props.filterName, formatter: this.showFunc, headerStyle: (colum, colIndex) => {return { width: '300px', textAlign: 'center' };}
-        },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
+            },{dataField: 'municipality', text: 'Municipality', hidden: this.props.filterMunicipality
+            },{dataField: 'country', text: 'Country', hidden: this.props.filterCountry
+            },{dataField: 'continent', text: 'Continent', hidden: this.props.filterContinent
+            },{dataField: 'latitude', text: 'Latitude', hidden: this.props.filterLat
         },{dataField: 'longitude', text: 'Longitude', hidden: this.props.filterLong
         },{dataField: 'distance', text: 'Leg Distance', hidden: this.props.filterDist, headerStyle: (colum, colIndex) => {return { width: '100px', textAlign: 'center' };}
         }];
