@@ -31,7 +31,8 @@ const startProperties = {
     'SQLItineraryInfo' : [],
     'SQLJson': [],
     'liftHomeState': () => {},
-    'boolSQLFunc': () => {}
+    'boolSQLFunc': () => {} ,
+    'showMarkers' : [true, true, true]
 };
 
 
@@ -43,6 +44,7 @@ function testBasic(){
         clientSettings = {startProperties.clientSettings}
         liftHomeState = {startProperties.liftHomeState}
         boolSQLFunc = {startProperties.boolSQLFunc}
+        showMarkers = {startProperties.showMarkers}
 
 
     />);
@@ -62,7 +64,12 @@ function testBasic(){
     let sanitizeTest = basicSQLTest.instance().sanatizeMatch('xd5a');
     expect(sanitizeTest).toEqual("xd5a")
 
-    basicSQLTest.instance().SQLColumns;
+    basicSQLTest.instance().SQLColumns();
+    basicSQLTest.instance().createAddDropDown();
+    basicSQLTest.instance().addAllButton();
+    basicSQLTest.instance().buildNarrow(['Japan' , 'China'], 'country');
+    basicSQLTest.instance().extractFilters(['hello' , 'testing']);
+    basicSQLTest.instance().reverseState(true);
 
 
 
