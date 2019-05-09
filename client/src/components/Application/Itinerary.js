@@ -24,6 +24,10 @@ export default class Iitnerary extends Component {
         this.showFunc = this.showFunc.bind(this)
         this.addCols =this.addCols.bind(this)
         this.convertUnitsToNum = this.convertUnitsToNum.bind(this);
+
+        this.state = {
+            isOpen: false
+        }
     }
 
 
@@ -114,6 +118,14 @@ export default class Iitnerary extends Component {
         return products
     }
 
+    toggle() { console.log("here")
+        let newToggle;
+        (this.state.isOpen) ? newToggle = false : newToggle = true;
+        this.setState({
+            isOpen: newToggle
+        });
+    }
+
     optionsDropDown() {
         let handleSubmit = (event) => {
             event.preventDefault();
@@ -123,12 +135,17 @@ export default class Iitnerary extends Component {
         return (
           <Dropdown>
               <Dropdown.Toggle size="sm" variant="Secondary" caret>Options</Dropdown.Toggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu alignRight={true}>
+                  <Dropdown>
+                      <Dropdown.Toggle variant="white" caret> Change Starting Location </Dropdown.Toggle>
+                      <Dropdown.Menu alignRight={true}>
                   <form onSubmit={handleSubmit}>
-                  <Input id="changeStart" type="text" placeholder="Change Start Loc"/>
+                  <Input id="changeStart" type="text" placeholder="Enter Location Name"/>
                   <Input type="submit" value="Enter"/>
                   </form>
-                  <DropdownItem onClick={() => this.props.reverseList()}>Reverse Itinerary</DropdownItem>
+                      </Dropdown.Menu>
+                  </Dropdown>
+                  <DropdownItem as="button" onClick={() => {this.props.reverseList(); }}>Reverse Itinerary</DropdownItem>
               </Dropdown.Menu>
           </Dropdown>
         );
