@@ -123,7 +123,7 @@ export default class Iitnerary extends Component {
     handleSwapSubmit(event) {
         event.preventDefault();
         let swap1 = document.getElementById('swap1').value;
-        let swap2 = document.getElementById('swap2').value; console.log("swap1", swap1, " swap2", swap2)
+        let swap2 = document.getElementById('swap2').value;
         let places = this.props.JSONString.body.places;
         let idx = Number.MIN_SAFE_INTEGER;
         let idx0 = Number.MIN_SAFE_INTEGER;
