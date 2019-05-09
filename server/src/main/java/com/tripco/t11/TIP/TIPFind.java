@@ -27,6 +27,7 @@ public class TIPFind extends TIPHeader {
     private Integer found;
     private Map<String, Object>[] places;
     private Map<String, Object>[] narrow;
+    private Map<String, Object>[] tempNarrow;
     //logger
     private final transient Logger log = LoggerFactory.getLogger(TIPFind.class);
 
@@ -59,6 +60,7 @@ public class TIPFind extends TIPHeader {
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
         }
+        tempNarrow = null;
         log.trace("buildResponse -> {}", this);
     }
 
@@ -92,7 +94,7 @@ public class TIPFind extends TIPHeader {
     private String queryEnd(){
         String queryEnd = "\nFROM ( continent ";
         queryEnd += concatMapJoin() + " ) " + concatMatchSearch();
-        if(narrow != null && narrow.length > 0) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
+        if(filtersExist()) queryEnd += "\nAND ( " + concatFilterSearch() + ")\n";
         return queryEnd += ") ";
     }
 
@@ -115,12 +117,35 @@ public class TIPFind extends TIPHeader {
         return " \"%" + search + "%\" ";
     }
 
+    private boolean filtersExist(){
+        boolean ret = false;
+        if(narrow != null && narrow.length > 0){
+            initializeTempNarrow();
+            int index = 0;
+            for(int i = 0; i < narrow.length; ++i){
+                if(((ArrayList<String>)narrow[i].get("values")).size() > 0){
+                    ret = true;
+                    tempNarrow[index++] = narrow[i];
+                }
+            }
+        }
+        return ret;
+    }
+
+    private void initializeTempNarrow(){
+        int size = 0;
+        for(int i = 0; i < narrow.length; ++i){
+            if(((ArrayList<String>)narrow[i].get("values")).size() > 0) ++size;
+        }
+        this.tempNarrow = new Map[size];
+    }
+
     private String concatFilterSearch(){
         String filterSearch = "";
-        for(int i = 0; i < narrow.length; ++i){
+        for(int i = 0; i < tempNarrow.length; ++i){
             filterSearch += (i > 0) ? "AND ( " : " ( ";
-            filterSearch += extractFilterSearch(((String)narrow[i].get("name")),
-                    (ArrayList<String>)narrow[i].get("values"));
+            filterSearch += extractFilterSearch(((String)tempNarrow[i].get("name")),
+                    (ArrayList<String>)tempNarrow[i].get("values"));
         }
         return filterSearch;
     }
