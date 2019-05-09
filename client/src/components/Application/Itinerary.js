@@ -125,8 +125,8 @@ export default class Iitnerary extends Component {
         let swap1 = document.getElementById('swap1').value;
         let swap2 = document.getElementById('swap2').value; console.log("swap1", swap1, " swap2", swap2)
         let places = this.props.JSONString.body.places;
-        let idx = - 1;
-        let idx0 = - 1;
+        let idx = Number.MIN_SAFE_INTEGER;
+        let idx0 = Number.MIN_SAFE_INTEGER;
         for (var i = 0; i < places.length; i++) {
             if (places[i].name.toLowerCase().includes(swap1.toString().toLowerCase())) {
                 idx = i;
@@ -135,7 +135,7 @@ export default class Iitnerary extends Component {
                 idx0 = i;
             }
         }
-        if (idx === - 1 || idx0 === -1) {
+        if (idx + idx0 < 0) {
             alert("Please Enter a Valid Location Name");
             return;
         }
