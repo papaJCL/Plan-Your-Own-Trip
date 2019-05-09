@@ -205,11 +205,9 @@ export default class Iitnerary extends Component {
         var products = this.addProducts();
         var cols = this.addCols();
         return(
-
             <table class="table-responsive">
                 <tbody>
                     <BootstrapTable1
-                        nowrap
                         tabIndexCell
                         condensed
                         bootstrap4
@@ -222,7 +220,6 @@ export default class Iitnerary extends Component {
                     </BootstrapTable1>
                 </tbody>
             </table>
-
             );
         }
 
