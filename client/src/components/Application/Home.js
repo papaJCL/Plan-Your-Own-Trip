@@ -87,8 +87,7 @@ export default class Home extends Component {
                 boolSQL = {this.props.boolSQL}
                 JSONString = {this.props.JSONString}
                 setShowMarkerState = {this.props.setShowMarkerState} checkServerResponse ={this.props.checkServerResponse} sendItineraryRequest = {this.sendItineraryRequest}
-                renderFilterMunicipality = {this.props.renderFilterMunicipality}
-                filterMunicipality = {this.props.filterMunicipality}
+                renderFilterMunicipality = {this.props.renderFilterMunicipality} filterMunicipality = {this.props.filterMunicipality}
             />
         )
     }
