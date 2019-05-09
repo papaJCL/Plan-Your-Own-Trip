@@ -163,16 +163,20 @@ export default class Iitnerary extends Component {
     }
 
     returnBootStrapTable1(){
+        const rowClass = "text-nowrap";
         var products = this.addProducts();
         var cols = this.addCols();
         return(
+
             <table class="table-responsive">
                 <tbody>
                     <BootstrapTable1
+                        nowrap
                         tabIndexCell
                         condensed
                         bootstrap4
                         keyField="id"
+                        rowClasses={ rowClass }
                         data={products}
                         columns={cols}
                         pagination={ paginationFactory({showTotal: true, firstPageText: 'First', prePageText: 'Back', nextPageText: 'Next',
@@ -180,6 +184,7 @@ export default class Iitnerary extends Component {
                     </BootstrapTable1>
                 </tbody>
             </table>
+
             );
         }
 
