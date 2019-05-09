@@ -117,6 +117,21 @@ public class TIPFind extends TIPHeader {
         return " \"%" + search + "%\" ";
     }
 
+    private boolean filtersExist(){
+        boolean ret = false;
+        if(narrow != null && narrow.length > 0){
+            initializeTempNarrow();
+            int index = 0;
+            for(int i = 0; i < narrow.length; ++i){
+                if(((ArrayList<String>)narrow[i].get("values")).size() > 0){
+                    ret = true;
+                    tempNarrow[index++] = narrow[i];
+                }
+            }
+        }
+        return ret;
+    }
+
 
 
     private String concatFilterSearch(){
