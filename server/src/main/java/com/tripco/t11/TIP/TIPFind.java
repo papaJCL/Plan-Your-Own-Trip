@@ -132,7 +132,13 @@ public class TIPFind extends TIPHeader {
         return ret;
     }
 
-
+    private void initializeTempNarrow(){
+        int size = 0;
+        for(int i = 0; i < narrow.length; ++i){
+            if(((ArrayList<String>)narrow[i].get("values")).size() > 0) ++size;
+        }
+        this.tempNarrow = new Map[size];
+    }
 
     private String concatFilterSearch(){
         String filterSearch = "";
