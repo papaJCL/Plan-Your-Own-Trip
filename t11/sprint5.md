@@ -95,42 +95,63 @@ Other potential epics---
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-|Epics|	4 epics |	|
-|Tasks|	6 Tasks 10 points	|value|
-|Story| 30|value	|
+|Epics|	4 epics #21 #343 #344 #336 | 4	|
+|Tasks|	38	|31|
+|Story| 31|27	|
 ## Scrums
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-|april 21st |    | #339, #340, #341   |       |
+|april 21st |    | #339, #340, #341|       |
+|april 25th |    |#339, #340, #341 |       |
+|april 29th |    |#339, #340, #341 #368 #372|   |
+|May 3rd | #368 #372 |#339, #340, #341 #373 #367 |  |
+|May 4th | #373 #367 |#339, #340, #341|      |
+|May 6th |#284 #376 #378| |  |
+|May 8th |#371 #381 #340 #384 #363 #39 #389 #396 #394| #339 #341| |
+
+
 
 
 ## Review (focus on solution and technology)
-
+This sprint, we worked as a team to implement tasks resulting from feedback we received on our website. We focused on an intuitive and easy to use experience in keeping with our mobile first design policy. We made an effort to really stick to that philosophy this time around. To that end we implemented symbolic buttons and slimmed down our UI to the minimum. The theory is that a user can look at those symbols in place of text and intuitively understand what they do within the context of our website. This should allow for a much more streamlined and enjoyable user experience in keeping with the sprints main objective, “A Great User Experience!”
+ 
 
 #### Completed epics in Sprint Backlog 
 
+* #336 User: Make the application easier to use.
+* #343 Implement recived UI changes for our homepage
+* #344 Implement recived UI changes for our SQL page
+* #21 User: I want to know where I am on the map
+
 
 #### Incomplete epics in Sprint Backlog 
+NONE!!!
 
 
 #### What went well
+We really began to work as a team, roles were well established and what each member of the team was able to accomplish tasks in a fairly timely manner with the others supporting as needed. We made sure that the plan was made before we started work and that we knew what we were going to do when we began to make changes.
 
 
 #### Problems encountered and resolutions
+There were two main issues encountered this sprint. The first was availability of labor. We all had other classes with final projects and papers due. On top of that two of us had a major school sponsored event in the middle of the sprint which demanded a very large portion of those team members attention for a solid week. The other problem was disagreements about UI changes. When you really begin to dive into UI, things begin to be subjective as to what changes constitute a better user experience. We solved these disagreements by looking at all proposed UI's and voting on what we thought was the best with majority vote being the one we went with.  
 
 
 ## Retrospective (focus on people, process, tools)
-
+We had a pretty good sprint overall. We did have some problems with getting started and our burndown reflects that. In past sprints we had been pretty good about not doing a "big bang" at the end and we slipped a little bit this time. We also began to experience the problems that technical debt can impose for the first time. We found out one of our libraries was not working as intended and was stripping negative signs off of coordinates when it changed their formats from DMS to decimal. Other tasks that would have been minor if implemented at the start of the project became much harder as they had to be plugged into existing frameworks that were not designed to support them. Other than those two things I think we had a very successful sprint.
 
 #### What we changed this sprint
-
+We really placed an emphasis on testing our changes before we implemented them. We made sure that there was nothing unexpected that resulted from a change to our code. We also tried to be more proactive about adding tasks to our ZenHub so that people knew what was being worked on by all members of the team. 
 
 #### What we did well
+We made sure that everyone knew what was being done by the other members of the team during each part of the sprint. We also put our best foot forward in terms of settling disagreements within the team (UI stuff mostly). I feel as though we have worked through many of the problems that we had in past sprints and we are now functioning smoothly as a team.
 
 
 #### What we need to work on
+We need to actually implement test driven development. We need to write the tests first and then the functions that use those tests. I also think that our pre sprint planning could be better from a "this is what we want the end product to look like exactly" standpoint to avoid those arguments about UI. It's great that we settled those arguments, now let's focus on not having them in the first place!
 
 
 #### What we will change next sprint 
+We will implement Test driven development and put together a much more cohesive plan before we begin work. We will also strive to make sure that work schedules can be done around school and activities and coordinate so we don't end up doing a "big bang" at the end of the sprint.
+
 
