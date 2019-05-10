@@ -130,7 +130,8 @@ NONE!!!
 
 
 #### What went well
-We really began to work as a team, roles were well established and what each member of the team was able to accomplish tasks in a fairly timely manner with the others supporting as needed. We made sure that the plan was made before we started work and that we knew what we were going to do when we began to make changes.
+We really began to work as a team, roles were well established and each member of the team was able to accomplish tasks in a fairly timely manner with the others supporting as needed. We made sure that the plan was made before we started work and that we knew what we were going to do when we began to make changes. While that was happening we became more flexible as to when work was being done and that allowed us to work much more effectively as various members contributed as able. Overall this sprint was very successful for us as we accomplished all our goals and put the finishing touches on our website. 
+
 
 
 #### Problems encountered and resolutions
@@ -141,17 +142,21 @@ There were two main issues encountered this sprint. The first was availability o
 We had a pretty good sprint overall. We did have some problems with getting started and our burndown reflects that. In past sprints we had been pretty good about not doing a "big bang" at the end and we slipped a little bit this time. We also began to experience the problems that technical debt can impose for the first time. We found out one of our libraries was not working as intended and was stripping negative signs off of coordinates when it changed their formats from DMS to decimal. Other tasks that would have been minor if implemented at the start of the project became much harder as they had to be plugged into existing frameworks that were not designed to support them. Other than those two things I think we had a very successful sprint.
 
 #### What we changed this sprint
-We really placed an emphasis on testing our changes before we implemented them. We made sure that there was nothing unexpected that resulted from a change to our code. We also tried to be more proactive about adding tasks to our ZenHub so that people knew what was being worked on by all members of the team. 
+We really placed an emphasis on testing our changes before we implemented them. We made sure that there was nothing unexpected that resulted from a change to our code. Every pull request was gone over line by line to make sure that nothing that was not supposed to happen was happening. We also tried to be more proactive about adding tasks to our ZenHub so that people knew what was being worked on by all members of the team. In the past we have had problems where people are working on things that are not put down as tasks. This means that it is not always on everyone's mental radar to make sure it gets done, then when the taskless pull request got put through, people would be taken by surprise and it would result in unnecessary confusion. We have for the most part solved that problem. 
+
 
 #### What we did well
-We made sure that everyone knew what was being done by the other members of the team during each part of the sprint. We also put our best foot forward in terms of settling disagreements within the team (UI stuff mostly). I feel as though we have worked through many of the problems that we had in past sprints and we are now functioning smoothly as a team.
+We made sure that everyone knew what was being done by the other members of the team during each part of the sprint. We also put our best foot forward in terms of settling disagreements within the team (UI stuff mostly). I feel as though we have worked through many of the problems that we had in past sprints and we are now functioning smoothly as a team. We also coordinated effectively to make sure that work got done even when schedules didn’t line up for everyone to be present during our normal meeting hours. This let us be more flexible with what work was being done when, increasing overall efficiency. This better communication and scheduling was necessary and very beneficial to our workflow and allowed for an efficient manner even when crunched for time.
+
 
 
 #### What we need to work on
-We need to actually implement test driven development. We need to write the tests first and then the functions that use those tests. I also think that our pre sprint planning could be better from a "this is what we want the end product to look like exactly" standpoint to avoid those arguments about UI. It's great that we settled those arguments, now let's focus on not having them in the first place!
+We need to actually implement test driven development. We need to write the tests first and then the functions that use those tests. There were several times during the sprint when we had to drop tasks so that we could increase our test coverage, if we had written our tests first, that wouldn’t have been a problem. I also think that our pre sprint planning could be better from a "this is what we want the end product to look like exactly" standpoint to avoid those arguments about UI. Although they were for the most part settled quickly, having a loud argument is not conductive to our workflow. It's great that we settled the arguments quickly, but we should really focus on not having them in the first place!
+
 
 
 #### What we will change next sprint 
-We will implement Test driven development and put together a much more cohesive plan before we begin work. We will also strive to make sure that work schedules can be done around school and activities and coordinate so we don't end up doing a "big bang" at the end of the sprint.
+We will implement Test driven development and put together a much more cohesive plan before we begin work. This will allow us to stop putting the cart before the horse as far as testing is concerned and write our tests beforehand. It will also allow us to avoid mid sprint arguments about design decisions and implementation will be much smoother overall. We will also strive to make sure that work schedules can be done around school and activities and coordinate so we don't end up doing a "big bang" at the end of the sprint. A more consistent workflow would be better from both a burndown and process perspective, giving us more time to iron out problems due to not being overloaded in the short term at the end of the sprint. 
+
 
 
