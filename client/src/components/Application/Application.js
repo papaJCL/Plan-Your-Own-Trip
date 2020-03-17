@@ -55,7 +55,7 @@ export default class Application extends Component {
                 activeUnit: 'miles'
             },
             clientSettings: {
-                serverPort: getOriginalServerPort()
+                serverPort: "http://localhost:8088/"
             },
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -131,8 +131,10 @@ export default class Application extends Component {
     }
 
     updateServerConfig() {
-        sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
-            console.log(config);
+        //This makes it so I can deploy off of local
+        let newStateSettings = "http://localhost:8088"
+        console.log(newStateSettings)
+        sendServerRequest('config', newStateSettings).then(config => {
             this.processConfigResponse(config);
         });
     }
@@ -465,7 +467,6 @@ export default class Application extends Component {
 
         sendServerRequestWithBody('itinerary', request, this.state.clientSettings.serverPort)
             .then((response) => {
-                console.log(response.statusCode)
                 var valid = this.checkServerResponse(response.statusCode, response.body, 'itinerary')
                 if (valid) {
                     this.liftHomeState(response);
@@ -581,7 +582,6 @@ export default class Application extends Component {
 
 
     updateLatLongState(lat, long) {
-        console.log("update state")
         this.setState ({
             latitude: [lat],
             longitude: [long]
