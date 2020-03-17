@@ -55,7 +55,7 @@ export default class Application extends Component {
                 activeUnit: 'miles'
             },
             clientSettings: {
-                serverPort: "http://localhost:8088/"
+                serverPort: getOriginalServerPort()
             },
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -134,7 +134,7 @@ export default class Application extends Component {
         //This makes it so I can deploy off of local
         let newStateSettings = "http://localhost:8088"
         console.log(newStateSettings)
-        sendServerRequest('config', newStateSettings).then(config => {
+        sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
             this.processConfigResponse(config);
         });
     }

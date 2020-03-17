@@ -110,6 +110,7 @@
             <artifactId>org.everit.json.schema</artifactId>
             <version>1.11.0</version>
         </dependency>
+        
     </dependencies>
 
     <repositories>
@@ -117,5 +118,7 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        
     </repositories>
+
 </project>
