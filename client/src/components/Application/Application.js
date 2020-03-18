@@ -55,7 +55,7 @@ export default class Application extends Component {
                 activeUnit: 'miles'
             },
             clientSettings: {
-                serverPort: getOriginalServerPort()
+                serverPort: "http://ec2-3-19-65-102.us-east-2.compute.amazonaws.com:8888/"
             },
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
