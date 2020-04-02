@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class TIPFind extends TIPHeader {
     //db info
     private final static String myDriver = "com.mysql.jdbc.Driver";
-    private final static String myUrl = "jdbc:mysql://faure.cs.colostate.edu/cs314";
+    private final static String myUrl = "jdbc:mysql://127.0.0.1:56247/cs314";
     private final static String user = "cs314-db";
     private final static String pass = "eiK5liet1uej";
     //class vars
