@@ -1,9 +1,9 @@
 # Plan-Your-Own-Trip
 
-Software that can help your organize trip and make it faster. Import JSON with all the destinations or search them through the world database and add them to the itinerary. An example JSON is provided below.
+Software that can help your organize trip and make it faster. Import JSON with all the destinations or search them through the world database and add them to the itinerary. An example JSON is provided below. Hosted via AWS ec2 instance.
 
 Other Features:
-
+Sort Itinerary, Delete entries from itinerary, Use short trip to use an algorithm to find the shortest route available, Filter itinerary, calculate distance between two locations, change units, download itinerary as a JSON, CSV, or KML. 
 
 
 # PUBLIC URL
