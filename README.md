@@ -4,7 +4,7 @@ Software that can help your organize trip and make it faster. Import JSON with a
 
 Other Features:
 
-Sort Itinerary, Delete entries from itinerary, Use short trip to use an algorithm to find the shortest route available, Filter itinerary, calculate distance between two locations, change units, download itinerary as a JSON, CSV, or KML. 
+Sort Itinerary, Delete entries from itinerary, Use short trip to use an algorithm to find the shortest route available, Filter itinerary, calculate distance between two locations, change units, download itinerary as a JSON, CSV, or KML, add a custom location.
 
 
 # PUBLIC URL
